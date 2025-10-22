@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Facebook, Twitter, Linkedin, Instagram, Mail, Phone, MapPin, ExternalLink } from 'lucide-react';
+import { Facebook, Twitter, Linkedin, Instagram, Mail, Phone, MapPin, ExternalLink, HardHat } from 'lucide-react';
+import bitLogo from '../../assets/logos/logo.png';
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -12,13 +13,22 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* About Section */}
           <div className="space-y-4">
-            <div className="flex items-center space-x-2">
-              <div className="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xl">AC</span>
+            <div className="flex items-center space-x-3">
+              <div className="flex items-center space-x-2">
+                <div className="w-12 h-12 bg-orange-600 rounded-lg flex items-center justify-center">
+                  <HardHat className="text-white" size={24} />
+                </div>
+                <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center p-1.5">
+                  <img
+                    src={bitLogo}
+                    alt="BIT Sindri Logo"
+                    className="w-full h-full object-contain"
+                  />
+                </div>
               </div>
               <div>
                 <h3 className="text-white font-bold text-lg">Alumni Connect</h3>
-                <p className="text-xs text-gray-400">by ACE BIT Sindri</p>
+                <p className="text-xs text-gray-400">ACE BIT Sindri</p>
               </div>
             </div>
             <p className="text-sm text-gray-400">
@@ -26,9 +36,9 @@ const Footer: React.FC = () => {
             </p>
             <div className="pt-2">
               <p className="text-xs text-gray-500 mb-2">Powered by</p>
-              <div className="flex items-center space-x-2">
-                <div className="w-8 h-8 bg-gray-800 rounded flex items-center justify-center">
-                  <span className="text-primary-400 font-bold text-sm">ACE</span>
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-orange-600 rounded-lg flex items-center justify-center shadow-md">
+                  <HardHat className="text-white" size={20} />
                 </div>
                 <div>
                   <p className="text-sm font-semibold text-white">ACE BIT Sindri</p>

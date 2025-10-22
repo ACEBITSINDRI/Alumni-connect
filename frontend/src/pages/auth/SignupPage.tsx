@@ -1,10 +1,19 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Mail, Lock, Eye, EyeOff, User, Phone, Building, MapPin, Calendar, Chrome, Upload, Briefcase } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, User, Phone, Building, MapPin, Calendar, Chrome, Upload, Briefcase, HardHat, GraduationCap, ArrowLeft } from 'lucide-react';
 import Button from '../../components/common/Button';
 import Input from '../../components/common/Input';
 import Card from '../../components/common/Card';
 import Dropdown from '../../components/common/Dropdown';
+import Badge from '../../components/common/Badge';
+import { DEPARTMENT_INFO } from '../../utils/civilEngConstants';
+
+// Import images
+import bitLogo from '../../assets/logos/logo.png';
+import aestheticBuilding from '../../assets/civil eng element/aesthetic building.jpeg';
+import nightView from '../../assets/civil eng element/night view 🤍🪟.jpeg';
+import multiFamousBuilding from '../../assets/civil eng element/multi famous building.jpeg';
+import bridgesWithNames from '../../assets/civil eng element/bridges with names.jpeg';
 
 interface SignupPageProps {
   userType?: 'student' | 'alumni';
@@ -163,45 +172,169 @@ const SignupPage: React.FC<SignupPageProps> = ({ userType = 'student' }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4">
-      <div className="max-w-2xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <Link to="/" className="inline-flex items-center space-x-2 mb-4">
-            <div className="w-12 h-12 bg-primary-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-2xl">AC</span>
-            </div>
-          </Link>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Create Your Account
-          </h1>
-          <p className="text-gray-600">
-            Join the ACE community as a {userType}
-          </p>
+    <div className="min-h-screen bg-gray-50 flex">
+      {/* Left Side - Hero Section with Civil Engineering Theme */}
+      <div className="hidden lg:flex lg:w-2/5 bg-gradient-to-br from-orange-600 via-blue-700 to-orange-800 p-12 flex-col justify-between relative overflow-hidden">
+        {/* Background Images */}
+        <div className="absolute inset-0">
+          <div className="absolute inset-0">
+            <img
+              src={aestheticBuilding}
+              alt="Civil Engineering Building"
+              className="w-full h-full object-cover opacity-20"
+            />
+            <div className="absolute inset-0 bg-gradient-to-br from-orange-600/90 via-blue-700/90 to-orange-800/90"></div>
+          </div>
+
+          {/* Decorative image overlays */}
+          <div className="absolute top-20 right-10 w-48 h-48 rounded-lg overflow-hidden opacity-20 rotate-6">
+            <img
+              src={bridgesWithNames}
+              alt="Famous Bridges"
+              className="w-full h-full object-cover"
+            />
+          </div>
+          <div className="absolute bottom-20 left-10 w-56 h-56 rounded-lg overflow-hidden opacity-15 -rotate-6">
+            <img
+              src={multiFamousBuilding}
+              alt="Famous Buildings"
+              className="w-full h-full object-cover"
+            />
+          </div>
+
+          {/* Night View Image - Top Left */}
+          <div className="absolute top-32 left-12 w-40 h-40 rounded-lg overflow-hidden opacity-20 -rotate-12">
+            <img
+              src={nightView}
+              alt="Night View"
+              className="w-full h-full object-cover"
+            />
+          </div>
         </div>
 
-        <Card variant="elevated" className="p-6 sm:p-8">
+        {/* Logo and Institution */}
+        <div className="relative z-10">
+          <div className="flex items-center space-x-3 mb-6">
+            <div className="flex items-center space-x-2">
+              <div className="w-16 h-16 bg-white/90 backdrop-blur-md rounded-xl flex items-center justify-center border-2 border-white/50 shadow-lg">
+                <HardHat className="text-orange-600" size={32} />
+              </div>
+              <div className="w-16 h-16 bg-white/90 backdrop-blur-md rounded-xl flex items-center justify-center p-2 border-2 border-white/50 shadow-lg">
+                <img
+                  src={bitLogo}
+                  alt="BIT Sindri Logo"
+                  className="w-full h-full object-contain"
+                />
+              </div>
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold text-white">Alumni Connect</h1>
+              <p className="text-orange-100 text-sm font-medium">ACE BIT Sindri</p>
+            </div>
+          </div>
+
+          <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
+            <Badge variant="success" className="mb-4 bg-yellow-400 text-orange-900">
+              <Building size={16} className="mr-2" />
+              Est. {DEPARTMENT_INFO.established}
+            </Badge>
+            <h2 className="text-3xl font-bold text-white mb-3">
+              Join Our Network
+            </h2>
+            <p className="text-orange-50 leading-relaxed text-sm">
+              Connect with 1,250+ civil engineering alumni from BIT Sindri. Build meaningful connections and grow your career.
+            </p>
+          </div>
+        </div>
+
+        {/* Features */}
+        <div className="relative z-10 grid grid-cols-2 gap-4">
+          {[
+            { icon: <GraduationCap />, text: '1,250+ Alumni Network' },
+            { icon: <Building />, text: 'Top Companies' },
+            { icon: <User />, text: 'Expert Mentorship' },
+            { icon: <Briefcase />, text: 'Job Opportunities' },
+          ].map((feature, index) => (
+            <div key={index} className="flex items-center space-x-2 text-white">
+              {React.cloneElement(feature.icon, { size: 20, className: 'text-yellow-400 flex-shrink-0' })}
+              <span className="text-sm">{feature.text}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Footer */}
+        <div className="relative z-10 text-center text-orange-100 text-sm">
+          <p>© {new Date().getFullYear()} ACE BIT Sindri. All rights reserved.</p>
+        </div>
+      </div>
+
+      {/* Right Side - Form */}
+      <div className="w-full lg:w-3/5 flex items-center justify-center p-6 md:p-12 overflow-y-auto">
+        <div className="w-full max-w-2xl">
+          {/* Back Button */}
+          <button
+            onClick={() => navigate('/')}
+            className="flex items-center space-x-2 text-gray-600 hover:text-orange-600 mb-6 transition-colors group"
+          >
+            <ArrowLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
+            <span>Back to Home</span>
+          </button>
+
+          {/* Mobile Logo */}
+          <div className="lg:hidden flex items-center justify-center mb-8">
+            <div className="flex items-center space-x-3">
+              <div className="w-16 h-16 bg-gradient-to-br from-orange-600 to-orange-800 rounded-xl flex items-center justify-center shadow-lg">
+                <HardHat className="text-white" size={28} />
+              </div>
+              <div className="w-16 h-16 bg-white rounded-xl flex items-center justify-center shadow-lg p-2">
+                <img
+                  src={bitLogo}
+                  alt="BIT Sindri Logo"
+                  className="w-full h-full object-contain"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Header - Visible on mobile only */}
+          <div className="lg:hidden text-center mb-8">
+            <Badge variant="primary" className="mb-4 bg-orange-600 text-white">
+              <Building size={16} className="mr-2" />
+              {DEPARTMENT_INFO.name}
+            </Badge>
+
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">
+              Join the Alumni Network
+            </h1>
+            <p className="text-gray-600">
+              Connect with {userType === 'student' ? 'fellow students and' : ''} 1,250+ civil engineering alumni
+            </p>
+          </div>
+
+        <Card variant="elevated" className="p-6 sm:p-8 shadow-xl border-t-4 border-t-orange-600">
           {/* Tab Selection */}
           <div className="flex bg-gray-100 rounded-lg p-1 mb-6">
             <button
               onClick={() => navigate('/signup/student')}
-              className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
+              className={`flex-1 flex items-center justify-center space-x-2 py-2.5 px-4 rounded-md text-sm font-medium transition-all ${
                 userType === 'student'
-                  ? 'bg-white text-primary-600 shadow-sm'
+                  ? 'bg-white text-orange-600 shadow-sm'
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >
-              Student Signup
+              <GraduationCap size={18} />
+              <span>Student Signup</span>
             </button>
             <button
               onClick={() => navigate('/signup/alumni')}
-              className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
+              className={`flex-1 flex items-center justify-center space-x-2 py-2.5 px-4 rounded-md text-sm font-medium transition-all ${
                 userType === 'alumni'
-                  ? 'bg-white text-primary-600 shadow-sm'
+                  ? 'bg-white text-orange-600 shadow-sm'
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >
-              Alumni Signup
+              <HardHat size={18} />
+              <span>Alumni Signup</span>
             </button>
           </div>
 
@@ -212,15 +345,17 @@ const SignupPage: React.FC<SignupPageProps> = ({ userType = 'student' }) => {
                 <React.Fragment key={step}>
                   <div className="flex flex-col items-center">
                     <div
-                      className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold ${
+                      className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold transition-all ${
                         currentStep >= step
-                          ? 'bg-primary-600 text-white'
+                          ? 'bg-gradient-to-br from-orange-600 to-orange-700 text-white shadow-md'
                           : 'bg-gray-200 text-gray-600'
                       }`}
                     >
                       {step}
                     </div>
-                    <span className="text-xs mt-2 text-gray-600 hidden sm:block">
+                    <span className={`text-xs mt-2 hidden sm:block font-medium ${
+                      currentStep >= step ? 'text-orange-600' : 'text-gray-600'
+                    }`}>
                       {step === 1 && 'Basic Info'}
                       {step === 2 && (userType === 'student' ? 'Academic' : 'Professional')}
                       {step === 3 && 'Profile'}
@@ -228,8 +363,8 @@ const SignupPage: React.FC<SignupPageProps> = ({ userType = 'student' }) => {
                   </div>
                   {step < totalSteps && (
                     <div
-                      className={`flex-1 h-1 mx-2 ${
-                        currentStep > step ? 'bg-primary-600' : 'bg-gray-200'
+                      className={`flex-1 h-1 mx-2 rounded-full transition-all ${
+                        currentStep > step ? 'bg-gradient-to-r from-orange-600 to-orange-700' : 'bg-gray-200'
                       }`}
                     />
                   )}
@@ -631,18 +766,12 @@ const SignupPage: React.FC<SignupPageProps> = ({ userType = 'student' }) => {
             Already have an account?{' '}
             <Link
               to={`/login/${userType}`}
-              className="text-primary-600 hover:text-primary-700 font-medium"
+              className="text-orange-600 hover:text-orange-700 font-medium"
             >
               Login here
             </Link>
           </p>
         </Card>
-
-        {/* Back to Home */}
-        <div className="text-center mt-6">
-          <Link to="/" className="text-sm text-gray-600 hover:text-gray-900">
-            ← Back to Home
-          </Link>
         </div>
       </div>
     </div>

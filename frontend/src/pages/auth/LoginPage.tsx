@@ -1,9 +1,17 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Mail, Lock, Eye, EyeOff, Chrome } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, HardHat, Building2, ArrowLeft, CheckCircle, GraduationCap } from 'lucide-react';
 import Button from '../../components/common/Button';
 import Input from '../../components/common/Input';
 import Card from '../../components/common/Card';
+import Badge from '../../components/common/Badge';
+import { DEPARTMENT_INFO } from '../../utils/civilEngConstants';
+
+// Import images
+import bitLogo from '../../assets/logos/logo.png';
+import bigBuildingGreenish from '../../assets/civil eng element/big building greenish.png';
+import multiFamousBuilding from '../../assets/civil eng element/multi famous building.jpeg';
+import bridgesWithNames from '../../assets/civil eng element/bridges with names.jpeg';
 
 interface LoginPageProps {
   userType?: 'student' | 'alumni';
@@ -13,6 +21,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ userType = 'student' }) => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState<'student' | 'alumni'>(userType);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -26,7 +35,6 @@ const LoginPage: React.FC<LoginPageProps> = ({ userType = 'student' }) => {
       ...prev,
       [name]: type === 'checkbox' ? checked : value
     }));
-    // Clear error when user starts typing
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }));
     }
@@ -54,138 +62,214 @@ const LoginPage: React.FC<LoginPageProps> = ({ userType = 'student' }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!validateForm()) return;
+    if (!validateForm()) {
+      return;
+    }
 
     setIsLoading(true);
 
-    try {
-      // TODO: Replace with actual API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      console.log('Login data:', formData);
-
-      // Navigate to dashboard after successful login
-      navigate('/dashboard');
-    } catch (error) {
-      setErrors({ submit: 'Login failed. Please check your credentials.' });
-    } finally {
+    // TODO: Replace with actual API call
+    setTimeout(() => {
       setIsLoading(false);
-    }
-  };
-
-  const handleSocialLogin = (provider: 'google' | 'linkedin') => {
-    console.log(`Login with ${provider}`);
-    // TODO: Implement social login
+      navigate('/dashboard');
+    }, 1500);
   };
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
-      {/* Left Side - Form */}
-      <div className="flex-1 flex items-center justify-center p-4 sm:p-8">
-        <div className="w-full max-w-md">
-          {/* Logo */}
-          <div className="text-center mb-8">
-            <Link to="/" className="inline-flex items-center space-x-2 mb-4">
-              <div className="w-12 h-12 bg-primary-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-2xl">AC</span>
-              </div>
-            </Link>
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">
-              Welcome Back
-            </h1>
-            <p className="text-gray-600">
-              Sign in to your {userType} account
-            </p>
+      {/* Left Side - Hero Section with Civil Engineering Theme */}
+      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-orange-600 via-orange-700 to-blue-900 p-12 flex-col justify-between relative overflow-hidden">
+        {/* Background Images */}
+        <div className="absolute inset-0">
+          <div className="absolute inset-0">
+            <img
+              src={bigBuildingGreenish}
+              alt="Civil Engineering Building"
+              className="w-full h-full object-cover opacity-20"
+            />
+            <div className="absolute inset-0 bg-gradient-to-br from-orange-600/90 via-orange-700/90 to-blue-900/90"></div>
           </div>
 
-          <Card variant="elevated" className="p-6 sm:p-8">
-            {/* Tab Selection */}
-            <div className="flex bg-gray-100 rounded-lg p-1 mb-6">
+          {/* Decorative image overlays */}
+          <div className="absolute top-20 right-10 w-48 h-48 rounded-lg overflow-hidden opacity-20 rotate-6">
+            <img
+              src={bridgesWithNames}
+              alt="Famous Bridges"
+              className="w-full h-full object-cover"
+            />
+          </div>
+          <div className="absolute bottom-20 left-10 w-56 h-56 rounded-lg overflow-hidden opacity-15 -rotate-6">
+            <img
+              src={multiFamousBuilding}
+              alt="Famous Buildings"
+              className="w-full h-full object-cover"
+            />
+          </div>
+        </div>
+
+        {/* Logo and Institution */}
+        <div className="relative z-10">
+          <div className="flex items-center space-x-3 mb-6">
+            <div className="flex items-center space-x-2">
+              <div className="w-16 h-16 bg-white/90 backdrop-blur-md rounded-xl flex items-center justify-center border-2 border-white/50 shadow-lg">
+                <HardHat className="text-orange-600" size={32} />
+              </div>
+              <div className="w-16 h-16 bg-white/90 backdrop-blur-md rounded-xl flex items-center justify-center p-2 border-2 border-white/50 shadow-lg">
+                <img
+                  src={bitLogo}
+                  alt="BIT Sindri Logo"
+                  className="w-full h-full object-contain"
+                />
+              </div>
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold text-white">Alumni Connect</h1>
+              <p className="text-orange-100 text-sm font-medium">ACE • BIT Sindri</p>
+            </div>
+          </div>
+
+          <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
+            <Badge variant="success" className="mb-4 bg-yellow-400 text-orange-900">
+              <Building2 size={16} className="mr-2" />
+              Est. {DEPARTMENT_INFO.established}
+            </Badge>
+            <h2 className="text-3xl font-bold text-white mb-3">
+              {DEPARTMENT_INFO.name}
+            </h2>
+            <p className="text-orange-50 leading-relaxed text-sm">
+              {DEPARTMENT_INFO.description}
+            </p>
+          </div>
+        </div>
+
+        {/* Features */}
+        <div className="relative z-10 grid grid-cols-2 gap-4">
+          {[
+            { icon: <CheckCircle />, text: '1,250+ Alumni Network' },
+            { icon: <CheckCircle />, text: 'Top Infrastructure Companies' },
+            { icon: <CheckCircle />, text: 'Expert Mentorship' },
+            { icon: <CheckCircle />, text: 'Exclusive Job Opportunities' },
+          ].map((feature, index) => (
+            <div key={index} className="flex items-center space-x-2 text-white">
+              {React.cloneElement(feature.icon, { size: 20, className: 'text-yellow-400 flex-shrink-0' })}
+              <span className="text-sm">{feature.text}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Footer */}
+        <div className="relative z-10 text-center text-orange-100 text-sm">
+          <p>© {new Date().getFullYear()} ACE BIT Sindri. All rights reserved.</p>
+        </div>
+      </div>
+
+      {/* Right Side - Login Form */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-6 md:p-12">
+        <div className="w-full max-w-md">
+          {/* Back Button */}
+          <button
+            onClick={() => navigate('/')}
+            className="flex items-center space-x-2 text-gray-600 hover:text-orange-600 mb-6 transition-colors group"
+          >
+            <ArrowLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
+            <span>Back to Home</span>
+          </button>
+
+          {/* Mobile Logo */}
+          <div className="lg:hidden flex items-center justify-center mb-8">
+            <div className="flex items-center space-x-3">
+              <div className="w-16 h-16 bg-gradient-to-br from-orange-600 to-orange-800 rounded-xl flex items-center justify-center shadow-lg">
+                <HardHat className="text-white" size={28} />
+              </div>
+              <div className="w-16 h-16 bg-white rounded-xl flex items-center justify-center shadow-lg p-2">
+                <img
+                  src={bitLogo}
+                  alt="BIT Sindri Logo"
+                  className="w-full h-full object-contain"
+                />
+              </div>
+            </div>
+          </div>
+
+          <Card variant="elevated" className="p-8 shadow-xl">
+            {/* Header */}
+            <div className="text-center mb-8">
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">
+                Welcome Back
+              </h1>
+              <p className="text-gray-600">
+                Sign in to your account to continue
+              </p>
+            </div>
+
+            {/* Tabs */}
+            <div className="flex space-x-2 bg-gray-100 p-1 rounded-lg mb-6">
               <button
-                onClick={() => navigate('/login/student')}
-                className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
-                  userType === 'student'
-                    ? 'bg-white text-primary-600 shadow-sm'
+                onClick={() => setActiveTab('student')}
+                className={`flex-1 flex items-center justify-center space-x-2 px-4 py-2.5 rounded-md text-sm font-medium transition-all ${
+                  activeTab === 'student'
+                    ? 'bg-white text-orange-600 shadow-sm'
                     : 'text-gray-600 hover:text-gray-900'
                 }`}
               >
-                Student Login
+                <GraduationCap size={18} />
+                <span>Student</span>
               </button>
               <button
-                onClick={() => navigate('/login/alumni')}
-                className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
-                  userType === 'alumni'
-                    ? 'bg-white text-primary-600 shadow-sm'
+                onClick={() => setActiveTab('alumni')}
+                className={`flex-1 flex items-center justify-center space-x-2 px-4 py-2.5 rounded-md text-sm font-medium transition-all ${
+                  activeTab === 'alumni'
+                    ? 'bg-white text-orange-600 shadow-sm'
                     : 'text-gray-600 hover:text-gray-900'
                 }`}
               >
-                Alumni Login
+                <HardHat size={18} />
+                <span>Alumni</span>
               </button>
-            </div>
-
-            {/* Social Login Buttons */}
-            <div className="space-y-3 mb-6">
-              <button
-                onClick={() => handleSocialLogin('google')}
-                className="w-full flex items-center justify-center space-x-2 px-4 py-2.5 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-              >
-                <Chrome size={20} className="text-red-500" />
-                <span className="text-sm font-medium text-gray-700">Continue with Google</span>
-              </button>
-              <button
-                onClick={() => handleSocialLogin('linkedin')}
-                className="w-full flex items-center justify-center space-x-2 px-4 py-2.5 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-              >
-                <svg className="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                </svg>
-                <span className="text-sm font-medium text-gray-700">Continue with LinkedIn</span>
-              </button>
-            </div>
-
-            {/* Divider */}
-            <div className="relative mb-6">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-300"></div>
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">Or continue with email</span>
-              </div>
             </div>
 
             {/* Login Form */}
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <Input
-                label="Email Address"
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder={userType === 'student' ? 'your.rollnumber@bitsindri.ac.in' : 'your.email@example.com'}
-                leftIcon={<Mail size={20} />}
-                error={errors.email}
-                required
-              />
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Email Address
+                </label>
+                <Input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  leftIcon={<Mail size={18} />}
+                  placeholder="your.email@example.com"
+                  error={errors.email}
+                  className="w-full"
+                />
+              </div>
 
-              <Input
-                label="Password"
-                type={showPassword ? 'text' : 'password'}
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                placeholder="Enter your password"
-                leftIcon={<Lock size={20} />}
-                rightIcon={
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="focus:outline-none"
-                  >
-                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                  </button>
-                }
-                error={errors.password}
-                required
-              />
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Password
+                </label>
+                <Input
+                  type={showPassword ? 'text' : 'password'}
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  leftIcon={<Lock size={18} />}
+                  rightIcon={
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="text-gray-500 hover:text-gray-700"
+                    >
+                      {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                    </button>
+                  }
+                  placeholder="Enter your password"
+                  error={errors.password}
+                  className="w-full"
+                />
+              </div>
 
               <div className="flex items-center justify-between">
                 <label className="flex items-center">
@@ -194,100 +278,62 @@ const LoginPage: React.FC<LoginPageProps> = ({ userType = 'student' }) => {
                     name="rememberMe"
                     checked={formData.rememberMe}
                     onChange={handleChange}
-                    className="w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500"
+                    className="w-4 h-4 text-orange-600 border-gray-300 rounded focus:ring-orange-500"
                   />
                   <span className="ml-2 text-sm text-gray-600">Remember me</span>
                 </label>
+
                 <Link
                   to="/forgot-password"
-                  className="text-sm text-primary-600 hover:text-primary-700 font-medium"
+                  className="text-sm font-medium text-orange-600 hover:text-orange-700"
                 >
                   Forgot password?
                 </Link>
               </div>
 
-              {errors.submit && (
-                <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
-                  <p className="text-sm text-red-600">{errors.submit}</p>
-                </div>
-              )}
-
               <Button
                 type="submit"
                 variant="primary"
                 size="lg"
-                isLoading={isLoading}
-                className="w-full"
+                className="w-full bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800"
+                disabled={isLoading}
               >
                 {isLoading ? 'Signing in...' : 'Sign In'}
               </Button>
             </form>
 
+            {/* Divider */}
+            <div className="my-6 flex items-center">
+              <div className="flex-1 border-t border-gray-300"></div>
+              <span className="px-4 text-sm text-gray-500">Or</span>
+              <div className="flex-1 border-t border-gray-300"></div>
+            </div>
+
             {/* Sign Up Link */}
-            <p className="mt-6 text-center text-sm text-gray-600">
+            <p className="text-center text-sm text-gray-600">
               Don't have an account?{' '}
               <Link
-                to={`/signup/${userType}`}
-                className="text-primary-600 hover:text-primary-700 font-medium"
+                to={`/signup/${activeTab}`}
+                className="font-medium text-orange-600 hover:text-orange-700"
               >
-                Sign up here
+                Create Account
               </Link>
             </p>
           </Card>
 
-          {/* Back to Home */}
-          <div className="text-center mt-6">
-            <Link to="/" className="text-sm text-gray-600 hover:text-gray-900">
-              ← Back to Home
-            </Link>
-          </div>
-        </div>
-      </div>
-
-      {/* Right Side - Illustration/Benefits (Hidden on mobile) */}
-      <div className="hidden lg:flex flex-1 bg-gradient-to-br from-primary-600 to-primary-800 p-12 items-center justify-center">
-        <div className="max-w-md text-white">
-          <h2 className="text-3xl font-bold mb-6">
-            {userType === 'student' ? 'Connect with Alumni' : 'Give Back to Your Community'}
-          </h2>
-          <div className="space-y-4">
-            {userType === 'student' ? (
-              <>
-                <FeatureItem text="Access exclusive job and internship opportunities" />
-                <FeatureItem text="Get mentorship from experienced professionals" />
-                <FeatureItem text="Connect with alumni from top companies" />
-                <FeatureItem text="Participate in workshops and events" />
-              </>
-            ) : (
-              <>
-                <FeatureItem text="Mentor the next generation of engineers" />
-                <FeatureItem text="Post job opportunities for students" />
-                <FeatureItem text="Reconnect with your batchmates" />
-                <FeatureItem text="Contribute to ACE initiatives" />
-              </>
-            )}
-          </div>
-          <div className="mt-8 p-4 bg-white/10 backdrop-blur-sm rounded-lg">
-            <p className="text-sm italic">
-              "Alumni Connect helped me land my dream job at a top construction company. The guidance from alumni was invaluable!"
+          {/* Additional Info */}
+          <div className="mt-6 text-center">
+            <p className="text-sm text-gray-500">
+              By signing in, you agree to our{' '}
+              <a href="#" className="text-orange-600 hover:underline">Terms of Service</a>
+              {' '}and{' '}
+              <a href="#" className="text-orange-600 hover:underline">Privacy Policy</a>
             </p>
-            <p className="text-xs mt-2 font-semibold">- Priya S., Final Year Student</p>
           </div>
         </div>
       </div>
     </div>
   );
 };
-
-const FeatureItem: React.FC<{ text: string }> = ({ text }) => (
-  <div className="flex items-start space-x-3">
-    <div className="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-      </svg>
-    </div>
-    <span className="text-gray-100">{text}</span>
-  </div>
-);
 
 export default LoginPage;
