@@ -23,7 +23,16 @@
 
 #### 2. **Deploy Backend on Render**
 
-**Manual Setup:**
+**Option A: Using render.yaml (Recommended - Automatic)**
+```
+1. Go to https://render.com
+2. Click "New +" → "Blueprint"
+3. Connect your GitHub repository: ACEBITSINDRI/Alumni-connect
+4. Render will auto-detect render.yaml and create both services
+5. Click "Apply" to deploy both frontend and backend together
+```
+
+**Option B: Manual Setup**
 ```
 1. Go to https://render.com
 2. Click "New +" → "Web Service"
@@ -31,15 +40,15 @@
 4. Select: ACEBITSINDRI/Alumni-connect
 ```
 
-**Build Settings:**
+**Build Settings (Manual Setup):**
 ```yaml
 Name: alumni-connect-backend
-Root Directory: backend
+Root Directory: (leave empty)
 Environment: Node
 Region: Singapore (or closest)
 Branch: main
-Build Command: npm install
-Start Command: npm start
+Build Command: cd backend && npm install
+Start Command: cd backend && npm start
 Instance Type: Free
 ```
 
@@ -70,21 +79,18 @@ node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
 
 Before deploying, update the API URL in your frontend code:
 
-Create/Update: `frontend/src/config/api.ts`
-```typescript
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://alumni-connect-backend.onrender.com';
+The `frontend/src/config/api.ts` is already configured!
 
-export default API_BASE_URL;
-```
-
-Add to `frontend/.env.production`:
+Update `frontend/.env.production` with your backend URL:
 ```
 VITE_API_URL=https://alumni-connect-backend.onrender.com
 ```
 
 #### 2. **Deploy Frontend on Render**
 
-**Manual Setup:**
+**Note:** If you used Blueprint (render.yaml), frontend is already deployed!
+
+**Manual Setup (if not using Blueprint):**
 ```
 1. Go to Render Dashboard
 2. Click "New +" → "Static Site"
@@ -92,13 +98,13 @@ VITE_API_URL=https://alumni-connect-backend.onrender.com
 4. Select: ACEBITSINDRI/Alumni-connect
 ```
 
-**Build Settings:**
+**Build Settings (Manual):**
 ```yaml
 Name: alumni-connect-frontend
-Root Directory: frontend
+Root Directory: (leave empty)
 Branch: main
-Build Command: npm install && npm run build
-Publish Directory: dist
+Build Command: cd frontend && npm install && npm run build
+Publish Directory: frontend/dist
 ```
 
 **Environment Variables:**
