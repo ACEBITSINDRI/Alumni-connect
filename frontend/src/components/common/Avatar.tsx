@@ -9,6 +9,7 @@ export interface AvatarProps {
   className?: string;
   fallback?: string;
   online?: boolean;
+  onClick?: () => void;
 }
 
 const Avatar: React.FC<AvatarProps> = ({
@@ -18,6 +19,7 @@ const Avatar: React.FC<AvatarProps> = ({
   className,
   fallback,
   online,
+  onClick,
 }) => {
   const [imageError, setImageError] = React.useState(false);
 
@@ -53,11 +55,12 @@ const Avatar: React.FC<AvatarProps> = ({
   const showIcon = !showImage && !showFallback;
 
   return (
-    <div className={cn('relative inline-block', className)}>
+    <div className={cn('relative inline-block', className)} onClick={onClick}>
       <div
         className={cn(
           'rounded-full overflow-hidden bg-gray-200 flex items-center justify-center',
-          sizes[size]
+          sizes[size],
+          onClick && 'cursor-pointer'
         )}
       >
         {showImage && (

@@ -1,9 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FileText, Bookmark, Users, Calendar, TrendingUp } from 'lucide-react';
+import { FileText, Bookmark, Users, Calendar } from 'lucide-react';
 import Card from '../common/Card';
 import Avatar from '../common/Avatar';
-import Badge from '../common/Badge';
 
 interface User {
   id?: string;

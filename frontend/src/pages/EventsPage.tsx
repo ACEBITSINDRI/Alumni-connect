@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { Calendar as CalendarIcon, Search, Filter, MapPin, Clock, Users } from 'lucide-react';
+import { Search } from 'lucide-react';
 import Navbar from '../components/common/Navbar';
 import Footer from '../components/common/Footer';
 import EventCard from '../components/events/EventCard';
 import Input from '../components/common/Input';
 import Button from '../components/common/Button';
 import Dropdown from '../components/common/Dropdown';
-import Badge from '../components/common/Badge';
 import { useAuth } from '../context/AuthContext';
 
 const EventsPage: React.FC = () => {

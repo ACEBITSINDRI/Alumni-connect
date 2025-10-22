@@ -14,7 +14,7 @@ const DashboardPage: React.FC = () => {
   const { user } = useAuth();
   const [isCreatePostOpen, setIsCreatePostOpen] = useState(false);
   const [activeFilter, setActiveFilter] = useState<string>('all');
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading] = useState(false);
 
   // Mock posts data - replace with actual API call
   const mockPosts = [

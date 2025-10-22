@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
 
 interface User {
   id: string;
@@ -16,7 +16,7 @@ interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  login: (email: string, password: string) => Promise<void>;
+  login: (email: string) => Promise<void>;
   signup: (userData: any) => Promise<void>;
   logout: () => void;
   updateUser: (userData: Partial<User>) => void;
@@ -72,7 +72,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
-  const login = async (email: string, password: string) => {
+  const login = async (email: string) => {
     try {
       setIsLoading(true);
 

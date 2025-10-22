@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { X, Image as ImageIcon, FileText, Briefcase, Smile } from 'lucide-react';
+import { X, Image as ImageIcon } from 'lucide-react';
 import Modal from '../common/Modal';
 import Button from '../common/Button';
 import Input from '../common/Input';
 import Dropdown from '../common/Dropdown';
-import Badge from '../common/Badge';
 
 interface CreatePostModalProps {
   isOpen: boolean;

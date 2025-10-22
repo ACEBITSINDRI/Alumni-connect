@@ -37,7 +37,7 @@ interface EventCardProps {
 
 const EventCard: React.FC<EventCardProps> = ({ event }) => {
   const navigate = useNavigate();
-  const [isRegistered, setIsRegistered] = useState(event.isRegistered);
+  const [isRegistered] = useState(event.isRegistered);
 
   const getModeBadge = (mode: string) => {
     const config: Record<string, { variant: any; icon: any }> = {

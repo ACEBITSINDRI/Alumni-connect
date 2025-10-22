@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Mail, Lock, Eye, EyeOff, User, Phone, Building, MapPin, Calendar, Chrome, Upload, Briefcase, HardHat, GraduationCap, ArrowLeft } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, User, Phone, Building, MapPin, Chrome, Upload, Briefcase, HardHat, GraduationCap, ArrowLeft } from 'lucide-react';
 import Button from '../../components/common/Button';
 import Input from '../../components/common/Input';
 import Card from '../../components/common/Card';

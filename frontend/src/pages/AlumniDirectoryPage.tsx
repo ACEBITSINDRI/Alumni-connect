@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Filter, Grid, List, SlidersHorizontal } from 'lucide-react';
+import { Search, Grid, List, SlidersHorizontal } from 'lucide-react';
 import Navbar from '../components/common/Navbar';
 import Footer from '../components/common/Footer';
 import AlumniCard from '../components/alumni/AlumniCard';
@@ -16,7 +16,7 @@ const AlumniDirectoryPage: React.FC = () => {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [showFilters, setShowFilters] = useState(false);
   const [sortBy, setSortBy] = useState('recent');
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading] = useState(false);
   const [filters, setFilters] = useState({
     batches: [] as string[],
     companies: [] as string[],
