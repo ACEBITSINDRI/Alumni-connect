@@ -109,14 +109,14 @@ const LandingPage: React.FC = () => {
       <nav className="sticky top-0 z-50 bg-gradient-to-r from-sky-50 to-blue-50 border-b border-sky-200 shadow-sm backdrop-blur-md">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-2 sm:space-x-3">
               <img
                 src={bitLogo}
                 alt="BIT Sindri Logo"
-                className="h-14 w-14 object-contain"
+                className="h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14 object-contain"
               />
               <div>
-                <h1 className="text-xl font-bold text-gray-900">Alumni Connect</h1>
+                <h1 className="text-base sm:text-lg md:text-xl font-bold text-gray-900">Alumni Connect</h1>
                 <p className="text-xs text-orange-600 font-semibold">ACE BIT Sindri</p>
               </div>
             </div>
@@ -125,14 +125,18 @@ const LandingPage: React.FC = () => {
               <a href="#about" className="text-gray-600 hover:text-orange-600 transition-colors">About</a>
               <a href="#testimonials" className="text-gray-600 hover:text-orange-600 transition-colors">Success Stories</a>
             </div>
-            <div className="flex items-center space-x-3">
-              <Button variant="ghost" onClick={() => navigate('/login')} className="hidden sm:inline-flex">
+            <div className="flex items-center space-x-2 sm:space-x-3">
+              <Button
+                variant="ghost"
+                onClick={() => navigate('/login')}
+                className="hidden sm:inline-flex text-sm md:text-base"
+              >
                 Login
               </Button>
               <Button
                 variant="primary"
                 onClick={() => navigate('/signup')}
-                className="bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800"
+                className="bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-xs sm:text-sm md:text-base px-3 sm:px-4 md:px-6"
               >
                 Get Started
               </Button>
@@ -192,15 +196,15 @@ const LandingPage: React.FC = () => {
               ACE BIT Sindri
             </Badge>
 
-            <div className="mb-8">
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
+            <div className="mb-8 px-4">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 md:mb-6 leading-tight">
                 <span className="text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)] [text-shadow:_2px_2px_4px_rgb(0_0_0_/_80%)]">Connect.</span>{' '}
                 <span className="text-orange-500 drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)] [text-shadow:_2px_2px_4px_rgb(0_0_0_/_80%)]">Grow.</span>{' '}
                 <span className="text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)] [text-shadow:_2px_2px_4px_rgb(0_0_0_/_80%)]">Succeed.</span>
               </h1>
 
-              <p className="text-xl md:text-2xl text-white leading-relaxed max-w-3xl mx-auto font-bold drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)] [text-shadow:_2px_2px_4px_rgb(0_0_0_/_80%)]">
-                Join <span className="font-bold text-orange-400 text-2xl md:text-3xl">1,250+</span> civil engineering professionals from BIT Sindri
+              <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-white leading-relaxed max-w-3xl mx-auto font-bold drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)] [text-shadow:_2px_2px_4px_rgb(0_0_0_/_80%)]">
+                Join <span className="font-bold text-orange-400 text-lg sm:text-xl md:text-2xl lg:text-3xl">1,250+</span> civil engineering professionals from BIT Sindri
               </p>
             </div>
 
@@ -226,15 +230,15 @@ const LandingPage: React.FC = () => {
             </div>
 
             {/* Quick Stats - More Visible */}
-            <div className="grid grid-cols-3 gap-6 max-w-2xl mx-auto">
+            <div className="grid grid-cols-3 gap-3 sm:gap-4 md:gap-6 max-w-2xl mx-auto px-4">
               {[
                 { value: '1,250+', label: 'Alumni' },
                 { value: '350+', label: 'Companies' },
                 { value: '120+', label: 'Opportunities' },
               ].map((stat, index) => (
-                <div key={index} className="bg-white/90 backdrop-blur-sm rounded-lg p-4 shadow-lg border border-gray-200">
-                  <p className="text-4xl font-bold text-orange-600 mb-1">{stat.value}</p>
-                  <p className="text-sm font-semibold text-gray-700">{stat.label}</p>
+                <div key={index} className="bg-white/90 backdrop-blur-sm rounded-lg p-2 sm:p-3 md:p-4 shadow-lg border border-gray-200">
+                  <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-orange-600 mb-1">{stat.value}</p>
+                  <p className="text-xs sm:text-sm font-semibold text-gray-700">{stat.label}</p>
                 </div>
               ))}
             </div>
