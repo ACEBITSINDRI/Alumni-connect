@@ -158,6 +158,6 @@ postSchema.virtual('shareCount').get(function() {
 postSchema.set('toJSON', { virtuals: true });
 postSchema.set('toObject', { virtuals: true });
 
-const Post = mongoose.model('Post', postSchema);
+const Post = mongoose.model('Post', postSchema, 'posts');
 
 export default Post;

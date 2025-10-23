@@ -250,6 +250,6 @@ opportunitySchema.pre('save', function(next) {
 opportunitySchema.set('toJSON', { virtuals: true });
 opportunitySchema.set('toObject', { virtuals: true });
 
-const Opportunity = mongoose.model('Opportunity', opportunitySchema);
+const Opportunity = mongoose.model('Opportunity', opportunitySchema, 'opportunities');
 
 export default Opportunity;

@@ -84,6 +84,6 @@ notificationSchema.index(
   }
 );
 
-const Notification = mongoose.model('Notification', notificationSchema);
+const Notification = mongoose.model('Notification', notificationSchema, 'notifications');
 
 export default Notification;
