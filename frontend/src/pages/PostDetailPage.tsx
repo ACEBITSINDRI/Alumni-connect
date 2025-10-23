@@ -212,7 +212,7 @@ What are your experiences? What would you add to this list?`,
     const newComment: Comment = {
       id: `c${Date.now()}`,
       author: {
-        id: currentUser?.id || 'me',
+        id: currentUser?._id || 'me',
         name: `${currentUser?.firstName} ${currentUser?.lastName}`,
         role: currentUser?.currentRole || 'User',
         batch: currentUser?.batch,
@@ -262,7 +262,7 @@ What are your experiences? What would you add to this list?`,
     );
   };
 
-  const isOwnPost = post.author.id === currentUser?.id;
+  const isOwnPost = post.author.id === currentUser?._id;
 
   return (
     <div className="min-h-screen bg-gray-50">
