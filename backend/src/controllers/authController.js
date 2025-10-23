@@ -97,17 +97,29 @@ export const register = async (req, res) => {
 
     // Add skills (parse if it's a JSON string)
     if (skills) {
-      userData.skills = Array.isArray(skills) ? skills : JSON.parse(skills);
+      try {
+        userData.skills = Array.isArray(skills) ? skills : JSON.parse(skills);
+      } catch (e) {
+        // If it's a string, split by comma
+        userData.skills = typeof skills === 'string' ? skills.split(',').map(s => s.trim()) : [];
+      }
     }
 
     // Add mentorship info
     if (mentorshipAvailable !== undefined) {
-      userData.mentorshipAvailable = mentorshipAvailable;
+      userData.mentorshipAvailable = mentorshipAvailable === 'true' || mentorshipAvailable === true;
     }
     if (mentorshipDomains) {
-      userData.mentorshipDomains = Array.isArray(mentorshipDomains)
-        ? mentorshipDomains
-        : JSON.parse(mentorshipDomains);
+      try {
+        userData.mentorshipDomains = Array.isArray(mentorshipDomains)
+          ? mentorshipDomains
+          : JSON.parse(mentorshipDomains);
+      } catch (e) {
+        // If it's a string, split by comma
+        userData.mentorshipDomains = typeof mentorshipDomains === 'string'
+          ? mentorshipDomains.split(',').map(d => d.trim())
+          : [];
+      }
     }
 
     // Create user first to get the ID
@@ -165,9 +177,11 @@ export const register = async (req, res) => {
     });
   } catch (error) {
     console.error('Register error:', error);
+    console.error('Error stack:', error.stack);
     res.status(500).json({
       success: false,
       message: error.message || 'Error during registration',
+      ...(process.env.NODE_ENV === 'development' && { error: error.toString(), stack: error.stack }),
     });
   }
 };
