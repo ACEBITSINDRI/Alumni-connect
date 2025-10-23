@@ -27,7 +27,6 @@ services:
   - type: web
     name: alumni-connect-frontend
     env: static
-    region: singapore
     rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: ./dist
