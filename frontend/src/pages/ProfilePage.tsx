@@ -21,11 +21,11 @@ const ProfilePage: React.FC = () => {
   const [isConnected, setIsConnected] = useState(false);
 
   // Check if viewing own profile
-  const isOwnProfile = !userId || userId === currentUser?.id;
+  const isOwnProfile = !userId || userId === currentUser?._id;
 
   // Mock user data - replace with API call
   const profileUser = {
-    id: userId || currentUser?.id || '1',
+    id: userId || currentUser?._id || '1',
     firstName: 'Rahul',
     lastName: 'Sharma',
     email: 'rahul.sharma@example.com',

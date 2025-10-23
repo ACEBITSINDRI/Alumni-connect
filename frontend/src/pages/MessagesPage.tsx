@@ -76,7 +76,7 @@ const MessagesPage: React.FC = () => {
       messages: [
         {
           id: 'msg1',
-          senderId: currentUser?.id || 'me',
+          senderId: currentUser?._id || 'me',
           content: 'Hi Rahul! How can I help you?',
           timestamp: new Date(Date.now() - 1000 * 60 * 20),
           isRead: true,
@@ -90,7 +90,7 @@ const MessagesPage: React.FC = () => {
         },
         {
           id: 'msg3',
-          senderId: currentUser?.id || 'me',
+          senderId: currentUser?._id || 'me',
           content:
             "Sure! I'd be happy to help. What specific area are you working on?",
           timestamp: new Date(Date.now() - 1000 * 60 * 10),
@@ -131,7 +131,7 @@ const MessagesPage: React.FC = () => {
         },
         {
           id: 'msg6',
-          senderId: currentUser?.id || 'me',
+          senderId: currentUser?._id || 'me',
           content: 'Yes, I am! Are you?',
           timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2.5),
           isRead: true,
@@ -171,7 +171,7 @@ const MessagesPage: React.FC = () => {
         },
         {
           id: 'msg9',
-          senderId: currentUser?.id || 'me',
+          senderId: currentUser?._id || 'me',
           content: 'Of course! What would you like to know?',
           timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24 - 1000 * 60 * 10),
           isRead: true,
@@ -229,7 +229,7 @@ const MessagesPage: React.FC = () => {
 
     const newMessage: Message = {
       id: `msg${Date.now()}`,
-      senderId: currentUser?.id || 'me',
+      senderId: currentUser?._id || 'me',
       content: messageInput,
       timestamp: new Date(),
       isRead: false,
@@ -244,7 +244,7 @@ const MessagesPage: React.FC = () => {
               lastMessage: {
                 content: messageInput,
                 timestamp: new Date(),
-                senderId: currentUser?.id || 'me',
+                senderId: currentUser?._id || 'me',
               },
             }
           : conv
@@ -345,7 +345,7 @@ const MessagesPage: React.FC = () => {
                         <div className="flex items-center justify-between">
                           <p className="text-sm text-gray-600 truncate flex-1">
                             {conversation.lastMessage.senderId ===
-                            (currentUser?.id || 'me')
+                            (currentUser?._id || 'me')
                               ? 'You: '
                               : ''}
                             {conversation.lastMessage.content}
@@ -413,7 +413,7 @@ const MessagesPage: React.FC = () => {
                 {/* Messages */}
                 <div className="flex-1 overflow-y-auto p-4 space-y-4">
                   {activeConversation.messages.map((message) => {
-                    const isOwn = message.senderId === (currentUser?.id || 'me');
+                    const isOwn = message.senderId === (currentUser?._id || 'me');
                     return (
                       <div
                         key={message.id}

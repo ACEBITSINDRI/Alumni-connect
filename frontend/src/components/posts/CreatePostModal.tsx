@@ -68,7 +68,7 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({ isOpen, onClose, onPo
     const validFiles: File[] = [];
     for (const file of files) {
       // Check file type
-      if (!FILE_LIMITS.ALLOWED_IMAGE_TYPES.includes(file.type)) {
+      if (!FILE_LIMITS.ALLOWED_IMAGE_TYPES.includes(file.type as any)) {
         setErrors(prev => ({ ...prev, images: 'Only JPG, PNG, and WEBP images are allowed' }));
         continue;
       }

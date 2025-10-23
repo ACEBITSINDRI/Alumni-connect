@@ -33,7 +33,9 @@ const SettingsPage: React.FC = () => {
     email: user?.email || '',
     phone: user?.phone || '',
     bio: user?.bio || '',
-    location: user?.location || '',
+    location: typeof user?.location === 'object'
+      ? `${user.location.city}, ${user.location.state}`
+      : (user?.location || ''),
     linkedinUrl: user?.linkedinUrl || '',
     currentRole: user?.currentRole || '',
     company: user?.company || '',
