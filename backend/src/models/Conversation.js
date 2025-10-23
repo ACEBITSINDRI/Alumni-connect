@@ -44,6 +44,6 @@ conversationSchema.pre('save', function(next) {
 conversationSchema.index({ participants: 1 });
 conversationSchema.index({ updatedAt: -1 });
 
-const Conversation = mongoose.model('Conversation', conversationSchema);
+const Conversation = mongoose.model('Conversation', conversationSchema, 'conversations');
 
 export default Conversation;

@@ -204,6 +204,6 @@ eventSchema.pre('save', function(next) {
 eventSchema.set('toJSON', { virtuals: true });
 eventSchema.set('toObject', { virtuals: true });
 
-const Event = mongoose.model('Event', eventSchema);
+const Event = mongoose.model('Event', eventSchema, 'events');
 
 export default Event;

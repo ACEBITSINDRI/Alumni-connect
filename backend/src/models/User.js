@@ -254,9 +254,9 @@ userSchema.methods.getPublicProfile = function() {
   return user;
 };
 
-// Create models for both collections
-const AlumniModel = mongoose.model('Alumni', userSchema.clone(), 'Alumni Data');
-const StudentModel = mongoose.model('Student', userSchema.clone(), 'Student Data');
+// Create models for both collections with systematic names
+const AlumniModel = mongoose.model('Alumni', userSchema.clone(), 'alumni_data');
+const StudentModel = mongoose.model('Student', userSchema.clone(), 'student_data');
 
 // Export a factory function to get the appropriate model
 export const getUserModel = (role) => {
