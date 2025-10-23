@@ -1,13 +1,42 @@
 import { getUserModel, AlumniModel, StudentModel } from '../models/User.js';
 import { generateAccessToken, generateRefreshToken } from '../utils/jwt.js';
 import crypto from 'crypto';
+import { uploadProfilePicture, uploadIdCard } from '../config/cloudinary.js';
 
 // @desc    Register user
 // @route   POST /api/auth/register
 // @access  Public
 export const register = async (req, res) => {
   try {
-    const { firstName, lastName, email, password, role, batch, enrollmentNumber } = req.body;
+    const {
+      firstName,
+      lastName,
+      email,
+      password,
+      role,
+      batch,
+      enrollmentNumber,
+      phone,
+      currentRole,
+      company,
+      location,
+      skills,
+      linkedinUrl,
+      githubUrl,
+      portfolioUrl,
+      bio,
+      department,
+      mentorshipAvailable,
+      mentorshipDomains,
+    } = req.body;
+
+    // Validate required fields
+    if (!firstName || !lastName || !email || !password || !role) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide all required fields: firstName, lastName, email, password, and role',
+      });
+    }
 
     // Validate role
     if (!['student', 'alumni'].includes(role)) {
@@ -20,17 +49,30 @@ export const register = async (req, res) => {
     // Get appropriate model based on role
     const UserModel = getUserModel(role);
 
-    // Check if user already exists
-    const existingUser = await UserModel.findOne({ email });
-    if (existingUser) {
+    // Check if user already exists in both collections
+    const existingAlumni = await AlumniModel.findOne({ email });
+    const existingStudent = await StudentModel.findOne({ email });
+
+    if (existingAlumni || existingStudent) {
       return res.status(400).json({
         success: false,
         message: 'User with this email already exists',
       });
     }
 
-    // Create user
-    const user = await UserModel.create({
+    // Check enrollment number uniqueness if provided
+    if (enrollmentNumber) {
+      const existingEnrollment = await UserModel.findOne({ enrollmentNumber });
+      if (existingEnrollment) {
+        return res.status(400).json({
+          success: false,
+          message: 'Enrollment number already exists',
+        });
+      }
+    }
+
+    // Prepare user data
+    const userData = {
       firstName,
       lastName,
       email,
@@ -38,8 +80,75 @@ export const register = async (req, res) => {
       role,
       batch,
       enrollmentNumber,
-      department: 'Civil Engineering',
-    });
+      phone,
+      department: department || 'Civil Engineering',
+      bio,
+    };
+
+    // Add professional information (mainly for alumni)
+    if (currentRole) userData.currentRole = currentRole;
+    if (company) userData.company = company;
+    if (location) userData.location = location;
+
+    // Add social links
+    if (linkedinUrl) userData.linkedinUrl = linkedinUrl;
+    if (githubUrl) userData.githubUrl = githubUrl;
+    if (portfolioUrl) userData.portfolioUrl = portfolioUrl;
+
+    // Add skills (parse if it's a JSON string)
+    if (skills) {
+      userData.skills = Array.isArray(skills) ? skills : JSON.parse(skills);
+    }
+
+    // Add mentorship info
+    if (mentorshipAvailable !== undefined) {
+      userData.mentorshipAvailable = mentorshipAvailable;
+    }
+    if (mentorshipDomains) {
+      userData.mentorshipDomains = Array.isArray(mentorshipDomains)
+        ? mentorshipDomains
+        : JSON.parse(mentorshipDomains);
+    }
+
+    // Create user first to get the ID
+    const user = await UserModel.create(userData);
+
+    // Handle file uploads if present
+    try {
+      if (req.files) {
+        // Upload profile picture if provided
+        if (req.files.profilePicture && req.files.profilePicture[0]) {
+          const profilePicResult = await uploadProfilePicture(
+            req.files.profilePicture[0].buffer,
+            user._id.toString()
+          );
+          user.profilePicture = profilePicResult.url;
+        }
+
+        // Upload ID card if provided (mainly for students)
+        if (req.files.idCard && req.files.idCard[0]) {
+          const idCardResult = await uploadIdCard(
+            req.files.idCard[0].buffer,
+            user._id.toString()
+          );
+          // Store ID card URL in a custom field or as part of documents
+          // You might want to add an idCardUrl field to the User schema
+          if (!user.documents) user.documents = {};
+          user.documents.idCard = idCardResult.url;
+        }
+
+        // Save user with uploaded file URLs
+        await user.save();
+      }
+    } catch (uploadError) {
+      // If file upload fails, delete the created user
+      await UserModel.findByIdAndDelete(user._id);
+      console.error('File upload error:', uploadError);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to upload files. Please try again.',
+      });
+    }
 
     // Generate tokens
     const accessToken = generateAccessToken(user._id, role);

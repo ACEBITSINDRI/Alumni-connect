@@ -351,9 +351,9 @@ git push origin main
 ```
 
 **Live URLs:**
-- Frontend: https://alumni-connect-frontend.onrender.com
-- Backend: https://alumni-connect-backend.onrender.com
-- Health: https://alumni-connect-backend.onrender.com/health
+- Frontend: https://alumni-connect-frontend-n3ac.onrender.com
+- Backend: https://alumni-connect-backend-g28e.onrender.com
+- Health: https://alumni-connect-backend-g28e.onrender.com/health
 
 ---
 

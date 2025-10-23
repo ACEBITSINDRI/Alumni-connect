@@ -11,6 +11,7 @@ import {
 } from '../controllers/authController.js';
 import { protect } from '../middleware/auth.js';
 import { validate } from '../middleware/validation.js';
+import { uploadRegistrationFiles, handleUploadError } from '../middleware/upload.js';
 
 const router = express.Router();
 
@@ -47,7 +48,7 @@ const updatePasswordValidation = [
 ];
 
 // Routes
-router.post('/register', registerValidation, validate, register);
+router.post('/register', uploadRegistrationFiles, handleUploadError, registerValidation, validate, register);
 router.post('/login', loginValidation, validate, login);
 router.get('/me', protect, getMe);
 router.post('/logout', protect, logout);

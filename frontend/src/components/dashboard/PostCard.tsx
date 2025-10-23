@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Heart, MessageCircle, Share2, Bookmark, MoreVertical, Briefcase, MapPin, DollarSign } from 'lucide-react';
+import { Heart, MessageCircle, Share2, Bookmark, MoreVertical, Briefcase, MapPin, DollarSign, Send } from 'lucide-react';
 import Card from '../common/Card';
 import Avatar from '../common/Avatar';
 import Badge from '../common/Badge';
 import Button from '../common/Button';
+import { likePost, unlikePost, addComment } from '../../services/post.service';
+import { useAuth } from '../../context/AuthContext';
 
 interface PostAuthor {
   id: string;
@@ -43,20 +45,70 @@ interface PostCardProps {
 
 const PostCard: React.FC<PostCardProps> = ({ post }) => {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [isLiked, setIsLiked] = useState(post.isLiked);
   const [isSaved, setIsSaved] = useState(post.isSaved);
   const [likes, setLikes] = useState(post.likes);
+  const [comments, setComments] = useState(post.comments);
   const [showFullContent, setShowFullContent] = useState(false);
+  const [showCommentBox, setShowCommentBox] = useState(false);
+  const [commentText, setCommentText] = useState('');
+  const [isSubmittingComment, setIsSubmittingComment] = useState(false);
+  const [isLikingPost, setIsLikingPost] = useState(false);
 
-  const handleLike = () => {
+  const handleLike = async () => {
+    if (!user || isLikingPost) return;
+
+    setIsLikingPost(true);
+    const previousLiked = isLiked;
+    const previousLikes = likes;
+
+    // Optimistic update
     setIsLiked(!isLiked);
     setLikes(isLiked ? likes - 1 : likes + 1);
-    // TODO: API call to like/unlike post
+
+    try {
+      if (isLiked) {
+        await unlikePost(post.id);
+      } else {
+        await likePost(post.id);
+      }
+    } catch (error) {
+      console.error('Like/unlike error:', error);
+      // Revert on error
+      setIsLiked(previousLiked);
+      setLikes(previousLikes);
+    } finally {
+      setIsLikingPost(false);
+    }
   };
 
   const handleSave = () => {
     setIsSaved(!isSaved);
     // TODO: API call to save/unsave post
+  };
+
+  const handleAddComment = async () => {
+    if (!user || !commentText.trim() || isSubmittingComment) return;
+
+    setIsSubmittingComment(true);
+
+    try {
+      const response = await addComment(post.id, commentText);
+
+      if (response.success) {
+        // Update comment count
+        setComments(comments + 1);
+        setCommentText('');
+        setShowCommentBox(false);
+        // Optionally navigate to post detail to show the new comment
+        // navigate(`/post/${post.id}`);
+      }
+    } catch (error) {
+      console.error('Add comment error:', error);
+    } finally {
+      setIsSubmittingComment(false);
+    }
   };
 
   const handleShare = () => {
@@ -219,25 +271,26 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
         {/* Engagement Stats */}
         <div className="flex items-center justify-between text-sm text-gray-600 py-3 border-t border-gray-200">
           <span>{likes} likes</span>
-          <span>{post.comments} comments</span>
+          <span>{comments} comments</span>
         </div>
 
         {/* Action Buttons */}
         <div className="flex items-center justify-between pt-3 border-t border-gray-200">
           <button
             onClick={handleLike}
+            disabled={isLikingPost}
             className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-colors ${
               isLiked
                 ? 'text-red-600 bg-red-50'
                 : 'text-gray-600 hover:bg-gray-100'
-            }`}
+            } ${isLikingPost ? 'opacity-50 cursor-not-allowed' : ''}`}
           >
             <Heart size={20} fill={isLiked ? 'currentColor' : 'none'} />
             <span className="font-medium">Like</span>
           </button>
 
           <button
-            onClick={() => navigate(`/post/${post.id}`)}
+            onClick={() => setShowCommentBox(!showCommentBox)}
             className="flex items-center space-x-2 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-100 transition-colors"
           >
             <MessageCircle size={20} />
@@ -264,6 +317,52 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
             <span className="font-medium hidden sm:inline">Save</span>
           </button>
         </div>
+
+        {/* Comment Box */}
+        {showCommentBox && (
+          <div className="pt-4 border-t border-gray-200 mt-3">
+            <div className="flex space-x-3">
+              <Avatar
+                src={user?.profilePicture}
+                alt={user ? `${user.firstName} ${user.lastName}` : 'User'}
+                size="sm"
+                fallback={user ? `${user.firstName[0]}${user.lastName[0]}` : 'U'}
+              />
+              <div className="flex-1">
+                <textarea
+                  value={commentText}
+                  onChange={(e) => setCommentText(e.target.value)}
+                  placeholder="Write a comment..."
+                  rows={2}
+                  className="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
+                />
+                <div className="flex justify-end mt-2 space-x-2">
+                  <button
+                    onClick={() => {
+                      setShowCommentBox(false);
+                      setCommentText('');
+                    }}
+                    className="px-3 py-1.5 text-sm text-gray-600 hover:text-gray-800 transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleAddComment}
+                    disabled={!commentText.trim() || isSubmittingComment}
+                    className={`flex items-center space-x-1 px-3 py-1.5 text-sm rounded-lg transition-colors ${
+                      commentText.trim() && !isSubmittingComment
+                        ? 'bg-primary-600 text-white hover:bg-primary-700'
+                        : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                    }`}
+                  >
+                    <Send size={14} />
+                    <span>{isSubmittingComment ? 'Posting...' : 'Post'}</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </Card>
   );
