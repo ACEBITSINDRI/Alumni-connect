@@ -1,5 +1,5 @@
 import api from './api';
-import { LoginFormData, StudentSignupFormData, AlumniSignupFormData } from '../utils/validation';
+import { type LoginFormData, type StudentSignupFormData, type AlumniSignupFormData } from '../utils/validation';
 
 export interface AuthResponse {
   success: boolean;

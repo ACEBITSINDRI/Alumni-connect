@@ -10,8 +10,6 @@ import {
   Phone,
   Video,
   Info,
-  Archive,
-  Trash2,
 } from 'lucide-react';
 import Navbar from '../components/common/Navbar';
 import Footer from '../components/common/Footer';

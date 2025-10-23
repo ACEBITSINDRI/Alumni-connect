@@ -11,13 +11,11 @@ import {
   Settings,
   Check,
   Trash2,
-  Filter,
 } from 'lucide-react';
 import Navbar from '../components/common/Navbar';
 import Footer from '../components/common/Footer';
 import Card from '../components/common/Card';
 import Avatar from '../components/common/Avatar';
-import Badge from '../components/common/Badge';
 import Button from '../components/common/Button';
 import { useAuth } from '../context/AuthContext';
 

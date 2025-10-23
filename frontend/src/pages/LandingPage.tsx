@@ -3,8 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import {
   Users, Briefcase, MessageCircle, Calendar, TrendingUp, Heart,
   ArrowRight, CheckCircle, Quote, ChevronLeft, ChevronRight, Building2,
-  Hammer, HardHat, Ruler, Trophy, Target, Lightbulb, GraduationCap,
-  MapPin, Globe, Award
+  Hammer, HardHat, Ruler, Trophy, Target, Lightbulb, GraduationCap
 } from 'lucide-react';
 import Button from '../components/common/Button';
 import Card from '../components/common/Card';
@@ -27,7 +26,6 @@ import nightView from '../assets/civil eng element/night view 🤍🪟.jpeg';
 import trendyCivil from '../assets/civil eng element/trendy civil.jpeg';
 import architecture3d from '../assets/civil eng element/3d architecture design.jpeg';
 import bim10Dimensions from '../assets/civil eng element/BIM 10 Dimensions.jpeg';
-import buildingOpenness from '../assets/civil eng element/buildingopenness.jpeg';
 
 const LandingPage: React.FC = () => {
   const navigate = useNavigate();

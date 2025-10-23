@@ -9,6 +9,11 @@ interface User {
   profilePicture?: string;
   batch?: string;
   company?: string;
+  currentRole?: string;
+  phone?: string;
+  bio?: string;
+  location?: string;
+  linkedinUrl?: string;
   isVerified: boolean;
 }
 

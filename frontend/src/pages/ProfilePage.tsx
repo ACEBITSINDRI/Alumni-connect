@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   MapPin, Briefcase, Calendar, Mail, Phone, Linkedin, Edit, MessageCircle,
-  UserPlus, MoreVertical, FileText, Users as UsersIcon, Award
+  UserPlus, MoreVertical, FileText, Award
 } from 'lucide-react';
 import Navbar from '../components/common/Navbar';
 import Footer from '../components/common/Footer';

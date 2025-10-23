@@ -116,7 +116,7 @@ export const donationSchema = z.object({
 
 // File Validation
 export const validateImageFile = (file: File): string | null => {
-  if (!FILE_LIMITS.ALLOWED_IMAGE_TYPES.includes(file.type)) {
+  if (!FILE_LIMITS.ALLOWED_IMAGE_TYPES.includes(file.type as any)) {
     return 'Only JPEG, JPG, PNG, and WebP images are allowed';
   }
   if (file.size > FILE_LIMITS.IMAGE_MAX_SIZE) {
@@ -126,7 +126,7 @@ export const validateImageFile = (file: File): string | null => {
 };
 
 export const validateDocumentFile = (file: File): string | null => {
-  if (!FILE_LIMITS.ALLOWED_DOCUMENT_TYPES.includes(file.type)) {
+  if (!FILE_LIMITS.ALLOWED_DOCUMENT_TYPES.includes(file.type as any)) {
     return 'Only PDF files are allowed';
   }
   if (file.size > FILE_LIMITS.DOCUMENT_MAX_SIZE) {

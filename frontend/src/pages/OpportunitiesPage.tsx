@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Filter, Briefcase, MapPin, DollarSign, Clock, Bookmark } from 'lucide-react';
+import { Search, Filter, Bookmark } from 'lucide-react';
 import Navbar from '../components/common/Navbar';
 import Footer from '../components/common/Footer';
 import OpportunityCard from '../components/opportunities/OpportunityCard';

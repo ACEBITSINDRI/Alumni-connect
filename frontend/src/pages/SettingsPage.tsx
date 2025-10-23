@@ -4,7 +4,6 @@ import {
   Lock,
   Bell,
   Shield,
-  Eye,
   Globe,
   Mail,
   Smartphone,
