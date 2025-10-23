@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Plus } from 'lucide-react';
 import Navbar from '../components/common/Navbar';
 import Footer from '../components/common/Footer';
@@ -9,91 +9,88 @@ import CreatePostModal from '../components/posts/CreatePostModal';
 import Button from '../components/common/Button';
 import { SkeletonPost } from '../components/common/Skeleton';
 import { useAuth } from '../context/AuthContext';
+import { getPosts, type Post } from '../services/post.service';
 
 const DashboardPage: React.FC = () => {
   const { user } = useAuth();
   const [isCreatePostOpen, setIsCreatePostOpen] = useState(false);
   const [activeFilter, setActiveFilter] = useState<string>('all');
-  const [isLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [error, setError] = useState<string>('');
 
-  // Mock posts data - replace with actual API call
-  const mockPosts = [
-    {
-      id: '1',
-      author: {
-        id: 'user1',
-        name: 'Rahul Sharma',
-        role: 'Senior Engineer',
-        company: 'Larsen & Toubro',
-        batch: '2015',
-        avatar: undefined,
-      },
-      type: 'job' as const,
-      title: 'Hiring: Civil Engineers for Metro Project',
-      content: 'We are looking for experienced civil engineers to join our team for the Mumbai Metro Rail Project. Great opportunity for fresh graduates as well!',
-      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2),
-      images: [],
-      likes: 45,
-      comments: 12,
-      isLiked: false,
-      isSaved: false,
-      jobDetails: {
-        company: 'Larsen & Toubro',
-        location: 'Mumbai, Maharashtra',
-        type: 'Full-time',
-        salary: '₹6-10 LPA',
-      },
-    },
-    {
-      id: '2',
-      author: {
-        id: 'user2',
-        name: 'Priya Singh',
-        role: '4th Year Student',
-        company: 'BIT Sindri',
-        batch: '2024',
-        avatar: undefined,
-      },
-      type: 'question' as const,
-      title: 'Need advice on choosing between offers',
-      content: 'I have received two job offers - one from a PSU and another from a private construction company. Can alumni help me understand the pros and cons of each?',
-      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 5),
-      images: [],
-      likes: 28,
-      comments: 34,
-      isLiked: true,
-      isSaved: false,
-    },
-    {
-      id: '3',
-      author: {
-        id: 'user3',
-        name: 'Amit Kumar',
-        role: 'Project Manager',
-        company: 'AECOM',
-        batch: '2010',
-        avatar: undefined,
-      },
-      type: 'advice' as const,
-      title: 'Career Growth in Construction Industry',
-      content: 'After 14 years in the construction industry, here are my top 5 tips for career growth: 1) Never stop learning 2) Build strong networks 3) Take calculated risks 4) Focus on leadership skills 5) Stay updated with technology',
-      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 10),
-      images: [],
-      likes: 156,
-      comments: 45,
-      isLiked: false,
-      isSaved: true,
-    },
-  ];
+  // Fetch posts on component mount and when filter changes
+  useEffect(() => {
+    fetchPosts();
+  }, [activeFilter, currentPage]);
+
+  const fetchPosts = async () => {
+    setIsLoading(true);
+    setError('');
+
+    try {
+      const response = await getPosts(currentPage, 10, activeFilter);
+
+      if (response.success && response.data) {
+        setPosts(response.data.posts);
+        setTotalPages(response.data.pages);
+      } else {
+        setError(response.message || 'Failed to fetch posts');
+      }
+    } catch (err: any) {
+      console.error('Fetch posts error:', err);
+      setError(err.response?.data?.message || 'Failed to fetch posts. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handlePostCreated = () => {
+    // Refresh posts after creating a new one
+    fetchPosts();
+  };
+
+  const handleLoadMore = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(prev => prev + 1);
+    }
+  };
 
   const filters = [
     { label: 'All Posts', value: 'all' },
-    { label: 'Jobs', value: 'jobs' },
-    { label: 'Internships', value: 'internships' },
+    { label: 'Jobs', value: 'job' },
+    { label: 'Internships', value: 'internship' },
     { label: 'Advice', value: 'advice' },
-    { label: 'Events', value: 'events' },
-    { label: 'Questions', value: 'questions' },
+    { label: 'Events', value: 'event' },
+    { label: 'Questions', value: 'question' },
   ];
+
+  // Transform API post data to match PostCard interface
+  const transformPost = (post: Post) => {
+    return {
+      id: post._id,
+      author: {
+        id: post.author._id,
+        name: `${post.author.firstName} ${post.author.lastName}`,
+        role: post.author.currentRole || (post.author.role === 'student' ? 'Student' : 'Alumni'),
+        company: post.author.company || 'BIT Sindri',
+        batch: post.author.batch || '',
+        avatar: post.author.profilePicture,
+      },
+      type: post.type,
+      title: post.title,
+      content: post.content,
+      timestamp: new Date(post.createdAt),
+      images: post.images,
+      likes: post.likes.length,
+      comments: post.comments.length,
+      isLiked: user ? post.likes.includes(user._id) : false,
+      isSaved: false, // TODO: Implement saved posts feature
+      jobDetails: post.jobDetails,
+    };
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -157,19 +154,37 @@ const DashboardPage: React.FC = () => {
                   <SkeletonPost />
                   <SkeletonPost />
                 </>
+              ) : error ? (
+                <div className="bg-white rounded-lg shadow-sm p-8 text-center">
+                  <p className="text-red-600 mb-4">{error}</p>
+                  <Button variant="primary" onClick={fetchPosts}>
+                    Try Again
+                  </Button>
+                </div>
+              ) : posts.length === 0 ? (
+                <div className="bg-white rounded-lg shadow-sm p-8 text-center">
+                  <p className="text-gray-600 mb-4">No posts found</p>
+                  {user?.role === 'alumni' && (
+                    <Button variant="primary" onClick={() => setIsCreatePostOpen(true)}>
+                      Create First Post
+                    </Button>
+                  )}
+                </div>
               ) : (
-                mockPosts.map((post) => (
-                  <PostCard key={post.id} post={post} />
+                posts.map((post) => (
+                  <PostCard key={post._id} post={transformPost(post)} />
                 ))
               )}
             </div>
 
             {/* Load More */}
-            <div className="mt-6 text-center">
-              <Button variant="outline" size="lg">
-                Load More Posts
-              </Button>
-            </div>
+            {!isLoading && posts.length > 0 && currentPage < totalPages && (
+              <div className="mt-6 text-center">
+                <Button variant="outline" size="lg" onClick={handleLoadMore}>
+                  Load More Posts
+                </Button>
+              </div>
+            )}
           </main>
 
           {/* Right Sidebar */}
@@ -184,6 +199,7 @@ const DashboardPage: React.FC = () => {
         <CreatePostModal
           isOpen={isCreatePostOpen}
           onClose={() => setIsCreatePostOpen(false)}
+          onPostCreated={handlePostCreated}
         />
       )}
 

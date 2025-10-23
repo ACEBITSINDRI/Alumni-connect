@@ -7,6 +7,8 @@ import Card from '../../components/common/Card';
 import Dropdown from '../../components/common/Dropdown';
 import Badge from '../../components/common/Badge';
 import { DEPARTMENT_INFO } from '../../utils/civilEngConstants';
+import { registerStudent, registerAlumni } from '../../services/auth.service';
+import { useAuth } from '../../context/AuthContext';
 
 // Import images
 import bitLogo from '../../assets/logos/logo.png';
@@ -21,6 +23,7 @@ interface SignupPageProps {
 
 const SignupPage: React.FC<SignupPageProps> = ({ userType = 'student' }) => {
   const navigate = useNavigate();
+  const { setUser } = useAuth();
   const [currentStep, setCurrentStep] = useState(1);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -51,6 +54,7 @@ const SignupPage: React.FC<SignupPageProps> = ({ userType = 'student' }) => {
 
     // Step 3 - Profile Setup
     profilePicture: null as File | null,
+    idCard: null as File | null, // For students only
     bio: '',
     skills: [] as string[],
     availableForMentorship: false,
@@ -80,10 +84,43 @@ const SignupPage: React.FC<SignupPageProps> = ({ userType = 'student' }) => {
     }
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, fieldName: 'profilePicture' | 'idCard') => {
     const file = e.target.files?.[0];
     if (file) {
-      setFormData(prev => ({ ...prev, profilePicture: file }));
+      // Validate file based on field type
+      if (fieldName === 'profilePicture') {
+        const maxSize = 5 * 1024 * 1024; // 5MB
+        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+
+        if (!allowedTypes.includes(file.type)) {
+          setErrors(prev => ({ ...prev, [fieldName]: 'Please upload a valid image (JPG, PNG, or WEBP)' }));
+          return;
+        }
+
+        if (file.size > maxSize) {
+          setErrors(prev => ({ ...prev, [fieldName]: 'Image size must be less than 5MB' }));
+          return;
+        }
+      } else if (fieldName === 'idCard') {
+        const maxSize = 10 * 1024 * 1024; // 10MB for PDF
+        const allowedTypes = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'];
+
+        if (!allowedTypes.includes(file.type)) {
+          setErrors(prev => ({ ...prev, [fieldName]: 'Please upload a valid PDF or image file' }));
+          return;
+        }
+
+        if (file.size > maxSize) {
+          setErrors(prev => ({ ...prev, [fieldName]: 'File size must be less than 10MB' }));
+          return;
+        }
+      }
+
+      setFormData(prev => ({ ...prev, [fieldName]: file }));
+      // Clear error if file is valid
+      if (errors[fieldName]) {
+        setErrors(prev => ({ ...prev, [fieldName]: '' }));
+      }
     }
   };
 
@@ -153,14 +190,72 @@ const SignupPage: React.FC<SignupPageProps> = ({ userType = 'student' }) => {
     setIsLoading(true);
 
     try {
-      // TODO: Replace with actual API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      console.log('Signup data:', formData);
+      let response;
 
-      // Navigate to email verification page
-      navigate('/verify-email');
-    } catch (error) {
-      setErrors({ submit: 'Signup failed. Please try again.' });
+      if (userType === 'student') {
+        // Validate student-specific required fields
+        if (!formData.idCard) {
+          setErrors({ idCard: 'Student ID card is required' });
+          setIsLoading(false);
+          return;
+        }
+
+        response = await registerStudent({
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          password: formData.password,
+          rollNumber: formData.rollNumber,
+          currentYear: formData.currentYear,
+          currentSemester: formData.currentSemester,
+          phone: formData.phone,
+          bio: formData.bio,
+          skills: formData.skills,
+          profilePicture: formData.profilePicture,
+          idCard: formData.idCard,
+        });
+      } else {
+        // Alumni registration
+        response = await registerAlumni({
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          password: formData.password,
+          rollNumber: formData.rollNumber,
+          graduationYear: formData.graduationYear,
+          company: formData.company,
+          jobRole: formData.jobRole,
+          jobDomain: formData.jobDomain,
+          experience: formData.experience,
+          city: formData.city,
+          state: formData.state,
+          country: formData.country,
+          phone: formData.phone,
+          bio: formData.bio,
+          skills: formData.skills,
+          linkedinUrl: formData.linkedinUrl,
+          profilePicture: formData.profilePicture,
+          availableForMentorship: formData.availableForMentorship,
+        });
+      }
+
+      if (response.success && response.data) {
+        // Set user in context
+        setUser(response.data.user);
+
+        // Navigate to dashboard or verification page based on isVerified status
+        if (response.data.user.isVerified) {
+          navigate('/dashboard');
+        } else {
+          navigate('/verify-email');
+        }
+      } else {
+        setErrors({ submit: response.message || 'Signup failed. Please try again.' });
+      }
+    } catch (error: any) {
+      console.error('Signup error:', error);
+      const errorMessage = error.response?.data?.message || error.message || 'Signup failed. Please try again.';
+      setErrors({ submit: errorMessage });
     } finally {
       setIsLoading(false);
     }
@@ -684,13 +779,63 @@ const SignupPage: React.FC<SignupPageProps> = ({ userType = 'student' }) => {
                       <input
                         type="file"
                         accept="image/*"
-                        onChange={handleFileChange}
+                        onChange={(e) => handleFileChange(e, 'profilePicture')}
                         className="hidden"
                       />
                     </label>
                   </div>
                   <p className="mt-2 text-xs text-gray-500">JPG, PNG or GIF. Max size 5MB.</p>
+                  {errors.profilePicture && (
+                    <p className="mt-1 text-sm text-red-600">{errors.profilePicture}</p>
+                  )}
                 </div>
+
+                {/* ID Card Upload - Students Only */}
+                {userType === 'student' && (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Student ID Card <span className="text-red-500">*</span>
+                    </label>
+                    <div className="space-y-2">
+                      {formData.idCard ? (
+                        <div className="p-4 bg-gray-50 rounded-lg border border-gray-300">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center space-x-2">
+                              <Upload size={20} className="text-gray-600" />
+                              <span className="text-sm text-gray-700">{formData.idCard.name}</span>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => setFormData(prev => ({ ...prev, idCard: null }))}
+                              className="text-red-600 hover:text-red-700 text-sm font-medium"
+                            >
+                              Remove
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <label className="cursor-pointer">
+                          <div className="px-4 py-3 bg-white border-2 border-dashed border-gray-300 rounded-lg hover:border-primary-500 transition-colors flex items-center justify-center space-x-2">
+                            <Upload size={18} />
+                            <span className="text-sm font-medium">Upload ID Card</span>
+                          </div>
+                          <input
+                            type="file"
+                            accept="application/pdf,image/*"
+                            onChange={(e) => handleFileChange(e, 'idCard')}
+                            className="hidden"
+                          />
+                        </label>
+                      )}
+                    </div>
+                    <p className="mt-2 text-xs text-gray-500">
+                      Upload your student ID card (PDF or image). Max size 10MB.
+                    </p>
+                    {errors.idCard && (
+                      <p className="mt-1 text-sm text-red-600">{errors.idCard}</p>
+                    )}
+                  </div>
+                )}
 
                 <div>
                   <label htmlFor="bio" className="block text-sm font-medium text-gray-700 mb-1">

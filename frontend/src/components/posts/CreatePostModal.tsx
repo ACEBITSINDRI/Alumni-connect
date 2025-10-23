@@ -4,13 +4,16 @@ import Modal from '../common/Modal';
 import Button from '../common/Button';
 import Input from '../common/Input';
 import Dropdown from '../common/Dropdown';
+import { createPost } from '../../services/post.service';
+import { FILE_LIMITS } from '../../utils/constants';
 
 interface CreatePostModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onPostCreated?: () => void;
 }
 
-const CreatePostModal: React.FC<CreatePostModalProps> = ({ isOpen, onClose }) => {
+const CreatePostModal: React.FC<CreatePostModalProps> = ({ isOpen, onClose, onPostCreated }) => {
   const [postType, setPostType] = useState<string>('general');
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -26,6 +29,7 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({ isOpen, onClose }) =>
     deadline: '',
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [successMessage, setSuccessMessage] = useState<string>('');
 
   const postTypes = [
     { label: 'General Post', value: 'general' },
@@ -53,11 +57,35 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({ isOpen, onClose }) =>
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
-    if (files.length + formData.images.length > 5) {
-      setErrors(prev => ({ ...prev, images: 'Maximum 5 images allowed' }));
+
+    // Validate number of images
+    if (files.length + formData.images.length > FILE_LIMITS.MAX_IMAGES_PER_POST) {
+      setErrors(prev => ({ ...prev, images: `Maximum ${FILE_LIMITS.MAX_IMAGES_PER_POST} images allowed` }));
       return;
     }
-    setFormData(prev => ({ ...prev, images: [...prev.images, ...files] }));
+
+    // Validate each file
+    const validFiles: File[] = [];
+    for (const file of files) {
+      // Check file type
+      if (!FILE_LIMITS.ALLOWED_IMAGE_TYPES.includes(file.type)) {
+        setErrors(prev => ({ ...prev, images: 'Only JPG, PNG, and WEBP images are allowed' }));
+        continue;
+      }
+
+      // Check file size
+      if (file.size > FILE_LIMITS.IMAGE_MAX_SIZE) {
+        setErrors(prev => ({ ...prev, images: `Image size must be less than ${FILE_LIMITS.IMAGE_MAX_SIZE / (1024 * 1024)}MB` }));
+        continue;
+      }
+
+      validFiles.push(file);
+    }
+
+    if (validFiles.length > 0) {
+      setFormData(prev => ({ ...prev, images: [...prev.images, ...validFiles] }));
+      setErrors(prev => ({ ...prev, images: '' }));
+    }
   };
 
   const removeImage = (index: number) => {
@@ -90,29 +118,65 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({ isOpen, onClose }) =>
     if (!validateForm()) return;
 
     setIsLoading(true);
+    setErrors({});
 
     try {
-      // TODO: Replace with actual API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Prepare job details if applicable
+      let jobDetails;
+      if (postType === 'job' || postType === 'internship') {
+        jobDetails = {
+          company: formData.company,
+          location: formData.location,
+          jobType: formData.jobType,
+          salary: formData.salary,
+          applyLink: formData.applyLink,
+          deadline: formData.deadline,
+        };
+      }
 
-      console.log('Post created:', { postType, ...formData });
-
-      // Reset form and close modal
-      setFormData({
-        title: '',
-        content: '',
-        images: [],
-        company: '',
-        location: '',
-        jobType: '',
-        salary: '',
-        applyLink: '',
-        deadline: '',
+      // Create post
+      const response = await createPost({
+        type: postType,
+        title: formData.title,
+        content: formData.content,
+        images: formData.images.length > 0 ? formData.images : undefined,
+        jobDetails,
       });
-      setPostType('general');
-      onClose();
-    } catch (error) {
-      setErrors({ submit: 'Failed to create post. Please try again.' });
+
+      if (response.success) {
+        setSuccessMessage('Post created successfully!');
+
+        // Reset form
+        setFormData({
+          title: '',
+          content: '',
+          images: [],
+          company: '',
+          location: '',
+          jobType: '',
+          salary: '',
+          applyLink: '',
+          deadline: '',
+        });
+        setPostType('general');
+
+        // Notify parent component to refresh feed
+        if (onPostCreated) {
+          onPostCreated();
+        }
+
+        // Close modal after a short delay
+        setTimeout(() => {
+          setSuccessMessage('');
+          onClose();
+        }, 1500);
+      } else {
+        setErrors({ submit: response.message || 'Failed to create post. Please try again.' });
+      }
+    } catch (error: any) {
+      console.error('Create post error:', error);
+      const errorMessage = error.response?.data?.message || error.message || 'Failed to create post. Please try again.';
+      setErrors({ submit: errorMessage });
     } finally {
       setIsLoading(false);
     }
@@ -284,6 +348,13 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({ isOpen, onClose }) =>
             You can upload up to 5 images. JPG, PNG, GIF accepted.
           </p>
         </div>
+
+        {/* Success Message */}
+        {successMessage && (
+          <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
+            <p className="text-sm text-green-600">{successMessage}</p>
+          </div>
+        )}
 
         {/* Error Message */}
         {errors.submit && (

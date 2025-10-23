@@ -6,6 +6,8 @@ import Input from '../../components/common/Input';
 import Card from '../../components/common/Card';
 import Badge from '../../components/common/Badge';
 import { DEPARTMENT_INFO } from '../../utils/civilEngConstants';
+import { login as loginApi } from '../../services/auth.service';
+import { useAuth } from '../../context/AuthContext';
 
 // Import images
 import bitLogo from '../../assets/logos/logo.png';
@@ -19,6 +21,7 @@ interface LoginPageProps {
 
 const LoginPage: React.FC<LoginPageProps> = ({ userType = 'student' }) => {
   const navigate = useNavigate();
+  const { setUser } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<'student' | 'alumni'>(userType);
@@ -67,12 +70,27 @@ const LoginPage: React.FC<LoginPageProps> = ({ userType = 'student' }) => {
     }
 
     setIsLoading(true);
+    setErrors({});
 
-    // TODO: Replace with actual API call
-    setTimeout(() => {
+    try {
+      const response = await loginApi(formData.email, formData.password, activeTab);
+
+      if (response.success && response.data) {
+        // Set user in context
+        setUser(response.data.user);
+
+        // Navigate to dashboard
+        navigate('/dashboard');
+      } else {
+        setErrors({ submit: response.message || 'Login failed. Please try again.' });
+      }
+    } catch (error: any) {
+      console.error('Login error:', error);
+      const errorMessage = error.response?.data?.message || error.message || 'Login failed. Please check your credentials and try again.';
+      setErrors({ submit: errorMessage });
+    } finally {
       setIsLoading(false);
-      navigate('/dashboard');
-    }, 1500);
+    }
   };
 
   return (
@@ -290,6 +308,13 @@ const LoginPage: React.FC<LoginPageProps> = ({ userType = 'student' }) => {
                   Forgot password?
                 </Link>
               </div>
+
+              {/* Error Message */}
+              {errors.submit && (
+                <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
+                  <p className="text-sm text-red-600">{errors.submit}</p>
+                </div>
+              )}
 
               <Button
                 type="submit"

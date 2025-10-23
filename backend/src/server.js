@@ -10,6 +10,7 @@ import { errorHandler, notFound } from './middleware/errorHandler.js';
 
 // Routes
 import authRoutes from './routes/authRoutes.js';
+import postRoutes from './routes/postRoutes.js';
 
 // Load env vars
 dotenv.config();
@@ -63,6 +64,7 @@ app.get('/health', (req, res) => {
 
 // API Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/posts', postRoutes);
 
 // Welcome route
 app.get('/', (req, res) => {
