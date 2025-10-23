@@ -5,6 +5,7 @@ services:
     env: node
     region: singapore
     plan: free
+    rootDir: .
     buildCommand: cd backend && npm install
     startCommand: cd backend && npm start
     envVars:
@@ -27,6 +28,7 @@ services:
     name: alumni-connect-frontend
     env: static
     region: singapore
+    rootDir: .
     buildCommand: cd frontend && npm install && npm run build
     staticPublishPath: ./frontend/dist
     pullRequestPreviewsEnabled: true
