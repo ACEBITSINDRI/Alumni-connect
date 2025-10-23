@@ -46,7 +46,7 @@ export interface User {
 
 // Login
 export const login = async (email: string, password: string, role: 'student' | 'alumni'): Promise<AuthResponse> => {
-  const response = await api.post<AuthResponse>('/auth/login', { email, password, role });
+  const response = await api.post<AuthResponse>('/api/auth/login', { email, password, role });
 
   // Store token and user data
   if (response.data.success && response.data.data) {
@@ -100,7 +100,7 @@ export const registerStudent = async (formData: {
     data.append('idCard', formData.idCard);
   }
 
-  const response = await apiFormData.post<AuthResponse>('/auth/register', data);
+  const response = await apiFormData.post<AuthResponse>('/api/auth/register', data);
 
   // Store token and user data
   if (response.data.success && response.data.data) {
@@ -182,7 +182,7 @@ export const registerAlumni = async (formData: {
     data.append('profilePicture', formData.profilePicture);
   }
 
-  const response = await apiFormData.post<AuthResponse>('/auth/register', data);
+  const response = await apiFormData.post<AuthResponse>('/api/auth/register', data);
 
   // Store token and user data
   if (response.data.success && response.data.data) {
@@ -196,7 +196,7 @@ export const registerAlumni = async (formData: {
 
 // Logout
 export const logout = async (): Promise<void> => {
-  await api.post('/auth/logout');
+  await api.post('/api/auth/logout');
   localStorage.removeItem('accessToken');
   localStorage.removeItem('refreshToken');
   localStorage.removeItem('user');
@@ -210,13 +210,13 @@ export const verifyEmail = async (token: string): Promise<AuthResponse> => {
 
 // Resend Verification Email
 export const resendVerificationEmail = async (email: string): Promise<AuthResponse> => {
-  const response = await api.post<AuthResponse>('/auth/resend-verification', { email });
+  const response = await api.post<AuthResponse>('/api/auth/resend-verification', { email });
   return response.data;
 };
 
 // Forgot Password
 export const forgotPassword = async (email: string): Promise<AuthResponse> => {
-  const response = await api.post<AuthResponse>('/auth/forgot-password', { email });
+  const response = await api.post<AuthResponse>('/api/auth/forgot-password', { email });
   return response.data;
 };
 
@@ -228,7 +228,7 @@ export const resetPassword = async (token: string, password: string): Promise<Au
 
 // Get Current User
 export const getCurrentUser = async (): Promise<User> => {
-  const response = await api.get<{ success: boolean; data: User }>('/auth/me');
+  const response = await api.get<{ success: boolean; data: User }>('/api/auth/me');
   return response.data.data;
 };
 
