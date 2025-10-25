@@ -2,6 +2,7 @@ import { getUserModel, AlumniModel, StudentModel } from '../models/User.js';
 import { generateAccessToken, generateRefreshToken } from '../utils/jwt.js';
 import crypto from 'crypto';
 import { uploadProfilePicture, uploadIdCard } from '../config/cloudinary.js';
+import { sendVerificationEmail, sendWelcomeEmail } from '../utils/email.js';
 
 // @desc    Register user
 // @route   POST /api/auth/register
@@ -164,17 +165,33 @@ export const register = async (req, res) => {
       console.log('Continuing registration without file uploads');
     }
 
+    // Generate email verification token
+    const verificationToken = crypto.randomBytes(32).toString('hex');
+    user.emailVerificationToken = crypto.createHash('sha256').update(verificationToken).digest('hex');
+    user.emailVerificationExpires = Date.now() + 24 * 60 * 60 * 1000; // 24 hours
+    await user.save();
+
+    // Send verification email (don't block registration if email fails)
+    try {
+      await sendVerificationEmail(user.email, verificationToken, user.firstName);
+      console.log('Verification email sent to:', user.email);
+    } catch (emailError) {
+      console.error('Failed to send verification email:', emailError);
+      // Continue with registration even if email fails
+    }
+
     // Generate tokens
     const accessToken = generateAccessToken(user._id, role);
     const refreshToken = generateRefreshToken(user._id, role);
 
     res.status(201).json({
       success: true,
-      message: 'Registration successful',
+      message: 'Registration successful! Please check your email to verify your account.',
       data: {
         user: user.getPublicProfile(),
         accessToken,
         refreshToken,
+        emailSent: true, // Indicate that verification email was sent
       },
     });
   } catch (error) {
