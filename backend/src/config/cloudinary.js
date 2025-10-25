@@ -4,11 +4,19 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 // Configure Cloudinary
-cloudinary.config({
+const cloudinaryConfig = {
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
+};
+
+console.log('Cloudinary Configuration:', {
+  cloud_name: cloudinaryConfig.cloud_name,
+  api_key: cloudinaryConfig.api_key ? `${cloudinaryConfig.api_key.substring(0, 5)}...` : 'NOT SET',
+  api_secret: cloudinaryConfig.api_secret ? 'SET (hidden)' : 'NOT SET',
 });
+
+cloudinary.config(cloudinaryConfig);
 
 /**
  * Upload image to Cloudinary from buffer
@@ -46,6 +54,9 @@ export const uploadToCloudinary = (fileBuffer, folder = 'alumni-connect', option
  */
 export const uploadProfilePicture = async (fileBuffer, userId) => {
   try {
+    console.log('Uploading profile picture for user:', userId);
+    console.log('Buffer size:', fileBuffer?.length || 0, 'bytes');
+
     const result = await uploadToCloudinary(fileBuffer, 'alumni-connect/profiles', {
       public_id: `profile_${userId}_${Date.now()}`,
       transformation: [
@@ -54,13 +65,15 @@ export const uploadProfilePicture = async (fileBuffer, userId) => {
       ],
     });
 
+    console.log('Profile picture uploaded successfully:', result.secure_url);
     return {
       url: result.secure_url,
       publicId: result.public_id,
     };
   } catch (error) {
-    console.error('Cloudinary profile picture upload error:', error);
-    throw new Error('Failed to upload profile picture');
+    console.error('Cloudinary profile picture upload error:', error.message);
+    console.error('Error details:', error);
+    throw new Error(`Failed to upload profile picture: ${error.message}`);
   }
 };
 

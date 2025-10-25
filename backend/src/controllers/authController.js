@@ -153,13 +153,15 @@ export const register = async (req, res) => {
         await user.save();
       }
     } catch (uploadError) {
-      // If file upload fails, delete the created user
-      await UserModel.findByIdAndDelete(user._id);
+      // Log the error but don't fail registration
       console.error('File upload error:', uploadError);
-      return res.status(500).json({
-        success: false,
-        message: 'Failed to upload files. Please try again.',
+      console.error('Cloudinary config:', {
+        cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+        api_key: process.env.CLOUDINARY_API_KEY ? 'SET' : 'NOT SET',
+        api_secret: process.env.CLOUDINARY_API_SECRET ? 'SET' : 'NOT SET',
       });
+      // Continue with registration without uploaded files
+      console.log('Continuing registration without file uploads');
     }
 
     // Generate tokens
