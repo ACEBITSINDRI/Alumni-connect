@@ -101,6 +101,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       // Clear user state
       setUser(null);
+
+      // Redirect to login page
+      window.location.href = '/login';
     }
   };
 

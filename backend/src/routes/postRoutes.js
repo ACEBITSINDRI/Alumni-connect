@@ -15,14 +15,14 @@ import { uploadPostImages, handleUploadError } from '../middleware/upload.js';
 
 const router = express.Router();
 
-// All routes are protected (require authentication)
+// Public routes (no authentication required)
+router.get('/', getPosts);
+
+// Protected routes (require authentication)
 router.use(protect);
 
 // Post CRUD routes
-router
-  .route('/')
-  .get(getPosts)
-  .post(uploadPostImages, handleUploadError, createPost);
+router.post('/', uploadPostImages, handleUploadError, createPost);
 
 router
   .route('/:id')

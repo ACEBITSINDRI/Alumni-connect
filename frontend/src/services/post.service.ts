@@ -82,7 +82,7 @@ export const createPost = async (postData: CreatePostData): Promise<PostResponse
     formData.append('jobDetails', JSON.stringify(postData.jobDetails));
   }
 
-  const response = await apiFormData.post<PostResponse>('/posts', formData);
+  const response = await apiFormData.post<PostResponse>('/api/posts', formData);
   return response.data;
 };
 
@@ -93,54 +93,54 @@ export const getPosts = async (page: number = 1, limit: number = 10, filter?: st
     params.type = filter;
   }
 
-  const response = await api.get<PostsResponse>('/posts', { params });
+  const response = await api.get<PostsResponse>('/api/posts', { params });
   return response.data;
 };
 
 // Get a single post by ID
 export const getPostById = async (postId: string): Promise<PostResponse> => {
-  const response = await api.get<PostResponse>(`/posts/${postId}`);
+  const response = await api.get<PostResponse>(`/api/posts/${postId}`);
   return response.data;
 };
 
 // Like a post
 export const likePost = async (postId: string): Promise<PostResponse> => {
-  const response = await api.post<PostResponse>(`/posts/${postId}/like`);
+  const response = await api.post<PostResponse>(`/api/posts/${postId}/like`);
   return response.data;
 };
 
 // Unlike a post
 export const unlikePost = async (postId: string): Promise<PostResponse> => {
-  const response = await api.delete<PostResponse>(`/posts/${postId}/like`);
+  const response = await api.delete<PostResponse>(`/api/posts/${postId}/like`);
   return response.data;
 };
 
 // Add a comment to a post
 export const addComment = async (postId: string, content: string): Promise<PostResponse> => {
-  const response = await api.post<PostResponse>(`/posts/${postId}/comment`, { content });
+  const response = await api.post<PostResponse>(`/api/posts/${postId}/comment`, { content });
   return response.data;
 };
 
 // Delete a comment
 export const deleteComment = async (postId: string, commentId: string): Promise<PostResponse> => {
-  const response = await api.delete<PostResponse>(`/posts/${postId}/comment/${commentId}`);
+  const response = await api.delete<PostResponse>(`/api/posts/${postId}/comment/${commentId}`);
   return response.data;
 };
 
 // Delete a post
 export const deletePost = async (postId: string): Promise<PostResponse> => {
-  const response = await api.delete<PostResponse>(`/posts/${postId}`);
+  const response = await api.delete<PostResponse>(`/api/posts/${postId}`);
   return response.data;
 };
 
 // Save a post
 export const savePost = async (postId: string): Promise<{ success: boolean; message: string }> => {
-  const response = await api.post(`/posts/${postId}/save`);
+  const response = await api.post(`/api/posts/${postId}/save`);
   return response.data;
 };
 
 // Unsave a post
 export const unsavePost = async (postId: string): Promise<{ success: boolean; message: string }> => {
-  const response = await api.delete(`/posts/${postId}/save`);
+  const response = await api.delete(`/api/posts/${postId}/save`);
   return response.data;
 };
