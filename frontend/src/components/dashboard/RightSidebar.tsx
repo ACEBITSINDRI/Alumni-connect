@@ -1,15 +1,38 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { TrendingUp, UserPlus, ExternalLink, Heart } from 'lucide-react';
+import { TrendingUp, UserPlus, ExternalLink, Heart, Loader2 } from 'lucide-react';
 import Card from '../common/Card';
 import Avatar from '../common/Avatar';
 import Badge from '../common/Badge';
 import Button from '../common/Button';
+import { getSuggestedConnections, type SuggestedConnection } from '../../services/user.service';
+import { sendConnectionRequest } from '../../services/connection.service';
 
 const RightSidebar: React.FC = () => {
   const navigate = useNavigate();
+  const [suggestedConnections, setSuggestedConnections] = useState<SuggestedConnection[]>([]);
+  const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(true);
+  const [connectingUserId, setConnectingUserId] = useState<string | null>(null);
 
-  // Mock data - replace with actual API calls
+  // Fetch suggested connections
+  useEffect(() => {
+    const fetchSuggestions = async () => {
+      try {
+        const response = await getSuggestedConnections(3);
+        if (response.success && response.data) {
+          setSuggestedConnections(response.data);
+        }
+      } catch (error) {
+        console.error('Error fetching suggested connections:', error);
+      } finally {
+        setIsLoadingSuggestions(false);
+      }
+    };
+
+    fetchSuggestions();
+  }, []);
+
+  // Mock data for trending topics - TODO: replace with actual API when available
   const trendingTopics = [
     { tag: '#CivilEngineering', posts: 234 },
     { tag: '#JobOpportunities', posts: 189 },
@@ -28,39 +51,20 @@ const RightSidebar: React.FC = () => {
     description: 'Leading infrastructure development projects across India',
   };
 
-  const suggestedConnections = [
-    {
-      id: '1',
-      name: 'Anjali Mehta',
-      role: 'Structural Engineer',
-      company: 'Tata Projects',
-      batch: '2018',
-      avatar: undefined,
-      mutualConnections: 5,
-    },
-    {
-      id: '2',
-      name: 'Vikram Reddy',
-      role: 'Site Engineer',
-      company: 'L&T Construction',
-      batch: '2019',
-      avatar: undefined,
-      mutualConnections: 3,
-    },
-    {
-      id: '3',
-      name: 'Sneha Patel',
-      role: '3rd Year Student',
-      company: 'BIT Sindri',
-      batch: '2025',
-      avatar: undefined,
-      mutualConnections: 8,
-    },
-  ];
+  const handleConnect = async (userId: string) => {
+    try {
+      setConnectingUserId(userId);
+      const response = await sendConnectionRequest(userId);
 
-  const handleConnect = (userId: string) => {
-    // TODO: API call to send connection request
-    console.log('Connect with user:', userId);
+      if (response.success) {
+        // Remove from suggestions after successful connection request
+        setSuggestedConnections(prev => prev.filter(user => user._id !== userId));
+      }
+    } catch (error) {
+      console.error('Error sending connection request:', error);
+    } finally {
+      setConnectingUserId(null);
+    }
   };
 
   return (
@@ -119,52 +123,74 @@ const RightSidebar: React.FC = () => {
       </Card>
 
       {/* Suggested Connections */}
-      <Card variant="elevated" className="p-4">
+      <Card variant="elevated" className="p-4 border border-neutral-100">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-2">
             <UserPlus size={20} className="text-primary-600" />
-            <h3 className="font-semibold text-gray-900">Suggested Connections</h3>
+            <h3 className="font-bold text-neutral-900 text-base">Suggested Connections</h3>
           </div>
         </div>
         <div className="space-y-4">
-          {suggestedConnections.map((user) => (
-            <div key={user.id} className="flex items-start space-x-3">
-              <Avatar
-                src={user.avatar}
-                alt={user.name}
-                size="md"
-                fallback={user.name}
-                className="cursor-pointer"
-                onClick={() => navigate(`/profile/${user.id}`)}
-              />
-              <div className="flex-1 min-w-0">
-                <h4
-                  className="text-sm font-medium text-gray-900 truncate cursor-pointer hover:text-primary-600"
-                  onClick={() => navigate(`/profile/${user.id}`)}
-                >
-                  {user.name}
-                </h4>
-                <p className="text-xs text-gray-600 truncate">{user.role}</p>
-                <p className="text-xs text-gray-500 truncate">{user.company}</p>
-                <p className="text-xs text-gray-400 mt-1">
-                  {user.mutualConnections} mutual connections
-                </p>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="mt-2 w-full"
-                  onClick={() => handleConnect(user.id)}
-                >
-                  <UserPlus size={14} className="mr-1" />
-                  Connect
-                </Button>
-              </div>
+          {isLoadingSuggestions ? (
+            <div className="flex items-center justify-center py-8">
+              <Loader2 size={24} className="animate-spin text-primary-600" />
             </div>
-          ))}
+          ) : suggestedConnections.length === 0 ? (
+            <div className="text-center py-8">
+              <p className="text-sm text-neutral-500">No suggestions available</p>
+            </div>
+          ) : (
+            suggestedConnections.map((user) => (
+              <div key={user._id} className="flex items-start space-x-3 p-3 rounded-xl hover:bg-neutral-50 transition-colors border border-transparent hover:border-neutral-200">
+                <Avatar
+                  src={user.profilePicture}
+                  alt={`${user.firstName} ${user.lastName}`}
+                  size="md"
+                  fallback={`${user.firstName[0]}${user.lastName[0]}`}
+                  className="cursor-pointer ring-2 ring-neutral-100"
+                  onClick={() => navigate(`/profile/${user._id}`)}
+                />
+                <div className="flex-1 min-w-0">
+                  <h4
+                    className="text-sm font-semibold text-neutral-900 truncate cursor-pointer hover:text-primary-600 transition-colors"
+                    onClick={() => navigate(`/profile/${user._id}`)}
+                  >
+                    {user.firstName} {user.lastName}
+                  </h4>
+                  <p className="text-xs text-neutral-600 truncate font-medium">{user.currentRole || (user.role === 'student' ? 'Student' : 'Alumni')}</p>
+                  <p className="text-xs text-neutral-500 truncate">{user.company || `Batch ${user.batch}`}</p>
+                  {user.mutualConnections !== undefined && user.mutualConnections > 0 && (
+                    <p className="text-xs text-neutral-400 mt-1">
+                      {user.mutualConnections} mutual {user.mutualConnections === 1 ? 'connection' : 'connections'}
+                    </p>
+                  )}
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="mt-2 w-full font-semibold hover:bg-gradient-to-r hover:from-primary-600 hover:to-primary-500 hover:text-white hover:border-primary-600 transition-all"
+                    onClick={() => handleConnect(user._id)}
+                    disabled={connectingUserId === user._id}
+                  >
+                    {connectingUserId === user._id ? (
+                      <>
+                        <Loader2 size={14} className="mr-1 animate-spin" />
+                        Connecting...
+                      </>
+                    ) : (
+                      <>
+                        <UserPlus size={14} className="mr-1" />
+                        Connect
+                      </>
+                    )}
+                  </Button>
+                </div>
+              </div>
+            ))
+          )}
         </div>
         <button
           onClick={() => navigate('/alumni')}
-          className="w-full mt-4 text-sm text-primary-600 hover:text-primary-700 font-medium"
+          className="w-full mt-4 text-sm text-primary-600 hover:text-primary-700 font-semibold transition-colors"
         >
           View All Alumni →
         </button>

@@ -11,6 +11,8 @@ import { errorHandler, notFound } from './middleware/errorHandler.js';
 // Routes
 import authRoutes from './routes/authRoutes.js';
 import postRoutes from './routes/postRoutes.js';
+import userRoutes from './routes/userRoutes.js';
+import connectionRoutes from './routes/connectionRoutes.js';
 
 // Load env vars
 dotenv.config();
@@ -27,9 +29,22 @@ app.set('trust proxy', 1);
 // Security middleware
 app.use(helmet());
 
-// CORS
+// CORS - Support multiple origins
+const allowedOrigins = (process.env.CORS_ORIGIN || process.env.FRONTEND_URL || 'http://localhost:5173')
+  .split(',')
+  .map(origin => origin.trim());
+
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || process.env.FRONTEND_URL || 'http://localhost:5173',
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or Postman)
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.indexOf(origin) !== -1 || process.env.NODE_ENV === 'development') {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
 }));
 
@@ -68,6 +83,8 @@ app.get('/health', (req, res) => {
 // API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/posts', postRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/connections', connectionRoutes);
 
 // Welcome route
 app.get('/', (req, res) => {

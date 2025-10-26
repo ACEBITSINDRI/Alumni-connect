@@ -93,14 +93,14 @@ const DashboardPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-neutral-50">
       <Navbar
         isAuthenticated={true}
         userRole={user?.role}
         userName={`${user?.firstName} ${user?.lastName}`}
         userAvatar={user?.profilePicture}
-        unreadNotifications={3}
-        unreadMessages={2}
+        unreadNotifications={0}
+        unreadMessages={0}
       />
 
       <div className="container mx-auto px-4 py-6">
@@ -114,30 +114,30 @@ const DashboardPage: React.FC = () => {
           <main className="lg:col-span-6">
             {/* Create Post Button (Alumni Only) */}
             {user?.role === 'alumni' && (
-              <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
+              <div className="bg-white rounded-xl shadow-soft p-4 mb-6 border border-neutral-100">
                 <button
                   onClick={() => setIsCreatePostOpen(true)}
-                  className="w-full flex items-center space-x-3 px-4 py-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-left"
+                  className="w-full flex items-center space-x-3 px-4 py-3 bg-neutral-50 hover:bg-neutral-100 rounded-xl transition-all text-left group"
                 >
-                  <div className="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Plus size={20} className="text-primary-600" />
+                  <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full flex items-center justify-center flex-shrink-0 shadow-sm group-hover:shadow-md transition-shadow">
+                    <Plus size={20} className="text-white" />
                   </div>
-                  <span className="text-gray-600">What do you want to share?</span>
+                  <span className="text-neutral-600 font-medium">What do you want to share?</span>
                 </button>
               </div>
             )}
 
             {/* Filter Tabs */}
-            <div className="bg-white rounded-lg shadow-sm mb-6 overflow-x-auto">
+            <div className="bg-white rounded-xl shadow-soft mb-6 overflow-x-auto border border-neutral-100">
               <div className="flex space-x-1 p-2">
                 {filters.map((filter) => (
                   <button
                     key={filter.value}
                     onClick={() => setActiveFilter(filter.value)}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${
+                    className={`px-5 py-2.5 rounded-lg text-sm font-semibold whitespace-nowrap transition-all ${
                       activeFilter === filter.value
-                        ? 'bg-primary-100 text-primary-700'
-                        : 'text-gray-600 hover:bg-gray-100'
+                        ? 'bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-md'
+                        : 'text-neutral-600 hover:bg-neutral-100'
                     }`}
                   >
                     {filter.label}

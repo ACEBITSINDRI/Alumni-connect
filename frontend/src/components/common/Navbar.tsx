@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Menu, X, Search, Bell, MessageCircle, User, Home, Users, Briefcase, Calendar, LogOut, Settings, HelpCircle } from 'lucide-react';
 import { cn } from '../../utils/cn';
+import { useAuth } from '../../context/AuthContext';
 
 interface NavbarProps {
   isAuthenticated?: boolean;
@@ -24,14 +25,21 @@ const Navbar: React.FC<NavbarProps> = ({
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const navigate = useNavigate();
+  const { logout } = useAuth();
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
   const toggleSearch = () => setIsSearchExpanded(!isSearchExpanded);
   const toggleProfileDropdown = () => setIsProfileDropdownOpen(!isProfileDropdownOpen);
 
-  const handleLogout = () => {
-    // Handle logout logic
-    navigate('/login');
+  const handleLogout = async () => {
+    try {
+      await logout();
+      // Logout function in AuthContext will handle redirect
+    } catch (error) {
+      console.error('Logout failed:', error);
+      // Still redirect to login even if API call fails
+      navigate('/login');
+    }
   };
 
   return (

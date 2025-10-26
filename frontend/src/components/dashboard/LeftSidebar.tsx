@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FileText, Bookmark, Users, Calendar } from 'lucide-react';
 import Card from '../common/Card';
 import Avatar from '../common/Avatar';
+import { getUserStats } from '../../services/user.service';
 
 interface User {
   id?: string;
@@ -21,27 +22,49 @@ interface LeftSidebarProps {
 
 const LeftSidebar: React.FC<LeftSidebarProps> = ({ user }) => {
   const navigate = useNavigate();
+  const [stats, setStats] = useState({
+    posts: 0,
+    connections: 0,
+    saved: 0,
+    events: 0,
+  });
+  const [isLoadingStats, setIsLoadingStats] = useState(true);
 
-  // Mock stats - replace with actual API data
-  const stats = {
-    posts: 12,
-    connections: 45,
-    saved: 8,
-    events: 3,
-  };
+  // Fetch user stats
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const response = await getUserStats();
+        if (response.success && response.data) {
+          setStats(prev => ({
+            ...prev,
+            connections: response.data.connectionsCount,
+          }));
+        }
+      } catch (error) {
+        console.error('Error fetching user stats:', error);
+      } finally {
+        setIsLoadingStats(false);
+      }
+    };
 
-  // Mock upcoming events - replace with actual API data
+    if (user) {
+      fetchStats();
+    }
+  }, [user]);
+
+  // Mock upcoming events - TODO: replace with actual API data when events API is ready
   const upcomingEvents = [
     {
       id: '1',
       title: 'Civil Engineering Workshop',
-      date: '25 Oct',
+      date: '28 Oct',
       time: '10:00 AM',
     },
     {
       id: '2',
       title: 'Alumni Meetup 2024',
-      date: '30 Oct',
+      date: '02 Nov',
       time: '6:00 PM',
     },
   ];
@@ -51,40 +74,40 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({ user }) => {
   return (
     <div className="space-y-6 sticky top-20">
       {/* User Profile Card */}
-      <Card variant="elevated" className="overflow-hidden">
+      <Card variant="elevated" className="overflow-hidden border border-neutral-100">
         {/* Cover */}
-        <div className="h-16 bg-gradient-to-r from-primary-500 to-primary-700"></div>
+        <div className="h-20 bg-gradient-to-r from-primary-600 via-primary-500 to-secondary-500"></div>
 
         {/* Profile Info */}
-        <div className="px-4 pb-4 -mt-8">
+        <div className="px-4 pb-4 -mt-10">
           <Avatar
             src={user.profilePicture}
             alt={`${user.firstName} ${user.lastName}`}
             size="xl"
             fallback={`${user.firstName?.[0]}${user.lastName?.[0]}`}
-            className="border-4 border-white cursor-pointer"
+            className="border-4 border-white cursor-pointer shadow-medium ring-2 ring-primary-100"
             onClick={() => navigate('/profile')}
           />
 
           <div className="mt-3">
             <h3
-              className="font-semibold text-gray-900 cursor-pointer hover:text-primary-600"
+              className="font-bold text-neutral-900 cursor-pointer hover:text-primary-600 transition-colors text-lg"
               onClick={() => navigate('/profile')}
             >
               {user.firstName} {user.lastName}
             </h3>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-neutral-600 font-medium">
               {user.role === 'student' ? 'Student' : 'Alumni'}
-              {user.batch && ` • Batch of ${user.batch}`}
+              {user.batch && ` • Batch ${user.batch}`}
             </p>
             {user.company && (
-              <p className="text-sm text-gray-500 mt-1">{user.company}</p>
+              <p className="text-sm text-neutral-500 mt-1">{user.company}</p>
             )}
           </div>
 
           <button
             onClick={() => navigate('/profile/edit')}
-            className="w-full mt-4 px-4 py-2 text-sm font-medium text-primary-600 border border-primary-600 rounded-lg hover:bg-primary-50 transition-colors"
+            className="w-full mt-4 px-4 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-primary-600 to-primary-500 rounded-lg hover:shadow-md transition-all"
           >
             Edit Profile
           </button>
@@ -92,31 +115,31 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({ user }) => {
       </Card>
 
       {/* Quick Stats */}
-      <Card variant="elevated" className="p-4">
-        <h3 className="font-semibold text-gray-900 mb-4">Quick Stats</h3>
-        <div className="space-y-3">
+      <Card variant="elevated" className="p-4 border border-neutral-100">
+        <h3 className="font-bold text-neutral-900 mb-4 text-base">Quick Stats</h3>
+        <div className="space-y-2">
           <StatItem
             icon={<FileText size={18} />}
             label="Posts Created"
-            value={stats.posts}
+            value={isLoadingStats ? '...' : stats.posts}
             onClick={() => navigate('/profile?tab=posts')}
           />
           <StatItem
             icon={<Users size={18} />}
             label="Connections"
-            value={stats.connections}
+            value={isLoadingStats ? '...' : stats.connections}
             onClick={() => navigate('/profile?tab=connections')}
           />
           <StatItem
             icon={<Bookmark size={18} />}
             label="Saved Posts"
-            value={stats.saved}
+            value={isLoadingStats ? '...' : stats.saved}
             onClick={() => navigate('/saved')}
           />
           <StatItem
             icon={<Calendar size={18} />}
             label="Events Registered"
-            value={stats.events}
+            value={isLoadingStats ? '...' : stats.events}
             onClick={() => navigate('/events?filter=my-events')}
           />
         </div>
@@ -193,20 +216,20 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({ user }) => {
 interface StatItemProps {
   icon: React.ReactNode;
   label: string;
-  value: number;
+  value: number | string;
   onClick: () => void;
 }
 
 const StatItem: React.FC<StatItemProps> = ({ icon, label, value, onClick }) => (
   <div
-    className="flex items-center justify-between p-2 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors"
+    className="flex items-center justify-between p-3 rounded-xl hover:bg-gradient-to-r hover:from-primary-50 hover:to-secondary-50 cursor-pointer transition-all group border border-transparent hover:border-primary-100"
     onClick={onClick}
   >
     <div className="flex items-center space-x-3">
-      <div className="text-primary-600">{icon}</div>
-      <span className="text-sm text-gray-700">{label}</span>
+      <div className="text-primary-600 group-hover:text-primary-700 transition-colors">{icon}</div>
+      <span className="text-sm text-neutral-700 font-medium group-hover:text-neutral-900">{label}</span>
     </div>
-    <span className="text-sm font-semibold text-gray-900">{value}</span>
+    <span className="text-sm font-bold text-neutral-900 bg-neutral-100 group-hover:bg-white px-2.5 py-1 rounded-lg transition-colors">{value}</span>
   </div>
 );
 
