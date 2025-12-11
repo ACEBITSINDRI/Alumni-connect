@@ -3,12 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import {
   Users, Briefcase, MessageCircle, Calendar, TrendingUp, Heart,
   ArrowRight, CheckCircle, Quote, ChevronLeft, ChevronRight, Building2,
-  Hammer, HardHat, Ruler, Trophy, Target, Lightbulb, GraduationCap
+  Hammer, HardHat, Ruler, Trophy, Target, Lightbulb, GraduationCap, Moon, Sun
 } from 'lucide-react';
 import Button from '../components/common/Button';
 import Card from '../components/common/Card';
 import Badge from '../components/common/Badge';
 import Footer from '../components/common/Footer';
+import { useTheme } from '../context/ThemeContext';
 
 // Import images
 import alumniConnectLogo from '../assets/logos/alumni_connect_logo-removebg-preview.png';
@@ -29,6 +30,7 @@ import bim10Dimensions from '../assets/civil eng element/BIM 10 Dimensions.jpeg'
 
 const LandingPage: React.FC = () => {
   const navigate = useNavigate();
+  const { theme, toggleTheme } = useTheme();
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [currentHeroImage, setCurrentHeroImage] = useState(0);
 
@@ -102,9 +104,9 @@ const LandingPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
       {/* Navbar */}
-      <nav className="sticky top-0 z-50 bg-gradient-to-r from-sky-50 to-blue-50 border-b border-sky-200 shadow-sm backdrop-blur-md">
+      <nav className="sticky top-0 z-50 bg-gradient-to-r from-sky-50 to-blue-50 dark:from-gray-800 dark:to-gray-900 border-b border-sky-200 dark:border-gray-700 shadow-sm backdrop-blur-md transition-colors duration-300">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-3">
@@ -114,16 +116,28 @@ const LandingPage: React.FC = () => {
                 className="h-10 sm:h-12 md:h-12 lg:h-14 w-auto object-contain drop-shadow-md"
               />
               <div>
-                <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900">Alumni Connect</h1>
-                <p className="text-xs sm:text-sm text-orange-600 font-semibold">ACE BIT Sindri</p>
+                <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 dark:text-white transition-colors">Alumni Connect</h1>
+                <p className="text-xs sm:text-sm text-orange-600 dark:text-orange-400 font-semibold transition-colors">ACE BIT Sindri</p>
               </div>
             </div>
             <div className="hidden md:flex items-center space-x-6 text-sm font-medium">
-              <a href="#features" className="text-gray-600 hover:text-orange-600 transition-colors">Features</a>
-              <a href="#about" className="text-gray-600 hover:text-orange-600 transition-colors">About</a>
-              <a href="#testimonials" className="text-gray-600 hover:text-orange-600 transition-colors">Success Stories</a>
+              <a href="#features" className="text-gray-600 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors">Features</a>
+              <a href="#about" className="text-gray-600 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors">About</a>
+              <a href="#testimonials" className="text-gray-600 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors">Success Stories</a>
             </div>
             <div className="flex items-center space-x-2 sm:space-x-3">
+              {/* Dark Mode Toggle */}
+              <button
+                onClick={toggleTheme}
+                className="p-2 rounded-lg bg-white/80 dark:bg-gray-700 hover:bg-white dark:hover:bg-gray-600 border border-sky-200 dark:border-gray-600 hover:border-orange-400 dark:hover:border-orange-500 transition-all duration-300 shadow-sm hover:shadow-md transform hover:scale-110"
+                aria-label="Toggle dark mode"
+              >
+                {theme === 'dark' ? (
+                  <Sun className="w-5 h-5 text-orange-400" />
+                ) : (
+                  <Moon className="w-5 h-5 text-gray-700" />
+                )}
+              </button>
               <Button
                 variant="ghost"
                 onClick={() => navigate('/login')}
