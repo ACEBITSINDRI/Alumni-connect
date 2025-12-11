@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Facebook, Twitter, Linkedin, Instagram, Mail, Phone, MapPin, ExternalLink, HardHat } from 'lucide-react';
-import bitLogo from '../../assets/logos/logo.png';
+import { Facebook, Twitter, Linkedin, Instagram, Mail, Phone, MapPin, ExternalLink } from 'lucide-react';
+import alumniConnectLogo from '../../assets/logos/alumni_connect_logo-removebg-preview.png';
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -14,36 +14,26 @@ const Footer: React.FC = () => {
           {/* About Section */}
           <div className="space-y-4">
             <div className="flex items-center space-x-3">
-              <div className="flex items-center space-x-2">
-                <div className="w-12 h-12 bg-orange-600 rounded-lg flex items-center justify-center">
-                  <HardHat className="text-white" size={24} />
-                </div>
-                <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center p-1.5">
-                  <img
-                    src={bitLogo}
-                    alt="BIT Sindri Logo"
-                    className="w-full h-full object-contain"
-                  />
-                </div>
+              <div className="w-16 h-16 bg-white rounded-xl flex items-center justify-center p-2 shadow-lg">
+                <img
+                  src={alumniConnectLogo}
+                  alt="Alumni Connect Logo"
+                  className="w-full h-full object-contain"
+                />
               </div>
               <div>
-                <h3 className="text-white font-bold text-lg">Alumni Connect</h3>
-                <p className="text-xs text-gray-400">ACE BIT Sindri</p>
+                <h3 className="text-white font-bold text-xl">Alumni Connect</h3>
+                <p className="text-sm text-orange-400 font-semibold">ACE BIT Sindri</p>
               </div>
             </div>
-            <p className="text-sm text-gray-400">
+            <p className="text-sm text-gray-400 leading-relaxed">
               Connecting generations of Civil Engineering students and alumni from BIT Sindri. Building a stronger community together.
             </p>
             <div className="pt-2">
-              <p className="text-xs text-gray-500 mb-2">Powered by</p>
-              <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-orange-600 rounded-lg flex items-center justify-center shadow-md">
-                  <HardHat className="text-white" size={20} />
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-white">ACE BIT Sindri</p>
-                  <p className="text-xs text-gray-500">Association of Civil Engineers</p>
-                </div>
+              <p className="text-xs text-gray-500 mb-2">An initiative of</p>
+              <div>
+                <p className="text-base font-semibold text-white">ACE BIT Sindri</p>
+                <p className="text-xs text-gray-400">Association of Civil Engineers</p>
               </div>
             </div>
           </div>
