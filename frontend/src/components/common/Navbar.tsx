@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Menu, X, Search, Bell, MessageCircle, User, Home, Users, Briefcase, Calendar, LogOut, Settings, HelpCircle } from 'lucide-react';
+import { Menu, X, Search, Bell, MessageCircle, User, Home, Users, Briefcase, Calendar, LogOut, Settings as SettingsIcon, HelpCircle } from 'lucide-react';
 import { cn } from '../../utils/cn';
 import { useAuth } from '../../context/AuthContext';
 import alumniConnectLogo from '../../assets/logos/alumni_connect_logo-removebg-preview.png';
@@ -185,7 +185,7 @@ const Navbar: React.FC<NavbarProps> = ({
                           <DropdownItem icon={<User size={16} />} onClick={() => navigate('/profile')}>
                             View Profile
                           </DropdownItem>
-                          <DropdownItem icon={<Settings size={16} />} onClick={() => navigate('/settings')}>
+                          <DropdownItem icon={<SettingsIcon size={16} />} onClick={() => navigate('/settings')}>
                             Settings
                           </DropdownItem>
                           <DropdownItem icon={<HelpCircle size={16} />} onClick={() => navigate('/help')}>
@@ -269,6 +269,44 @@ const Navbar: React.FC<NavbarProps> = ({
                   <MobileNavLink to="/events" icon={<Calendar size={20} />} onClick={toggleMobileMenu}>
                     Events
                   </MobileNavLink>
+                  <MobileNavLink to="/messages" icon={<MessageCircle size={20} />} onClick={toggleMobileMenu}>
+                    Messages
+                    {unreadMessages > 0 && (
+                      <span className="ml-auto w-6 h-6 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
+                        {unreadMessages > 9 ? '9+' : unreadMessages}
+                      </span>
+                    )}
+                  </MobileNavLink>
+                  <MobileNavLink to="/notifications" icon={<Bell size={20} />} onClick={toggleMobileMenu}>
+                    Notifications
+                    {unreadNotifications > 0 && (
+                      <span className="ml-auto w-6 h-6 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
+                        {unreadNotifications > 9 ? '9+' : unreadNotifications}
+                      </span>
+                    )}
+                  </MobileNavLink>
+
+                  <div className="border-t border-gray-200 my-3 pt-3">
+                    <MobileNavLink to="/profile" icon={<User size={20} />} onClick={toggleMobileMenu}>
+                      My Profile
+                    </MobileNavLink>
+                    <MobileNavLink to="/settings" icon={<SettingsIcon size={20} />} onClick={toggleMobileMenu}>
+                      Settings
+                    </MobileNavLink>
+                    <MobileNavLink to="/help" icon={<HelpCircle size={20} />} onClick={toggleMobileMenu}>
+                      Help & Support
+                    </MobileNavLink>
+                    <button
+                      onClick={() => {
+                        toggleMobileMenu();
+                        handleLogout();
+                      }}
+                      className="w-full flex items-center space-x-3 px-4 py-3.5 text-red-600 font-medium hover:bg-red-50 rounded-xl transition-all duration-300 transform hover:scale-105"
+                    >
+                      <LogOut size={20} />
+                      <span>Logout</span>
+                    </button>
+                  </div>
                 </>
               ) : (
                 <>
