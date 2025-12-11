@@ -5,6 +5,7 @@ import { ThemeProvider } from './context/ThemeContext';
 import { NotificationProvider } from './context/NotificationContext';
 import AppRoutes from './routes/AppRoutes';
 import InstallPrompt from './components/pwa/InstallPrompt';
+import CookieConsent from './components/legal/CookieConsent';
 
 const App: React.FC = () => {
   return (
@@ -14,6 +15,7 @@ const App: React.FC = () => {
           <NotificationProvider>
             <AppRoutes />
             <InstallPrompt />
+            <CookieConsent />
           </NotificationProvider>
         </AuthProvider>
       </ThemeProvider>
