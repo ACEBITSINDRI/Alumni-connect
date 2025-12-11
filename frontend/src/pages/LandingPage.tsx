@@ -111,7 +111,7 @@ const LandingPage: React.FC = () => {
               <img
                 src={alumniConnectLogo}
                 alt="Alumni Connect Logo"
-                className="h-12 sm:h-14 md:h-16 lg:h-20 w-auto object-contain drop-shadow-md"
+                className="h-10 sm:h-12 md:h-12 lg:h-14 w-auto object-contain drop-shadow-md"
               />
               <div>
                 <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900">Alumni Connect</h1>
