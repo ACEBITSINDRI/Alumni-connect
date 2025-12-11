@@ -11,6 +11,7 @@ import Badge from '../components/common/Badge';
 import Footer from '../components/common/Footer';
 
 // Import images
+import alumniConnectLogo from '../assets/logos/alumni_connect_logo-removebg-preview.png';
 import bitLogo from '../assets/logos/logo.png';
 import chaurahaConstr from '../assets/civil eng element/chauraha constrt.jpeg';
 import bigBuildingGreenish from '../assets/civil eng element/big building greenish.png';
@@ -107,15 +108,15 @@ const LandingPage: React.FC = () => {
       <nav className="sticky top-0 z-50 bg-gradient-to-r from-sky-50 to-blue-50 border-b border-sky-200 shadow-sm backdrop-blur-md">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-2 sm:space-x-3">
+            <div className="flex items-center space-x-3">
               <img
-                src={bitLogo}
-                alt="BIT Sindri Logo"
-                className="h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14 object-contain"
+                src={alumniConnectLogo}
+                alt="Alumni Connect Logo"
+                className="h-12 sm:h-14 md:h-16 lg:h-20 w-auto object-contain drop-shadow-md"
               />
               <div>
-                <h1 className="text-base sm:text-lg md:text-xl font-bold text-gray-900">Alumni Connect</h1>
-                <p className="text-xs text-orange-600 font-semibold">ACE BIT Sindri</p>
+                <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900">Alumni Connect</h1>
+                <p className="text-xs sm:text-sm text-orange-600 font-semibold">ACE BIT Sindri</p>
               </div>
             </div>
             <div className="hidden md:flex items-center space-x-6 text-sm font-medium">

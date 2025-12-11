@@ -11,6 +11,7 @@ import { registerStudent, registerAlumni } from '../../services/auth.service';
 import { useAuth } from '../../context/AuthContext';
 
 // Import images
+import alumniConnectLogo from '../../assets/logos/alumni_connect_logo-removebg-preview.png';
 import bitLogo from '../../assets/logos/logo.png';
 import aestheticBuilding from '../../assets/civil eng element/aesthetic building.jpeg';
 import nightView from '../../assets/civil eng element/night view 🤍🪟.jpeg';
@@ -309,22 +310,17 @@ const SignupPage: React.FC<SignupPageProps> = ({ userType = 'student' }) => {
 
         {/* Logo and Institution */}
         <div className="relative z-10">
-          <div className="flex items-center space-x-3 mb-6">
-            <div className="flex items-center space-x-2">
-              <div className="w-16 h-16 bg-white/90 backdrop-blur-md rounded-xl flex items-center justify-center border-2 border-white/50 shadow-lg">
-                <HardHat className="text-orange-600" size={32} />
-              </div>
-              <div className="w-16 h-16 bg-white/90 backdrop-blur-md rounded-xl flex items-center justify-center p-2 border-2 border-white/50 shadow-lg">
-                <img
-                  src={bitLogo}
-                  alt="BIT Sindri Logo"
-                  className="w-full h-full object-contain"
-                />
-              </div>
+          <div className="flex items-center space-x-4 mb-6">
+            <div className="w-24 h-24 bg-white/95 backdrop-blur-md rounded-2xl flex items-center justify-center p-3 border-2 border-white/60 shadow-xl">
+              <img
+                src={alumniConnectLogo}
+                alt="Alumni Connect Logo"
+                className="w-full h-full object-contain"
+              />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-white">Alumni Connect</h1>
-              <p className="text-orange-100 text-sm font-medium">ACE BIT Sindri</p>
+              <h1 className="text-3xl font-bold text-white drop-shadow-lg">Alumni Connect</h1>
+              <p className="text-orange-100 text-base font-semibold">ACE • BIT Sindri</p>
             </div>
           </div>
 
@@ -376,19 +372,16 @@ const SignupPage: React.FC<SignupPageProps> = ({ userType = 'student' }) => {
           </button>
 
           {/* Mobile Logo */}
-          <div className="lg:hidden flex items-center justify-center mb-8">
-            <div className="flex items-center space-x-3">
-              <div className="w-16 h-16 bg-gradient-to-br from-orange-600 to-orange-800 rounded-xl flex items-center justify-center shadow-lg">
-                <HardHat className="text-white" size={28} />
-              </div>
-              <div className="w-16 h-16 bg-white rounded-xl flex items-center justify-center shadow-lg p-2">
-                <img
-                  src={bitLogo}
-                  alt="BIT Sindri Logo"
-                  className="w-full h-full object-contain"
-                />
-              </div>
+          <div className="lg:hidden flex flex-col items-center justify-center mb-8">
+            <div className="w-28 h-28 bg-white rounded-2xl flex items-center justify-center shadow-xl p-4 mb-3">
+              <img
+                src={alumniConnectLogo}
+                alt="Alumni Connect Logo"
+                className="w-full h-full object-contain"
+              />
             </div>
+            <h1 className="text-2xl font-bold text-gray-900">Alumni Connect</h1>
+            <p className="text-sm text-orange-600 font-semibold">ACE BIT Sindri</p>
           </div>
 
           {/* Header - Visible on mobile only */}
