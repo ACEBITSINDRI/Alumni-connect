@@ -4,6 +4,7 @@ import { AuthProvider } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { NotificationProvider } from './context/NotificationContext';
 import AppRoutes from './routes/AppRoutes';
+import InstallPrompt from './components/pwa/InstallPrompt';
 
 const App: React.FC = () => {
   return (
@@ -12,6 +13,7 @@ const App: React.FC = () => {
         <AuthProvider>
           <NotificationProvider>
             <AppRoutes />
+            <InstallPrompt />
           </NotificationProvider>
         </AuthProvider>
       </ThemeProvider>
