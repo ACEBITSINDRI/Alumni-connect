@@ -1,5 +1,28 @@
 import api from './api';
 
+export interface Experience {
+  _id?: string;
+  title: string;
+  company: string;
+  location?: string;
+  type?: 'Full-time' | 'Part-time' | 'Contract' | 'Freelance' | 'Internship';
+  startDate: string;
+  endDate?: string;
+  currentlyWorking?: boolean;
+  description?: string;
+}
+
+export interface Education {
+  _id?: string;
+  degree: string;
+  institution: string;
+  fieldOfStudy?: string;
+  startYear?: string;
+  endYear?: string;
+  grade?: string;
+  description?: string;
+}
+
 export interface UserProfile {
   _id: string;
   firstName: string;
@@ -22,6 +45,10 @@ export interface UserProfile {
   githubUrl?: string;
   portfolioUrl?: string;
   skills?: string[];
+  experience?: Experience[];
+  education?: Education[];
+  mentorshipAvailable?: boolean;
+  mentorshipDomains?: string[];
   connections?: string[];
   isConnected?: boolean;
   hasPendingRequest?: boolean;

@@ -217,7 +217,7 @@ export const getUserById = async (req, res) => {
     const fullUser = await UserModel.findById(id).select('connectionRequests');
 
     const hasPendingRequest = fullUser.connectionRequests.some(
-      req => req.from.toString() === req.user._id.toString() && req.status === 'pending'
+      reqItem => reqItem.from.toString() === req.user._id.toString() && reqItem.status === 'pending'
     );
 
     res.status(200).json({
