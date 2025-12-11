@@ -7,7 +7,20 @@ import { uploadPostImage, deleteFromCloudinary, deleteMultipleFromCloudinary } f
 // @access  Private
 export const createPost = async (req, res) => {
   try {
+    console.log('=== CREATE POST REQUEST ===');
+    console.log('User:', req.user ? { id: req.user._id, role: req.user.role } : 'NOT AUTHENTICATED');
+    console.log('Body:', req.body);
+    console.log('Files:', req.files?.length || 0);
+
     const { content, title, type, jobDetails, visibility } = req.body;
+
+    // Check if user is authenticated
+    if (!req.user) {
+      return res.status(401).json({
+        success: false,
+        message: 'User not authenticated',
+      });
+    }
 
     // Validate content
     if (!content || content.trim().length === 0) {
@@ -20,6 +33,7 @@ export const createPost = async (req, res) => {
     // Prepare post data
     const postData = {
       author: req.user._id,
+      authorModel: req.user.role === 'alumni' ? 'Alumni' : 'Student', // Set model name for refPath
       authorRole: req.user.role,
       content,
       type: type || 'general',
@@ -27,7 +41,20 @@ export const createPost = async (req, res) => {
     };
 
     if (title) postData.title = title;
-    if (jobDetails) postData.jobDetails = JSON.parse(jobDetails);
+
+    // Parse jobDetails if present and valid
+    if (jobDetails) {
+      try {
+        postData.jobDetails = typeof jobDetails === 'string' ? JSON.parse(jobDetails) : jobDetails;
+        console.log('Parsed jobDetails:', postData.jobDetails);
+      } catch (parseError) {
+        console.error('Error parsing jobDetails:', parseError);
+        return res.status(400).json({
+          success: false,
+          message: 'Invalid job details format',
+        });
+      }
+    }
 
     // Handle image uploads
     const uploadedImages = [];
@@ -56,7 +83,9 @@ export const createPost = async (req, res) => {
     }
 
     // Create post
+    console.log('Creating post with data:', postData);
     const post = await Post.create(postData);
+    console.log('Post created successfully:', post._id);
 
     // Populate author details
     await post.populate({
@@ -64,16 +93,27 @@ export const createPost = async (req, res) => {
       select: 'firstName lastName profilePicture currentRole company batch role',
     });
 
+    console.log('=== POST CREATED SUCCESSFULLY ===');
     res.status(201).json({
       success: true,
       message: 'Post created successfully',
       data: post,
     });
   } catch (error) {
-    console.error('Create post error:', error);
+    console.error('=== CREATE POST ERROR ===');
+    console.error('Error name:', error.name);
+    console.error('Error message:', error.message);
+    console.error('Error stack:', error.stack);
+
+    // Send detailed error for debugging
     res.status(500).json({
       success: false,
       message: error.message || 'Error creating post',
+      error: process.env.NODE_ENV === 'development' ? {
+        name: error.name,
+        message: error.message,
+        stack: error.stack,
+      } : undefined,
     });
   }
 };

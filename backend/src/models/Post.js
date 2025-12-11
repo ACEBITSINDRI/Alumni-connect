@@ -4,8 +4,13 @@ const postSchema = new mongoose.Schema(
   {
     author: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
       required: true,
+      refPath: 'authorModel', // Dynamic reference based on authorModel field
+    },
+    authorModel: {
+      type: String,
+      required: true,
+      enum: ['Alumni', 'Student'], // Model names, not roles
     },
     authorRole: {
       type: String,
@@ -14,7 +19,7 @@ const postSchema = new mongoose.Schema(
     },
     type: {
       type: String,
-      enum: ['general', 'advice', 'achievement', 'job'],
+      enum: ['general', 'job', 'internship', 'advice', 'event', 'question', 'achievement'],
       default: 'general',
     },
     title: {
@@ -32,25 +37,25 @@ const postSchema = new mongoose.Schema(
       publicId: String, // Cloudinary public ID for deletion
     }],
 
-    // Job-specific fields
+    // Job-specific fields (for job and internship posts)
     jobDetails: {
       company: String,
       location: String,
-      type: {
-        type: String,
-        enum: ['Full-time', 'Part-time', 'Internship', 'Contract'],
-      },
-      experience: String,
+      jobType: String, // Renamed from 'type' to avoid conflict
       salary: String,
-      applyUrl: String,
-      deadline: Date,
+      applyLink: String, // Renamed from 'applyUrl' to match frontend
+      deadline: String, // Changed to String to match frontend format
     },
 
     // Engagement
     likes: [{
       user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        refPath: 'likes.userModel', // Dynamic reference for likes
+      },
+      userModel: {
+        type: String,
+        enum: ['Alumni', 'Student'],
       },
       createdAt: {
         type: Date,
@@ -61,7 +66,11 @@ const postSchema = new mongoose.Schema(
     comments: [{
       user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        // No ref - will be populated manually if needed
+      },
+      userModel: {
+        type: String,
+        enum: ['Alumni', 'Student'],
       },
       content: {
         type: String,
@@ -71,13 +80,13 @@ const postSchema = new mongoose.Schema(
       likes: [{
         user: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: 'User',
+          // No ref - just storing IDs
         },
       }],
       replies: [{
         user: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: 'User',
+          // No ref - just storing IDs
         },
         content: {
           type: String,
@@ -98,7 +107,7 @@ const postSchema = new mongoose.Schema(
     shares: [{
       user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        // No ref - just storing IDs
       },
       createdAt: {
         type: Date,
@@ -108,7 +117,7 @@ const postSchema = new mongoose.Schema(
 
     savedBy: [{
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      // No ref - just storing IDs
     }],
 
     // Visibility and Status
