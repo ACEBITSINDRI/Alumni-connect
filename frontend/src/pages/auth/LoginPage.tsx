@@ -11,7 +11,6 @@ import { useAuth } from '../../context/AuthContext';
 
 // Import images
 import alumniConnectLogo from '../../assets/logos/alumni_connect_logo-removebg-preview.png';
-import bitLogo from '../../assets/logos/logo.png';
 import bigBuildingGreenish from '../../assets/civil eng element/big building greenish.png';
 import multiFamousBuilding from '../../assets/civil eng element/multi famous building.jpeg';
 import bridgesWithNames from '../../assets/civil eng element/bridges with names.jpeg';

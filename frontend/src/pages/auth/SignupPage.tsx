@@ -12,7 +12,6 @@ import { useAuth } from '../../context/AuthContext';
 
 // Import images
 import alumniConnectLogo from '../../assets/logos/alumni_connect_logo-removebg-preview.png';
-import bitLogo from '../../assets/logos/logo.png';
 import aestheticBuilding from '../../assets/civil eng element/aesthetic building.jpeg';
 import nightView from '../../assets/civil eng element/night view 🤍🪟.jpeg';
 import multiFamousBuilding from '../../assets/civil eng element/multi famous building.jpeg';
