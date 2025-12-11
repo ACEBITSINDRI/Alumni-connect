@@ -10,9 +10,9 @@ const Footer: React.FC = () => {
     <footer className="bg-gray-900 text-gray-300">
       {/* Main Footer Content */}
       <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* About Section */}
-          <div className="space-y-4">
+          <div className="col-span-2 md:col-span-1 space-y-4">
             <div className="flex items-center space-x-3">
               <div className="w-16 h-16 bg-white rounded-xl flex items-center justify-center p-2 shadow-lg">
                 <img
@@ -75,7 +75,7 @@ const Footer: React.FC = () => {
           </div>
 
           {/* Contact Info */}
-          <div>
+          <div className="col-span-2 md:col-span-1">
             <h4 className="text-white font-semibold text-lg mb-4">Contact Us</h4>
             <ul className="space-y-3">
               <li className="flex items-start space-x-3 text-sm">
