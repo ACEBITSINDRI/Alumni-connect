@@ -37,10 +37,20 @@ export interface User {
   linkedinUrl?: string;
   // Common
   phoneNumber?: string;
+  // alias used across UI
+  phone?: string;
   bio?: string;
   skills?: string[];
   interests?: string[];
   availableForMentorship?: boolean;
+  // UI uses mentorshipAvailable in some places
+  mentorshipAvailable?: boolean;
+  // Additional profile fields used in ProfileEditPage
+  department?: string;
+  githubUrl?: string;
+  portfolioUrl?: string;
+  experience?: any[];
+  education?: any[];
   createdAt: string;
 }
 

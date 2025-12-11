@@ -20,6 +20,15 @@ interface User {
   };
   linkedinUrl?: string;
   isVerified: boolean;
+  // Additional optional fields used across the app
+  department?: string;
+  githubUrl?: string;
+  portfolioUrl?: string;
+  skills?: string[];
+  experience?: any[];
+  education?: any[];
+  mentorshipAvailable?: boolean;
+  availableForMentorship?: boolean;
 }
 
 interface AuthContextType {

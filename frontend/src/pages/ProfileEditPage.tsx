@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  MapPin, Briefcase, Calendar, Mail, Phone, Linkedin, Github, Globe,
-  Save, X, Plus, Trash2, Award, Building, User, Info, Link as LinkIcon,
-  Users, Loader2
+  Briefcase, Linkedin, Github, Globe,
+  Save, X, Plus, Trash2, Award, Building, User, Link as LinkIcon,
+  Loader2
 } from 'lucide-react';
 import Navbar from '../components/common/Navbar';
 import Footer from '../components/common/Footer';
 import Card from '../components/common/Card';
 import Button from '../components/common/Button';
 import { useAuth } from '../context/AuthContext';
-import { updateProfile, uploadProfilePicture, type UserProfile, type Experience, type Education } from '../services/user.service';
+import { updateProfile, uploadProfilePicture, type Experience, type Education } from '../services/user.service';
 
 const ProfileEditPage: React.FC = () => {
   const navigate = useNavigate();
@@ -87,7 +87,7 @@ const ProfileEditPage: React.FC = () => {
   const handleRemoveSkill = (skillToRemove: string) => {
     setFormData(prev => ({
       ...prev,
-      skills: prev.skills.filter(skill => skill !== skillToRemove),
+      skills: prev.skills.filter((skill: string) => skill !== skillToRemove),
     }));
   };
 
@@ -111,7 +111,7 @@ const ProfileEditPage: React.FC = () => {
   const handleUpdateExperience = (index: number, field: string, value: any) => {
     setFormData(prev => ({
       ...prev,
-      experience: prev.experience.map((exp, i) =>
+      experience: prev.experience.map((exp: Experience, i: number) =>
         i === index ? { ...exp, [field]: value } : exp
       ),
     }));
@@ -120,7 +120,7 @@ const ProfileEditPage: React.FC = () => {
   const handleRemoveExperience = (index: number) => {
     setFormData(prev => ({
       ...prev,
-      experience: prev.experience.filter((_, i) => i !== index),
+      experience: prev.experience.filter((_: any, i: number) => i !== index),
     }));
   };
 
@@ -143,7 +143,7 @@ const ProfileEditPage: React.FC = () => {
   const handleUpdateEducation = (index: number, field: string, value: any) => {
     setFormData(prev => ({
       ...prev,
-      education: prev.education.map((edu, i) =>
+      education: prev.education.map((edu: Education, i: number) =>
         i === index ? { ...edu, [field]: value } : edu
       ),
     }));
@@ -152,7 +152,7 @@ const ProfileEditPage: React.FC = () => {
   const handleRemoveEducation = (index: number) => {
     setFormData(prev => ({
       ...prev,
-      education: prev.education.filter((_, i) => i !== index),
+      education: prev.education.filter((_: any, i: number) => i !== index),
     }));
   };
 
@@ -296,7 +296,7 @@ const ProfileEditPage: React.FC = () => {
 
           {/* Section Navigation */}
           <div className="flex overflow-x-auto border-b border-neutral-200 mb-6">
-            {sections.map((section) => (
+            {sections.map((section: { id: string; label: string; icon: any }) => (
               <button
                 key={section.id}
                 onClick={() => setActiveSection(section.id)}
@@ -508,7 +508,7 @@ const ProfileEditPage: React.FC = () => {
 
                   {formData.skills.length > 0 && (
                     <div className="flex flex-wrap gap-2 mt-4">
-                      {formData.skills.map((skill, index) => (
+                      {formData.skills.map((skill: string, index: number) => (
                         <div
                           key={index}
                           className="flex items-center space-x-2 px-3 py-1.5 bg-primary-100 text-primary-700 rounded-full"
@@ -541,7 +541,7 @@ const ProfileEditPage: React.FC = () => {
                 </div>
 
                 <div className="space-y-6">
-                  {formData.experience.map((exp, index) => (
+                  {formData.experience.map((exp: any, index: number) => (
                     <div key={index} className="p-4 border border-neutral-200 rounded-lg">
                       <div className="flex items-center justify-between mb-4">
                         <h3 className="font-semibold text-neutral-900">Experience #{index + 1}</h3>
@@ -689,7 +689,7 @@ const ProfileEditPage: React.FC = () => {
                 </div>
 
                 <div className="space-y-6">
-                  {formData.education.map((edu, index) => (
+                  {formData.education.map((edu: any, index: number) => (
                     <div key={index} className="p-4 border border-neutral-200 rounded-lg">
                       <div className="flex items-center justify-between mb-4">
                         <h3 className="font-semibold text-neutral-900">Education #{index + 1}</h3>

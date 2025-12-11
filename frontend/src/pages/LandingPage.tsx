@@ -12,7 +12,6 @@ import Footer from '../components/common/Footer';
 
 // Import images
 import alumniConnectLogo from '../assets/logos/alumni_connect_logo-removebg-preview.png';
-import bitLogo from '../assets/logos/logo.png';
 import chaurahaConstr from '../assets/civil eng element/chauraha constrt.jpeg';
 import bigBuildingGreenish from '../assets/civil eng element/big building greenish.png';
 import studentDiscuss from '../assets/civil eng element/student discuss.png';
