@@ -39,11 +39,9 @@ lerna-debug.log*
 *.sln
 *.sw?
 
-# Claude AI files (exclude from repository)
+# Development files (exclude from repository)
 .claude/
 *-prompt.md
-alumni-connect-frontend-prompt.md
-alumni-connect-backend-prompt.md
 
 # OS files
 Thumbs.db
