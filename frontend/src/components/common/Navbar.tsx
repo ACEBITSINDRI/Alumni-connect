@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Menu, X, Search, Bell, MessageCircle, User, Home, Users, Briefcase, Calendar, LogOut, Settings, HelpCircle } from 'lucide-react';
 import { cn } from '../../utils/cn';
 import { useAuth } from '../../context/AuthContext';
+import alumniConnectLogo from '../../assets/logos/alumni_connect_logo-removebg-preview.png';
 
 interface NavbarProps {
   isAuthenticated?: boolean;
@@ -34,23 +35,21 @@ const Navbar: React.FC<NavbarProps> = ({
   const handleLogout = async () => {
     try {
       await logout();
-      // Logout function in AuthContext will handle redirect
     } catch (error) {
       console.error('Logout failed:', error);
-      // Still redirect to login even if API call fails
       navigate('/login');
     }
   };
 
   return (
-    <nav className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
+    <nav className="sticky top-0 z-50 bg-gradient-to-r from-sky-400 via-sky-500 to-blue-600 shadow-lg backdrop-blur-md border-b border-white/20 transition-all duration-300">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Left Section: Logo & Nav Links */}
           <div className="flex items-center space-x-8">
             {/* Mobile Menu Button */}
             <button
-              className="lg:hidden p-2 text-gray-600 hover:text-primary-600 focus:outline-none"
+              className="lg:hidden p-2 text-white hover:bg-white/20 rounded-lg focus:outline-none transition-all duration-300 transform hover:scale-105"
               onClick={toggleMobileMenu}
               aria-label="Toggle menu"
             >
@@ -58,19 +57,26 @@ const Navbar: React.FC<NavbarProps> = ({
             </button>
 
             {/* Logo */}
-            <Link to={isAuthenticated ? '/dashboard' : '/'} className="flex items-center space-x-2">
-              <div className="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xl">AC</span>
+            <Link
+              to={isAuthenticated ? '/dashboard' : '/'}
+              className="flex items-center space-x-3 group transition-transform duration-300 hover:scale-105"
+            >
+              <div className="bg-white rounded-xl p-2 shadow-md group-hover:shadow-xl transition-all duration-300 transform group-hover:-rotate-3">
+                <img
+                  src={alumniConnectLogo}
+                  alt="Alumni Connect Logo"
+                  className="h-8 md:h-10 w-auto object-contain"
+                />
               </div>
               <div className="hidden sm:block">
-                <h1 className="text-lg font-bold text-gray-900">Alumni Connect</h1>
-                <p className="text-xs text-gray-500">by ACE BIT Sindri</p>
+                <h1 className="text-xl font-bold text-white drop-shadow-md">Alumni Connect</h1>
+                <p className="text-xs text-sky-100 font-medium">by ACE BIT Sindri</p>
               </div>
             </Link>
 
             {/* Desktop Navigation Links */}
             {isAuthenticated && (
-              <div className="hidden lg:flex items-center space-x-1">
+              <div className="hidden lg:flex items-center space-x-2">
                 <NavLink to="/dashboard" icon={<Home size={18} />}>
                   Home
                 </NavLink>
@@ -90,24 +96,24 @@ const Navbar: React.FC<NavbarProps> = ({
           {/* Center Section: Search Bar (Desktop) */}
           {isAuthenticated && (
             <div className="hidden md:flex flex-1 max-w-md mx-4">
-              <div className="relative w-full">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+              <div className="relative w-full group">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-sky-600 group-focus-within:text-sky-700 transition-colors" size={20} />
                 <input
                   type="text"
                   placeholder="Search alumni, posts, jobs..."
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-2.5 bg-white/95 backdrop-blur-sm border border-white/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-white focus:border-white shadow-sm hover:shadow-md transition-all duration-300 placeholder-sky-600/60"
                 />
               </div>
             </div>
           )}
 
           {/* Right Section: Actions & Profile */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-3">
             {isAuthenticated ? (
               <>
                 {/* Search Icon (Mobile) */}
                 <button
-                  className="md:hidden p-2 text-gray-600 hover:text-primary-600 focus:outline-none"
+                  className="md:hidden p-2 text-white hover:bg-white/20 rounded-lg focus:outline-none transition-all duration-300 transform hover:scale-110"
                   onClick={toggleSearch}
                   aria-label="Search"
                 >
@@ -116,27 +122,27 @@ const Navbar: React.FC<NavbarProps> = ({
 
                 {/* Notifications */}
                 <button
-                  className="relative p-2 text-gray-600 hover:text-primary-600 focus:outline-none"
+                  className="relative p-2 text-white hover:bg-white/20 rounded-lg focus:outline-none transition-all duration-300 transform hover:scale-110"
                   aria-label="Notifications"
                   onClick={() => navigate('/notifications')}
                 >
                   <Bell size={20} />
                   {unreadNotifications > 0 && (
-                    <span className="absolute top-1 right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
+                    <span className="absolute top-0.5 right-0.5 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center animate-pulse shadow-lg">
                       {unreadNotifications > 9 ? '9+' : unreadNotifications}
                     </span>
                   )}
                 </button>
 
-                {/* Messages (Optional) */}
+                {/* Messages */}
                 <button
-                  className="relative p-2 text-gray-600 hover:text-primary-600 focus:outline-none hidden sm:block"
+                  className="relative p-2 text-white hover:bg-white/20 rounded-lg focus:outline-none hidden sm:block transition-all duration-300 transform hover:scale-110"
                   aria-label="Messages"
                   onClick={() => navigate('/messages')}
                 >
                   <MessageCircle size={20} />
                   {unreadMessages > 0 && (
-                    <span className="absolute top-1 right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
+                    <span className="absolute top-0.5 right-0.5 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center animate-pulse shadow-lg">
                       {unreadMessages > 9 ? '9+' : unreadMessages}
                     </span>
                   )}
@@ -145,7 +151,7 @@ const Navbar: React.FC<NavbarProps> = ({
                 {/* Profile Dropdown */}
                 <div className="relative">
                   <button
-                    className="flex items-center space-x-2 p-1 rounded-lg hover:bg-gray-100 focus:outline-none"
+                    className="flex items-center space-x-2 p-1.5 rounded-xl hover:bg-white/20 focus:outline-none transition-all duration-300 transform hover:scale-105"
                     onClick={toggleProfileDropdown}
                     aria-label="Profile menu"
                   >
@@ -153,14 +159,14 @@ const Navbar: React.FC<NavbarProps> = ({
                       <img
                         src={userAvatar}
                         alt={userName}
-                        className="w-8 h-8 rounded-full object-cover border-2 border-primary-500"
+                        className="w-9 h-9 rounded-full object-cover border-2 border-white shadow-md"
                       />
                     ) : (
-                      <div className="w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center">
-                        <User size={18} className="text-primary-600" />
+                      <div className="w-9 h-9 bg-white rounded-full flex items-center justify-center shadow-md">
+                        <User size={18} className="text-sky-600" />
                       </div>
                     )}
-                    <span className="hidden md:block text-sm font-medium text-gray-700">{userName}</span>
+                    <span className="hidden md:block text-sm font-semibold text-white drop-shadow-sm">{userName}</span>
                   </button>
 
                   {/* Profile Dropdown Menu */}
@@ -170,12 +176,12 @@ const Navbar: React.FC<NavbarProps> = ({
                         className="fixed inset-0 z-10"
                         onClick={toggleProfileDropdown}
                       ></div>
-                      <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 z-20">
-                        <div className="p-3 border-b border-gray-200">
-                          <p className="font-medium text-gray-900">{userName}</p>
-                          <p className="text-sm text-gray-500 capitalize">{userRole}</p>
+                      <div className="absolute right-0 mt-3 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 z-20 overflow-hidden animate-fadeIn">
+                        <div className="p-4 bg-gradient-to-r from-sky-50 to-blue-50 border-b border-gray-100">
+                          <p className="font-bold text-gray-900">{userName}</p>
+                          <p className="text-sm text-gray-600 capitalize">{userRole}</p>
                         </div>
-                        <div className="py-1">
+                        <div className="py-2">
                           <DropdownItem icon={<User size={16} />} onClick={() => navigate('/profile')}>
                             View Profile
                           </DropdownItem>
@@ -186,8 +192,8 @@ const Navbar: React.FC<NavbarProps> = ({
                             Help & Support
                           </DropdownItem>
                         </div>
-                        <div className="border-t border-gray-200 py-1">
-                          <DropdownItem icon={<LogOut size={16} />} onClick={handleLogout} className="text-red-600">
+                        <div className="border-t border-gray-100 py-2">
+                          <DropdownItem icon={<LogOut size={16} />} onClick={handleLogout} className="text-red-600 hover:bg-red-50">
                             Logout
                           </DropdownItem>
                         </div>
@@ -201,13 +207,13 @@ const Navbar: React.FC<NavbarProps> = ({
               <div className="flex items-center space-x-3">
                 <button
                   onClick={() => navigate('/login')}
-                  className="px-4 py-2 text-sm font-medium text-primary-600 hover:text-primary-700"
+                  className="px-4 py-2 text-sm font-semibold text-white hover:bg-white/20 rounded-lg transition-all duration-300 transform hover:scale-105"
                 >
                   Login
                 </button>
                 <button
                   onClick={() => navigate('/signup')}
-                  className="px-4 py-2 text-sm font-medium text-white bg-primary-600 rounded-lg hover:bg-primary-700"
+                  className="px-5 py-2 text-sm font-semibold text-sky-600 bg-white rounded-lg hover:bg-sky-50 shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105"
                 >
                   Sign Up
                 </button>
@@ -218,13 +224,13 @@ const Navbar: React.FC<NavbarProps> = ({
 
         {/* Mobile Search (Expanded) */}
         {isAuthenticated && isSearchExpanded && (
-          <div className="md:hidden py-3">
+          <div className="md:hidden py-3 animate-slideDown">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-sky-600" size={20} />
               <input
                 type="text"
                 placeholder="Search alumni, posts, jobs..."
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="w-full pl-10 pr-4 py-2.5 bg-white/95 border border-white/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-white placeholder-sky-600/60"
                 autoFocus
               />
             </div>
@@ -236,31 +242,83 @@ const Navbar: React.FC<NavbarProps> = ({
       {isMobileMenuOpen && (
         <>
           <div
-            className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden animate-fadeIn"
             onClick={toggleMobileMenu}
           ></div>
-          <div className="fixed top-0 left-0 bottom-0 w-64 bg-white shadow-lg z-50 lg:hidden overflow-y-auto">
-            <div className="p-4 border-b border-gray-200">
+          <div className="fixed top-0 left-0 bottom-0 w-72 bg-white shadow-2xl z-50 lg:hidden overflow-y-auto animate-slideInLeft">
+            <div className="p-5 bg-gradient-to-r from-sky-400 to-blue-600 border-b border-white/20">
               <div className="flex items-center justify-between">
-                <h2 className="text-lg font-bold text-gray-900">Menu</h2>
-                <button onClick={toggleMobileMenu} className="p-2 text-gray-600 hover:text-primary-600">
+                <h2 className="text-xl font-bold text-white drop-shadow-md">Menu</h2>
+                <button onClick={toggleMobileMenu} className="p-2 text-white hover:bg-white/20 rounded-lg transition-all duration-300">
                   <X size={24} />
                 </button>
               </div>
             </div>
             <div className="p-4 space-y-2">
-              <MobileNavLink to="/dashboard" icon={<Home size={20} />} onClick={toggleMobileMenu}>
-                Home
-              </MobileNavLink>
-              <MobileNavLink to="/alumni" icon={<Users size={20} />} onClick={toggleMobileMenu}>
-                Alumni Directory
-              </MobileNavLink>
-              <MobileNavLink to="/opportunities" icon={<Briefcase size={20} />} onClick={toggleMobileMenu}>
-                Opportunities
-              </MobileNavLink>
-              <MobileNavLink to="/events" icon={<Calendar size={20} />} onClick={toggleMobileMenu}>
-                Events
-              </MobileNavLink>
+              {isAuthenticated ? (
+                <>
+                  <MobileNavLink to="/dashboard" icon={<Home size={20} />} onClick={toggleMobileMenu}>
+                    Home
+                  </MobileNavLink>
+                  <MobileNavLink to="/alumni" icon={<Users size={20} />} onClick={toggleMobileMenu}>
+                    Alumni Directory
+                  </MobileNavLink>
+                  <MobileNavLink to="/opportunities" icon={<Briefcase size={20} />} onClick={toggleMobileMenu}>
+                    Opportunities
+                  </MobileNavLink>
+                  <MobileNavLink to="/events" icon={<Calendar size={20} />} onClick={toggleMobileMenu}>
+                    Events
+                  </MobileNavLink>
+                </>
+              ) : (
+                <>
+                  <a
+                    href="#features"
+                    onClick={toggleMobileMenu}
+                    className="flex items-center space-x-3 px-4 py-3.5 text-gray-700 font-medium hover:bg-gradient-to-r hover:from-sky-50 hover:to-blue-50 hover:text-sky-700 rounded-xl transition-all duration-300 transform hover:scale-105"
+                  >
+                    <Briefcase size={20} />
+                    <span>Features</span>
+                  </a>
+                  <a
+                    href="#about"
+                    onClick={toggleMobileMenu}
+                    className="flex items-center space-x-3 px-4 py-3.5 text-gray-700 font-medium hover:bg-gradient-to-r hover:from-sky-50 hover:to-blue-50 hover:text-sky-700 rounded-xl transition-all duration-300 transform hover:scale-105"
+                  >
+                    <Users size={20} />
+                    <span>About</span>
+                  </a>
+                  <a
+                    href="#testimonials"
+                    onClick={toggleMobileMenu}
+                    className="flex items-center space-x-3 px-4 py-3.5 text-gray-700 font-medium hover:bg-gradient-to-r hover:from-sky-50 hover:to-blue-50 hover:text-sky-700 rounded-xl transition-all duration-300 transform hover:scale-105"
+                  >
+                    <MessageCircle size={20} />
+                    <span>Success Stories</span>
+                  </a>
+                  <div className="border-t border-gray-200 my-2 pt-2">
+                    <button
+                      onClick={() => {
+                        toggleMobileMenu();
+                        navigate('/login');
+                      }}
+                      className="w-full flex items-center justify-center space-x-2 px-4 py-3 text-sky-600 font-semibold hover:bg-sky-50 rounded-xl transition-all duration-300"
+                    >
+                      <User size={20} />
+                      <span>Login</span>
+                    </button>
+                    <button
+                      onClick={() => {
+                        toggleMobileMenu();
+                        navigate('/signup');
+                      }}
+                      className="w-full flex items-center justify-center space-x-2 px-4 py-3 mt-2 bg-gradient-to-r from-orange-600 to-orange-700 text-white font-semibold rounded-xl hover:from-orange-700 hover:to-orange-800 transition-all duration-300 shadow-md"
+                    >
+                      <span>Get Started</span>
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </>
@@ -277,7 +335,7 @@ const NavLink: React.FC<{ to: string; icon: React.ReactNode; children: React.Rea
 }) => (
   <Link
     to={to}
-    className="flex items-center space-x-2 px-3 py-2 text-sm font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-lg transition-colors"
+    className="flex items-center space-x-2 px-4 py-2.5 text-sm font-semibold text-white/90 hover:text-white hover:bg-white/20 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-md"
   >
     {icon}
     <span>{children}</span>
@@ -294,10 +352,10 @@ const MobileNavLink: React.FC<{
   <Link
     to={to}
     onClick={onClick}
-    className="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+    className="flex items-center space-x-3 px-4 py-3.5 text-gray-700 font-medium hover:bg-gradient-to-r hover:from-sky-50 hover:to-blue-50 hover:text-sky-700 rounded-xl transition-all duration-300 transform hover:scale-105"
   >
     {icon}
-    <span className="font-medium">{children}</span>
+    <span>{children}</span>
   </Link>
 );
 
@@ -311,7 +369,7 @@ const DropdownItem: React.FC<{
   <button
     onClick={onClick}
     className={cn(
-      'w-full flex items-center space-x-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors',
+      'w-full flex items-center space-x-3 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-all duration-300 transform hover:translate-x-1',
       className
     )}
   >
