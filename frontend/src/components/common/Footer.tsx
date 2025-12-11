@@ -57,8 +57,9 @@ const Footer: React.FC = () => {
             <ul className="space-y-2">
               <FooterLink to="/faq">FAQs</FooterLink>
               <FooterLink to="/help">Help & Support</FooterLink>
-              <FooterLink to="/privacy">Privacy Policy</FooterLink>
-              <FooterLink to="/terms">Terms of Service</FooterLink>
+              <FooterLink to="/privacy-policy">Privacy Policy</FooterLink>
+              <FooterLink to="/terms-of-service">Terms of Service</FooterLink>
+              <FooterLink to="/cookie-policy">Cookie Policy</FooterLink>
               <li>
                 <a
                   href="https://acebits.in"

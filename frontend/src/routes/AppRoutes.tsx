@@ -23,6 +23,11 @@ import MessagesPage from '../pages/MessagesPage';
 import SettingsPage from '../pages/SettingsPage';
 import PostDetailPage from '../pages/PostDetailPage';
 
+// Legal Pages
+import PrivacyPolicy from '../pages/legal/PrivacyPolicy';
+import TermsOfService from '../pages/legal/TermsOfService';
+import CookiePolicy from '../pages/legal/CookiePolicy';
+
 const AppRoutes: React.FC = () => {
   return (
     <Routes>
@@ -192,6 +197,11 @@ const AppRoutes: React.FC = () => {
           </PrivateRoute>
         }
       />
+
+      {/* Legal Pages - Public Routes */}
+      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+      <Route path="/terms-of-service" element={<TermsOfService />} />
+      <Route path="/cookie-policy" element={<CookiePolicy />} />
 
       {/* Catch all - 404 */}
       <Route path="*" element={<Navigate to="/" replace />} />
