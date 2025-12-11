@@ -15,6 +15,7 @@ import EmailVerificationPage from '../pages/auth/EmailVerificationPage';
 import DashboardPage from '../pages/DashboardPage';
 import AlumniDirectoryPage from '../pages/AlumniDirectoryPage';
 import ProfilePage from '../pages/ProfilePage';
+import ProfileEditPage from '../pages/ProfileEditPage';
 import OpportunitiesPage from '../pages/OpportunitiesPage';
 import EventsPage from '../pages/EventsPage';
 import NotificationsPage from '../pages/NotificationsPage';
@@ -107,6 +108,15 @@ const AppRoutes: React.FC = () => {
         element={
           <PrivateRoute>
             <ProfilePage />
+          </PrivateRoute>
+        }
+      />
+
+      <Route
+        path="/profile/edit"
+        element={
+          <PrivateRoute>
+            <ProfileEditPage />
           </PrivateRoute>
         }
       />
