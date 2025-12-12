@@ -158,7 +158,7 @@ const LandingPage: React.FC = () => {
       </nav>
 
       {/* Hero Section with Civil Engineering Theme */}
-      <section className="relative bg-gradient-to-br from-sky-50 via-green-50 to-blue-50 text-gray-900 py-16 md:py-24 overflow-hidden min-h-[600px]">
+      <section className="relative bg-gradient-to-br from-sky-50 via-green-50 to-blue-50 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 text-gray-900 dark:text-white py-16 md:py-24 overflow-hidden min-h-[600px] transition-colors duration-300">
         {/* Sliding Background Images Carousel with Cool Effects */}
         <div className="absolute inset-0">
           {heroImages.map((image, index) => (
@@ -203,7 +203,7 @@ const LandingPage: React.FC = () => {
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-4xl mx-auto text-center min-h-[500px] flex flex-col justify-center">
             {/* Text Content - Centered with Better Visibility */}
-            <Badge variant="success" className="mb-6 bg-white/95 text-orange-600 backdrop-blur-sm border-2 border-orange-200 shadow-lg inline-flex mx-auto">
+            <Badge variant="success" className="mb-6 bg-white/95 dark:bg-gray-800/95 text-orange-600 dark:text-orange-400 backdrop-blur-sm border-2 border-orange-200 dark:border-orange-600 shadow-lg inline-flex mx-auto">
               <Building2 size={16} className="mr-2" />
               ACE BIT Sindri
             </Badge>
@@ -234,7 +234,7 @@ const LandingPage: React.FC = () => {
                 size="lg"
                 variant="outline"
                 onClick={() => navigate('/signup/alumni')}
-                className="border-2 border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white font-semibold bg-white/90 backdrop-blur-sm"
+                className="border-2 border-orange-600 dark:border-orange-400 text-orange-600 dark:text-orange-400 hover:bg-orange-600 dark:hover:bg-orange-500 hover:text-white font-semibold bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm"
               >
                 <HardHat size={20} className="mr-2" />
                 Join as Alumni
@@ -248,9 +248,9 @@ const LandingPage: React.FC = () => {
                 { value: '350+', label: 'Companies' },
                 { value: '120+', label: 'Opportunities' },
               ].map((stat, index) => (
-                <div key={index} className="bg-white/90 backdrop-blur-sm rounded-lg p-2 sm:p-3 md:p-4 shadow-lg border border-gray-200">
-                  <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-orange-600 mb-1">{stat.value}</p>
-                  <p className="text-xs sm:text-sm font-semibold text-gray-700">{stat.label}</p>
+                <div key={index} className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-lg p-2 sm:p-3 md:p-4 shadow-lg border border-gray-200 dark:border-gray-700">
+                  <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-orange-600 dark:text-orange-400 mb-1">{stat.value}</p>
+                  <p className="text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300">{stat.label}</p>
                 </div>
               ))}
             </div>
@@ -260,24 +260,24 @@ const LandingPage: React.FC = () => {
         {/* Wave Separator */}
         <div className="absolute bottom-0 left-0 right-0">
           <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0 120L60 110C120 100 240 80 360 70C480 60 600 60 720 65C840 70 960 80 1080 85C1200 90 1320 90 1380 90L1440 90V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0V120Z" fill="white"/>
+            <path d="M0 120L60 110C120 100 240 80 360 70C480 60 600 60 720 65C840 70 960 80 1080 85C1200 90 1320 90 1380 90L1440 90V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0V120Z" fill="currentColor" className="text-white dark:text-gray-900"/>
           </svg>
         </div>
       </section>
 
       {/* About ACE Section */}
-      <section id="about" className="py-20 bg-gray-50">
+      <section id="about" className="py-20 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-12">
-              <Badge variant="primary" className="mb-4">
+              <Badge variant="primary" className="mb-4 dark:bg-blue-900 dark:text-blue-300">
                 <Building2 size={16} className="mr-2" />
                 About ACE BIT Sindri
               </Badge>
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
                 Association of Civil Engineers
               </h2>
-              <p className="text-xl text-gray-600">
+              <p className="text-xl text-gray-600 dark:text-gray-400">
                 Connecting civil engineering professionals since 1957
               </p>
             </div>
@@ -317,12 +317,12 @@ const LandingPage: React.FC = () => {
             </div>
 
             <div className="grid md:grid-cols-2 gap-8">
-              <Card variant="elevated" className="p-6 bg-white">
-                <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
-                  <Trophy className="text-orange-600" size={24} />
+              <Card variant="elevated" className="p-6 bg-white dark:bg-gray-800">
+                <div className="w-12 h-12 bg-orange-100 dark:bg-orange-900 rounded-lg flex items-center justify-center mb-4">
+                  <Trophy className="text-orange-600 dark:text-orange-400" size={24} />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">Our Legacy</h3>
-                <p className="text-gray-600 leading-relaxed">
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">Our Legacy</h3>
+                <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
                   The Department of Civil Engineering was started in 1957. The department has produced
                   over 1,250+ civil engineers who are now contributing to India's infrastructure
                   development across highways, bridges, dams, structural engineering, and soil mechanics projects.
@@ -330,12 +330,12 @@ const LandingPage: React.FC = () => {
                 </p>
               </Card>
 
-              <Card variant="elevated" className="p-6 bg-white">
-                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-                  <Target className="text-blue-600" size={24} />
+              <Card variant="elevated" className="p-6 bg-white dark:bg-gray-800">
+                <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mb-4">
+                  <Target className="text-blue-600 dark:text-blue-400" size={24} />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">Our Mission</h3>
-                <p className="text-gray-600 leading-relaxed">
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">Our Mission</h3>
+                <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
                   To create a vibrant community where civil engineering students and alumni
                   collaborate, share knowledge, and build the infrastructure that powers India's
                   growth. The department provides adequate facilities for R&D work and thus provides
@@ -348,17 +348,17 @@ const LandingPage: React.FC = () => {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-20 bg-gradient-to-br from-blue-50 via-cyan-50 to-sky-50">
+      <section id="features" className="py-20 bg-gradient-to-br from-blue-50 via-cyan-50 to-sky-50 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 transition-colors duration-300">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <Badge variant="primary" className="mb-4">
+            <Badge variant="primary" className="mb-4 dark:bg-blue-900 dark:text-blue-300">
               <Lightbulb size={16} className="mr-2" />
               Platform Features
             </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
               Everything Civil Engineers Need
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
               Specialized tools and features designed specifically for civil engineering professionals
             </p>
           </div>
@@ -405,14 +405,14 @@ const LandingPage: React.FC = () => {
               <Card
                 key={index}
                 variant="elevated"
-                className="p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-t-4 border-t-current"
+                className="p-6 bg-white dark:bg-gray-800 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-t-4 border-t-current"
                 style={{ borderTopColor: `var(--color-${feature.color}-600)` }}
               >
-                <div className={`w-16 h-16 bg-${feature.color}-100 rounded-lg flex items-center justify-center mb-4`}>
+                <div className={`w-16 h-16 bg-${feature.color}-100 dark:bg-${feature.color}-900 rounded-lg flex items-center justify-center mb-4`}>
                   {feature.icon}
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">{feature.title}</h3>
-                <p className="text-gray-600 leading-relaxed">{feature.description}</p>
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">{feature.title}</h3>
+                <p className="text-gray-600 dark:text-gray-400 leading-relaxed">{feature.description}</p>
               </Card>
             ))}
           </div>
@@ -420,7 +420,7 @@ const LandingPage: React.FC = () => {
       </section>
 
       {/* Statistics Section */}
-      <section className="py-20 bg-gradient-to-br from-sky-500 via-blue-500 to-cyan-600 text-white">
+      <section className="py-20 bg-gradient-to-br from-sky-500 via-blue-500 to-cyan-600 dark:from-gray-700 dark:via-gray-800 dark:to-gray-900 text-white transition-colors duration-300">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
@@ -453,14 +453,14 @@ const LandingPage: React.FC = () => {
       </section>
 
       {/* How It Works Section */}
-      <section className="py-20 bg-gradient-to-br from-sky-50 via-blue-50 to-cyan-50">
+      <section className="py-20 bg-gradient-to-br from-sky-50 via-blue-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 transition-colors duration-300">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <Badge variant="primary" className="mb-4">
+            <Badge variant="primary" className="mb-4 dark:bg-blue-900 dark:text-blue-300">
               <Target size={16} className="mr-2" />
               How It Works
             </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
               Get Started in 3 Simple Steps
             </h2>
           </div>
@@ -515,19 +515,19 @@ const LandingPage: React.FC = () => {
               },
             ].map((step, index) => (
               <div key={index} className="relative">
-                <Card variant="elevated" className="p-8 text-center hover:shadow-xl transition-all">
+                <Card variant="elevated" className="p-8 bg-white dark:bg-gray-800 text-center hover:shadow-xl transition-all">
                   <div className="absolute -top-6 left-1/2 transform -translate-x-1/2">
-                    <div className="w-12 h-12 bg-gradient-to-br from-orange-600 to-orange-800 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                    <div className="w-12 h-12 bg-gradient-to-br from-orange-600 to-orange-800 dark:from-orange-500 dark:to-orange-700 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-lg">
                       {step.step}
                     </div>
                   </div>
                   <div className="mt-8 mb-4 flex justify-center">
-                    <div className="w-16 h-16 bg-orange-100 rounded-lg flex items-center justify-center">
-                      {React.cloneElement(step.icon, { className: 'text-orange-600' })}
+                    <div className="w-16 h-16 bg-orange-100 dark:bg-orange-900 rounded-lg flex items-center justify-center">
+                      {React.cloneElement(step.icon, { className: 'text-orange-600 dark:text-orange-400' })}
                     </div>
                   </div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-3">{step.title}</h3>
-                  <p className="text-gray-600 leading-relaxed">{step.description}</p>
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">{step.title}</h3>
+                  <p className="text-gray-600 dark:text-gray-400 leading-relaxed">{step.description}</p>
                 </Card>
                 {index < 2 && (
                   <div className="hidden md:block absolute top-1/2 -right-4 transform translate-x-1/2 -translate-y-1/2">
@@ -541,23 +541,23 @@ const LandingPage: React.FC = () => {
       </section>
 
       {/* Civil Engineering Technologies Showcase */}
-      <section className="py-20 bg-gradient-to-br from-white via-sky-50 to-blue-50">
+      <section className="py-20 bg-gradient-to-br from-white via-sky-50 to-blue-50 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 transition-colors duration-300">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <Badge variant="primary" className="mb-4">
+            <Badge variant="primary" className="mb-4 dark:bg-blue-900 dark:text-blue-300">
               <Lightbulb size={16} className="mr-2" />
               Modern Technologies
             </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
               Civil Engineering Technologies
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
               Stay updated with the latest tools and methodologies in civil engineering
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            <Card variant="elevated" className="overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+            <Card variant="elevated" className="overflow-hidden bg-white dark:bg-gray-800 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
               <img
                 src={bimProject}
                 alt="BIM Project Management"
@@ -565,20 +565,20 @@ const LandingPage: React.FC = () => {
                 onClick={() => window.open(bimProject, '_blank')}
               />
               <div className="p-6">
-                <Badge variant="primary" className="mb-3">
+                <Badge variant="primary" className="mb-3 dark:bg-blue-900 dark:text-blue-300">
                   <Building2 size={14} className="mr-1" />
                   BIM Technology
                 </Badge>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
                   Building Information Modeling
                 </h3>
-                <p className="text-gray-600">
+                <p className="text-gray-600 dark:text-gray-400">
                   Advanced BIM tools for project planning, visualization, and management in modern construction projects.
                 </p>
               </div>
             </Card>
 
-            <Card variant="elevated" className="overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+            <Card variant="elevated" className="overflow-hidden bg-white dark:bg-gray-800 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
               <img
                 src={bim10Dimensions}
                 alt="BIM Dimensions"
@@ -586,20 +586,20 @@ const LandingPage: React.FC = () => {
                 onClick={() => window.open(bim10Dimensions, '_blank')}
               />
               <div className="p-6">
-                <Badge variant="success" className="mb-3">
+                <Badge variant="success" className="mb-3 dark:bg-green-900 dark:text-green-300">
                   <Ruler size={14} className="mr-1" />
                   10D BIM
                 </Badge>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
                   Multi-Dimensional Design
                 </h3>
-                <p className="text-gray-600">
+                <p className="text-gray-600 dark:text-gray-400">
                   Explore the 10 dimensions of BIM technology for comprehensive project lifecycle management.
                 </p>
               </div>
             </Card>
 
-            <Card variant="elevated" className="overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+            <Card variant="elevated" className="overflow-hidden bg-white dark:bg-gray-800 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
               <img
                 src={roadDesign}
                 alt="Road Design & Pavement"
@@ -607,14 +607,14 @@ const LandingPage: React.FC = () => {
                 onClick={() => window.open(roadDesign, '_blank')}
               />
               <div className="p-6">
-                <Badge variant="warning" className="mb-3 bg-yellow-100 text-yellow-800">
+                <Badge variant="warning" className="mb-3 bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-300">
                   <Hammer size={14} className="mr-1" />
                   Infrastructure
                 </Badge>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
                   Road & Pavement Design
                 </h3>
-                <p className="text-gray-600">
+                <p className="text-gray-600 dark:text-gray-400">
                   Advanced calculations for pavement thickness, material quantities, and highway engineering.
                 </p>
               </div>
@@ -668,45 +668,45 @@ const LandingPage: React.FC = () => {
       </section>
 
       {/* Testimonials Section */}
-      <section id="testimonials" className="py-20 bg-gradient-to-br from-cyan-50 via-sky-50 to-blue-50">
+      <section id="testimonials" className="py-20 bg-gradient-to-br from-cyan-50 via-sky-50 to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 transition-colors duration-300">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <Badge variant="success" className="mb-4">
+            <Badge variant="success" className="mb-4 dark:bg-green-900 dark:text-green-300">
               <Heart size={16} className="mr-2" />
               Success Stories
             </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
               What Our Community Says
             </h2>
-            <p className="text-xl text-gray-600">
+            <p className="text-xl text-gray-600 dark:text-gray-400">
               Real experiences from civil engineering professionals
             </p>
           </div>
 
           <div className="max-w-4xl mx-auto">
-            <Card variant="elevated" className="p-8 md:p-12 relative overflow-hidden">
-              <div className="absolute top-4 left-4 text-orange-200">
+            <Card variant="elevated" className="p-8 md:p-12 bg-white dark:bg-gray-800 relative overflow-hidden">
+              <div className="absolute top-4 left-4 text-orange-200 dark:text-orange-900">
                 <Quote size={80} />
               </div>
 
               <div className="relative z-10">
                 <div className="mb-8">
-                  <p className="text-xl md:text-2xl text-gray-700 leading-relaxed mb-6 italic">
+                  <p className="text-xl md:text-2xl text-gray-700 dark:text-gray-300 leading-relaxed mb-6 italic">
                     "{testimonials[currentTestimonial].quote}"
                   </p>
                 </div>
 
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-4">
-                    <div className="w-16 h-16 bg-gradient-to-br from-orange-600 to-orange-800 rounded-full flex items-center justify-center">
+                    <div className="w-16 h-16 bg-gradient-to-br from-orange-600 to-orange-800 dark:from-orange-500 dark:to-orange-700 rounded-full flex items-center justify-center">
                       <HardHat className="text-white" size={28} />
                     </div>
                     <div>
-                      <p className="font-semibold text-gray-900 text-lg">
+                      <p className="font-semibold text-gray-900 dark:text-white text-lg">
                         {testimonials[currentTestimonial].name}
                       </p>
-                      <p className="text-gray-600">{testimonials[currentTestimonial].role}</p>
-                      <p className="text-sm text-orange-600 font-medium">
+                      <p className="text-gray-600 dark:text-gray-400">{testimonials[currentTestimonial].role}</p>
+                      <p className="text-sm text-orange-600 dark:text-orange-400 font-medium">
                         Batch of {testimonials[currentTestimonial].batch} • {testimonials[currentTestimonial].company}
                       </p>
                     </div>
@@ -715,13 +715,13 @@ const LandingPage: React.FC = () => {
                   <div className="flex space-x-2">
                     <button
                       onClick={prevTestimonial}
-                      className="p-2 rounded-lg border border-gray-300 hover:bg-gray-100 transition-colors"
+                      className="p-2 rounded-lg border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 transition-colors"
                     >
                       <ChevronLeft size={20} />
                     </button>
                     <button
                       onClick={nextTestimonial}
-                      className="p-2 rounded-lg border border-gray-300 hover:bg-gray-100 transition-colors"
+                      className="p-2 rounded-lg border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 transition-colors"
                     >
                       <ChevronRight size={20} />
                     </button>
@@ -734,7 +734,7 @@ const LandingPage: React.FC = () => {
                       key={index}
                       onClick={() => setCurrentTestimonial(index)}
                       className={`w-2 h-2 rounded-full transition-all ${
-                        index === currentTestimonial ? 'bg-orange-600 w-8' : 'bg-gray-300'
+                        index === currentTestimonial ? 'bg-orange-600 dark:bg-orange-500 w-8' : 'bg-gray-300 dark:bg-gray-600'
                       }`}
                     />
                   ))}
@@ -746,7 +746,7 @@ const LandingPage: React.FC = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-br from-sky-600 via-blue-600 to-cyan-700 text-white relative overflow-hidden">
+      <section className="py-20 bg-gradient-to-br from-sky-600 via-blue-600 to-cyan-700 dark:from-gray-700 dark:via-gray-800 dark:to-gray-900 text-white transition-colors duration-300 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <Building2 size={400} className="absolute top-0 right-0 translate-x-1/4 -translate-y-1/4" />
           <Hammer size={300} className="absolute bottom-0 left-0 -translate-x-1/4 translate-y-1/4" />
