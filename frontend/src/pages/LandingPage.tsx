@@ -46,12 +46,12 @@ const LandingPage: React.FC = () => {
   ];
 
   const stats = {
-    alumni: 00,
-    students: 00,
-    companies: 00,
-    opportunities: 00,
-    events: 00,
-    projects: 00,
+    alumni: 0,
+    students: 0,
+    companies: 0,
+    opportunities: 0,
+    events: 0,
+    projects: 0,
   };
 
   const testimonials = [
