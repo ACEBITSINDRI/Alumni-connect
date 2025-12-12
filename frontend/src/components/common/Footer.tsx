@@ -7,9 +7,12 @@ const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-gray-900 text-gray-300">
+    <footer className="relative bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 text-gray-300 overflow-hidden">
+      {/* Animated Gradient Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 via-purple-600/10 to-pink-600/10 animate-gradient-shift"></div>
+
       {/* Main Footer Content */}
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 py-12 relative z-10">
         <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* About Section */}
           <div className="col-span-2 md:col-span-1 space-y-4">
@@ -158,6 +161,22 @@ const Footer: React.FC = () => {
           </p>
         </div>
       </div>
+
+      {/* Gradient Animation Styles */}
+      <style>{`
+        @keyframes gradient-shift {
+          0%, 100% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+        }
+        .animate-gradient-shift {
+          background-size: 200% 200%;
+          animation: gradient-shift 15s ease infinite;
+        }
+      `}</style>
     </footer>
   );
 };
