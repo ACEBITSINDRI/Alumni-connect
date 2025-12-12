@@ -46,12 +46,12 @@ const LandingPage: React.FC = () => {
   ];
 
   const stats = {
-    alumni: 1250,
-    students: 850,
-    companies: 350,
-    opportunities: 120,
-    events: 45,
-    projects: 200,
+    alumni: 00,
+    students: 00,
+    companies: 00,
+    opportunities: 00,
+    events: 00,
+    projects: 00,
   };
 
   const testimonials = [
@@ -216,12 +216,12 @@ const LandingPage: React.FC = () => {
             <div className="mb-8 px-4">
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 md:mb-6 leading-tight">
                 <span className="text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)] [text-shadow:_2px_2px_4px_rgb(0_0_0_/_80%)]">Connect.</span>{' '}
-                <span className="text-orange-500 drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)] [text-shadow:_2px_2px_4px_rgb(0_0_0_/_80%)]">Grow.</span>{' '}
-                <span className="text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)] [text-shadow:_2px_2px_4px_rgb(0_0_0_/_80%)]">Succeed.</span>
+                <span className="text-orange-500 drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)] [text-shadow:_2px_2px_4px_rgb(0_0_0_/_80%)]">Construct.</span>{' '}
+                <span className="text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)] [text-shadow:_2px_2px_4px_rgb(0_0_0_/_80%)]">Conquer.</span>
               </h1>
 
               <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-white leading-relaxed max-w-3xl mx-auto font-bold drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)] [text-shadow:_2px_2px_4px_rgb(0_0_0_/_80%)]">
-                Join <span className="font-bold text-orange-400 text-lg sm:text-xl md:text-2xl lg:text-3xl">1,250+</span> civil engineering professionals from BIT Sindri
+                Join <span className="font-bold text-orange-400 text-lg sm:text-xl md:text-2xl lg:text-3xl">00+</span> civil engineering professionals from BIT Sindri
               </p>
             </div>
 
@@ -249,9 +249,9 @@ const LandingPage: React.FC = () => {
             {/* Quick Stats - More Visible */}
             <div className="grid grid-cols-3 gap-3 sm:gap-4 md:gap-6 max-w-2xl mx-auto px-4">
               {[
-                { value: '1,250+', label: 'Alumni' },
-                { value: '350+', label: 'Companies' },
-                { value: '120+', label: 'Opportunities' },
+                { value: '00+', label: 'Alumni' },
+                { value: '00+', label: 'Companies' },
+                { value: '00+', label: 'Opportunities' },
               ].map((stat, index) => (
                 <div key={index} className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-lg p-2 sm:p-3 md:p-4 shadow-lg border border-gray-200 dark:border-gray-700">
                   <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-orange-600 dark:text-orange-400 mb-1">{stat.value}</p>
@@ -329,8 +329,8 @@ const LandingPage: React.FC = () => {
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">Our Legacy</h3>
                 <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-                  The Department of Civil Engineering was started in 1957. The department has produced
-                  over 1,250+ civil engineers who are now contributing to India's infrastructure
+                  The Department of Civil Engineering was Established in 1957. The department has produced
+                  over 5,000+ civil engineers who are now contributing to India's infrastructure
                   development across highways, bridges, dams, structural engineering, and soil mechanics projects.
                   We specialize in Soil Mechanics & Foundation Engineering, and Structural Engineering.
                 </p>
@@ -375,7 +375,7 @@ const LandingPage: React.FC = () => {
               {
                 icon: <Users className="text-orange-600" size={32} />,
                 title: 'Alumni Network',
-                description: 'Connect with 1,250+ civil engineering alumni working in top infrastructure companies across India and abroad.',
+                description: 'Connect with 00+ civil engineering alumni working in top infrastructure companies across India and abroad.',
                 color: 'orange'
               },
               {
@@ -446,7 +446,7 @@ const LandingPage: React.FC = () => {
                 </p>
                 {clickedCard === index && (
                   <div className="mt-4 pt-4 border-t border-white/30 animate-fadeIn">
-                    <p className="text-white/80 text-sm italic">✨ Click again to close</p>
+                    <p className="text-white/80 text-sm italic"></p>
                   </div>
                 )}
               </Card>
@@ -797,7 +797,7 @@ const LandingPage: React.FC = () => {
               Ready to Build Your Future?
             </h2>
             <p className="text-xl md:text-2xl mb-8 text-gray-100">
-              Join the largest civil engineering alumni network from BIT Sindri.
+              Join the Premier civil engineering alumni network from BIT Sindri.
               Connect, learn, and grow with fellow engineers.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -828,7 +828,7 @@ const LandingPage: React.FC = () => {
               </div>
               <div className="flex items-center space-x-2">
                 <CheckCircle size={20} className="text-green-400" />
-                <span>Verified Alumni</span>
+                <span>Distinguished Alumni</span>
               </div>
               <div className="flex items-center space-x-2">
                 <CheckCircle size={20} className="text-green-400" />
