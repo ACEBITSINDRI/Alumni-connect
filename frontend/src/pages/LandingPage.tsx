@@ -34,6 +34,7 @@ const LandingPage: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [currentHeroImage, setCurrentHeroImage] = useState(0);
+  const [clickedCard, setClickedCard] = useState<number | null>(null);
 
   // Hero section images for carousel
   const heroImages = [
@@ -411,14 +412,43 @@ const LandingPage: React.FC = () => {
               <Card
                 key={index}
                 variant="elevated"
-                className="p-6 bg-white dark:bg-gray-800 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-t-4 border-t-current"
+                onClick={() => setClickedCard(clickedCard === index ? null : index)}
+                className={`
+                  p-6 cursor-pointer transition-all duration-500 border-t-4 border-t-current
+                  hover:shadow-2xl hover:-translate-y-2 hover:scale-105
+                  ${clickedCard === index
+                    ? 'bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 dark:from-blue-600 dark:via-purple-600 dark:to-pink-600 shadow-2xl scale-105 -translate-y-2'
+                    : 'bg-white dark:bg-gray-800 hover:bg-gradient-to-br hover:from-gray-50 hover:via-blue-50 hover:to-purple-50 dark:hover:from-gray-700 dark:hover:via-gray-800 dark:hover:to-gray-700'
+                  }
+                `}
                 style={{ borderTopColor: `var(--color-${feature.color}-600)` }}
               >
-                <div className={`w-16 h-16 bg-${feature.color}-100 dark:bg-${feature.color}-900 rounded-lg flex items-center justify-center mb-4`}>
-                  {feature.icon}
+                <div className={`
+                  w-16 h-16 rounded-lg flex items-center justify-center mb-4 transition-all duration-500
+                  ${clickedCard === index
+                    ? 'bg-white/20 scale-110 rotate-12'
+                    : `bg-${feature.color}-100 dark:bg-${feature.color}-900`
+                  }
+                `}>
+                  {React.cloneElement(feature.icon, {
+                    className: clickedCard === index ? 'text-white' : ''
+                  })}
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">{feature.title}</h3>
-                <p className="text-gray-600 dark:text-gray-400 leading-relaxed">{feature.description}</p>
+                <h3 className={`text-xl font-semibold mb-3 transition-colors duration-300 ${
+                  clickedCard === index ? 'text-white' : 'text-gray-900 dark:text-white'
+                }`}>
+                  {feature.title}
+                </h3>
+                <p className={`leading-relaxed transition-colors duration-300 ${
+                  clickedCard === index ? 'text-white/90' : 'text-gray-600 dark:text-gray-400'
+                }`}>
+                  {feature.description}
+                </p>
+                {clickedCard === index && (
+                  <div className="mt-4 pt-4 border-t border-white/30 animate-fadeIn">
+                    <p className="text-white/80 text-sm italic">✨ Click again to close</p>
+                  </div>
+                )}
               </Card>
             ))}
           </div>
@@ -549,7 +579,7 @@ const LandingPage: React.FC = () => {
 
       {/* Civil Engineering Technologies Showcase */}
       <section className="py-20 bg-gradient-to-br from-white via-sky-50 to-blue-50 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 transition-colors duration-300 relative overflow-hidden">
-        <AnimatedBackground variant="construction" />
+        <AnimatedBackground variant="aurora" />
         <div className="container mx-auto px-4 relative z-10">
           <div className="text-center mb-16">
             <Badge variant="primary" className="mb-4 dark:bg-blue-900 dark:text-blue-300">
