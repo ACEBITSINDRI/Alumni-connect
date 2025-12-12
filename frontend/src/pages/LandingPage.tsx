@@ -9,6 +9,7 @@ import Button from '../components/common/Button';
 import Card from '../components/common/Card';
 import Badge from '../components/common/Badge';
 import Footer from '../components/common/Footer';
+import AnimatedBackground from '../components/common/AnimatedBackground';
 import { useTheme } from '../context/ThemeContext';
 
 // Import images
@@ -159,6 +160,9 @@ const LandingPage: React.FC = () => {
 
       {/* Hero Section with Civil Engineering Theme */}
       <section className="relative bg-gradient-to-br from-sky-50 via-green-50 to-blue-50 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 text-gray-900 dark:text-white py-16 md:py-24 overflow-hidden min-h-[600px] transition-colors duration-300">
+        {/* Animated Background for Dark Mode */}
+        <AnimatedBackground variant="stars" />
+
         {/* Sliding Background Images Carousel with Cool Effects */}
         <div className="absolute inset-0">
           {heroImages.map((image, index) => (
@@ -266,8 +270,9 @@ const LandingPage: React.FC = () => {
       </section>
 
       {/* About ACE Section */}
-      <section id="about" className="py-20 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
-        <div className="container mx-auto px-4">
+      <section id="about" className="py-20 bg-gray-50 dark:bg-gray-900 transition-colors duration-300 relative overflow-hidden">
+        <AnimatedBackground variant="grid" />
+        <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-12">
               <Badge variant="primary" className="mb-4 dark:bg-blue-900 dark:text-blue-300">
@@ -348,8 +353,9 @@ const LandingPage: React.FC = () => {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-20 bg-gradient-to-br from-blue-50 via-cyan-50 to-sky-50 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 transition-colors duration-300">
-        <div className="container mx-auto px-4">
+      <section id="features" className="py-20 bg-gradient-to-br from-blue-50 via-cyan-50 to-sky-50 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 transition-colors duration-300 relative overflow-hidden">
+        <AnimatedBackground variant="particles" />
+        <div className="container mx-auto px-4 relative z-10">
           <div className="text-center mb-16">
             <Badge variant="primary" className="mb-4 dark:bg-blue-900 dark:text-blue-300">
               <Lightbulb size={16} className="mr-2" />
@@ -453,8 +459,9 @@ const LandingPage: React.FC = () => {
       </section>
 
       {/* How It Works Section */}
-      <section className="py-20 bg-gradient-to-br from-sky-50 via-blue-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 transition-colors duration-300">
-        <div className="container mx-auto px-4">
+      <section className="py-20 bg-gradient-to-br from-sky-50 via-blue-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 transition-colors duration-300 relative overflow-hidden">
+        <AnimatedBackground variant="waves" />
+        <div className="container mx-auto px-4 relative z-10">
           <div className="text-center mb-16">
             <Badge variant="primary" className="mb-4 dark:bg-blue-900 dark:text-blue-300">
               <Target size={16} className="mr-2" />
@@ -541,8 +548,9 @@ const LandingPage: React.FC = () => {
       </section>
 
       {/* Civil Engineering Technologies Showcase */}
-      <section className="py-20 bg-gradient-to-br from-white via-sky-50 to-blue-50 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 transition-colors duration-300">
-        <div className="container mx-auto px-4">
+      <section className="py-20 bg-gradient-to-br from-white via-sky-50 to-blue-50 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 transition-colors duration-300 relative overflow-hidden">
+        <AnimatedBackground variant="construction" />
+        <div className="container mx-auto px-4 relative z-10">
           <div className="text-center mb-16">
             <Badge variant="primary" className="mb-4 dark:bg-blue-900 dark:text-blue-300">
               <Lightbulb size={16} className="mr-2" />
@@ -668,8 +676,9 @@ const LandingPage: React.FC = () => {
       </section>
 
       {/* Testimonials Section */}
-      <section id="testimonials" className="py-20 bg-gradient-to-br from-cyan-50 via-sky-50 to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 transition-colors duration-300">
-        <div className="container mx-auto px-4">
+      <section id="testimonials" className="py-20 bg-gradient-to-br from-cyan-50 via-sky-50 to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 transition-colors duration-300 relative overflow-hidden">
+        <AnimatedBackground variant="particles" />
+        <div className="container mx-auto px-4 relative z-10">
           <div className="text-center mb-12">
             <Badge variant="success" className="mb-4 dark:bg-green-900 dark:text-green-300">
               <Heart size={16} className="mr-2" />
