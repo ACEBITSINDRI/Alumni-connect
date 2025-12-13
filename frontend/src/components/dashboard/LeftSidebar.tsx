@@ -38,7 +38,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({ user }) => {
         if (response.success && response.data) {
           setStats(prev => ({
             ...prev,
-            connections: response.data?.connectionsCount ?? 0,
+            connections: response.data.connectionsCount,
           }));
         }
       } catch (error) {
