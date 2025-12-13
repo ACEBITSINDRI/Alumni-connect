@@ -245,8 +245,8 @@ const Navbar: React.FC<NavbarProps> = ({
             className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden animate-fadeIn"
             onClick={toggleMobileMenu}
           ></div>
-          <div className="fixed top-0 left-0 bottom-0 w-72 bg-white shadow-2xl z-50 lg:hidden overflow-y-auto animate-slideInLeft">
-            <div className="p-5 bg-gradient-to-r from-sky-400 to-blue-600 border-b border-white/20">
+          <div className="fixed top-0 left-0 bottom-0 w-72 bg-white dark:bg-gray-900 shadow-2xl z-50 lg:hidden overflow-y-auto animate-slideInLeft">
+            <div className="p-5 bg-gradient-to-r from-sky-400 to-blue-600 dark:from-sky-600 dark:to-blue-700 border-b border-white/20">
               <div className="flex items-center justify-between">
                 <h2 className="text-xl font-bold text-white drop-shadow-md">Menu</h2>
                 <button onClick={toggleMobileMenu} className="p-2 text-white hover:bg-white/20 rounded-lg transition-all duration-300">
@@ -254,7 +254,7 @@ const Navbar: React.FC<NavbarProps> = ({
                 </button>
               </div>
             </div>
-            <div className="p-4 space-y-2">
+            <div className="p-4 space-y-2 bg-white dark:bg-gray-900">
               {isAuthenticated ? (
                 <>
                   <MobileNavLink to="/dashboard" icon={<Home size={20} />} onClick={toggleMobileMenu}>
@@ -286,7 +286,7 @@ const Navbar: React.FC<NavbarProps> = ({
                     )}
                   </MobileNavLink>
 
-                  <div className="border-t border-gray-200 my-3 pt-3">
+                  <div className="border-t border-gray-200 dark:border-gray-700 my-3 pt-3">
                     <MobileNavLink to="/profile" icon={<User size={20} />} onClick={toggleMobileMenu}>
                       My Profile
                     </MobileNavLink>
@@ -301,7 +301,7 @@ const Navbar: React.FC<NavbarProps> = ({
                         toggleMobileMenu();
                         handleLogout();
                       }}
-                      className="w-full flex items-center space-x-3 px-4 py-3.5 text-red-600 font-medium hover:bg-red-50 rounded-xl transition-all duration-300 transform hover:scale-105"
+                      className="w-full flex items-center space-x-3 px-4 py-3.5 text-red-600 dark:text-red-400 font-medium hover:bg-red-50 dark:hover:bg-red-900/30 rounded-xl transition-all duration-300 transform hover:scale-105"
                     >
                       <LogOut size={20} />
                       <span>Logout</span>
@@ -313,7 +313,7 @@ const Navbar: React.FC<NavbarProps> = ({
                   <a
                     href="#features"
                     onClick={toggleMobileMenu}
-                    className="flex items-center space-x-3 px-4 py-3.5 text-gray-700 font-medium hover:bg-gradient-to-r hover:from-sky-50 hover:to-blue-50 hover:text-sky-700 rounded-xl transition-all duration-300 transform hover:scale-105"
+                    className="flex items-center space-x-3 px-4 py-3.5 text-gray-700 dark:text-gray-200 font-medium hover:bg-gradient-to-r hover:from-sky-50 hover:to-blue-50 dark:hover:from-sky-900 dark:hover:to-blue-900 hover:text-sky-700 dark:hover:text-sky-300 rounded-xl transition-all duration-300 transform hover:scale-105"
                   >
                     <Briefcase size={20} />
                     <span>Features</span>
@@ -321,7 +321,7 @@ const Navbar: React.FC<NavbarProps> = ({
                   <a
                     href="#about"
                     onClick={toggleMobileMenu}
-                    className="flex items-center space-x-3 px-4 py-3.5 text-gray-700 font-medium hover:bg-gradient-to-r hover:from-sky-50 hover:to-blue-50 hover:text-sky-700 rounded-xl transition-all duration-300 transform hover:scale-105"
+                    className="flex items-center space-x-3 px-4 py-3.5 text-gray-700 dark:text-gray-200 font-medium hover:bg-gradient-to-r hover:from-sky-50 hover:to-blue-50 dark:hover:from-sky-900 dark:hover:to-blue-900 hover:text-sky-700 dark:hover:text-sky-300 rounded-xl transition-all duration-300 transform hover:scale-105"
                   >
                     <Users size={20} />
                     <span>About</span>
@@ -329,18 +329,18 @@ const Navbar: React.FC<NavbarProps> = ({
                   <a
                     href="#testimonials"
                     onClick={toggleMobileMenu}
-                    className="flex items-center space-x-3 px-4 py-3.5 text-gray-700 font-medium hover:bg-gradient-to-r hover:from-sky-50 hover:to-blue-50 hover:text-sky-700 rounded-xl transition-all duration-300 transform hover:scale-105"
+                    className="flex items-center space-x-3 px-4 py-3.5 text-gray-700 dark:text-gray-200 font-medium hover:bg-gradient-to-r hover:from-sky-50 hover:to-blue-50 dark:hover:from-sky-900 dark:hover:to-blue-900 hover:text-sky-700 dark:hover:text-sky-300 rounded-xl transition-all duration-300 transform hover:scale-105"
                   >
                     <MessageCircle size={20} />
                     <span>Success Stories</span>
                   </a>
-                  <div className="border-t border-gray-200 my-2 pt-2">
+                  <div className="border-t border-gray-200 dark:border-gray-700 my-2 pt-2">
                     <button
                       onClick={() => {
                         toggleMobileMenu();
                         navigate('/login');
                       }}
-                      className="w-full flex items-center justify-center space-x-2 px-4 py-3 text-sky-600 font-semibold hover:bg-sky-50 rounded-xl transition-all duration-300"
+                      className="w-full flex items-center justify-center space-x-2 px-4 py-3 text-sky-600 dark:text-sky-400 font-semibold hover:bg-sky-50 dark:hover:bg-sky-900/30 rounded-xl transition-all duration-300"
                     >
                       <User size={20} />
                       <span>Login</span>
@@ -390,7 +390,7 @@ const MobileNavLink: React.FC<{
   <Link
     to={to}
     onClick={onClick}
-    className="flex items-center space-x-3 px-4 py-3.5 text-gray-700 font-medium hover:bg-gradient-to-r hover:from-sky-50 hover:to-blue-50 hover:text-sky-700 rounded-xl transition-all duration-300 transform hover:scale-105"
+    className="flex items-center space-x-3 px-4 py-3.5 text-gray-700 dark:text-gray-200 font-medium hover:bg-gradient-to-r hover:from-sky-50 hover:to-blue-50 dark:hover:from-sky-900 dark:hover:to-blue-900 hover:text-sky-700 dark:hover:text-sky-300 rounded-xl transition-all duration-300 transform hover:scale-105"
   >
     {icon}
     <span>{children}</span>
