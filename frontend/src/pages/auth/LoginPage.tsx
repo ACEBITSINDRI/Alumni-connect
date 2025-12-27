@@ -10,6 +10,7 @@ import { login as loginApi } from '../../services/auth.service';
 import { loginWithGoogle } from '../../services/firebase/auth.service';
 import { useAuth } from '../../context/AuthContext';
 import toast from 'react-hot-toast';
+import SEOHead from '../../components/common/SEOHead';
 
 // Import images
 import alumniConnectLogo from '../../assets/logos/alumni_connect_logo-removebg-preview.png';
@@ -135,8 +136,15 @@ const LoginPage: React.FC<LoginPageProps> = ({ userType = 'student' }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
-      {/* Left Side - Hero Section with Civil Engineering Theme */}
+    <>
+      <SEOHead
+        title="Login - BIT Sindri Civil Engineering Alumni Network | ACE BIT Sindri"
+        description="Login to Alumni Connect - Official portal for BIT Sindri Civil Engineering alumni and students. Access mentorship programs, job opportunities, events, and connect with 1,250+ Civil Engineering professionals."
+        keywords="BIT Sindri login, Civil Engineering alumni login, BIT Dhanbad login, ACE BIT Sindri portal, Alumni network login, Student portal BIT Sindri"
+        url="https://alumni-connect.bitsindri.ac.in/login"
+      />
+      <div className="min-h-screen bg-gray-50 flex">
+        {/* Left Side - Hero Section with Civil Engineering Theme */}
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-orange-600 via-orange-700 to-blue-900 p-12 flex-col justify-between relative overflow-hidden">
         {/* Background Images */}
         <div className="absolute inset-0">
@@ -432,9 +440,10 @@ const LoginPage: React.FC<LoginPageProps> = ({ userType = 'student' }) => {
               <a href="#" className="text-orange-600 hover:underline">Privacy Policy</a>
             </p>
           </div>
-        </div>
       </div>
     </div>
+  </div>
+  </>
   );
 };
 
