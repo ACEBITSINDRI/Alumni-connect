@@ -22,9 +22,19 @@ const userSchema = new mongoose.Schema(
       trim: true,
       match: [/^\S+@\S+\.\S+$/, 'Please provide a valid email'],
     },
+    // Firebase UID
+    firebaseUid: {
+      type: String,
+      unique: true,
+      sparse: true,
+      index: true,
+    },
     password: {
       type: String,
-      required: [true, 'Password is required'],
+      required: function() {
+        // Password not required if Firebase UID exists (social login)
+        return !this.firebaseUid;
+      },
       minlength: [6, 'Password must be at least 6 characters'],
       select: false,
     },
@@ -208,6 +218,11 @@ const userSchema = new mongoose.Schema(
     lastActive: {
       type: Date,
       default: Date.now,
+    },
+
+    // Firebase Cloud Messaging token for push notifications
+    fcmToken: {
+      type: String,
     },
   },
   {

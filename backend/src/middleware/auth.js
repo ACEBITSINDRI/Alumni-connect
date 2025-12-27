@@ -1,5 +1,5 @@
-import { verifyAccessToken } from '../utils/jwt.js';
-import { getUserModel } from '../models/User.js';
+import { auth } from '../config/firebase.js';
+import { getUserModel, AlumniModel, StudentModel } from '../models/User.js';
 
 export const protect = async (req, res, next) => {
   try {
@@ -18,17 +18,23 @@ export const protect = async (req, res, next) => {
     }
 
     try {
-      // Verify token
-      const decoded = verifyAccessToken(token);
+      // Verify Firebase ID token
+      const decodedToken = await auth.verifyIdToken(token);
+      const firebaseUid = decodedToken.uid;
 
-      // Get user from database
-      const UserModel = getUserModel(decoded.role);
-      const user = await UserModel.findById(decoded.id).select('-password');
+      // Find user in MongoDB by Firebase UID (check both collections)
+      let user = await AlumniModel.findOne({ firebaseUid }).select('-password');
+      let role = 'alumni';
+
+      if (!user) {
+        user = await StudentModel.findOne({ firebaseUid }).select('-password');
+        role = 'student';
+      }
 
       if (!user) {
         return res.status(401).json({
           success: false,
-          message: 'User not found. Token invalid.',
+          message: 'User not found. Please complete registration.',
         });
       }
 
@@ -39,18 +45,21 @@ export const protect = async (req, res, next) => {
         });
       }
 
-      // Attach user to request object
+      // Attach user and Firebase info to request object
       req.user = user;
-      req.user.role = decoded.role;
+      req.user.role = role;
+      req.firebaseUser = decodedToken;
 
       next();
     } catch (error) {
+      console.error('Firebase auth error:', error);
       return res.status(401).json({
         success: false,
         message: 'Token is invalid or has expired.',
       });
     }
   } catch (error) {
+    console.error('Auth middleware error:', error);
     return res.status(500).json({
       success: false,
       message: 'Server error in authentication',
