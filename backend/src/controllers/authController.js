@@ -1,20 +1,18 @@
 import { getUserModel, AlumniModel, StudentModel } from '../models/User.js';
-import { generateAccessToken, generateRefreshToken } from '../utils/jwt.js';
-import crypto from 'crypto';
-import { uploadProfilePicture, uploadIdCard } from '../config/cloudinary.js';
-import { sendVerificationEmail, sendWelcomeEmail } from '../utils/email.js';
+import { auth } from '../config/firebase.js';
+import { uploadProfilePicture, uploadDocument } from '../services/firebaseStorage.js';
 
-// @desc    Register user
+// @desc    Register user with Firebase
 // @route   POST /api/auth/register
-// @access  Public
+// @access  Public (but requires Firebase ID token)
 export const register = async (req, res) => {
   try {
     const {
       firstName,
       lastName,
       email,
-      password,
       role,
+      firebaseUid,
       batch,
       enrollmentNumber,
       phone,
@@ -31,11 +29,32 @@ export const register = async (req, res) => {
       mentorshipDomains,
     } = req.body;
 
-    // Validate required fields
-    if (!firstName || !lastName || !email || !password || !role) {
+    // Get Firebase user from token (already verified by middleware or create manually)
+    let firebaseUser;
+    if (req.firebaseUser) {
+      firebaseUser = req.firebaseUser;
+    } else if (firebaseUid) {
+      // Verify Firebase UID exists
+      try {
+        firebaseUser = await auth.getUser(firebaseUid);
+      } catch (error) {
+        return res.status(400).json({
+          success: false,
+          message: 'Invalid Firebase UID',
+        });
+      }
+    } else {
       return res.status(400).json({
         success: false,
-        message: 'Please provide all required fields: firstName, lastName, email, password, and role',
+        message: 'Firebase authentication required',
+      });
+    }
+
+    // Validate required fields
+    if (!firstName || !lastName || !email || !role) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide all required fields: firstName, lastName, email, and role',
       });
     }
 
@@ -51,13 +70,17 @@ export const register = async (req, res) => {
     const UserModel = getUserModel(role);
 
     // Check if user already exists in both collections
-    const existingAlumni = await AlumniModel.findOne({ email });
-    const existingStudent = await StudentModel.findOne({ email });
+    const existingAlumni = await AlumniModel.findOne({
+      $or: [{ email }, { firebaseUid: firebaseUser.uid }],
+    });
+    const existingStudent = await StudentModel.findOne({
+      $or: [{ email }, { firebaseUid: firebaseUser.uid }],
+    });
 
     if (existingAlumni || existingStudent) {
       return res.status(400).json({
         success: false,
-        message: 'User with this email already exists',
+        message: 'User with this email or Firebase account already exists',
       });
     }
 
@@ -77,13 +100,14 @@ export const register = async (req, res) => {
       firstName,
       lastName,
       email,
-      password,
+      firebaseUid: firebaseUser.uid,
       role,
       batch,
       enrollmentNumber,
       phone,
       department: department || 'Civil Engineering',
       bio,
+      isEmailVerified: firebaseUser.emailVerified || false,
     };
 
     // Add professional information (mainly for alumni)
@@ -102,7 +126,7 @@ export const register = async (req, res) => {
         userData.skills = Array.isArray(skills) ? skills : JSON.parse(skills);
       } catch (e) {
         // If it's a string, split by comma
-        userData.skills = typeof skills === 'string' ? skills.split(',').map(s => s.trim()) : [];
+        userData.skills = typeof skills === 'string' ? skills.split(',').map((s) => s.trim()) : [];
       }
     }
 
@@ -117,13 +141,14 @@ export const register = async (req, res) => {
           : JSON.parse(mentorshipDomains);
       } catch (e) {
         // If it's a string, split by comma
-        userData.mentorshipDomains = typeof mentorshipDomains === 'string'
-          ? mentorshipDomains.split(',').map(d => d.trim())
-          : [];
+        userData.mentorshipDomains =
+          typeof mentorshipDomains === 'string'
+            ? mentorshipDomains.split(',').map((d) => d.trim())
+            : [];
       }
     }
 
-    // Create user first to get the ID
+    // Create user
     const user = await UserModel.create(userData);
 
     // Handle file uploads if present
@@ -133,19 +158,20 @@ export const register = async (req, res) => {
         if (req.files.profilePicture && req.files.profilePicture[0]) {
           const profilePicResult = await uploadProfilePicture(
             req.files.profilePicture[0].buffer,
-            user._id.toString()
+            firebaseUser.uid,
+            req.files.profilePicture[0].originalname
           );
           user.profilePicture = profilePicResult.url;
         }
 
         // Upload ID card if provided (mainly for students)
         if (req.files.idCard && req.files.idCard[0]) {
-          const idCardResult = await uploadIdCard(
+          const idCardResult = await uploadDocument(
             req.files.idCard[0].buffer,
-            user._id.toString()
+            firebaseUser.uid,
+            req.files.idCard[0].originalname
           );
           // Store ID card URL in a custom field or as part of documents
-          // You might want to add an idCardUrl field to the User schema
           if (!user.documents) user.documents = {};
           user.documents.idCard = idCardResult.url;
         }
@@ -156,42 +182,14 @@ export const register = async (req, res) => {
     } catch (uploadError) {
       // Log the error but don't fail registration
       console.error('File upload error:', uploadError);
-      console.error('Cloudinary config:', {
-        cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-        api_key: process.env.CLOUDINARY_API_KEY ? 'SET' : 'NOT SET',
-        api_secret: process.env.CLOUDINARY_API_SECRET ? 'SET' : 'NOT SET',
-      });
-      // Continue with registration without uploaded files
       console.log('Continuing registration without file uploads');
     }
 
-    // Generate email verification token
-    const verificationToken = crypto.randomBytes(32).toString('hex');
-    user.emailVerificationToken = crypto.createHash('sha256').update(verificationToken).digest('hex');
-    user.emailVerificationExpires = Date.now() + 24 * 60 * 60 * 1000; // 24 hours
-    await user.save();
-
-    // Send verification email (don't block registration if email fails)
-    try {
-      await sendVerificationEmail(user.email, verificationToken, user.firstName);
-      console.log('Verification email sent to:', user.email);
-    } catch (emailError) {
-      console.error('Failed to send verification email:', emailError);
-      // Continue with registration even if email fails
-    }
-
-    // Generate tokens
-    const accessToken = generateAccessToken(user._id, role);
-    const refreshToken = generateRefreshToken(user._id, role);
-
     res.status(201).json({
       success: true,
-      message: 'Registration successful! Please check your email to verify your account.',
+      message: 'Registration successful!',
       data: {
         user: user.getPublicProfile(),
-        accessToken,
-        refreshToken,
-        emailSent: true, // Indicate that verification email was sent
       },
     });
   } catch (error) {
@@ -200,35 +198,41 @@ export const register = async (req, res) => {
     res.status(500).json({
       success: false,
       message: error.message || 'Error during registration',
-      ...(process.env.NODE_ENV === 'development' && { error: error.toString(), stack: error.stack }),
+      ...(process.env.NODE_ENV === 'development' && {
+        error: error.toString(),
+        stack: error.stack,
+      }),
     });
   }
 };
 
-// @desc    Login user
+// @desc    Login user with Firebase
 // @route   POST /api/auth/login
-// @access  Public
+// @access  Public (but requires Firebase ID token)
 export const login = async (req, res) => {
   try {
-    const { email, password, role } = req.body;
+    const { role } = req.body;
 
-    if (!email || !password || !role) {
+    if (!role) {
       return res.status(400).json({
         success: false,
-        message: 'Please provide email, password, and role',
+        message: 'Please provide role',
       });
     }
+
+    // Firebase user already verified by middleware
+    const firebaseUid = req.firebaseUser.uid;
 
     // Get appropriate model
     const UserModel = getUserModel(role);
 
-    // Find user and include password
-    const user = await UserModel.findOne({ email }).select('+password');
+    // Find user by Firebase UID
+    const user = await UserModel.findOne({ firebaseUid });
 
     if (!user) {
-      return res.status(401).json({
+      return res.status(404).json({
         success: false,
-        message: 'Invalid credentials',
+        message: 'User profile not found. Please complete registration.',
       });
     }
 
@@ -240,31 +244,15 @@ export const login = async (req, res) => {
       });
     }
 
-    // Check password
-    const isPasswordValid = await user.comparePassword(password);
-
-    if (!isPasswordValid) {
-      return res.status(401).json({
-        success: false,
-        message: 'Invalid credentials',
-      });
-    }
-
     // Update last active
     user.lastActive = new Date();
     await user.save();
-
-    // Generate tokens
-    const accessToken = generateAccessToken(user._id, role);
-    const refreshToken = generateRefreshToken(user._id, role);
 
     res.status(200).json({
       success: true,
       message: 'Login successful',
       data: {
         user: user.getPublicProfile(),
-        accessToken,
-        refreshToken,
       },
     });
   } catch (error) {
@@ -276,17 +264,82 @@ export const login = async (req, res) => {
   }
 };
 
+// @desc    Google login/signup
+// @route   POST /api/auth/google-login
+// @access  Public (but requires Firebase ID token)
+export const googleLogin = async (req, res) => {
+  try {
+    const { role } = req.body;
+
+    if (!role || !['student', 'alumni'].includes(role)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Valid role is required',
+      });
+    }
+
+    // Firebase user already verified by middleware
+    const firebaseUser = req.firebaseUser;
+
+    // Check if user exists in MongoDB
+    let user = await AlumniModel.findOne({ firebaseUid: firebaseUser.uid });
+    let userRole = 'alumni';
+
+    if (!user) {
+      user = await StudentModel.findOne({ firebaseUid: firebaseUser.uid });
+      userRole = 'student';
+    }
+
+    let isNewUser = false;
+
+    // If user doesn't exist, create new profile
+    if (!user) {
+      const UserModel = getUserModel(role);
+
+      const [firstName, ...lastNameParts] = (firebaseUser.displayName || firebaseUser.email.split('@')[0]).split(' ');
+
+      user = await UserModel.create({
+        firstName: firstName || 'User',
+        lastName: lastNameParts.join(' ') || '',
+        email: firebaseUser.email,
+        firebaseUid: firebaseUser.uid,
+        role,
+        isEmailVerified: firebaseUser.email_verified || false,
+        profilePicture: firebaseUser.picture || '',
+      });
+
+      isNewUser = true;
+    } else {
+      // Update last active
+      user.lastActive = new Date();
+      await user.save();
+    }
+
+    res.status(200).json({
+      success: true,
+      message: isNewUser ? 'Account created successfully' : 'Login successful',
+      data: {
+        user: user.getPublicProfile(),
+        isNewUser,
+      },
+    });
+  } catch (error) {
+    console.error('Google login error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error during Google authentication',
+    });
+  }
+};
+
 // @desc    Get current user
 // @route   GET /api/auth/me
 // @access  Private
 export const getMe = async (req, res) => {
   try {
-    const UserModel = getUserModel(req.user.role);
-    const user = await UserModel.findById(req.user._id);
-
     res.status(200).json({
       success: true,
-      data: user.getPublicProfile(),
+      data: req.user.getPublicProfile(),
     });
   } catch (error) {
     res.status(500).json({
@@ -301,7 +354,12 @@ export const getMe = async (req, res) => {
 // @access  Private
 export const logout = async (req, res) => {
   try {
-    // In a production app, you might want to blacklist the token
+    // Clear FCM token if present
+    if (req.user.fcmToken) {
+      req.user.fcmToken = undefined;
+      await req.user.save();
+    }
+
     res.status(200).json({
       success: true,
       message: 'Logout successful',
@@ -314,117 +372,32 @@ export const logout = async (req, res) => {
   }
 };
 
-// @desc    Forgot password
-// @route   POST /api/auth/forgot-password
-// @access  Public
-export const forgotPassword = async (req, res) => {
+// @desc    Update FCM token
+// @route   POST /api/auth/fcm-token
+// @access  Private
+export const updateFCMToken = async (req, res) => {
   try {
-    const { email, role } = req.body;
+    const { fcmToken } = req.body;
 
-    const UserModel = getUserModel(role);
-    const user = await UserModel.findOne({ email });
-
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: 'No user found with that email',
-      });
-    }
-
-    // Generate reset token
-    const resetToken = crypto.randomBytes(32).toString('hex');
-    user.passwordResetToken = crypto.createHash('sha256').update(resetToken).digest('hex');
-    user.passwordResetExpires = Date.now() + 3600000; // 1 hour
-
-    await user.save();
-
-    // TODO: Send email with reset link
-    // const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
-
-    res.status(200).json({
-      success: true,
-      message: 'Password reset link sent to email',
-      // In development, return the token
-      ...(process.env.NODE_ENV === 'development' && { resetToken }),
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: 'Error processing forgot password request',
-    });
-  }
-};
-
-// @desc    Reset password
-// @route   POST /api/auth/reset-password
-// @access  Public
-export const resetPassword = async (req, res) => {
-  try {
-    const { token, password, role } = req.body;
-
-    const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
-
-    const UserModel = getUserModel(role);
-    const user = await UserModel.findOne({
-      passwordResetToken: hashedToken,
-      passwordResetExpires: { $gt: Date.now() },
-    });
-
-    if (!user) {
+    if (!fcmToken) {
       return res.status(400).json({
         success: false,
-        message: 'Invalid or expired reset token',
+        message: 'FCM token is required',
       });
     }
 
-    // Set new password
-    user.password = password;
-    user.passwordResetToken = undefined;
-    user.passwordResetExpires = undefined;
-    await user.save();
+    req.user.fcmToken = fcmToken;
+    await req.user.save();
 
     res.status(200).json({
       success: true,
-      message: 'Password reset successful',
+      message: 'FCM token updated successfully',
     });
   } catch (error) {
+    console.error('FCM token update error:', error);
     res.status(500).json({
       success: false,
-      message: 'Error resetting password',
-    });
-  }
-};
-
-// @desc    Update password
-// @route   PUT /api/auth/update-password
-// @access  Private
-export const updatePassword = async (req, res) => {
-  try {
-    const { currentPassword, newPassword } = req.body;
-
-    const UserModel = getUserModel(req.user.role);
-    const user = await UserModel.findById(req.user._id).select('+password');
-
-    // Check current password
-    const isMatch = await user.comparePassword(currentPassword);
-    if (!isMatch) {
-      return res.status(401).json({
-        success: false,
-        message: 'Current password is incorrect',
-      });
-    }
-
-    user.password = newPassword;
-    await user.save();
-
-    res.status(200).json({
-      success: true,
-      message: 'Password updated successfully',
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: 'Error updating password',
+      message: 'Error updating FCM token',
     });
   }
 };
