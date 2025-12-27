@@ -46,7 +46,7 @@ export const onMessageListener = (callback: (payload: any) => void) => {
 /**
  * Save FCM token to backend
  */
-export const saveFCMToken = async (token: string, userId: string) => {
+export const saveFCMToken = async (token: string) => {
   try {
     const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 

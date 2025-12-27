@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Mail, Lock, Eye, EyeOff, User, Phone, Building, MapPin, Chrome, Upload, Briefcase, HardHat, GraduationCap, ArrowLeft } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, User, Phone, Building, MapPin, Upload, Briefcase, HardHat, GraduationCap, ArrowLeft } from 'lucide-react';
 import Button from '../../components/common/Button';
 import Input from '../../components/common/Input';
 import Card from '../../components/common/Card';
@@ -11,6 +11,7 @@ import { registerStudent, registerAlumni } from '../../services/auth.service';
 import { loginWithGoogle } from '../../services/firebase/auth.service';
 import { useAuth } from '../../context/AuthContext';
 import toast from 'react-hot-toast';
+import SEOHead from '../../components/common/SEOHead';
 
 // Import images
 import alumniConnectLogo from '../../assets/logos/alumni_connect_logo-removebg-preview.png';
@@ -284,7 +285,7 @@ const SignupPage: React.FC<SignupPageProps> = ({ userType = 'student' }) => {
           toast.success('Account created successfully with Google!');
           // New user - might need to complete profile
           if (!result.user.phone || !result.user.batch) {
-            toast.info('Please complete your profile');
+            toast('Please complete your profile', { icon: 'ℹ️' });
             navigate('/profile/edit');
           } else {
             navigate('/dashboard');
@@ -318,8 +319,15 @@ const SignupPage: React.FC<SignupPageProps> = ({ userType = 'student' }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
-      {/* Left Side - Hero Section with Civil Engineering Theme */}
+    <>
+      <SEOHead
+        title={`${userType === 'student' ? 'Student' : 'Alumni'} Registration - BIT Sindri Civil Engineering | Join ACE Alumni Network`}
+        description={`Register as ${userType === 'student' ? 'a student of' : 'an alumnus from'} BIT Sindri Department of Civil Engineering. Join 1,250+ members in ACE BIT Sindri Alumni Network. Connect with alumni, find mentorship, jobs, and networking opportunities.`}
+        keywords={`BIT Sindri ${userType} registration, Civil Engineering ${userType} signup, BIT Dhanbad ${userType}, ACE BIT Sindri join, Alumni network registration, Engineering college ${userType}, BIT Sindri admission, Civil Engineering community`}
+        url={`https://alumni-connect.bitsindri.ac.in/signup/${userType}`}
+      />
+      <div className="min-h-screen bg-gray-50 flex">
+        {/* Left Side - Hero Section with Civil Engineering Theme */}
       <div className="hidden lg:flex lg:w-2/5 bg-gradient-to-br from-orange-600 via-blue-700 to-orange-800 p-12 flex-col justify-between relative overflow-hidden">
         {/* Background Images */}
         <div className="absolute inset-0">
@@ -982,9 +990,10 @@ const SignupPage: React.FC<SignupPageProps> = ({ userType = 'student' }) => {
             </Link>
           </p>
         </Card>
-        </div>
       </div>
     </div>
+  </div>
+  </>
   );
 };
 
