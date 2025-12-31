@@ -35,6 +35,12 @@ const allowedOrigins = (process.env.CORS_ORIGIN || process.env.FRONTEND_URL || '
   .split(',')
   .map(origin => origin.trim());
 
+// Add production frontend domain
+const productionFrontend = 'https://alumniconnect.acebits.in';
+if (!allowedOrigins.includes(productionFrontend)) {
+  allowedOrigins.push(productionFrontend);
+}
+
 console.log('✅ Allowed CORS Origins:', allowedOrigins);
 
 app.use(cors({
