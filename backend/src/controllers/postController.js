@@ -1,6 +1,9 @@
 import Post from '../models/Post.js';
 import { getUserModel } from '../models/User.js';
 import { uploadPostImage, deleteFromCloudinary, deleteMultipleFromCloudinary } from '../config/cloudinary.js';
+import { sendCompleteNotification, NotificationTemplates } from '../services/notificationService.js';
+import { sendPostEngagementEmail } from '../utils/email.js';
+import { truncateText } from '../utils/firebaseHelpers.js';
 
 // @desc    Create a new post
 // @route   POST /api/posts
@@ -351,6 +354,7 @@ export const likePost = async (req, res) => {
     );
 
     let message;
+    let isLiked = false;
     if (likeIndex > -1) {
       // Unlike the post
       post.likes.splice(likeIndex, 1);
@@ -359,6 +363,7 @@ export const likePost = async (req, res) => {
       // Like the post
       post.likes.push({ user: req.user._id });
       message = 'Post liked';
+      isLiked = true;
     }
 
     await post.save();
@@ -366,8 +371,43 @@ export const likePost = async (req, res) => {
     // Populate the post
     await post.populate({
       path: 'author',
-      select: 'firstName lastName profilePicture currentRole company batch role',
+      select: 'firstName lastName profilePicture currentRole company batch role email',
     });
+
+    // Send notification only if liked (not unliked) and not liking own post
+    if (isLiked && post.author._id.toString() !== req.user._id.toString()) {
+      const likerName = `${req.user.firstName} ${req.user.lastName}`;
+      const postPreview = truncateText(post.content, 50);
+      const notificationData = NotificationTemplates.POST_LIKE(likerName, postPreview);
+
+      try {
+        await sendCompleteNotification({
+          recipientId: post.author._id,
+          senderId: req.user._id,
+          type: notificationData.type,
+          title: notificationData.title,
+          message: notificationData.message,
+          actionUrl: `/posts/${post._id}`,
+          relatedPost: post._id,
+          sendPush: true,
+          sendInApp: true,
+        });
+
+        // Send email notification
+        const postUrl = `${process.env.FRONTEND_URL}/posts/${post._id}`;
+        await sendPostEngagementEmail(
+          post.author.email,
+          post.author.firstName,
+          likerName,
+          'like',
+          postPreview,
+          null,
+          postUrl
+        ).catch(err => console.log('Email notification failed:', err));
+      } catch (notifError) {
+        console.log('Notification failed:', notifError);
+      }
+    }
 
     res.status(200).json({
       success: true,
@@ -375,7 +415,7 @@ export const likePost = async (req, res) => {
       data: {
         postId: post._id,
         likeCount: post.likes.length,
-        isLiked: likeIndex === -1,
+        isLiked,
       },
     });
   } catch (error) {
@@ -401,7 +441,10 @@ export const commentOnPost = async (req, res) => {
       });
     }
 
-    const post = await Post.findById(req.params.id);
+    const post = await Post.findById(req.params.id).populate({
+      path: 'author',
+      select: 'firstName lastName profilePicture currentRole company batch role email',
+    });
 
     if (!post) {
       return res.status(404).json({
@@ -426,6 +469,41 @@ export const commentOnPost = async (req, res) => {
     });
 
     const newComment = post.comments[post.comments.length - 1];
+
+    // Send notification to post author (not if commenting on own post)
+    if (post.author._id.toString() !== req.user._id.toString()) {
+      const commenterName = `${req.user.firstName} ${req.user.lastName}`;
+      const postPreview = truncateText(post.content, 50);
+      const notificationData = NotificationTemplates.POST_COMMENT(commenterName, postPreview);
+
+      try {
+        await sendCompleteNotification({
+          recipientId: post.author._id,
+          senderId: req.user._id,
+          type: notificationData.type,
+          title: notificationData.title,
+          message: notificationData.message,
+          actionUrl: `/posts/${post._id}`,
+          relatedPost: post._id,
+          sendPush: true,
+          sendInApp: true,
+        });
+
+        // Send email notification
+        const postUrl = `${process.env.FRONTEND_URL}/posts/${post._id}`;
+        await sendPostEngagementEmail(
+          post.author.email,
+          post.author.firstName,
+          commenterName,
+          'comment',
+          postPreview,
+          truncateText(content, 100),
+          postUrl
+        ).catch(err => console.log('Email notification failed:', err));
+      } catch (notifError) {
+        console.log('Notification failed:', notifError);
+      }
+    }
 
     res.status(201).json({
       success: true,
