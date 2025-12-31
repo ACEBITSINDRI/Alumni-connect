@@ -1,5 +1,7 @@
 import { getUserModel, AlumniModel, StudentModel } from '../models/User.js';
 import mongoose from 'mongoose';
+import { sendCompleteNotification, NotificationTemplates } from '../services/notificationService.js';
+import { sendConnectionRequestEmail } from '../utils/email.js';
 
 // @desc    Send connection request
 // @route   POST /api/connections/request/:userId
@@ -72,6 +74,36 @@ export const sendConnectionRequest = async (req, res) => {
         },
       },
     });
+
+    // Send notification
+    const senderName = `${req.user.firstName} ${req.user.lastName}`;
+    const notificationData = NotificationTemplates.CONNECTION_REQUEST(senderName);
+
+    try {
+      await sendCompleteNotification({
+        recipientId: userId,
+        senderId: req.user._id,
+        type: notificationData.type,
+        title: notificationData.title,
+        message: notificationData.message,
+        actionUrl: `/profile/${req.user._id}`,
+        sendPush: true,
+        sendInApp: true,
+      });
+
+      // Send email notification
+      const profileUrl = `${process.env.FRONTEND_URL}/profile/${req.user._id}`;
+      await sendConnectionRequestEmail(
+        targetUser.email,
+        targetUser.firstName,
+        senderName,
+        req.user.role,
+        profileUrl
+      ).catch(err => console.log('Email notification failed:', err));
+    } catch (notifError) {
+      console.log('Notification failed:', notifError);
+      // Continue even if notification fails
+    }
 
     res.status(200).json({
       success: true,
@@ -255,6 +287,26 @@ export const acceptConnectionRequest = async (req, res) => {
     if (sender && !sender.connections.includes(req.user._id)) {
       sender.connections.push(req.user._id);
       await sender.save();
+    }
+
+    // Send notification to the sender
+    const accepterName = `${req.user.firstName} ${req.user.lastName}`;
+    const notificationData = NotificationTemplates.CONNECTION_ACCEPTED(accepterName);
+
+    try {
+      await sendCompleteNotification({
+        recipientId: senderId,
+        senderId: req.user._id,
+        type: notificationData.type,
+        title: notificationData.title,
+        message: notificationData.message,
+        actionUrl: `/profile/${req.user._id}`,
+        sendPush: true,
+        sendInApp: true,
+      });
+    } catch (notifError) {
+      console.log('Notification failed:', notifError);
+      // Continue even if notification fails
     }
 
     res.status(200).json({
