@@ -363,8 +363,8 @@ userSchema.methods.getPublicProfile = function() {
 };
 
 // Generate email verification token
-userSchema.methods.generateVerificationToken = function() {
-  const crypto = require('crypto');
+userSchema.methods.generateVerificationToken = async function() {
+  const crypto = await import('crypto');
   const token = crypto.randomBytes(32).toString('hex');
 
   this.emailVerificationToken = crypto
@@ -379,8 +379,8 @@ userSchema.methods.generateVerificationToken = function() {
 };
 
 // Generate password reset token
-userSchema.methods.generatePasswordResetToken = function() {
-  const crypto = require('crypto');
+userSchema.methods.generatePasswordResetToken = async function() {
+  const crypto = await import('crypto');
   const token = crypto.randomBytes(32).toString('hex');
 
   this.passwordResetToken = crypto
