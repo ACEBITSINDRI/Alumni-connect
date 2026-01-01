@@ -362,6 +362,38 @@ userSchema.methods.getPublicProfile = function() {
   return user;
 };
 
+// Generate email verification token
+userSchema.methods.generateVerificationToken = function() {
+  const crypto = require('crypto');
+  const token = crypto.randomBytes(32).toString('hex');
+
+  this.emailVerificationToken = crypto
+    .createHash('sha256')
+    .update(token)
+    .digest('hex');
+
+  // Token expires in 24 hours
+  this.emailVerificationExpires = Date.now() + 24 * 60 * 60 * 1000;
+
+  return token; // Return unhashed token to send via email
+};
+
+// Generate password reset token
+userSchema.methods.generatePasswordResetToken = function() {
+  const crypto = require('crypto');
+  const token = crypto.randomBytes(32).toString('hex');
+
+  this.passwordResetToken = crypto
+    .createHash('sha256')
+    .update(token)
+    .digest('hex');
+
+  // Token expires in 1 hour
+  this.passwordResetExpires = Date.now() + 60 * 60 * 1000;
+
+  return token; // Return unhashed token to send via email
+};
+
 // Create models for both collections with systematic names
 const AlumniModel = mongoose.model('Alumni', userSchema.clone(), 'alumni_data');
 const StudentModel = mongoose.model('Student', userSchema.clone(), 'student_data');

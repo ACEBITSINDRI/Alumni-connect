@@ -175,6 +175,26 @@ export const register = async (req, res) => {
     // Create user
     const user = await UserModel.create(userData);
 
+    // Generate verification token and send email (for email/password signups)
+    if (createdFirebaseUser) {
+      const verificationToken = user.generateVerificationToken();
+      await user.save();
+
+      // Send verification email
+      try {
+        const { sendVerificationEmail } = await import('../utils/email.js');
+        await sendVerificationEmail(
+          user.email,
+          verificationToken,
+          `${user.firstName} ${user.lastName}`
+        );
+        console.log('✅ Verification email sent to:', user.email);
+      } catch (emailError) {
+        console.error('❌ Failed to send verification email:', emailError);
+        // Don't fail registration if email fails
+      }
+    }
+
     // Handle file uploads if present
     try {
       if (req.files) {
@@ -447,6 +467,263 @@ export const updateFCMToken = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Error updating FCM token',
+    });
+  }
+};
+
+// @desc    Verify email
+// @route   GET /api/auth/verify-email/:token
+// @access  Public
+export const verifyEmail = async (req, res) => {
+  try {
+    const { token } = req.params;
+    const crypto = require('crypto');
+
+    // Hash the token to compare with stored hashed token
+    const hashedToken = crypto
+      .createHash('sha256')
+      .update(token)
+      .digest('hex');
+
+    // Find user with this token that hasn't expired
+    let user = await AlumniModel.findOne({
+      emailVerificationToken: hashedToken,
+      emailVerificationExpires: { $gt: Date.now() },
+    });
+
+    if (!user) {
+      user = await StudentModel.findOne({
+        emailVerificationToken: hashedToken,
+        emailVerificationExpires: { $gt: Date.now() },
+      });
+    }
+
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid or expired verification token',
+      });
+    }
+
+    // Mark email as verified
+    user.isEmailVerified = true;
+    user.emailVerificationToken = undefined;
+    user.emailVerificationExpires = undefined;
+    await user.save();
+
+    // Send welcome email
+    try {
+      const { sendWelcomeEmail } = await import('../utils/email.js');
+      await sendWelcomeEmail(
+        user.email,
+        `${user.firstName} ${user.lastName}`,
+        user.role
+      );
+    } catch (emailError) {
+      console.error('Failed to send welcome email:', emailError);
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Email verified successfully! You can now login.',
+      data: {
+        email: user.email,
+        isEmailVerified: true,
+      },
+    });
+  } catch (error) {
+    console.error('Email verification error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error verifying email',
+    });
+  }
+};
+
+// @desc    Resend verification email
+// @route   POST /api/auth/resend-verification
+// @access  Public
+export const resendVerificationEmail = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide email address',
+      });
+    }
+
+    // Find user by email
+    let user = await AlumniModel.findOne({ email });
+    if (!user) {
+      user = await StudentModel.findOne({ email });
+    }
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found with this email',
+      });
+    }
+
+    // Check if already verified
+    if (user.isEmailVerified) {
+      return res.status(400).json({
+        success: false,
+        message: 'Email is already verified',
+      });
+    }
+
+    // Generate new verification token
+    const verificationToken = user.generateVerificationToken();
+    await user.save();
+
+    // Send verification email
+    const { sendVerificationEmail } = await import('../utils/email.js');
+    await sendVerificationEmail(
+      user.email,
+      verificationToken,
+      `${user.firstName} ${user.lastName}`
+    );
+
+    res.status(200).json({
+      success: true,
+      message: 'Verification email sent successfully',
+      data: {
+        email: user.email,
+      },
+    });
+  } catch (error) {
+    console.error('Resend verification error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error sending verification email',
+    });
+  }
+};
+
+// @desc    Request password reset
+// @route   POST /api/auth/forgot-password
+// @access  Public
+export const forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide email address',
+      });
+    }
+
+    // Find user by email
+    let user = await AlumniModel.findOne({ email });
+    if (!user) {
+      user = await StudentModel.findOne({ email });
+    }
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found with this email',
+      });
+    }
+
+    // Generate password reset token
+    const resetToken = user.generatePasswordResetToken();
+    await user.save();
+
+    // Send password reset email
+    const { sendPasswordResetEmail } = await import('../utils/email.js');
+    await sendPasswordResetEmail(
+      user.email,
+      resetToken,
+      `${user.firstName} ${user.lastName}`
+    );
+
+    res.status(200).json({
+      success: true,
+      message: 'Password reset email sent successfully',
+      data: {
+        email: user.email,
+      },
+    });
+  } catch (error) {
+    console.error('Forgot password error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error sending password reset email',
+    });
+  }
+};
+
+// @desc    Reset password
+// @route   PUT /api/auth/reset-password/:token
+// @access  Public
+export const resetPassword = async (req, res) => {
+  try {
+    const { token } = req.params;
+    const { password } = req.body;
+    const crypto = require('crypto');
+
+    if (!password || password.length < 6) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide a password with at least 6 characters',
+      });
+    }
+
+    // Hash the token to compare with stored hashed token
+    const hashedToken = crypto
+      .createHash('sha256')
+      .update(token)
+      .digest('hex');
+
+    // Find user with this token that hasn't expired
+    let user = await AlumniModel.findOne({
+      passwordResetToken: hashedToken,
+      passwordResetExpires: { $gt: Date.now() },
+    });
+
+    if (!user) {
+      user = await StudentModel.findOne({
+        passwordResetToken: hashedToken,
+        passwordResetExpires: { $gt: Date.now() },
+      });
+    }
+
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid or expired password reset token',
+      });
+    }
+
+    // Set new password
+    user.password = password;
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
+    await user.save();
+
+    // Update Firebase password too if Firebase user exists
+    if (user.firebaseUid) {
+      try {
+        await auth.updateUser(user.firebaseUid, { password });
+      } catch (firebaseError) {
+        console.error('Failed to update Firebase password:', firebaseError);
+      }
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Password reset successful! You can now login with your new password.',
+    });
+  } catch (error) {
+    console.error('Reset password error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error resetting password',
     });
   }
 };

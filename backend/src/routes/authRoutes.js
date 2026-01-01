@@ -7,6 +7,10 @@ import {
   getMe,
   logout,
   updateFCMToken,
+  verifyEmail,
+  resendVerificationEmail,
+  forgotPassword,
+  resetPassword,
 } from '../controllers/authController.js';
 import { protect } from '../middleware/auth.js';
 import { validate } from '../middleware/validation.js';
@@ -36,6 +40,14 @@ const fcmTokenValidation = [
   body('fcmToken').trim().notEmpty().withMessage('FCM token is required'),
 ];
 
+const emailValidation = [
+  body('email').isEmail().withMessage('Please provide a valid email'),
+];
+
+const resetPasswordValidation = [
+  body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
+];
+
 // Routes (Firebase-based)
 router.post('/register', uploadRegistrationFiles, handleUploadError, registerValidation, validate, register);
 router.post('/login', protect, loginValidation, validate, login);
@@ -44,7 +56,12 @@ router.get('/me', protect, getMe);
 router.post('/logout', protect, logout);
 router.post('/fcm-token', protect, fcmTokenValidation, validate, updateFCMToken);
 
-// Note: Password reset is now handled by Firebase on client side
-// No need for forgot-password, reset-password, update-password endpoints
+// Email Verification Routes
+router.get('/verify-email/:token', verifyEmail);
+router.post('/resend-verification', emailValidation, validate, resendVerificationEmail);
+
+// Password Reset Routes (for email/password users)
+router.post('/forgot-password', emailValidation, validate, forgotPassword);
+router.put('/reset-password/:token', resetPasswordValidation, validate, resetPassword);
 
 export default router;
