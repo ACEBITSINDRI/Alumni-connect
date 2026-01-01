@@ -224,6 +224,99 @@ const userSchema = new mongoose.Schema(
     fcmToken: {
       type: String,
     },
+
+    // Notification Preferences
+    notificationPreferences: {
+      // Push Notification Settings
+      pushNotifications: {
+        enabled: {
+          type: Boolean,
+          default: true,
+        },
+        connections: {
+          type: Boolean,
+          default: true,
+        },
+        posts: {
+          type: Boolean,
+          default: true,
+        },
+        comments: {
+          type: Boolean,
+          default: true,
+        },
+        likes: {
+          type: Boolean,
+          default: true,
+        },
+        messages: {
+          type: Boolean,
+          default: true,
+        },
+        events: {
+          type: Boolean,
+          default: true,
+        },
+        jobs: {
+          type: Boolean,
+          default: true,
+        },
+        mentorship: {
+          type: Boolean,
+          default: true,
+        },
+      },
+      // Email Notification Settings
+      emailNotifications: {
+        enabled: {
+          type: Boolean,
+          default: true,
+        },
+        connections: {
+          type: Boolean,
+          default: true,
+        },
+        posts: {
+          type: Boolean,
+          default: false, // Less frequent by default
+        },
+        comments: {
+          type: Boolean,
+          default: true,
+        },
+        likes: {
+          type: Boolean,
+          default: false,
+        },
+        messages: {
+          type: Boolean,
+          default: true,
+        },
+        events: {
+          type: Boolean,
+          default: true,
+        },
+        jobs: {
+          type: Boolean,
+          default: true,
+        },
+        mentorship: {
+          type: Boolean,
+          default: true,
+        },
+        weeklyDigest: {
+          type: Boolean,
+          default: true,
+        },
+      },
+      // In-App Notification Settings
+      inAppNotifications: {
+        enabled: {
+          type: Boolean,
+          default: true,
+        },
+      },
+    },
   },
   {
     timestamps: true,

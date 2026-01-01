@@ -4,13 +4,14 @@ import { uploadProfilePicture, uploadDocument } from '../services/firebaseStorag
 
 // @desc    Register user with Firebase
 // @route   POST /api/auth/register
-// @access  Public (but requires Firebase ID token)
+// @access  Public (supports both Firebase Auth and Email/Password)
 export const register = async (req, res) => {
   try {
     const {
       firstName,
       lastName,
       email,
+      password,
       role,
       firebaseUid,
       batch,
@@ -29,12 +30,15 @@ export const register = async (req, res) => {
       mentorshipDomains,
     } = req.body;
 
-    // Get Firebase user from token (already verified by middleware or create manually)
+    // Get Firebase user from multiple sources
     let firebaseUser;
+    let createdFirebaseUser = false;
+
     if (req.firebaseUser) {
+      // Case 1: Already authenticated via Firebase (from protect middleware)
       firebaseUser = req.firebaseUser;
     } else if (firebaseUid) {
-      // Verify Firebase UID exists
+      // Case 2: Firebase UID provided (Google Sign-In from frontend)
       try {
         firebaseUser = await auth.getUser(firebaseUid);
       } catch (error) {
@@ -43,10 +47,30 @@ export const register = async (req, res) => {
           message: 'Invalid Firebase UID',
         });
       }
+    } else if (email && password) {
+      // Case 3: Email/Password registration - Create Firebase user automatically
+      try {
+        console.log('Creating Firebase user for email/password registration...');
+        firebaseUser = await auth.createUser({
+          email,
+          password,
+          emailVerified: false,
+          displayName: `${firstName} ${lastName}`,
+        });
+        createdFirebaseUser = true;
+        console.log('✅ Firebase user created:', firebaseUser.uid);
+      } catch (firebaseError) {
+        console.error('Firebase user creation error:', firebaseError);
+        return res.status(400).json({
+          success: false,
+          message: firebaseError.message || 'Failed to create Firebase user',
+          error: firebaseError.code,
+        });
+      }
     } else {
       return res.status(400).json({
         success: false,
-        message: 'Firebase authentication required',
+        message: 'Please provide either firebaseUid (for Google Sign-In) or email & password for registration',
       });
     }
 
@@ -185,16 +209,41 @@ export const register = async (req, res) => {
       console.log('Continuing registration without file uploads');
     }
 
+    // Generate custom Firebase token for immediate login (for email/password users)
+    let customToken = null;
+    if (createdFirebaseUser) {
+      try {
+        customToken = await auth.createCustomToken(firebaseUser.uid);
+        console.log('✅ Custom token generated for new user');
+      } catch (tokenError) {
+        console.error('Error generating custom token:', tokenError);
+        // Don't fail registration, user can login separately
+      }
+    }
+
     res.status(201).json({
       success: true,
       message: 'Registration successful!',
       data: {
         user: user.getPublicProfile(),
+        firebaseUid: firebaseUser.uid,
+        ...(customToken && { customToken }), // Include custom token for email/password users
       },
     });
   } catch (error) {
     console.error('Register error:', error);
     console.error('Error stack:', error.stack);
+
+    // Cleanup: If we created a Firebase user but MongoDB user creation failed, delete the Firebase user
+    if (createdFirebaseUser && firebaseUser) {
+      try {
+        await auth.deleteUser(firebaseUser.uid);
+        console.log('Cleaned up Firebase user after registration failure');
+      } catch (cleanupError) {
+        console.error('Failed to cleanup Firebase user:', cleanupError);
+      }
+    }
+
     res.status(500).json({
       success: false,
       message: error.message || 'Error during registration',

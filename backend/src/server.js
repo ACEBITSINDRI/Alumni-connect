@@ -24,6 +24,17 @@ connectDB();
 // Initialize Express app
 const app = express();
 
+// Initialize Cron Jobs for automated tasks
+import { initializeCronJobs } from './services/cronService.js';
+if (process.env.NODE_ENV === 'production') {
+  // Only run cron jobs in production to avoid multiple instances in development
+  initializeCronJobs();
+  console.log('📅 Cron jobs initialized (Production mode)');
+} else {
+  console.log('⏰ Cron jobs disabled (Development mode)');
+  console.log('   Use POST /api/notifications/test/* endpoints to test manually');
+}
+
 // Trust proxy for Render deployment
 app.set('trust proxy', 1);
 
