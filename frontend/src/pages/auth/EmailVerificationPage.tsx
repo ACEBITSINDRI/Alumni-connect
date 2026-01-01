@@ -3,17 +3,19 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { Mail, CheckCircle, XCircle, Loader } from 'lucide-react';
 import Button from '../../components/common/Button';
 import Card from '../../components/common/Card';
+import { verifyEmail as verifyEmailAPI, resendVerificationEmail as resendEmailAPI } from '../../services/auth.service';
 
 const EmailVerificationPage: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const token = searchParams.get('token');
+  const emailParam = searchParams.get('email');
 
   const [isVerifying, setIsVerifying] = useState(!!token);
   const [isVerified, setIsVerified] = useState(false);
   const [error, setError] = useState('');
   const [countdown, setCountdown] = useState(0);
-  const [email] = useState('user@example.com'); // This should come from auth context
+  const [email] = useState(emailParam || 'user@example.com'); // Get email from URL or fallback
 
   // Auto-verify if token is present
   useEffect(() => {
@@ -27,18 +29,22 @@ const EmailVerificationPage: React.FC = () => {
     setError('');
 
     try {
-      // TODO: Replace with actual API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      console.log('Email verified with token:', verificationToken);
+      const response = await verifyEmailAPI(verificationToken);
 
-      setIsVerified(true);
+      if (response.success) {
+        console.log('Email verified successfully');
+        setIsVerified(true);
 
-      // Auto-redirect to dashboard after 3 seconds
-      setTimeout(() => {
-        navigate('/dashboard');
-      }, 3000);
-    } catch (err) {
-      setError('Verification failed. The link may be expired or invalid.');
+        // Auto-redirect to login page after 3 seconds
+        setTimeout(() => {
+          navigate('/login');
+        }, 3000);
+      } else {
+        setError(response.message || 'Verification failed. The link may be expired or invalid.');
+      }
+    } catch (err: any) {
+      console.error('Email verification error:', err);
+      setError(err.response?.data?.message || 'Verification failed. The link may be expired or invalid.');
     } finally {
       setIsVerifying(false);
     }
@@ -46,23 +52,33 @@ const EmailVerificationPage: React.FC = () => {
 
   const handleResendEmail = async () => {
     try {
-      // TODO: Replace with actual API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      console.log('Verification email resent to:', email);
+      if (!email || email === 'user@example.com') {
+        setError('Email address not found. Please return to signup.');
+        return;
+      }
 
-      // Start countdown
-      setCountdown(60);
-      const timer = setInterval(() => {
-        setCountdown(prev => {
-          if (prev <= 1) {
-            clearInterval(timer);
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
-    } catch (err) {
-      setError('Failed to resend email. Please try again.');
+      const response = await resendEmailAPI(email);
+
+      if (response.success) {
+        console.log('Verification email resent to:', email);
+
+        // Start countdown
+        setCountdown(60);
+        const timer = setInterval(() => {
+          setCountdown(prev => {
+            if (prev <= 1) {
+              clearInterval(timer);
+              return 0;
+            }
+            return prev - 1;
+          });
+        }, 1000);
+      } else {
+        setError(response.message || 'Failed to resend email. Please try again.');
+      }
+    } catch (err: any) {
+      console.error('Resend email error:', err);
+      setError(err.response?.data?.message || 'Failed to resend email. Please try again.');
     }
   };
 
@@ -107,16 +123,16 @@ const EmailVerificationPage: React.FC = () => {
 
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
               <p className="text-sm text-blue-800">
-                Redirecting to your dashboard in 3 seconds...
+                Redirecting to login page in 3 seconds...
               </p>
             </div>
 
             <Button
               variant="primary"
-              onClick={() => navigate('/dashboard')}
+              onClick={() => navigate('/login')}
               className="w-full"
             >
-              Go to Dashboard
+              Go to Login
             </Button>
           </Card>
         </div>

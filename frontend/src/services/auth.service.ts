@@ -214,7 +214,7 @@ export const logout = async (): Promise<void> => {
 
 // Verify Email
 export const verifyEmail = async (token: string): Promise<AuthResponse> => {
-  const response = await api.get<AuthResponse>(`/auth/verify-email/${token}`);
+  const response = await api.get<AuthResponse>(`/api/auth/verify-email/${token}`);
   return response.data;
 };
 
@@ -232,7 +232,7 @@ export const forgotPassword = async (email: string): Promise<AuthResponse> => {
 
 // Reset Password
 export const resetPassword = async (token: string, password: string): Promise<AuthResponse> => {
-  const response = await api.post<AuthResponse>(`/auth/reset-password/${token}`, { password });
+  const response = await api.post<AuthResponse>(`/api/auth/reset-password/${token}`, { password });
   return response.data;
 };
 
