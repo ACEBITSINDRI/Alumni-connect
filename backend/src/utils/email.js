@@ -678,6 +678,141 @@ export const sendWeeklyDigestEmail = async (email, userName, stats) => {
   }
 };
 
+/**
+ * Send Event Reminder Email
+ * @param {String} email - Recipient email
+ * @param {String} userName - Recipient name
+ * @param {String} eventName - Event name
+ * @param {Date} eventDate - Event date
+ * @param {String} eventUrl - Event URL
+ */
+export const sendEventReminderEmail = async (email, userName, eventName, eventDate, eventUrl) => {
+  const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+  const eventLink = `${frontendUrl}${eventUrl}`;
+  const eventDateTime = new Date(eventDate).toLocaleString('en-IN', {
+    timeZone: 'Asia/Kolkata',
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+
+  const htmlContent = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+        .content { background: #f9f9f9; padding: 30px; }
+        .event-box { background: white; padding: 20px; border-left: 4px solid #667eea; margin: 20px 0; border-radius: 5px; }
+        .btn { display: inline-block; padding: 12px 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white !important; text-decoration: none; border-radius: 25px; margin-top: 20px; }
+        .footer { background: #333; color: #fff; padding: 20px; text-align: center; border-radius: 0 0 10px 10px; }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <div class="header">
+          <h1>⏰ Event Reminder</h1>
+        </div>
+        <div class="content">
+          <p>Hi ${userName},</p>
+          <p>This is a friendly reminder that the event you registered for is coming up soon!</p>
+
+          <div class="event-box">
+            <h2 style="margin-top: 0; color: #667eea;">📅 ${eventName}</h2>
+            <p><strong>Date & Time:</strong> ${eventDateTime}</p>
+            <p>Don't forget to mark your calendar and prepare for the event!</p>
+          </div>
+
+          <p>We're looking forward to seeing you there. If you have any questions, please feel free to reach out.</p>
+
+          <center>
+            <a href="${eventLink}" class="btn">View Event Details</a>
+          </center>
+        </div>
+        <div class="footer">
+          <p>&copy; ${new Date().getFullYear()} Alumni Connect - BIT Sindri</p>
+        </div>
+      </div>
+    </body>
+    </html>
+  `;
+
+  await sendEmail({
+    to: email,
+    subject: `Reminder: ${eventName} is coming up soon!`,
+    html: htmlContent,
+  });
+};
+
+/**
+ * Send New Message Email
+ * @param {String} email - Recipient email
+ * @param {String} userName - Recipient name
+ * @param {String} senderName - Sender name
+ * @param {String} messagePreview - Preview of the message
+ * @param {String} conversationUrl - Conversation URL
+ */
+export const sendNewMessageEmail = async (email, userName, senderName, messagePreview, conversationUrl) => {
+  const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+  const messageLink = `${frontendUrl}${conversationUrl}`;
+
+  const htmlContent = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+        .content { background: #f9f9f9; padding: 30px; }
+        .message-box { background: white; padding: 20px; border-left: 4px solid #667eea; margin: 20px 0; border-radius: 5px; font-style: italic; color: #666; }
+        .btn { display: inline-block; padding: 12px 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white !important; text-decoration: none; border-radius: 25px; margin-top: 20px; }
+        .footer { background: #333; color: #fff; padding: 20px; text-align: center; border-radius: 0 0 10px 10px; }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <div class="header">
+          <h1>💬 New Message</h1>
+        </div>
+        <div class="content">
+          <p>Hi ${userName},</p>
+          <p><strong>${senderName}</strong> sent you a message on Alumni Connect!</p>
+
+          <div class="message-box">
+            <p>"${messagePreview}"</p>
+          </div>
+
+          <p>Reply to continue the conversation and stay connected.</p>
+
+          <center>
+            <a href="${messageLink}" class="btn">View & Reply</a>
+          </center>
+
+          <p style="color: #999; font-size: 12px; margin-top: 20px;">
+            <em>Tip: You can adjust your message notification preferences in your account settings.</em>
+          </p>
+        </div>
+        <div class="footer">
+          <p>&copy; ${new Date().getFullYear()} Alumni Connect - BIT Sindri</p>
+        </div>
+      </div>
+    </body>
+    </html>
+  `;
+
+  await sendEmail({
+    to: email,
+    subject: `New message from ${senderName}`,
+    html: htmlContent,
+  });
+};
+
 export default {
   sendVerificationEmail,
   sendWelcomeEmail,
@@ -685,7 +820,9 @@ export default {
   sendConnectionRequestEmail,
   sendNewJobEmail,
   sendEventInvitationEmail,
+  sendEventReminderEmail,
   sendMentorshipRequestEmail,
   sendPostEngagementEmail,
   sendWeeklyDigestEmail,
+  sendNewMessageEmail,
 };

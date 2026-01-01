@@ -162,6 +162,20 @@ const eventSchema = new mongoose.Schema(
       enum: ['public', 'private'],
       default: 'public',
     },
+
+    // Reminder Tracking (for cron jobs)
+    reminderSent1Day: {
+      type: Boolean,
+      default: false,
+    },
+    reminderSent3Hours: {
+      type: Boolean,
+      default: false,
+    },
+    reminderSent1Hour: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

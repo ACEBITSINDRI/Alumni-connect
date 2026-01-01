@@ -496,6 +496,495 @@ export const NotificationTemplates = {
   }),
 };
 
+/**
+ * ============================================
+ * NOTIFICATION PREFERENCE CHECKER
+ * ============================================
+ */
+
+/**
+ * Check if user wants to receive specific type of notification
+ * @param {Object} user - User document
+ * @param {String} notificationType - Type: 'connections', 'posts', 'comments', 'likes', 'messages', 'events', 'jobs', 'mentorship'
+ * @param {String} channel - Channel: 'push', 'email', 'inApp'
+ * @returns {Boolean}
+ */
+export const shouldSendNotification = (user, notificationType, channel = 'push') => {
+  if (!user || !user.notificationPreferences) {
+    return true; // Send by default if preferences not set
+  }
+
+  const prefs = user.notificationPreferences;
+
+  if (channel === 'push') {
+    return prefs.pushNotifications?.enabled && prefs.pushNotifications?.[notificationType];
+  } else if (channel === 'email') {
+    return prefs.emailNotifications?.enabled && prefs.emailNotifications?.[notificationType];
+  } else if (channel === 'inApp') {
+    return prefs.inAppNotifications?.enabled;
+  }
+
+  return true;
+};
+
+/**
+ * ============================================
+ * SPECIALIZED NOTIFICATION FUNCTIONS
+ * ============================================
+ */
+
+/**
+ * Send Event Reminder Notification
+ * @param {String} eventId - Event ID
+ * @param {String} eventName - Event name
+ * @param {Date} eventDate - Event date
+ * @param {Array} participants - Array of participant user IDs
+ * @param {String} timeUntil - Human-readable time (e.g., "1 hour", "1 day")
+ * @returns {Promise<Object>}
+ */
+export const sendEventReminderNotification = async ({
+  eventId,
+  eventName,
+  eventDate,
+  participants,
+  timeUntil,
+}) => {
+  try {
+    const notificationData = NotificationTemplates.EVENT_REMINDER(eventName, timeUntil);
+    const results = [];
+
+    for (const participantId of participants) {
+      // Find user
+      let user = await AlumniModel.findById(participantId);
+      if (!user) {
+        user = await StudentModel.findById(participantId);
+      }
+
+      if (!user) continue;
+
+      // Check preferences
+      const sendPush = shouldSendNotification(user, 'events', 'push');
+      const sendEmail = shouldSendNotification(user, 'events', 'email');
+      const sendInApp = shouldSendNotification(user, 'events', 'inApp');
+
+      // Send notifications based on preferences
+      const result = await sendCompleteNotification({
+        recipientId: participantId,
+        type: notificationData.type,
+        title: notificationData.title,
+        message: notificationData.message,
+        actionUrl: `/events/${eventId}`,
+        relatedEvent: eventId,
+        sendPush,
+        sendInApp,
+      });
+
+      // Send email if enabled
+      if (sendEmail) {
+        // Import email service dynamically to avoid circular dependency
+        const { sendEventReminderEmail } = await import('../utils/email.js');
+        await sendEventReminderEmail(
+          user.email,
+          `${user.firstName} ${user.lastName}`,
+          eventName,
+          eventDate,
+          `/events/${eventId}`
+        );
+      }
+
+      results.push(result);
+    }
+
+    console.log(`✅ Event reminders sent to ${results.length} participants`);
+    return { success: true, count: results.length };
+  } catch (error) {
+    console.error('❌ Error sending event reminders:', error);
+    return { success: false, error: error.message };
+  }
+};
+
+/**
+ * Send Job/Opportunity Alert Notification
+ * @param {String} jobId - Job/Opportunity ID
+ * @param {String} jobTitle - Job title
+ * @param {String} company - Company name
+ * @param {String} location - Job location
+ * @param {Array} targetUserIds - Array of user IDs to notify (optional)
+ * @returns {Promise<Object>}
+ */
+export const sendJobAlertNotification = async ({
+  jobId,
+  jobTitle,
+  company,
+  location,
+  targetUserIds = null,
+}) => {
+  try {
+    const notificationData = NotificationTemplates.NEW_JOB_POSTED(jobTitle, company);
+    const results = [];
+
+    // If specific users targeted, notify them
+    if (targetUserIds && targetUserIds.length > 0) {
+      for (const userId of targetUserIds) {
+        let user = await AlumniModel.findById(userId);
+        if (!user) {
+          user = await StudentModel.findById(userId);
+        }
+
+        if (!user) continue;
+
+        const sendPush = shouldSendNotification(user, 'jobs', 'push');
+        const sendEmail = shouldSendNotification(user, 'jobs', 'email');
+        const sendInApp = shouldSendNotification(user, 'jobs', 'inApp');
+
+        const result = await sendCompleteNotification({
+          recipientId: userId,
+          type: notificationData.type,
+          title: notificationData.title,
+          message: notificationData.message,
+          actionUrl: `/opportunities/${jobId}`,
+          relatedOpportunity: jobId,
+          sendPush,
+          sendInApp,
+        });
+
+        // Send email if enabled
+        if (sendEmail) {
+          const { sendNewJobEmail } = await import('../utils/email.js');
+          await sendNewJobEmail(
+            user.email,
+            `${user.firstName} ${user.lastName}`,
+            jobTitle,
+            company,
+            location,
+            `/opportunities/${jobId}`
+          );
+        }
+
+        results.push(result);
+      }
+    } else {
+      // Broadcast to all users who want job notifications
+      const [alumniUsers, studentUsers] = await Promise.all([
+        AlumniModel.find({ 'notificationPreferences.pushNotifications.jobs': true }).select('_id email firstName lastName'),
+        StudentModel.find({ 'notificationPreferences.pushNotifications.jobs': true }).select('_id email firstName lastName'),
+      ]);
+
+      const allUsers = [...alumniUsers, ...studentUsers];
+
+      for (const user of allUsers) {
+        const sendPush = shouldSendNotification(user, 'jobs', 'push');
+        const sendEmail = shouldSendNotification(user, 'jobs', 'email');
+        const sendInApp = shouldSendNotification(user, 'jobs', 'inApp');
+
+        const result = await sendCompleteNotification({
+          recipientId: user._id,
+          type: notificationData.type,
+          title: notificationData.title,
+          message: notificationData.message,
+          actionUrl: `/opportunities/${jobId}`,
+          relatedOpportunity: jobId,
+          sendPush,
+          sendInApp,
+        });
+
+        if (sendEmail) {
+          const { sendNewJobEmail } = await import('../utils/email.js');
+          await sendNewJobEmail(
+            user.email,
+            `${user.firstName} ${user.lastName}`,
+            jobTitle,
+            company,
+            location,
+            `/opportunities/${jobId}`
+          );
+        }
+
+        results.push(result);
+      }
+    }
+
+    console.log(`✅ Job alerts sent to ${results.length} users`);
+    return { success: true, count: results.length };
+  } catch (error) {
+    console.error('❌ Error sending job alerts:', error);
+    return { success: false, error: error.message };
+  }
+};
+
+/**
+ * Send Mentorship Notification
+ * @param {String} mentorId - Mentor user ID
+ * @param {String} menteeId - Mentee user ID
+ * @param {String} type - 'request' or 'accepted'
+ * @param {String} message - Optional custom message
+ * @returns {Promise<Object>}
+ */
+export const sendMentorshipNotification = async ({
+  mentorId,
+  menteeId,
+  type = 'request',
+  message = null,
+}) => {
+  try {
+    let recipientId, senderId, notificationData;
+
+    // Find both users
+    let mentor = await AlumniModel.findById(mentorId);
+    if (!mentor) {
+      mentor = await StudentModel.findById(mentorId);
+    }
+
+    let mentee = await AlumniModel.findById(menteeId);
+    if (!mentee) {
+      mentee = await StudentModel.findById(menteeId);
+    }
+
+    if (!mentor || !mentee) {
+      throw new Error('Mentor or mentee not found');
+    }
+
+    if (type === 'request') {
+      recipientId = mentorId;
+      senderId = menteeId;
+      notificationData = NotificationTemplates.MENTORSHIP_REQUEST(
+        `${mentee.firstName} ${mentee.lastName}`
+      );
+    } else if (type === 'accepted') {
+      recipientId = menteeId;
+      senderId = mentorId;
+      notificationData = NotificationTemplates.MENTORSHIP_ACCEPTED(
+        `${mentor.firstName} ${mentor.lastName}`
+      );
+    }
+
+    // Check preferences
+    const recipient = type === 'request' ? mentor : mentee;
+    const sendPush = shouldSendNotification(recipient, 'mentorship', 'push');
+    const sendEmail = shouldSendNotification(recipient, 'mentorship', 'email');
+    const sendInApp = shouldSendNotification(recipient, 'mentorship', 'inApp');
+
+    // Send notifications
+    const result = await sendCompleteNotification({
+      recipientId,
+      senderId,
+      type: notificationData.type,
+      title: notificationData.title,
+      message: message || notificationData.message,
+      actionUrl: `/profile/${senderId}`,
+      sendPush,
+      sendInApp,
+    });
+
+    // Send email if enabled
+    if (sendEmail) {
+      const { sendMentorshipRequestEmail } = await import('../utils/email.js');
+      await sendMentorshipRequestEmail(
+        recipient.email,
+        `${recipient.firstName} ${recipient.lastName}`,
+        type === 'request' ? `${mentee.firstName} ${mentee.lastName}` : `${mentor.firstName} ${mentor.lastName}`,
+        mentee.batch || 'N/A',
+        mentee.department || 'N/A',
+        `/profile/${senderId}`
+      );
+    }
+
+    console.log(`✅ Mentorship ${type} notification sent`);
+    return { success: true, result };
+  } catch (error) {
+    console.error('❌ Error sending mentorship notification:', error);
+    return { success: false, error: error.message };
+  }
+};
+
+/**
+ * Send Message Notification
+ * @param {String} recipientId - Recipient user ID
+ * @param {String} senderId - Sender user ID
+ * @param {String} messagePreview - Preview of the message
+ * @param {String} conversationId - Conversation ID
+ * @returns {Promise<Object>}
+ */
+export const sendMessageNotification = async ({
+  recipientId,
+  senderId,
+  messagePreview,
+  conversationId,
+}) => {
+  try {
+    // Find both users
+    let sender = await AlumniModel.findById(senderId);
+    if (!sender) {
+      sender = await StudentModel.findById(senderId);
+    }
+
+    let recipient = await AlumniModel.findById(recipientId);
+    if (!recipient) {
+      recipient = await StudentModel.findById(recipientId);
+    }
+
+    if (!sender || !recipient) {
+      throw new Error('Sender or recipient not found');
+    }
+
+    const senderName = `${sender.firstName} ${sender.lastName}`;
+    const notificationData = NotificationTemplates.NEW_MESSAGE(senderName, messagePreview);
+
+    // Check preferences
+    const sendPush = shouldSendNotification(recipient, 'messages', 'push');
+    const sendEmail = shouldSendNotification(recipient, 'messages', 'email');
+    const sendInApp = shouldSendNotification(recipient, 'messages', 'inApp');
+
+    // Send notifications
+    const result = await sendCompleteNotification({
+      recipientId,
+      senderId,
+      type: notificationData.type,
+      title: notificationData.title,
+      message: notificationData.message,
+      actionUrl: `/messages/${conversationId}`,
+      sendPush,
+      sendInApp,
+    });
+
+    // Send email if enabled (less aggressive - only for first message or if user hasn't been active)
+    const timeSinceLastActive = Date.now() - new Date(recipient.lastActive).getTime();
+    const oneHour = 60 * 60 * 1000;
+
+    if (sendEmail && timeSinceLastActive > oneHour) {
+      const { sendNewMessageEmail } = await import('../utils/email.js');
+      await sendNewMessageEmail(
+        recipient.email,
+        `${recipient.firstName} ${recipient.lastName}`,
+        senderName,
+        messagePreview,
+        `/messages/${conversationId}`
+      );
+    }
+
+    console.log(`✅ Message notification sent to ${recipientId}`);
+    return { success: true, result };
+  } catch (error) {
+    console.error('❌ Error sending message notification:', error);
+    return { success: false, error: error.message };
+  }
+};
+
+/**
+ * Generate Weekly Digest for a user
+ * @param {String} userId - User ID
+ * @returns {Promise<Object>}
+ */
+export const generateWeeklyDigest = async (userId) => {
+  try {
+    // Find user
+    let user = await AlumniModel.findById(userId);
+    if (!user) {
+      user = await StudentModel.findById(userId);
+    }
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    // Check if user wants weekly digest
+    if (!shouldSendNotification(user, 'weeklyDigest', 'email')) {
+      console.log(`User ${userId} has disabled weekly digest`);
+      return { success: true, skipped: true };
+    }
+
+    // Calculate date range (last 7 days)
+    const oneWeekAgo = new Date();
+    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+
+    // Gather stats from last week
+    const stats = {
+      newConnections: 0,
+      newMessages: 0,
+      postLikes: 0,
+      postComments: 0,
+      eventsAttending: 0,
+      newJobs: 0,
+      profileViews: 0,
+    };
+
+    // Get new connections
+    const recentConnections = user.connections.filter(conn => {
+      return new Date(conn.createdAt) > oneWeekAgo;
+    });
+    stats.newConnections = recentConnections.length;
+
+    // Get notifications from last week
+    const recentNotifications = await Notification.find({
+      recipient: userId,
+      createdAt: { $gte: oneWeekAgo },
+    });
+
+    // Count different types
+    stats.newMessages = recentNotifications.filter(n => n.type === 'message').length;
+    stats.postLikes = recentNotifications.filter(n => n.type === 'like').length;
+    stats.postComments = recentNotifications.filter(n => n.type === 'comment').length;
+    stats.eventsAttending = recentNotifications.filter(n => n.type === 'event').length;
+    stats.newJobs = recentNotifications.filter(n => n.type === 'opportunity').length;
+
+    // Send weekly digest email
+    const { sendWeeklyDigestEmail } = await import('../utils/email.js');
+    await sendWeeklyDigestEmail(
+      user.email,
+      `${user.firstName} ${user.lastName}`,
+      stats
+    );
+
+    console.log(`✅ Weekly digest sent to ${user.email}`);
+    return { success: true, stats };
+  } catch (error) {
+    console.error('❌ Error generating weekly digest:', error);
+    return { success: false, error: error.message };
+  }
+};
+
+/**
+ * Generate Weekly Digest for all users
+ * Called by cron job every Sunday
+ * @returns {Promise<Object>}
+ */
+export const generateAllWeeklyDigests = async () => {
+  try {
+    console.log('📊 Starting weekly digest generation for all users...');
+
+    // Get all users who have weekly digest enabled
+    const [alumniUsers, studentUsers] = await Promise.all([
+      AlumniModel.find({ 'notificationPreferences.emailNotifications.weeklyDigest': true }).select('_id'),
+      StudentModel.find({ 'notificationPreferences.emailNotifications.weeklyDigest': true }).select('_id'),
+    ]);
+
+    const allUsers = [...alumniUsers, ...studentUsers];
+    console.log(`Found ${allUsers.length} users with weekly digest enabled`);
+
+    const results = [];
+    for (const user of allUsers) {
+      const result = await generateWeeklyDigest(user._id);
+      results.push(result);
+
+      // Add delay to avoid rate limiting
+      await new Promise(resolve => setTimeout(resolve, 100));
+    }
+
+    const successCount = results.filter(r => r.success).length;
+    console.log(`✅ Weekly digests completed: ${successCount}/${allUsers.length} successful`);
+
+    return {
+      success: true,
+      totalUsers: allUsers.length,
+      successCount,
+      failureCount: allUsers.length - successCount,
+    };
+  } catch (error) {
+    console.error('❌ Error generating weekly digests:', error);
+    return { success: false, error: error.message };
+  }
+};
+
 export default {
   sendPushNotification,
   sendBulkPushNotifications,
@@ -505,4 +994,12 @@ export default {
   subscribeToTopic,
   unsubscribeFromTopic,
   NotificationTemplates,
+  // New specialized notification functions
+  shouldSendNotification,
+  sendEventReminderNotification,
+  sendJobAlertNotification,
+  sendMentorshipNotification,
+  sendMessageNotification,
+  generateWeeklyDigest,
+  generateAllWeeklyDigests,
 };
