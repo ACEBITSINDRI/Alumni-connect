@@ -591,7 +591,7 @@ export const resendVerificationEmail = async (req, res) => {
     }
 
     // Generate new verification token
-    const verificationToken = user.generateVerificationToken();
+    const verificationToken = await user.generateVerificationToken();
     await user.save();
 
     // Send verification email
