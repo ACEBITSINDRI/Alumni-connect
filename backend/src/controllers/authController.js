@@ -61,11 +61,26 @@ export const register = async (req, res) => {
         console.log('✅ Firebase user created:', firebaseUser.uid);
       } catch (firebaseError) {
         console.error('Firebase user creation error:', firebaseError);
-        return res.status(400).json({
-          success: false,
-          message: firebaseError.message || 'Failed to create Firebase user',
-          error: firebaseError.code,
-        });
+
+        // If user already exists in Firebase, try to get existing user
+        if (firebaseError.code === 'auth/email-already-exists') {
+          try {
+            firebaseUser = await auth.getUserByEmail(email);
+            console.log('⚠️ Using existing Firebase user:', firebaseUser.uid);
+            createdFirebaseUser = false; // Don't send verification email for existing Firebase user
+          } catch (getUserError) {
+            return res.status(400).json({
+              success: false,
+              message: 'Email already registered. Please login instead.',
+            });
+          }
+        } else {
+          return res.status(400).json({
+            success: false,
+            message: firebaseError.message || 'Failed to create Firebase user',
+            error: firebaseError.code,
+          });
+        }
       }
     } else {
       return res.status(400).json({
@@ -177,7 +192,7 @@ export const register = async (req, res) => {
 
     // Generate verification token and send email (for email/password signups)
     if (createdFirebaseUser) {
-      const verificationToken = user.generateVerificationToken();
+      const verificationToken = await user.generateVerificationToken();
       await user.save();
 
       // Send verification email
