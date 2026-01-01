@@ -250,7 +250,7 @@ const SignupPage: React.FC<SignupPageProps> = ({ userType = 'student' }) => {
         if (response.data.user.isVerified) {
           navigate('/dashboard');
         } else {
-          navigate('/verify-email');
+          navigate(`/verify-email?email=${encodeURIComponent(formData.email)}`);
         }
       } else {
         setErrors({ submit: response.message || 'Signup failed. Please try again.' });
