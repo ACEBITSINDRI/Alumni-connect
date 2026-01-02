@@ -1,6 +1,47 @@
 import { auth } from '../config/firebase.js';
 import { getUserModel, AlumniModel, StudentModel } from '../models/User.js';
 
+// Verify Firebase token only (doesn't require MongoDB user to exist)
+export const verifyFirebaseToken = async (req, res, next) => {
+  try {
+    let token;
+
+    // Check for token in headers
+    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+      token = req.headers.authorization.split(' ')[1];
+    }
+
+    if (!token) {
+      return res.status(401).json({
+        success: false,
+        message: 'Not authorized to access this route. Please login.',
+      });
+    }
+
+    try {
+      // Verify Firebase ID token
+      const decodedToken = await auth.verifyIdToken(token);
+
+      // Attach Firebase user info to request object
+      req.firebaseUser = decodedToken;
+
+      next();
+    } catch (error) {
+      console.error('Firebase auth error:', error);
+      return res.status(401).json({
+        success: false,
+        message: 'Token is invalid or has expired.',
+      });
+    }
+  } catch (error) {
+    console.error('Auth middleware error:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Server error in authentication',
+    });
+  }
+};
+
 export const protect = async (req, res, next) => {
   try {
     let token;
