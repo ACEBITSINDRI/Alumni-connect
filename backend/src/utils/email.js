@@ -5,13 +5,18 @@ dotenv.config();
 
 // Create reusable transporter
 const createTransporter = () => {
+  // Validate email configuration
+  if (!process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
+    throw new Error('Email configuration is missing. Please set EMAIL_USER and EMAIL_PASSWORD environment variables.');
+  }
+
   return nodemailer.createTransporter({
     host: process.env.EMAIL_HOST || 'smtp.gmail.com',
     port: parseInt(process.env.EMAIL_PORT) || 587,
     secure: false, // true for 465, false for other ports
     auth: {
       user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASSWORD,
+      pass: process.env.EMAIL_PASSWORD.trim(), // Trim any accidental spaces
     },
   });
 };
@@ -27,7 +32,9 @@ export const sendVerificationEmail = async (email, token, userName) => {
   try {
     const transporter = createTransporter();
 
-    const verificationUrl = `${process.env.FRONTEND_URL}/verify-email?token=${token}`;
+    // Get the first frontend URL (handles comma-separated URLs in development)
+    const frontendUrl = process.env.FRONTEND_URL?.split(',')[0].trim() || 'http://localhost:5173';
+    const verificationUrl = `${frontendUrl}/verify-email?token=${token}`;
 
     const mailOptions = {
       from: `"Alumni Connect - BIT Sindri" <${process.env.EMAIL_USER}>`,
@@ -100,7 +107,9 @@ export const sendWelcomeEmail = async (email, userName, role) => {
   try {
     const transporter = createTransporter();
 
-    const dashboardUrl = `${process.env.FRONTEND_URL}/dashboard`;
+    // Get the first frontend URL (handles comma-separated URLs in development)
+    const frontendUrl = process.env.FRONTEND_URL?.split(',')[0].trim() || 'http://localhost:5173';
+    const dashboardUrl = `${frontendUrl}/dashboard`;
 
     const mailOptions = {
       from: `"Alumni Connect - BIT Sindri" <${process.env.EMAIL_USER}>`,
@@ -181,7 +190,9 @@ export const sendPasswordResetEmail = async (email, token, userName) => {
   try {
     const transporter = createTransporter();
 
-    const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${token}`;
+    // Get the first frontend URL (handles comma-separated URLs in development)
+    const frontendUrl = process.env.FRONTEND_URL?.split(',')[0].trim() || 'http://localhost:5173';
+    const resetUrl = `${frontendUrl}/reset-password?token=${token}`;
 
     const mailOptions = {
       from: `"Alumni Connect - BIT Sindri" <${process.env.EMAIL_USER}>`,

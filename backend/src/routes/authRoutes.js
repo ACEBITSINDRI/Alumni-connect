@@ -12,7 +12,7 @@ import {
   forgotPassword,
   resetPassword,
 } from '../controllers/authController.js';
-import { protect } from '../middleware/auth.js';
+import { protect, verifyFirebaseToken } from '../middleware/auth.js';
 import { validate } from '../middleware/validation.js';
 import { uploadRegistrationFiles, handleUploadError } from '../middleware/upload.js';
 
@@ -51,7 +51,7 @@ const resetPasswordValidation = [
 // Routes (Firebase-based)
 router.post('/register', uploadRegistrationFiles, handleUploadError, registerValidation, validate, register);
 router.post('/login', protect, loginValidation, validate, login);
-router.post('/google-login', protect, googleLoginValidation, validate, googleLogin);
+router.post('/google-login', verifyFirebaseToken, googleLoginValidation, validate, googleLogin);
 router.get('/me', protect, getMe);
 router.post('/logout', protect, logout);
 router.post('/fcm-token', protect, fcmTokenValidation, validate, updateFCMToken);
