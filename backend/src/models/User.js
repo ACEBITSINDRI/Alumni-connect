@@ -11,8 +11,12 @@ const userSchema = new mongoose.Schema(
     },
     lastName: {
       type: String,
-      required: [true, 'Last name is required'],
+      required: function() {
+        // Not required for Google/Firebase users initially
+        return !this.firebaseUid;
+      },
       trim: true,
+      default: '',
     },
     email: {
       type: String,
@@ -54,6 +58,8 @@ const userSchema = new mongoose.Schema(
     batch: {
       type: String,
       required: function() {
+        // Not required for Google/Firebase users initially
+        if (this.firebaseUid) return false;
         return this.role === 'alumni' || this.role === 'student';
       },
     },

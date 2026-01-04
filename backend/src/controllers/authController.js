@@ -389,6 +389,7 @@ export const googleLogin = async (req, res) => {
         email: firebaseUser.email,
         firebaseUid: firebaseUser.uid,
         role,
+        batch: '', // Will be updated during profile completion
         isEmailVerified: firebaseUser.email_verified || false,
         profilePicture: firebaseUser.picture || '',
       });
@@ -400,12 +401,16 @@ export const googleLogin = async (req, res) => {
       await user.save();
     }
 
+    // Check if profile needs completion (for Google users)
+    const needsProfileCompletion = isNewUser && (!user.batch || !user.phone);
+
     res.status(200).json({
       success: true,
       message: isNewUser ? 'Account created successfully' : 'Login successful',
       data: {
         user: user.getPublicProfile(),
         isNewUser,
+        needsProfileCompletion,
       },
     });
   } catch (error) {

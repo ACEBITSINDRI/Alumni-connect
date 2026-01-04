@@ -179,6 +179,7 @@ export const loginWithGoogle = async (role: 'student' | 'alumni') => {
       firebaseUser: user,
       idToken,
       isNewUser: response.data.data.isNewUser,
+      needsProfileCompletion: response.data.data.needsProfileCompletion,
     };
   } catch (error: any) {
     throw error;

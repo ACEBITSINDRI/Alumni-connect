@@ -283,9 +283,9 @@ const SignupPage: React.FC<SignupPageProps> = ({ userType = 'student' }) => {
         // Show success message
         if (result.isNewUser) {
           toast.success('Account created successfully with Google!');
-          // New user - might need to complete profile
-          if (!result.user.phone || !result.user.batch) {
-            toast('Please complete your profile', { icon: 'ℹ️' });
+          // New user - check if profile needs completion
+          if (result.needsProfileCompletion) {
+            toast('Please complete your profile to continue', { icon: 'ℹ️' });
             navigate('/profile/edit');
           } else {
             navigate('/dashboard');

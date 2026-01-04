@@ -108,9 +108,15 @@ const LoginPage: React.FC<LoginPageProps> = ({ userType = 'student' }) => {
         // Set user in context
         setUser(result.user);
 
-        // Show success message
-        toast.success('Welcome back!');
-        navigate('/dashboard');
+        // Show success message and navigate
+        if (result.isNewUser && result.needsProfileCompletion) {
+          toast.success('Account created successfully!');
+          toast('Please complete your profile to continue', { icon: 'ℹ️' });
+          navigate('/profile/edit');
+        } else {
+          toast.success('Welcome back!');
+          navigate('/dashboard');
+        }
       }
     } catch (error: any) {
       console.error('Google login error:', error);
