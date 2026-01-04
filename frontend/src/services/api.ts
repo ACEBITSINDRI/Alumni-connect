@@ -42,7 +42,7 @@ api.interceptors.response.use(
           break;
         case 403:
           // Forbidden - Check if email verification is required
-          if (error.response?.data?.requiresVerification) {
+          if ((error.response?.data as any)?.requiresVerification) {
             const user = JSON.parse(localStorage.getItem('user') || '{}');
             const email = user.email || '';
             window.location.href = `/verify-email?email=${encodeURIComponent(email)}`;

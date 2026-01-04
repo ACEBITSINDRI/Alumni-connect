@@ -20,6 +20,7 @@ interface User {
   };
   linkedinUrl?: string;
   isVerified: boolean;
+  isEmailVerified?: boolean;
   // Additional optional fields used across the app
   department?: string;
   githubUrl?: string;
