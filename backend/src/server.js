@@ -18,6 +18,7 @@ import notificationRoutes from './routes/notificationRoutes.js';
 import eventRoutes from './routes/eventRoutes.js';
 import opportunityRoutes from './routes/opportunityRoutes.js';
 import tickerRoutes from './routes/tickerRoutes.js';
+import emailCampaignRoutes from './routes/emailCampaignRoutes.js';
 
 // Load env vars
 dotenv.config();
@@ -128,6 +129,7 @@ app.use('/api/notifications', notificationRoutes);
 app.use('/api/events', eventRoutes);
 app.use('/api/opportunities', opportunityRoutes);
 app.use('/api/ticker', tickerRoutes);
+app.use('/api/email-campaigns', emailCampaignRoutes);
 
 // Welcome route
 app.get('/', (req, res) => {

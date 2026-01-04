@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{eventTitle}} - Alumni Connect Event</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      background: #ffffff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .header {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      color: white;
+      padding: 40px 30px;
+      text-align: center;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 28px;
+      font-weight: 700;
+    }
+    .event-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+    .content {
+      padding: 40px 30px;
+    }
+    .content h2 {
+      color: #f5576c;
+      margin-top: 0;
+      font-size: 24px;
+    }
+    .content p {
+      margin: 15px 0;
+      font-size: 16px;
+      line-height: 1.8;
+    }
+    .event-details {
+      background: #f8f9fa;
+      border-left: 4px solid #f5576c;
+      padding: 20px;
+      margin: 30px 0;
+      border-radius: 5px;
+    }
+    .detail-row {
+      display: flex;
+      margin: 15px 0;
+      align-items: start;
+    }
+    .detail-icon {
+      font-size: 20px;
+      margin-right: 15px;
+      min-width: 25px;
+    }
+    .detail-content {
+      flex: 1;
+    }
+    .detail-label {
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 3px;
+    }
+    .detail-value {
+      color: #666;
+      font-size: 15px;
+    }
+    .cta-button {
+      display: inline-block;
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      color: white;
+      padding: 15px 40px;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 16px;
+      margin: 20px 0;
+      text-align: center;
+    }
+    .description {
+      background: #fff9f0;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+      font-size: 15px;
+      color: #555;
+    }
+    .footer {
+      background: #f8f9fa;
+      padding: 30px;
+      text-align: center;
+      color: #666;
+      font-size: 14px;
+      border-top: 1px solid #e0e0e0;
+    }
+    .footer a {
+      color: #f5576c;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="event-badge">📅 UPCOMING EVENT</div>
+      <h1>{{eventTitle}}</h1>
+    </div>
+
+    <div class="content">
+      <h2>Hello {{firstName}}! 👋</h2>
+
+      <p>We're excited to invite you to an upcoming event on <strong>Alumni Connect</strong>!</p>
+
+      {{#if customMessage}}
+      <p>{{customMessage}}</p>
+      {{/if}}
+
+      <div class="event-details">
+        <div class="detail-row">
+          <div class="detail-icon">📅</div>
+          <div class="detail-content">
+            <div class="detail-label">Date & Time</div>
+            <div class="detail-value">{{eventDate}}{{#if eventTime}} at {{eventTime}}{{/if}}</div>
+          </div>
+        </div>
+
+        {{#if venue}}
+        <div class="detail-row">
+          <div class="detail-icon">📍</div>
+          <div class="detail-content">
+            <div class="detail-label">Venue</div>
+            <div class="detail-value">{{venue}}</div>
+          </div>
+        </div>
+        {{/if}}
+
+        {{#if eventType}}
+        <div class="detail-row">
+          <div class="detail-icon">🎯</div>
+          <div class="detail-content">
+            <div class="detail-label">Event Type</div>
+            <div class="detail-value">{{eventType}}</div>
+          </div>
+        </div>
+        {{/if}}
+
+        {{#if organizer}}
+        <div class="detail-row">
+          <div class="detail-icon">👤</div>
+          <div class="detail-content">
+            <div class="detail-label">Organized By</div>
+            <div class="detail-value">{{organizer}}</div>
+          </div>
+        </div>
+        {{/if}}
+
+        {{#if registrationDeadline}}
+        <div class="detail-row">
+          <div class="detail-icon">⏰</div>
+          <div class="detail-content">
+            <div class="detail-label">Registration Deadline</div>
+            <div class="detail-value">{{registrationDeadline}}</div>
+          </div>
+        </div>
+        {{/if}}
+      </div>
+
+      {{#if description}}
+      <div class="description">
+        <strong>About the Event:</strong><br>
+        {{description}}
+      </div>
+      {{/if}}
+
+      <center>
+        <a href="{{eventUrl}}" class="cta-button">{{ctaText}}</a>
+      </center>
+
+      <p style="margin-top: 30px; font-size: 14px; color: #666;">
+        Don't miss this opportunity to connect with fellow alumni and expand your network!
+      </p>
+
+      <p style="color: #666; font-size: 14px; margin-top: 30px;">
+        Best regards,<br>
+        <strong>The Alumni Connect Team</strong>
+      </p>
+    </div>
+
+    <div class="footer">
+      <p><strong>Alumni Connect</strong> - Building Bridges, Creating Opportunities</p>
+      <p style="margin-top: 15px;">
+        <a href="{{platformUrl}}/events">View All Events</a> •
+        <a href="{{platformUrl}}/dashboard">Go to Dashboard</a>
+      </p>
+      <p style="margin-top: 20px; font-size: 12px; color: #999;">
+        You're receiving this email because you're registered on Alumni Connect.<br>
+        <a href="{{unsubscribeUrl}}">Unsubscribe</a> from event notifications.
+      </p>
+    </div>
+  </div>
+</body>
+</html>
