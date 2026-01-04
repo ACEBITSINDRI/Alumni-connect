@@ -22,7 +22,12 @@ const aggregateTickerItems = async () => {
       .sort({ priority: -1, startDate: -1 })
       .limit(10)
       .lean()
-      .catch(() => []); // Gracefully handle if collection doesn't exist
+      .catch((err) => {
+        console.log('❌ Error fetching manual ticker items:', err.message);
+        return [];
+      }); // Gracefully handle if collection doesn't exist
+
+    console.log(`📊 Found ${manualItems.length} manual ticker items`);
 
     // 2. Get upcoming events (next 7 days) - Skip if Event model not ready
     let upcomingEvents = [];

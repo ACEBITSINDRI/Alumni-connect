@@ -181,6 +181,6 @@ tickerItemSchema.set('toJSON', {
   },
 });
 
-const TickerItem = mongoose.model('TickerItem', tickerItemSchema);
+const TickerItem = mongoose.model('TickerItem', tickerItemSchema, 'ticker_items');
 
 export default TickerItem;

@@ -1,3 +1,4 @@
+// Alumni Connect API Server - v1.1
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
