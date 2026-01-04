@@ -14,6 +14,9 @@ import postRoutes from './routes/postRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import connectionRoutes from './routes/connectionRoutes.js';
 import notificationRoutes from './routes/notificationRoutes.js';
+import eventRoutes from './routes/eventRoutes.js';
+import opportunityRoutes from './routes/opportunityRoutes.js';
+import tickerRoutes from './routes/tickerRoutes.js';
 
 // Load env vars
 dotenv.config();
@@ -121,6 +124,9 @@ app.use('/api/posts', postRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/connections', connectionRoutes);
 app.use('/api/notifications', notificationRoutes);
+app.use('/api/events', eventRoutes);
+app.use('/api/opportunities', opportunityRoutes);
+app.use('/api/ticker', tickerRoutes);
 
 // Welcome route
 app.get('/', (req, res) => {

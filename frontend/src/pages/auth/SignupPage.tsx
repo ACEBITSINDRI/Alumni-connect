@@ -246,8 +246,8 @@ const SignupPage: React.FC<SignupPageProps> = ({ userType = 'student' }) => {
         // Set user in context
         setUser(response.data.user);
 
-        // Navigate to dashboard or verification page based on isVerified status
-        if (response.data.user.isVerified) {
+        // Navigate to dashboard or verification page based on isEmailVerified status
+        if (response.data.user.isEmailVerified) {
           navigate('/dashboard');
         } else {
           navigate(`/verify-email?email=${encodeURIComponent(formData.email)}`);

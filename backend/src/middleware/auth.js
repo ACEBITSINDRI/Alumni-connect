@@ -86,6 +86,15 @@ export const protect = async (req, res, next) => {
         });
       }
 
+      // Check if email is verified
+      if (!user.isEmailVerified) {
+        return res.status(403).json({
+          success: false,
+          message: 'Please verify your email address to access this resource.',
+          requiresVerification: true,
+        });
+      }
+
       // Attach user and Firebase info to request object
       req.user = user;
       req.user.role = role;
@@ -140,6 +149,18 @@ export const isAlumniOrStudent = (req, res, next) => {
     return res.status(403).json({
       success: false,
       message: 'Access denied',
+    });
+  }
+};
+
+// Middleware to check if user is admin
+export const isAdmin = (req, res, next) => {
+  if (req.user && req.user.role === 'admin') {
+    next();
+  } else {
+    return res.status(403).json({
+      success: false,
+      message: 'Admin access required. This action is only allowed for administrators.',
     });
   }
 };

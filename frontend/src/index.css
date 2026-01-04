@@ -160,3 +160,101 @@
   }
 }
 
+/* ===== Notification Ticker Animations ===== */
+
+/* Marquee Animation - Horizontal infinite scroll */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Marquee Animation - Faster variant */
+@keyframes marquee-fast {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee-fast {
+  animation: marquee-fast 20s linear infinite;
+}
+
+.animate-marquee-fast:hover {
+  animation-play-state: paused;
+}
+
+/* Vertical Carousel Animation - For mobile */
+@keyframes slide-up {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-100%);
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 5s ease-in-out infinite;
+}
+
+/* Ticker Fade In Animation */
+@keyframes ticker-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-ticker-fade-in {
+  animation: ticker-fade-in 0.3s ease-out;
+}
+
+/* Pulse Animation for Urgent Items */
+@keyframes ticker-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+.animate-ticker-pulse {
+  animation: ticker-pulse 2s ease-in-out infinite;
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee,
+  .animate-marquee-fast,
+  .animate-slide-up,
+  .animate-ticker-pulse {
+    animation: none;
+  }
+
+  .animate-ticker-fade-in {
+    animation: none;
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+

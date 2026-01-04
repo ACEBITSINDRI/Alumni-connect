@@ -41,8 +41,14 @@ api.interceptors.response.use(
           window.location.href = '/login';
           break;
         case 403:
-          // Forbidden
-          console.error('Access denied');
+          // Forbidden - Check if email verification is required
+          if (error.response?.data?.requiresVerification) {
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            const email = user.email || '';
+            window.location.href = `/verify-email?email=${encodeURIComponent(email)}`;
+          } else {
+            console.error('Access denied');
+          }
           break;
         case 404:
           // Not found

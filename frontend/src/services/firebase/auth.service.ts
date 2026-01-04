@@ -99,7 +99,7 @@ export const registerUser = async (data: RegisterData, profilePicture?: File, id
       formData.append('idCard', idCard);
     }
 
-    const response = await axios.post(`${API_URL}/auth/register`, formData, {
+    const response = await axios.post(`${API_URL}/api/auth/register`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
         Authorization: `Bearer ${idToken}`,
@@ -133,7 +133,7 @@ export const loginUser = async (email: string, password: string, role: 'student'
     const idToken = await user.getIdToken();
 
     // 3. Verify with backend and get user profile from MongoDB
-    const response = await axios.post(`${API_URL}/auth/login`,
+    const response = await axios.post(`${API_URL}/api/auth/login`,
       { role },
       {
         headers: {
@@ -165,7 +165,7 @@ export const loginWithGoogle = async (role: 'student' | 'alumni') => {
     const idToken = await user.getIdToken();
 
     // Check if user exists in MongoDB, if not create profile
-    const response = await axios.post(`${API_URL}/auth/google-login`,
+    const response = await axios.post(`${API_URL}/api/auth/google-login`,
       { role },
       {
         headers: {

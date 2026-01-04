@@ -1,6 +1,7 @@
 import { getUserModel, AlumniModel, StudentModel } from '../models/User.js';
 import { auth } from '../config/firebase.js';
 import { uploadProfilePicture, uploadDocument } from '../services/firebaseStorage.js';
+import crypto from 'crypto';
 
 // @desc    Register user with Firebase
 // @route   POST /api/auth/register
@@ -492,7 +493,6 @@ export const updateFCMToken = async (req, res) => {
 export const verifyEmail = async (req, res) => {
   try {
     const { token } = req.params;
-    const crypto = require('crypto');
 
     // Hash the token to compare with stored hashed token
     const hashedToken = crypto
