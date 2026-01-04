@@ -53,7 +53,7 @@ export interface TickerResponse {
  * Get all active ticker items (public, aggregated from all sources)
  */
 export const getActiveTickerItems = async (): Promise<TickerResponse> => {
-  const response = await api.get<TickerResponse>('/ticker');
+  const response = await api.get<TickerResponse>('/api/ticker');
   return response.data;
 };
 
@@ -65,7 +65,7 @@ export const getAllTickerItems = async (params?: {
   limit?: number;
   isActive?: boolean;
 }): Promise<TickerResponse> => {
-  const response = await api.get<TickerResponse>('/ticker/admin/all', { params });
+  const response = await api.get<TickerResponse>('/api/ticker/admin/all', { params });
   return response.data;
 };
 
@@ -73,7 +73,7 @@ export const getAllTickerItems = async (params?: {
  * Get single ticker item by ID (admin only)
  */
 export const getTickerItemById = async (id: string): Promise<TickerResponse> => {
-  const response = await api.get<TickerResponse>(`/ticker/${id}`);
+  const response = await api.get<TickerResponse>(`/api/ticker/${id}`);
   return response.data;
 };
 
@@ -81,7 +81,7 @@ export const getTickerItemById = async (id: string): Promise<TickerResponse> => 
  * Create manual ticker item (admin only)
  */
 export const createTickerItem = async (data: TickerFormData): Promise<TickerResponse> => {
-  const response = await api.post<TickerResponse>('/ticker', data);
+  const response = await api.post<TickerResponse>('/api/ticker', data);
   return response.data;
 };
 
@@ -92,7 +92,7 @@ export const updateTickerItem = async (
   id: string,
   data: Partial<TickerFormData>
 ): Promise<TickerResponse> => {
-  const response = await api.put<TickerResponse>(`/ticker/${id}`, data);
+  const response = await api.put<TickerResponse>(`/api/ticker/${id}`, data);
   return response.data;
 };
 
@@ -100,7 +100,7 @@ export const updateTickerItem = async (
  * Delete ticker item (admin only)
  */
 export const deleteTickerItem = async (id: string): Promise<TickerResponse> => {
-  const response = await api.delete<TickerResponse>(`/ticker/${id}`);
+  const response = await api.delete<TickerResponse>(`/api/ticker/${id}`);
   return response.data;
 };
 
@@ -108,7 +108,7 @@ export const deleteTickerItem = async (id: string): Promise<TickerResponse> => {
  * Toggle ticker item active status (admin only)
  */
 export const toggleTickerItem = async (id: string): Promise<TickerResponse> => {
-  const response = await api.patch<TickerResponse>(`/ticker/${id}/toggle`);
+  const response = await api.patch<TickerResponse>(`/api/ticker/${id}/toggle`);
   return response.data;
 };
 
@@ -117,7 +117,7 @@ export const toggleTickerItem = async (id: string): Promise<TickerResponse> => {
  */
 export const trackTickerClick = async (id: string): Promise<void> => {
   try {
-    await api.post(`/ticker/${id}/track-click`);
+    await api.post(`/api/ticker/${id}/track-click`);
   } catch (error) {
     // Silently fail - tracking errors shouldn't break UX
     console.warn('Failed to track ticker click:', error);
@@ -129,7 +129,7 @@ export const trackTickerClick = async (id: string): Promise<void> => {
  */
 export const trackTickerView = async (id: string): Promise<void> => {
   try {
-    await api.post(`/ticker/${id}/track-view`);
+    await api.post(`/api/ticker/${id}/track-view`);
   } catch (error) {
     // Silently fail - tracking errors shouldn't break UX
     console.warn('Failed to track ticker view:', error);
@@ -140,7 +140,7 @@ export const trackTickerView = async (id: string): Promise<void> => {
  * Clear ticker cache (admin only)
  */
 export const clearTickerCache = async (): Promise<TickerResponse> => {
-  const response = await api.post<TickerResponse>('/ticker/admin/clear-cache');
+  const response = await api.post<TickerResponse>('/api/ticker/admin/clear-cache');
   return response.data;
 };
 
