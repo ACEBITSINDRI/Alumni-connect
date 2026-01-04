@@ -21,30 +21,43 @@ const aggregateTickerItems = async () => {
     })
       .sort({ priority: -1, startDate: -1 })
       .limit(10)
-      .lean();
+      .lean()
+      .catch(() => []); // Gracefully handle if collection doesn't exist
 
-    // 2. Get upcoming events (next 7 days)
-    const nextWeek = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
-    const upcomingEvents = await Event.find({
-      status: 'upcoming',
-      visibility: 'public',
-      date: { $gte: now, $lte: nextWeek },
-    })
-      .sort({ date: 1 })
-      .limit(5)
-      .lean();
+    // 2. Get upcoming events (next 7 days) - Skip if Event model not ready
+    let upcomingEvents = [];
+    try {
+      const nextWeek = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+      upcomingEvents = await Event.find({
+        status: 'upcoming',
+        visibility: 'public',
+        date: { $gte: now, $lte: nextWeek },
+      })
+        .sort({ date: 1 })
+        .limit(5)
+        .lean();
+    } catch (err) {
+      // Event collection might not exist yet - skip
+      console.log('Event collection not available yet');
+    }
 
-    // 3. Get recent job opportunities (last 7 days)
-    const lastWeek = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-    const recentJobs = await Opportunity.find({
-      status: 'active',
-      isActive: true,
-      createdAt: { $gte: lastWeek },
-      deadline: { $gte: now },
-    })
-      .sort({ isFeatured: -1, createdAt: -1 })
-      .limit(5)
-      .lean();
+    // 3. Get recent job opportunities (last 7 days) - Skip if Opportunity model not ready
+    let recentJobs = [];
+    try {
+      const lastWeek = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+      recentJobs = await Opportunity.find({
+        status: 'active',
+        isActive: true,
+        createdAt: { $gte: lastWeek },
+        deadline: { $gte: now },
+      })
+        .sort({ isFeatured: -1, createdAt: -1 })
+        .limit(5)
+        .lean();
+    } catch (err) {
+      // Opportunity collection might not exist yet - skip
+      console.log('Opportunity collection not available yet');
+    }
 
     // Transform events to ticker format
     const transformedEvents = upcomingEvents.map((event) => ({
