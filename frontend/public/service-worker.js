@@ -1,9 +1,6 @@
-const CACHE_NAME = 'alumni-connect-v1';
+const CACHE_NAME = 'alumni-connect-v2';
 const urlsToCache = [
   '/',
-  '/index.html',
-  '/static/css/main.css',
-  '/static/js/main.js',
   '/logo-192.png',
   '/logo-512.png',
 ];
@@ -12,9 +9,19 @@ const urlsToCache = [
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then((cache) => {
+      .then(async (cache) => {
         console.log('Opened cache');
-        return cache.addAll(urlsToCache);
+        // Add files one by one with error handling
+        const cachePromises = urlsToCache.map(url =>
+          cache.add(url).catch(err => {
+            console.warn('Failed to cache:', url, err);
+            return Promise.resolve(); // Continue even if one fails
+          })
+        );
+        return Promise.all(cachePromises);
+      })
+      .catch(err => {
+        console.error('Cache installation failed:', err);
       })
   );
   self.skipWaiting();
