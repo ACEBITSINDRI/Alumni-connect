@@ -17,7 +17,7 @@ const NotificationTicker: React.FC<NotificationTickerProps> = ({
   pauseOnHover = true,
   className,
 }) => {
-  const { data, isLoading, error, isError } = useTickerItems();
+  const { data, isLoading, isError } = useTickerItems();
   const [isVisible, setIsVisible] = useState(true);
   const viewedItemsRef = useRef(new Set<string>());
 
