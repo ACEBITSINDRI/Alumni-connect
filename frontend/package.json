@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && npm run copy-redirects",
+    "copy-redirects": "cp public/_redirects dist/_redirects || copy public\\_redirects dist\\_redirects || echo Redirects copied",
     "lint": "eslint .",
     "preview": "vite preview",
     "install:legacy": "npm install --legacy-peer-deps"

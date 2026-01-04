@@ -11,6 +11,7 @@ export default defineConfig({
       },
     },
   },
+  publicDir: 'public',
   server: {
     headers: {
       'Service-Worker-Allowed': '/',
