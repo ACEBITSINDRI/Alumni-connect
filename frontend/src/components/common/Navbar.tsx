@@ -4,6 +4,7 @@ import { Menu, X, Search, Bell, MessageCircle, User, Home, Users, Briefcase, Cal
 import { cn } from '../../utils/cn';
 import { useAuth } from '../../context/AuthContext';
 import alumniConnectLogo from '../../assets/logos/alumni_connect_logo-removebg-preview.png';
+import NotificationTicker from '../ticker/NotificationTicker';
 
 interface NavbarProps {
   isAuthenticated?: boolean;
@@ -42,7 +43,8 @@ const Navbar: React.FC<NavbarProps> = ({
   };
 
   return (
-    <nav className="sticky top-0 z-50 bg-gradient-to-r from-sky-400 via-sky-500 to-blue-600 shadow-lg backdrop-blur-md border-b border-white/20 transition-all duration-300">
+    <>
+      <nav className="sticky top-0 z-50 bg-gradient-to-r from-sky-400 via-sky-500 to-blue-600 shadow-lg backdrop-blur-md border-b border-white/20 transition-all duration-300">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Left Section: Logo & Nav Links */}
@@ -362,6 +364,10 @@ const Navbar: React.FC<NavbarProps> = ({
         </>
       )}
     </nav>
+
+    {/* Notification Ticker - Below Navbar */}
+    {isAuthenticated && <NotificationTicker />}
+  </>
   );
 };
 

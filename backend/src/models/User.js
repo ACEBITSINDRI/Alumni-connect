@@ -46,7 +46,7 @@ const userSchema = new mongoose.Schema(
     // Role-based fields
     role: {
       type: String,
-      enum: ['student', 'alumni'],
+      enum: ['student', 'alumni', 'admin'],
       required: true,
     },
 
