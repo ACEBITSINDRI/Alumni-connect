@@ -213,7 +213,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ userType = 'student' }) => {
         {/* Features */}
         <div className="relative z-10 grid grid-cols-2 gap-4">
           {[
-            { icon: <CheckCircle />, text: '1,250+ Alumni Network' },
+            { icon: <CheckCircle />, text: '0+ Alumni Network' },
             { icon: <CheckCircle />, text: 'Top Infrastructure Companies' },
             { icon: <CheckCircle />, text: 'Expert Mentorship' },
             { icon: <CheckCircle />, text: 'Exclusive Job Opportunities' },

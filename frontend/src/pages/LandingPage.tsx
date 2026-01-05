@@ -74,7 +74,7 @@ const LandingPage: React.FC = () => {
     {
       id: 3,
       name: "Er. Amit Kumar",
-      batch: "2010",
+      batch: "2013",
       role: "Project Manager at AECOM",
       company: "AECOM",
       quote: "This platform reconnected me with my BIT Sindri civil engineering batchmates. We now collaborate on projects and share industry insights. It's amazing to see our ACE community making an impact on India's infrastructure!"
