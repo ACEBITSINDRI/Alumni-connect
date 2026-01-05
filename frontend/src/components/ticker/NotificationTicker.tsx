@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Loader2, AlertCircle, X } from 'lucide-react';
+import { Loader2, X } from 'lucide-react';
 import { cn } from '../../utils/cn';
 import TickerItem from './TickerItem';
 import { useTickerItems, trackTickerView } from '../../services/ticker.service';
@@ -65,29 +65,10 @@ const NotificationTicker: React.FC<NotificationTickerProps> = ({
     );
   }
 
-  // Error state
+  // Error state - silently fail (don't show error to user)
   if (isError) {
-    return (
-      <div className={cn(
-        'sticky top-16 z-40',
-        'bg-red-500',
-        'shadow-md',
-        'h-12 md:h-11 lg:h-10',
-        className
-      )}>
-        <div className="flex items-center justify-center h-full text-white px-4">
-          <AlertCircle className="w-5 h-5 mr-2" />
-          <span className="text-sm">Failed to load notifications</span>
-          <button
-            onClick={() => setIsVisible(false)}
-            className="ml-auto hover:bg-red-600 p-1 rounded"
-            aria-label="Close"
-          >
-            <X className="w-4 h-4" />
-          </button>
-        </div>
-      </div>
-    );
+    console.warn('Ticker API failed - hiding ticker');
+    return null; // Don't render anything on error
   }
 
   // Empty state - don't render
