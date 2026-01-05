@@ -22,6 +22,7 @@ import NotificationsPage from '../pages/NotificationsPage';
 import MessagesPage from '../pages/MessagesPage';
 import SettingsPage from '../pages/SettingsPage';
 import PostDetailPage from '../pages/PostDetailPage';
+import EmailCampaignsPage from '../pages/EmailCampaignsPage';
 
 // Legal Pages
 import PrivacyPolicy from '../pages/legal/PrivacyPolicy';
@@ -194,6 +195,15 @@ const AppRoutes: React.FC = () => {
         element={
           <PrivateRoute>
             <PostDetailPage />
+          </PrivateRoute>
+        }
+      />
+
+      <Route
+        path="/admin/email-campaigns"
+        element={
+          <PrivateRoute>
+            <EmailCampaignsPage />
           </PrivateRoute>
         }
       />

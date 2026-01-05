@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Menu, X, Search, Bell, MessageCircle, User, Home, Users, Briefcase, Calendar, LogOut, Settings as SettingsIcon, HelpCircle } from 'lucide-react';
+import { Menu, X, Search, Bell, MessageCircle, User, Home, Users, Briefcase, Calendar, LogOut, Settings as SettingsIcon, HelpCircle, Mail } from 'lucide-react';
 import { cn } from '../../utils/cn';
 import { useAuth } from '../../context/AuthContext';
 import alumniConnectLogo from '../../assets/logos/alumni_connect_logo-removebg-preview.png';
@@ -27,7 +27,8 @@ const Navbar: React.FC<NavbarProps> = ({
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const navigate = useNavigate();
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
+  const isAdmin = user?.role === 'admin';
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
   const toggleSearch = () => setIsSearchExpanded(!isSearchExpanded);
@@ -149,6 +150,18 @@ const Navbar: React.FC<NavbarProps> = ({
                     </span>
                   )}
                 </button>
+
+                {/* Email Campaigns (Admin Only) */}
+                {isAdmin && (
+                  <button
+                    className="relative p-2 text-white hover:bg-white/20 rounded-lg focus:outline-none hidden md:block transition-all duration-300 transform hover:scale-110"
+                    aria-label="Email Campaigns"
+                    onClick={() => navigate('/admin/email-campaigns')}
+                    title="Email Campaigns"
+                  >
+                    <Mail size={20} />
+                  </button>
+                )}
 
                 {/* Profile Dropdown */}
                 <div className="relative">
