@@ -22,7 +22,7 @@ export interface RegisterData {
   lastName: string;
   email: string;
   password: string;
-  role: 'student' | 'alumni';
+  role: 'student' | 'alumni' | 'admin';
   batch?: string;
   enrollmentNumber?: string;
   phone?: string;

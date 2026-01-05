@@ -8,7 +8,7 @@ import NotificationTicker from '../ticker/NotificationTicker';
 
 interface NavbarProps {
   isAuthenticated?: boolean;
-  userRole?: 'student' | 'alumni';
+  userRole?: 'student' | 'alumni' | 'admin';
   userName?: string;
   userAvatar?: string;
   unreadNotifications?: number;

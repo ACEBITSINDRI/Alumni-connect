@@ -7,7 +7,7 @@ export interface Post {
     firstName: string;
     lastName: string;
     profilePicture?: string;
-    role: 'student' | 'alumni';
+    role: 'student' | 'alumni' | 'admin';
     currentRole?: string;
     company?: string;
     batch?: string;

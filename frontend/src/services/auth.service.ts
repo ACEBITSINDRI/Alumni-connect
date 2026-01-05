@@ -15,7 +15,7 @@ export interface User {
   firstName: string;
   lastName: string;
   email: string;
-  role: 'student' | 'alumni';
+  role: 'student' | 'alumni' | 'admin';
   isVerified: boolean;
   isEmailVerified?: boolean;
   profilePicture?: string;

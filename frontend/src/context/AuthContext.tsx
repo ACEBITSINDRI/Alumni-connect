@@ -6,7 +6,7 @@ interface User {
   firstName: string;
   lastName: string;
   email: string;
-  role: 'student' | 'alumni';
+  role: 'student' | 'alumni' | 'admin';
   profilePicture?: string;
   batch?: string;
   company?: string;

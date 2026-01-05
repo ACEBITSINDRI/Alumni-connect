@@ -13,7 +13,7 @@ export interface ConnectionRequest {
     batch?: string;
     department?: string;
     location?: string;
-    role: 'student' | 'alumni';
+    role: 'student' | 'alumni' | 'admin';
   };
   createdAt: string;
   status: 'pending' | 'accepted' | 'rejected';
@@ -32,7 +32,7 @@ export interface SentRequest {
     batch?: string;
     department?: string;
     location?: string;
-    role: 'student' | 'alumni';
+    role: 'student' | 'alumni' | 'admin';
   };
   createdAt: string;
   status: 'pending' | 'accepted' | 'rejected';
@@ -47,7 +47,7 @@ export interface MutualConnection {
   company?: string;
   batch?: string;
   department?: string;
-  role: 'student' | 'alumni';
+  role: 'student' | 'alumni' | 'admin';
 }
 
 export interface ApiResponse<T> {

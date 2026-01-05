@@ -28,7 +28,7 @@ export interface UserProfile {
   firstName: string;
   lastName: string;
   email: string;
-  role: 'student' | 'alumni';
+  role: 'student' | 'alumni' | 'admin';
   profilePicture?: string;
   coverPhoto?: string;
   batch?: string;
@@ -69,7 +69,7 @@ export interface Connection {
   batch?: string;
   department?: string;
   location?: string;
-  role: 'student' | 'alumni';
+  role: 'student' | 'alumni' | 'admin';
 }
 
 export interface SuggestedConnection extends Connection {
