@@ -65,11 +65,9 @@ export const protect = async (req, res, next) => {
 
       // Find user in MongoDB by Firebase UID (check both collections)
       let user = await AlumniModel.findOne({ firebaseUid }).select('-password');
-      let role = 'alumni';
 
       if (!user) {
         user = await StudentModel.findOne({ firebaseUid }).select('-password');
-        role = 'student';
       }
 
       if (!user) {
@@ -97,7 +95,7 @@ export const protect = async (req, res, next) => {
 
       // Attach user and Firebase info to request object
       req.user = user;
-      req.user.role = role;
+      req.user.role = user.role; // Use role from database (can be 'student', 'alumni', or 'admin')
       req.firebaseUser = decodedToken;
 
       next();
