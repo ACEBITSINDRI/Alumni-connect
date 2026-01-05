@@ -1,0 +1,9 @@
+Force deployment trigger - Fix ticker and 401 errors
+Timestamp: 2026-01-05 17:15 IST
+Build hash: index-hIluUEDf.js
+
+Changes:
+- Ticker API calls fixed to use /api/ticker
+- Silent error handling for ticker
+- Admin role added to all User types
+- Production ready
