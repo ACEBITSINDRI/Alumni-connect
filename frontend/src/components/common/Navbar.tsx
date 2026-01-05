@@ -154,7 +154,7 @@ const Navbar: React.FC<NavbarProps> = ({
                 {/* Email Campaigns (Admin Only) */}
                 {isAdmin && (
                   <button
-                    className="relative p-2 text-white hover:bg-white/20 rounded-lg focus:outline-none hidden md:block transition-all duration-300 transform hover:scale-110"
+                    className="relative p-2 text-white hover:bg-white/20 rounded-lg focus:outline-none transition-all duration-300 transform hover:scale-110"
                     aria-label="Email Campaigns"
                     onClick={() => navigate('/admin/email-campaigns')}
                     title="Email Campaigns"
@@ -300,6 +300,13 @@ const Navbar: React.FC<NavbarProps> = ({
                       </span>
                     )}
                   </MobileNavLink>
+
+                  {/* Email Campaigns (Admin Only) */}
+                  {isAdmin && (
+                    <MobileNavLink to="/admin/email-campaigns" icon={<Mail size={20} />} onClick={toggleMobileMenu}>
+                      Email Campaigns
+                    </MobileNavLink>
+                  )}
 
                   <div className="border-t border-gray-200 dark:border-gray-700 my-3 pt-3">
                     <MobileNavLink to="/profile" icon={<User size={20} />} onClick={toggleMobileMenu}>
