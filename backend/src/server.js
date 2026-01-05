@@ -1,4 +1,4 @@
-// Alumni Connect API Server - v1.1
+// Alumni Connect API Server - v1.2 (Ticker Fixed)
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';

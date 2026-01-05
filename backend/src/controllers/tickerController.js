@@ -11,14 +11,19 @@ import { tickerCache } from '../utils/cache.js';
  */
 const aggregateTickerItems = async () => {
   const now = new Date();
+  console.log('🕐 Ticker Query Time:', now.toISOString());
 
   try {
     // 1. Get manual ticker items
-    const manualItems = await TickerItem.find({
+    const query = {
       isActive: true,
       startDate: { $lte: now },
       $or: [{ endDate: null }, { endDate: { $gte: now } }],
-    })
+    };
+
+    console.log('🔍 Ticker Query:', JSON.stringify(query));
+
+    const manualItems = await TickerItem.find(query)
       .sort({ priority: -1, startDate: -1 })
       .limit(10)
       .lean()
@@ -28,6 +33,15 @@ const aggregateTickerItems = async () => {
       }); // Gracefully handle if collection doesn't exist
 
     console.log(`📊 Found ${manualItems.length} manual ticker items`);
+
+    if (manualItems.length > 0) {
+      console.log('   First item:', manualItems[0].title);
+    } else {
+      // Debug: Check total count
+      const totalCount = await TickerItem.countDocuments({});
+      const activeCount = await TickerItem.countDocuments({ isActive: true });
+      console.log(`   📊 Total items in DB: ${totalCount}, Active: ${activeCount}`);
+    }
 
     // 2. Get upcoming events (next 7 days) - Skip if Event model not ready
     let upcomingEvents = [];
