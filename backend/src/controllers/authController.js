@@ -196,19 +196,18 @@ export const register = async (req, res) => {
       const verificationToken = await user.generateVerificationToken();
       await user.save();
 
-      // Send verification email
-      try {
-        const { sendVerificationEmail } = await import('../utils/email.js');
-        await sendVerificationEmail(
+      // Send verification email in background (don't wait)
+      import('../utils/email.js').then(({ sendVerificationEmail }) => {
+        sendVerificationEmail(
           user.email,
           verificationToken,
           `${user.firstName} ${user.lastName}`
-        );
-        console.log('✅ Verification email sent to:', user.email);
-      } catch (emailError) {
-        console.error('❌ Failed to send verification email:', emailError);
-        // Don't fail registration if email fails
-      }
+        ).then(() => {
+          console.log('✅ Verification email sent to:', user.email);
+        }).catch((emailError) => {
+          console.error('❌ Failed to send verification email:', emailError);
+        });
+      });
     }
 
     // Handle file uploads if present
