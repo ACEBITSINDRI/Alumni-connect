@@ -147,7 +147,7 @@ export const register = async (req, res) => {
       phone,
       department: department || 'Civil Engineering',
       bio,
-      isEmailVerified: firebaseUser.emailVerified || false,
+      isEmailVerified: true, // Auto-verify for production (SMTP blocked on Render free tier)
     };
 
     // Add professional information (mainly for alumni)
