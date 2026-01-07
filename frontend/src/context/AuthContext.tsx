@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
 import { logout as logoutApi } from '../services/auth.service';
+import { auth } from '../config/firebase';
+import { onAuthStateChanged, setPersistence, browserLocalPersistence } from 'firebase/auth';
 
 interface User {
   _id: string;
@@ -60,40 +62,80 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Check if user is logged in on mount
+  // Enable Firebase persistence and listen to auth state changes
   useEffect(() => {
-    checkAuth();
+    let unsubscribe: (() => void) | undefined;
+
+    const initAuth = async () => {
+      try {
+        // Enable Firebase persistence
+        await setPersistence(auth, browserLocalPersistence);
+
+        // Listen to Firebase auth state changes
+        unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+          if (firebaseUser) {
+            // User is signed in with Firebase
+            // Check if we have user data in localStorage
+            const storedUser = localStorage.getItem('user');
+            const token = localStorage.getItem('accessToken');
+
+            if (storedUser && token) {
+              try {
+                const parsedUser = JSON.parse(storedUser);
+                setUser(parsedUser);
+              } catch (error) {
+                console.error('Failed to parse stored user:', error);
+                // Clear invalid data
+                localStorage.removeItem('user');
+                localStorage.removeItem('accessToken');
+                localStorage.removeItem('refreshToken');
+                setUser(null);
+              }
+            } else {
+              // Firebase user exists but no localStorage data
+              // This can happen after signup, wait for app to set user data
+              console.log('Firebase user found, waiting for user data...');
+            }
+          } else {
+            // User is signed out
+            setUser(null);
+            localStorage.removeItem('user');
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('refreshToken');
+          }
+
+          // Auth state resolved, stop loading
+          setIsLoading(false);
+        });
+      } catch (error) {
+        console.error('Firebase auth initialization error:', error);
+        setIsLoading(false);
+      }
+    };
+
+    initAuth();
+
+    // Cleanup subscription on unmount
+    return () => {
+      if (unsubscribe) {
+        unsubscribe();
+      }
+    };
   }, []);
 
   const checkAuth = async () => {
-    try {
-      // Check for stored token and user
-      const token = localStorage.getItem('accessToken');
-      const storedUser = localStorage.getItem('user');
+    // This is now handled by onAuthStateChanged listener
+    // Kept for backward compatibility
+    const token = localStorage.getItem('accessToken');
+    const storedUser = localStorage.getItem('user');
 
-      if (token && storedUser) {
-        try {
-          // Parse stored user
-          const parsedUser = JSON.parse(storedUser);
-          setUser(parsedUser);
-
-          // Optionally verify token with backend
-          // const currentUser = await getCurrentUser();
-          // setUser(currentUser);
-        } catch (error) {
-          console.error('Failed to parse stored user:', error);
-          localStorage.removeItem('accessToken');
-          localStorage.removeItem('refreshToken');
-          localStorage.removeItem('user');
-        }
+    if (token && storedUser) {
+      try {
+        const parsedUser = JSON.parse(storedUser);
+        setUser(parsedUser);
+      } catch (error) {
+        console.error('Failed to parse stored user:', error);
       }
-    } catch (error) {
-      console.error('Auth check failed:', error);
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
-      localStorage.removeItem('user');
-    } finally {
-      setIsLoading(false);
     }
   };
 
