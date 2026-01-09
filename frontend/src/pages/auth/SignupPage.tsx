@@ -243,8 +243,25 @@ const SignupPage: React.FC<SignupPageProps> = ({ userType = 'student' }) => {
       }
 
       if (response.success && response.data) {
+        // CRITICAL: Ensure tokens are saved to localStorage BEFORE navigation
+        // These should already be saved by auth.service, but double-check
+        if (response.data.accessToken) {
+          localStorage.setItem('accessToken', response.data.accessToken);
+          localStorage.setItem('refreshToken', response.data.refreshToken);
+          localStorage.setItem('user', JSON.stringify(response.data.user));
+          console.log('[Signup] Tokens saved:', {
+            hasAccessToken: !!localStorage.getItem('accessToken'),
+            hasUser: !!localStorage.getItem('user'),
+          });
+        } else {
+          console.error('[Signup] No tokens in response!', response.data);
+        }
+
         // Set user in context
         setUser(response.data.user);
+
+        // Small delay to ensure localStorage write completes
+        await new Promise(resolve => setTimeout(resolve, 100));
 
         // Navigate to dashboard or verification page based on isEmailVerified status
         if (response.data.user.isEmailVerified) {
@@ -277,8 +294,24 @@ const SignupPage: React.FC<SignupPageProps> = ({ userType = 'student' }) => {
       const result = await loginWithGoogle(userType);
 
       if (result.user) {
+        // CRITICAL: Save tokens explicitly
+        if (result.accessToken) {
+          localStorage.setItem('accessToken', result.accessToken);
+          localStorage.setItem('refreshToken', result.refreshToken);
+          localStorage.setItem('user', JSON.stringify(result.user));
+          console.log('[Google Signup] Tokens saved:', {
+            hasAccessToken: !!localStorage.getItem('accessToken'),
+            hasUser: !!localStorage.getItem('user'),
+          });
+        } else {
+          console.error('[Google Signup] No tokens in response!', result);
+        }
+
         // Set user in context
         setUser(result.user);
+
+        // Small delay to ensure localStorage write completes
+        await new Promise(resolve => setTimeout(resolve, 100));
 
         // Show success message
         if (result.isNewUser) {

@@ -105,8 +105,24 @@ const LoginPage: React.FC<LoginPageProps> = ({ userType = 'student' }) => {
       const result = await loginWithGoogle(activeTab);
 
       if (result.user) {
+        // CRITICAL: Save tokens explicitly
+        if (result.accessToken) {
+          localStorage.setItem('accessToken', result.accessToken);
+          localStorage.setItem('refreshToken', result.refreshToken);
+          localStorage.setItem('user', JSON.stringify(result.user));
+          console.log('[Login Google] Tokens saved:', {
+            hasAccessToken: !!localStorage.getItem('accessToken'),
+            hasUser: !!localStorage.getItem('user'),
+          });
+        } else {
+          console.error('[Login Google] No tokens in response!', result);
+        }
+
         // Set user in context
         setUser(result.user);
+
+        // Small delay to ensure localStorage write completes
+        await new Promise(resolve => setTimeout(resolve, 100));
 
         // Show success message and navigate
         if (result.isNewUser && result.needsProfileCompletion) {

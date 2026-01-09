@@ -176,6 +176,8 @@ export const loginWithGoogle = async (role: 'student' | 'alumni') => {
 
     return {
       user: response.data.data.user,
+      accessToken: response.data.data.accessToken,
+      refreshToken: response.data.data.refreshToken,
       firebaseUser: user,
       idToken,
       isNewUser: response.data.data.isNewUser,
