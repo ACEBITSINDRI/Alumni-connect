@@ -2,6 +2,24 @@ import { getUserModel, AlumniModel, StudentModel } from '../models/User.js';
 import { auth } from '../config/firebase.js';
 import { uploadProfilePicture, uploadDocument } from '../services/firebaseStorage.js';
 import crypto from 'crypto';
+import jwt from 'jsonwebtoken';
+
+// Helper function to generate JWT tokens
+const generateTokens = (userId, role) => {
+  const accessToken = jwt.sign(
+    { id: userId, role },
+    process.env.JWT_SECRET,
+    { expiresIn: process.env.JWT_EXPIRE || '7d' }
+  );
+
+  const refreshToken = jwt.sign(
+    { id: userId },
+    process.env.JWT_REFRESH_SECRET || process.env.JWT_SECRET,
+    { expiresIn: process.env.JWT_REFRESH_EXPIRE || '30d' }
+  );
+
+  return { accessToken, refreshToken };
+};
 
 // @desc    Register user with Firebase
 // @route   POST /api/auth/register
@@ -256,12 +274,17 @@ export const register = async (req, res) => {
       }
     }
 
+    // Generate JWT tokens for API authentication
+    const { accessToken, refreshToken } = generateTokens(user._id, user.role);
+
     res.status(201).json({
       success: true,
       message: 'Registration successful!',
       data: {
         user: user.getPublicProfile(),
         firebaseUid: firebaseUser.uid,
+        accessToken,
+        refreshToken,
         ...(customToken && { customToken }), // Include custom token for email/password users
       },
     });
@@ -332,11 +355,16 @@ export const login = async (req, res) => {
     user.lastActive = new Date();
     await user.save();
 
+    // Generate JWT tokens for API authentication
+    const { accessToken, refreshToken } = generateTokens(user._id, user.role);
+
     res.status(200).json({
       success: true,
       message: 'Login successful',
       data: {
         user: user.getPublicProfile(),
+        accessToken,
+        refreshToken,
       },
     });
   } catch (error) {
@@ -403,11 +431,16 @@ export const googleLogin = async (req, res) => {
     // Check if profile needs completion (for Google users)
     const needsProfileCompletion = isNewUser && (!user.batch || !user.phone);
 
+    // Generate JWT tokens for API authentication
+    const { accessToken, refreshToken } = generateTokens(user._id, user.role);
+
     res.status(200).json({
       success: true,
       message: isNewUser ? 'Account created successfully' : 'Login successful',
       data: {
         user: user.getPublicProfile(),
+        accessToken,
+        refreshToken,
         isNewUser,
         needsProfileCompletion,
       },
