@@ -1,5 +1,6 @@
 import { auth } from '../config/firebase.js';
 import { getUserModel, AlumniModel, StudentModel } from '../models/User.js';
+import jwt from 'jsonwebtoken';
 
 // Verify Firebase token only (doesn't require MongoDB user to exist)
 export const verifyFirebaseToken = async (req, res, next) => {
@@ -59,15 +60,15 @@ export const protect = async (req, res, next) => {
     }
 
     try {
-      // Verify Firebase ID token
-      const decodedToken = await auth.verifyIdToken(token);
-      const firebaseUid = decodedToken.uid;
+      // Verify JWT token (not Firebase ID token)
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const userId = decoded.id;
 
-      // Find user in MongoDB by Firebase UID (check both collections)
-      let user = await AlumniModel.findOne({ firebaseUid }).select('-password');
+      // Find user in MongoDB by user ID (check both collections)
+      let user = await AlumniModel.findById(userId).select('-password');
 
       if (!user) {
-        user = await StudentModel.findOne({ firebaseUid }).select('-password');
+        user = await StudentModel.findById(userId).select('-password');
       }
 
       if (!user) {
@@ -93,14 +94,13 @@ export const protect = async (req, res, next) => {
         });
       }
 
-      // Attach user and Firebase info to request object
+      // Attach user info to request object
       req.user = user;
       req.user.role = user.role; // Use role from database (can be 'student', 'alumni', or 'admin')
-      req.firebaseUser = decodedToken;
 
       next();
     } catch (error) {
-      console.error('Firebase auth error:', error);
+      console.error('JWT auth error:', error);
       return res.status(401).json({
         success: false,
         message: 'Token is invalid or has expired.',
