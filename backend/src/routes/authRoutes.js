@@ -4,6 +4,7 @@ import {
   register,
   login,
   googleLogin,
+  linkedInLogin,
   getMe,
   logout,
   updateFCMToken,
@@ -36,6 +37,10 @@ const googleLoginValidation = [
   body('role').isIn(['student', 'alumni']).withMessage('Role must be student or alumni'),
 ];
 
+const linkedInLoginValidation = [
+  body('role').isIn(['student', 'alumni']).withMessage('Role must be student or alumni'),
+];
+
 const fcmTokenValidation = [
   body('fcmToken').trim().notEmpty().withMessage('FCM token is required'),
 ];
@@ -52,6 +57,7 @@ const resetPasswordValidation = [
 router.post('/register', uploadRegistrationFiles, handleUploadError, registerValidation, validate, register);
 router.post('/login', protect, loginValidation, validate, login);
 router.post('/google-login', verifyFirebaseToken, googleLoginValidation, validate, googleLogin);
+router.post('/linkedin-login', verifyFirebaseToken, linkedInLoginValidation, validate, linkedInLogin);
 router.get('/me', protect, getMe);
 router.post('/logout', protect, logout);
 router.post('/fcm-token', protect, fcmTokenValidation, validate, updateFCMToken);

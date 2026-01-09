@@ -454,6 +454,84 @@ export const googleLogin = async (req, res) => {
   }
 };
 
+// @desc    LinkedIn login/signup
+// @route   POST /api/auth/linkedin-login
+// @access  Public (but requires Firebase ID token)
+export const linkedInLogin = async (req, res) => {
+  try {
+    const { role } = req.body;
+
+    if (!role || !['student', 'alumni'].includes(role)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Valid role is required',
+      });
+    }
+
+    // Firebase user already verified by middleware
+    const firebaseUser = req.firebaseUser;
+
+    // Check if user exists in MongoDB
+    let user = await AlumniModel.findOne({ firebaseUid: firebaseUser.uid });
+    let userRole = 'alumni';
+
+    if (!user) {
+      user = await StudentModel.findOne({ firebaseUid: firebaseUser.uid });
+      userRole = 'student';
+    }
+
+    let isNewUser = false;
+
+    // If user doesn't exist, create new profile
+    if (!user) {
+      const UserModel = getUserModel(role);
+
+      const [firstName, ...lastNameParts] = (firebaseUser.displayName || firebaseUser.email.split('@')[0]).split(' ');
+
+      user = await UserModel.create({
+        firstName: firstName || 'User',
+        lastName: lastNameParts.join(' ') || '',
+        email: firebaseUser.email,
+        firebaseUid: firebaseUser.uid,
+        role,
+        batch: '', // Will be updated during profile completion
+        isEmailVerified: firebaseUser.email_verified || false,
+        profilePicture: firebaseUser.picture || '',
+      });
+
+      isNewUser = true;
+    } else {
+      // Update last active
+      user.lastActive = new Date();
+      await user.save();
+    }
+
+    // Check if profile needs completion (for LinkedIn users)
+    const needsProfileCompletion = isNewUser && (!user.batch || !user.phone);
+
+    // Generate JWT tokens for API authentication
+    const { accessToken, refreshToken } = generateTokens(user._id, user.role);
+
+    res.status(200).json({
+      success: true,
+      message: isNewUser ? 'Account created successfully' : 'Login successful',
+      data: {
+        user: user.getPublicProfile(),
+        accessToken,
+        refreshToken,
+        isNewUser,
+        needsProfileCompletion,
+      },
+    });
+  } catch (error) {
+    console.error('LinkedIn login error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error during LinkedIn authentication',
+    });
+  }
+};
+
 // @desc    Get current user
 // @route   GET /api/auth/me
 // @access  Private
