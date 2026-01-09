@@ -7,6 +7,7 @@ import {
   EmailAuthProvider,
   reauthenticateWithCredential,
   GoogleAuthProvider,
+  OAuthProvider,
   signInWithPopup,
   updateProfile,
   sendEmailVerification,
@@ -166,6 +167,48 @@ export const loginWithGoogle = async (role: 'student' | 'alumni') => {
 
     // Check if user exists in MongoDB, if not create profile
     const response = await axios.post(`${API_URL}/api/auth/google-login`,
+      { role },
+      {
+        headers: {
+          Authorization: `Bearer ${idToken}`,
+        },
+      }
+    );
+
+    return {
+      user: response.data.data.user,
+      accessToken: response.data.data.accessToken,
+      refreshToken: response.data.data.refreshToken,
+      firebaseUser: user,
+      idToken,
+      isNewUser: response.data.data.isNewUser,
+      needsProfileCompletion: response.data.data.needsProfileCompletion,
+    };
+  } catch (error: any) {
+    throw error;
+  }
+};
+
+/**
+ * Login with LinkedIn
+ */
+export const loginWithLinkedIn = async (role: 'student' | 'alumni') => {
+  try {
+    const provider = new OAuthProvider('oidc.linkedin');
+
+    // Request additional LinkedIn scopes
+    provider.addScope('openid');
+    provider.addScope('profile');
+    provider.addScope('email');
+
+    const userCredential = await signInWithPopup(auth, provider);
+    const user = userCredential.user;
+
+    // Get Firebase ID token
+    const idToken = await user.getIdToken();
+
+    // Check if user exists in MongoDB, if not create profile
+    const response = await axios.post(`${API_URL}/api/auth/linkedin-login`,
       { role },
       {
         headers: {

@@ -7,7 +7,7 @@ import Card from '../../components/common/Card';
 import Badge from '../../components/common/Badge';
 import { DEPARTMENT_INFO } from '../../utils/civilEngConstants';
 import { login as loginApi } from '../../services/auth.service';
-import { loginWithGoogle } from '../../services/firebase/auth.service';
+import { loginWithGoogle, loginWithLinkedIn } from '../../services/firebase/auth.service';
 import { useAuth } from '../../context/AuthContext';
 import toast from 'react-hot-toast';
 import SEOHead from '../../components/common/SEOHead';
@@ -139,6 +139,67 @@ const LoginPage: React.FC<LoginPageProps> = ({ userType = 'student' }) => {
 
       // Handle specific Firebase errors
       let errorMessage = 'Failed to sign in with Google. Please try again.';
+
+      if (error.code === 'auth/popup-closed-by-user') {
+        errorMessage = 'Sign-in popup was closed. Please try again.';
+      } else if (error.code === 'auth/popup-blocked') {
+        errorMessage = 'Popup was blocked by browser. Please allow popups for this site.';
+      } else if (error.code === 'auth/cancelled-popup-request') {
+        errorMessage = 'Sign-in was cancelled. Please try again.';
+      } else if (error.response?.data?.message) {
+        errorMessage = error.response.data.message;
+      }
+
+      toast.error(errorMessage);
+      setErrors({ submit: errorMessage });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleLinkedInSignIn = async () => {
+    setIsLoading(true);
+    setErrors({});
+
+    try {
+      // LinkedIn Sign-In with Firebase
+      const result = await loginWithLinkedIn(activeTab);
+
+      if (result.user) {
+        // CRITICAL: Save tokens explicitly
+        if (result.accessToken) {
+          localStorage.setItem('accessToken', result.accessToken);
+          localStorage.setItem('refreshToken', result.refreshToken);
+          localStorage.setItem('user', JSON.stringify(result.user));
+          console.log('[Login LinkedIn] Tokens saved:', {
+            hasAccessToken: !!localStorage.getItem('accessToken'),
+            hasUser: !!localStorage.getItem('user'),
+          });
+        } else {
+          console.error('[Login LinkedIn] No tokens in response!', result);
+        }
+
+        // Set user in context
+        setUser(result.user);
+
+        // Small delay to ensure localStorage write completes
+        await new Promise(resolve => setTimeout(resolve, 100));
+
+        // Show success message and navigate
+        if (result.isNewUser && result.needsProfileCompletion) {
+          toast.success('Account created successfully!');
+          toast('Please complete your profile to continue', { icon: 'ℹ️' });
+          navigate('/profile/edit');
+        } else {
+          toast.success('Welcome back!');
+          navigate('/dashboard');
+        }
+      }
+    } catch (error: any) {
+      console.error('LinkedIn login error:', error);
+
+      // Handle specific Firebase errors
+      let errorMessage = 'Failed to sign in with LinkedIn. Please try again.';
 
       if (error.code === 'auth/popup-closed-by-user') {
         errorMessage = 'Sign-in popup was closed. Please try again.';
@@ -309,8 +370,8 @@ const LoginPage: React.FC<LoginPageProps> = ({ userType = 'student' }) => {
               </button>
             </div>
 
-            {/* Google Sign-In Button */}
-            <div className="mb-6">
+            {/* Social Sign-In Buttons */}
+            <div className="mb-6 space-y-3">
               <button
                 type="button"
                 onClick={handleGoogleSignIn}
@@ -339,6 +400,22 @@ const LoginPage: React.FC<LoginPageProps> = ({ userType = 'student' }) => {
                 </div>
                 <span className="text-sm font-semibold text-gray-700 group-hover:text-gray-900">
                   {isLoading ? 'Signing in...' : 'Continue with Google'}
+                </span>
+              </button>
+
+              <button
+                type="button"
+                onClick={handleLinkedInSignIn}
+                disabled={isLoading}
+                className="w-full flex items-center justify-center space-x-3 px-4 py-3 bg-[#0A66C2] border-2 border-[#0A66C2] rounded-lg hover:bg-[#004182] hover:border-[#004182] transition-all shadow-sm disabled:opacity-50 disabled:cursor-not-allowed group"
+              >
+                <div className="flex items-center justify-center w-5 h-5">
+                  <svg viewBox="0 0 24 24" className="w-5 h-5" fill="white">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                  </svg>
+                </div>
+                <span className="text-sm font-semibold text-white group-hover:text-white">
+                  {isLoading ? 'Signing in...' : 'Continue with LinkedIn'}
                 </span>
               </button>
             </div>
