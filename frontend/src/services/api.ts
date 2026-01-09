@@ -14,6 +14,7 @@ const api: AxiosInstance = axios.create({
 api.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     const token = localStorage.getItem('accessToken');
+    console.log('[API Request]', config.url, 'Token:', token ? `${token.substring(0, 20)}...` : 'MISSING');
     if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -35,10 +36,17 @@ api.interceptors.response.use(
       switch (error.response.status) {
         case 401:
           // Unauthorized - clear token and redirect to login
+          console.error('[API 401 Error]', error.config?.url, 'Response:', error.response.data);
+          console.error('[API 401] Token before clear:', localStorage.getItem('accessToken')?.substring(0, 20));
           localStorage.removeItem('accessToken');
           localStorage.removeItem('refreshToken');
           localStorage.removeItem('user');
-          window.location.href = '/login';
+
+          // Only redirect if not already on auth pages
+          if (!window.location.pathname.includes('/login') && !window.location.pathname.includes('/signup')) {
+            console.error('[API 401] Redirecting to /login');
+            window.location.href = '/login';
+          }
           break;
         case 403:
           // Forbidden - Check if email verification is required
