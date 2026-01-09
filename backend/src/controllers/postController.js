@@ -374,14 +374,16 @@ export const likePost = async (req, res) => {
       select: 'firstName lastName profilePicture currentRole company batch role email',
     });
 
-    // Send notification only if liked (not unliked) and not liking own post
+    // Send notification in background (don't wait) - only if liked (not unliked) and not liking own post
     if (isLiked && post.author._id.toString() !== req.user._id.toString()) {
       const likerName = `${req.user.firstName} ${req.user.lastName}`;
       const postPreview = truncateText(post.content, 50);
       const notificationData = NotificationTemplates.POST_LIKE(likerName, postPreview);
 
-      try {
-        await sendCompleteNotification({
+      // Send notifications in background without blocking response
+      const postUrl = `${process.env.FRONTEND_URL}/posts/${post._id}`;
+      Promise.all([
+        sendCompleteNotification({
           recipientId: post.author._id,
           senderId: req.user._id,
           type: notificationData.type,
@@ -391,11 +393,10 @@ export const likePost = async (req, res) => {
           relatedPost: post._id,
           sendPush: true,
           sendInApp: true,
-        });
+        }).catch(err => console.error('Notification error:', err)),
 
         // Send email notification
-        const postUrl = `${process.env.FRONTEND_URL}/posts/${post._id}`;
-        await sendPostEngagementEmail(
+        sendPostEngagementEmail(
           post.author.email,
           post.author.firstName,
           likerName,
@@ -403,10 +404,8 @@ export const likePost = async (req, res) => {
           postPreview,
           null,
           postUrl
-        ).catch(err => console.log('Email notification failed:', err));
-      } catch (notifError) {
-        console.log('Notification failed:', notifError);
-      }
+        ).catch(err => console.error('Email notification failed:', err))
+      ]).catch(err => console.error('Background notification failed:', err));
     }
 
     res.status(200).json({
@@ -470,14 +469,16 @@ export const commentOnPost = async (req, res) => {
 
     const newComment = post.comments[post.comments.length - 1];
 
-    // Send notification to post author (not if commenting on own post)
+    // Send notification in background (don't wait) to post author (not if commenting on own post)
     if (post.author._id.toString() !== req.user._id.toString()) {
       const commenterName = `${req.user.firstName} ${req.user.lastName}`;
       const postPreview = truncateText(post.content, 50);
       const notificationData = NotificationTemplates.POST_COMMENT(commenterName, postPreview);
+      const postUrl = `${process.env.FRONTEND_URL}/posts/${post._id}`;
 
-      try {
-        await sendCompleteNotification({
+      // Send notifications in background without blocking response
+      Promise.all([
+        sendCompleteNotification({
           recipientId: post.author._id,
           senderId: req.user._id,
           type: notificationData.type,
@@ -487,11 +488,10 @@ export const commentOnPost = async (req, res) => {
           relatedPost: post._id,
           sendPush: true,
           sendInApp: true,
-        });
+        }).catch(err => console.error('Notification error:', err)),
 
         // Send email notification
-        const postUrl = `${process.env.FRONTEND_URL}/posts/${post._id}`;
-        await sendPostEngagementEmail(
+        sendPostEngagementEmail(
           post.author.email,
           post.author.firstName,
           commenterName,
@@ -499,10 +499,8 @@ export const commentOnPost = async (req, res) => {
           postPreview,
           truncateText(content, 100),
           postUrl
-        ).catch(err => console.log('Email notification failed:', err));
-      } catch (notifError) {
-        console.log('Notification failed:', notifError);
-      }
+        ).catch(err => console.error('Email notification failed:', err))
+      ]).catch(err => console.error('Background notification failed:', err));
     }
 
     res.status(201).json({
