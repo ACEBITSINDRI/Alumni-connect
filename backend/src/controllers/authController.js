@@ -883,7 +883,7 @@ export const linkedInAuth = async (req, res) => {
 
     // Create redirect URI (backend callback)
     const baseUrl = process.env.NODE_ENV === 'production'
-      ? 'https://your-backend-domain.com'
+      ? 'https://alumni-connect-backend-g28e.onrender.com'
       : `http://localhost:${process.env.PORT || 5000}`;
     const redirectUri = `${baseUrl}/api/auth/linkedin/callback`;
 
@@ -929,7 +929,7 @@ export const linkedInCallback = async (req, res) => {
 
     // Exchange code for token
     const baseUrl = process.env.NODE_ENV === 'production'
-      ? 'https://your-backend-domain.com'
+      ? 'https://alumni-connect-backend-g28e.onrender.com'
       : `http://localhost:${process.env.PORT || 5000}`;
     const redirectUri = `${baseUrl}/api/auth/linkedin/callback`;
     const tokenData = await exchangeCodeForToken(code, redirectUri);
