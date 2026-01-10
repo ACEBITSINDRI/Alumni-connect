@@ -3,6 +3,12 @@ import { auth } from '../config/firebase.js';
 import { uploadProfilePicture, uploadDocument } from '../services/firebaseStorage.js';
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
+import {
+  getLinkedInAuthUrl,
+  exchangeCodeForToken,
+  getLinkedInUserInfo,
+  createFirebaseUserFromLinkedIn,
+} from '../services/linkedinAuth.service.js';
 
 // Helper function to generate JWT tokens
 const generateTokens = (userId, role) => {
@@ -855,5 +861,142 @@ export const resetPassword = async (req, res) => {
       success: false,
       message: 'Error resetting password',
     });
+  }
+};
+
+// @desc    Initiate LinkedIn OAuth flow
+// @route   GET /api/auth/linkedin
+// @access  Public
+export const linkedInAuth = async (req, res) => {
+  try {
+    const { role } = req.query;
+
+    if (!role || !['student', 'alumni'].includes(role)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Valid role (student or alumni) is required',
+      });
+    }
+
+    // Generate state parameter to prevent CSRF
+    const state = Buffer.from(JSON.stringify({ role, timestamp: Date.now() })).toString('base64');
+
+    // Create redirect URI (backend callback)
+    const baseUrl = process.env.NODE_ENV === 'production'
+      ? 'https://your-backend-domain.com'
+      : `http://localhost:${process.env.PORT || 5000}`;
+    const redirectUri = `${baseUrl}/api/auth/linkedin/callback`;
+
+    // Get LinkedIn authorization URL
+    const authUrl = getLinkedInAuthUrl(state, redirectUri);
+
+    // Redirect to LinkedIn
+    res.redirect(authUrl);
+  } catch (error) {
+    console.error('LinkedIn auth initiation error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error initiating LinkedIn authentication',
+    });
+  }
+};
+
+// @desc    Handle LinkedIn OAuth callback
+// @route   GET /api/auth/linkedin/callback
+// @access  Public
+export const linkedInCallback = async (req, res) => {
+  try {
+    const { code, state, error } = req.query;
+
+    // Handle OAuth errors
+    if (error) {
+      console.error('LinkedIn OAuth error:', error);
+      return res.redirect(`${process.env.FRONTEND_URL.split(',')[0]}/login?error=${encodeURIComponent('LinkedIn authentication failed')}`);
+    }
+
+    if (!code) {
+      return res.redirect(`${process.env.FRONTEND_URL.split(',')[0]}/login?error=${encodeURIComponent('No authorization code received')}`);
+    }
+
+    // Decode state to get role
+    let role;
+    try {
+      const stateData = JSON.parse(Buffer.from(state, 'base64').toString());
+      role = stateData.role;
+    } catch {
+      return res.redirect(`${process.env.FRONTEND_URL.split(',')[0]}/login?error=${encodeURIComponent('Invalid state parameter')}`);
+    }
+
+    // Exchange code for token
+    const baseUrl = process.env.NODE_ENV === 'production'
+      ? 'https://your-backend-domain.com'
+      : `http://localhost:${process.env.PORT || 5000}`;
+    const redirectUri = `${baseUrl}/api/auth/linkedin/callback`;
+    const tokenData = await exchangeCodeForToken(code, redirectUri);
+
+    // Get user info from LinkedIn
+    const linkedInProfile = await getLinkedInUserInfo(tokenData.access_token);
+
+    // Create or get Firebase user
+    const firebaseUser = await createFirebaseUserFromLinkedIn(linkedInProfile);
+
+    // Check if user exists in MongoDB
+    let user = await AlumniModel.findOne({ firebaseUid: firebaseUser.uid });
+    let userRole = 'alumni';
+
+    if (!user) {
+      user = await StudentModel.findOne({ firebaseUid: firebaseUser.uid });
+      userRole = 'student';
+    }
+
+    let isNewUser = false;
+
+    // If user doesn't exist in MongoDB, create new profile
+    if (!user) {
+      const UserModel = getUserModel(role);
+
+      const [firstName, ...lastNameParts] = (linkedInProfile.name || linkedInProfile.email.split('@')[0]).split(' ');
+
+      user = await UserModel.create({
+        firstName: firstName || 'User',
+        lastName: lastNameParts.join(' ') || '',
+        email: linkedInProfile.email,
+        firebaseUid: firebaseUser.uid,
+        role,
+        batch: '',
+        isEmailVerified: linkedInProfile.email_verified || true,
+        profilePicture: linkedInProfile.picture || '',
+      });
+
+      isNewUser = true;
+    } else {
+      // Update last active
+      user.lastActive = new Date();
+      await user.save();
+    }
+
+    // Generate JWT tokens for API authentication
+    const { accessToken, refreshToken } = generateTokens(user._id, user.role);
+
+    // Generate custom Firebase token
+    const firebaseToken = await auth.createCustomToken(firebaseUser.uid);
+
+    // Check if profile needs completion
+    const needsProfileCompletion = isNewUser && (!user.batch || !user.phone);
+
+    // Redirect to frontend with tokens
+    const params = new URLSearchParams({
+      accessToken,
+      refreshToken,
+      firebaseToken,
+      user: JSON.stringify(user.getPublicProfile()),
+      isNewUser: isNewUser.toString(),
+      needsProfileCompletion: needsProfileCompletion.toString(),
+    });
+
+    res.redirect(`${process.env.FRONTEND_URL.split(',')[0]}/auth/linkedin/success?${params.toString()}`);
+  } catch (error) {
+    console.error('LinkedIn callback error:', error);
+    res.redirect(`${process.env.FRONTEND_URL.split(',')[0]}/login?error=${encodeURIComponent('LinkedIn authentication failed')}`);
   }
 };

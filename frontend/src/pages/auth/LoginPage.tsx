@@ -162,58 +162,16 @@ const LoginPage: React.FC<LoginPageProps> = ({ userType = 'student' }) => {
     setErrors({});
 
     try {
-      // LinkedIn Sign-In with Firebase
-      const result = await loginWithLinkedIn(activeTab);
+      // Redirect to backend LinkedIn OAuth endpoint
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+      const linkedInAuthUrl = `${API_URL}/api/auth/linkedin?role=${activeTab}`;
 
-      if (result.user) {
-        // CRITICAL: Save tokens explicitly
-        if (result.accessToken) {
-          localStorage.setItem('accessToken', result.accessToken);
-          localStorage.setItem('refreshToken', result.refreshToken);
-          localStorage.setItem('user', JSON.stringify(result.user));
-          console.log('[Login LinkedIn] Tokens saved:', {
-            hasAccessToken: !!localStorage.getItem('accessToken'),
-            hasUser: !!localStorage.getItem('user'),
-          });
-        } else {
-          console.error('[Login LinkedIn] No tokens in response!', result);
-        }
-
-        // Set user in context
-        setUser(result.user);
-
-        // Small delay to ensure localStorage write completes
-        await new Promise(resolve => setTimeout(resolve, 100));
-
-        // Show success message and navigate
-        if (result.isNewUser && result.needsProfileCompletion) {
-          toast.success('Account created successfully!');
-          toast('Please complete your profile to continue', { icon: 'ℹ️' });
-          navigate('/profile/edit');
-        } else {
-          toast.success('Welcome back!');
-          navigate('/dashboard');
-        }
-      }
+      // Redirect to backend OAuth flow
+      window.location.href = linkedInAuthUrl;
     } catch (error: any) {
       console.error('LinkedIn login error:', error);
-
-      // Handle specific Firebase errors
-      let errorMessage = 'Failed to sign in with LinkedIn. Please try again.';
-
-      if (error.code === 'auth/popup-closed-by-user') {
-        errorMessage = 'Sign-in popup was closed. Please try again.';
-      } else if (error.code === 'auth/popup-blocked') {
-        errorMessage = 'Popup was blocked by browser. Please allow popups for this site.';
-      } else if (error.code === 'auth/cancelled-popup-request') {
-        errorMessage = 'Sign-in was cancelled. Please try again.';
-      } else if (error.response?.data?.message) {
-        errorMessage = error.response.data.message;
-      }
-
-      toast.error(errorMessage);
-      setErrors({ submit: errorMessage });
-    } finally {
+      toast.error('Failed to initiate LinkedIn sign-in');
+      setErrors({ submit: 'Failed to initiate LinkedIn sign-in' });
       setIsLoading(false);
     }
   };

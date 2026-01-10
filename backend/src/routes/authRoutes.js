@@ -5,6 +5,8 @@ import {
   login,
   googleLogin,
   linkedInLogin,
+  linkedInAuth,
+  linkedInCallback,
   getMe,
   logout,
   updateFCMToken,
@@ -58,6 +60,11 @@ router.post('/register', uploadRegistrationFiles, handleUploadError, registerVal
 router.post('/login', protect, loginValidation, validate, login);
 router.post('/google-login', verifyFirebaseToken, googleLoginValidation, validate, googleLogin);
 router.post('/linkedin-login', verifyFirebaseToken, linkedInLoginValidation, validate, linkedInLogin);
+
+// LinkedIn OAuth Routes (Custom Flow)
+router.get('/linkedin', linkedInAuth);
+router.get('/linkedin/callback', linkedInCallback);
+
 router.get('/me', protect, getMe);
 router.post('/logout', protect, logout);
 router.post('/fcm-token', protect, fcmTokenValidation, validate, updateFCMToken);
