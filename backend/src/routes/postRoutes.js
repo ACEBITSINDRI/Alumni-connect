@@ -9,6 +9,7 @@ import {
   commentOnPost,
   likeComment,
   deleteComment,
+  savePost,
 } from '../controllers/postController.js';
 import { protect } from '../middleware/auth.js';
 import { uploadPostImages, handleUploadError } from '../middleware/upload.js';
@@ -33,6 +34,7 @@ router
 // Post engagement routes
 router.post('/:id/like', likePost);
 router.post('/:id/comment', commentOnPost);
+router.post('/:id/save', savePost);
 router.post('/:id/comments/:commentId/like', likeComment);
 router.delete('/:id/comments/:commentId', deleteComment);
 

@@ -36,10 +36,12 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({ user }) => {
       try {
         const response = await getUserStats();
         if (response.success && response.data) {
-          setStats(prev => ({
-            ...prev,
+          setStats({
+            posts: response.data?.postsCount ?? 0,
             connections: response.data?.connectionsCount ?? 0,
-          }));
+            saved: response.data?.savedPostsCount ?? 0,
+            events: response.data?.eventsCount ?? 0,
+          });
         }
       } catch (error) {
         console.error('Error fetching user stats:', error);
@@ -53,21 +55,8 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({ user }) => {
     }
   }, [user]);
 
-  // Mock upcoming events - TODO: replace with actual API data when events API is ready
-  const upcomingEvents = [
-    {
-      id: '1',
-      title: 'Civil Engineering Workshop',
-      date: '28 Oct',
-      time: '10:00 AM',
-    },
-    {
-      id: '2',
-      title: 'Alumni Meetup 2024',
-      date: '02 Nov',
-      time: '6:00 PM',
-    },
-  ];
+  // Upcoming events - TODO: Implement events API
+  const upcomingEvents: any[] = [];
 
   if (!user) return null;
 

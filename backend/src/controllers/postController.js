@@ -625,3 +625,89 @@ export const deleteComment = async (req, res) => {
     });
   }
 };
+
+// @desc    Save/unsave a post
+// @route   POST /api/posts/:id/save
+// @access  Private
+export const savePost = async (req, res) => {
+  try {
+    const postId = req.params.id;
+    const userId = req.user._id;
+
+    // Find the post
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({
+        success: false,
+        message: 'Post not found',
+      });
+    }
+
+    // Get user model based on role
+    const UserModel = getUserModel(req.user.role);
+    const user = await UserModel.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found',
+      });
+    }
+
+    // Check if post is already saved
+    const isSaved = user.savedPosts && user.savedPosts.includes(postId);
+
+    if (isSaved) {
+      // Unsave the post
+      user.savedPosts = user.savedPosts.filter(
+        (id) => id.toString() !== postId.toString()
+      );
+
+      // Also remove from post's savedBy array
+      post.savedBy = post.savedBy.filter(
+        (id) => id.toString() !== userId.toString()
+      );
+
+      await Promise.all([user.save(), post.save()]);
+
+      console.log(`Post ${postId} unsaved by user ${userId}`);
+
+      return res.status(200).json({
+        success: true,
+        message: 'Post unsaved successfully',
+        isSaved: false,
+      });
+    } else {
+      // Save the post
+      if (!user.savedPosts) {
+        user.savedPosts = [];
+      }
+      user.savedPosts.push(postId);
+
+      // Also add to post's savedBy array
+      if (!post.savedBy) {
+        post.savedBy = [];
+      }
+      if (!post.savedBy.includes(userId)) {
+        post.savedBy.push(userId);
+      }
+
+      await Promise.all([user.save(), post.save()]);
+
+      console.log(`Post ${postId} saved by user ${userId}`);
+
+      return res.status(200).json({
+        success: true,
+        message: 'Post saved successfully',
+        isSaved: true,
+      });
+    }
+  } catch (error) {
+    console.error('Save/unsave post error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error saving/unsaving post',
+      error: error.message,
+    });
+  }
+};

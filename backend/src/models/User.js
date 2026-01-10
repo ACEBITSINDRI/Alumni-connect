@@ -183,6 +183,12 @@ const userSchema = new mongoose.Schema(
       },
     },
 
+    // Saved Posts
+    savedPosts: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Post',
+    }],
+
     // Connections
     connections: [{
       type: mongoose.Schema.Types.ObjectId,

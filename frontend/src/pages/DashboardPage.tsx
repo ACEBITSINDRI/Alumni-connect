@@ -88,7 +88,7 @@ const DashboardPage: React.FC = () => {
       likes: post.likes.length,
       comments: post.comments.length,
       isLiked: user ? post.likes.includes(user._id) : false,
-      isSaved: false, // TODO: Implement saved posts feature
+      isSaved: user ? (post.savedBy && post.savedBy.includes(user._id)) : false,
       jobDetails: post.jobDetails,
     };
   };

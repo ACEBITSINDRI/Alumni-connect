@@ -32,24 +32,11 @@ const RightSidebar: React.FC = () => {
     fetchSuggestions();
   }, []);
 
-  // Mock data for trending topics - TODO: replace with actual API when available
-  const trendingTopics = [
-    { tag: '#CivilEngineering', posts: 234 },
-    { tag: '#JobOpportunities', posts: 189 },
-    { tag: '#MetroProjects', posts: 156 },
-    { tag: '#Internships', posts: 142 },
-    { tag: '#ConstructionTech', posts: 98 },
-  ];
+  // Trending topics - TODO: Implement trending topics API
+  const trendingTopics: { tag: string; posts: number }[] = [];
 
-  const featuredAlumni = {
-    id: 'featured1',
-    name: 'Dr. Rajesh Gupta',
-    role: 'Chief Engineer',
-    company: 'National Highways Authority of India',
-    batch: '2005',
-    avatar: undefined,
-    description: 'Leading infrastructure development projects across India',
-  };
+  // Featured alumni - TODO: Implement featured alumni API
+  const featuredAlumni = null;
 
   const handleConnect = async (userId: string) => {
     try {

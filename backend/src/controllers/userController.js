@@ -464,10 +464,22 @@ export const getSuggestedConnections = async (req, res) => {
 export const getUserStats = async (req, res) => {
   try {
     const UserModel = getUserModel(req.user.role);
-    const user = await UserModel.findById(req.user._id).select('connections');
+    const user = await UserModel.findById(req.user._id).select('connections savedPosts');
+
+    // Import Post model dynamically to avoid circular dependency
+    const Post = (await import('../models/Post.js')).default;
+
+    // Count posts created by user
+    const postsCount = await Post.countDocuments({ author: req.user._id });
+
+    // Count saved posts
+    const savedPostsCount = user.savedPosts ? user.savedPosts.length : 0;
 
     const stats = {
-      connectionsCount: user.connections.length,
+      connectionsCount: user.connections ? user.connections.length : 0,
+      postsCount: postsCount,
+      savedPostsCount: savedPostsCount,
+      eventsCount: 0, // TODO: Implement when events feature is ready
     };
 
     res.status(200).json({
