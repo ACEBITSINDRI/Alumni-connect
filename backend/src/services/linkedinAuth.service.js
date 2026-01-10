@@ -1,4 +1,5 @@
 import axios from 'axios';
+import jwt from 'jsonwebtoken';
 import { auth } from '../config/firebase.js';
 
 const LINKEDIN_AUTH_URL = 'https://www.linkedin.com/oauth/v2/authorization';
@@ -83,11 +84,43 @@ export const exchangeCodeForToken = async (code, redirectUri) => {
 };
 
 /**
- * Get LinkedIn user profile
+ * Decode LinkedIn ID token to get user info
+ */
+export const decodeLinkedInIdToken = (idToken) => {
+  try {
+    console.log('🔄 Decoding LinkedIn ID token...');
+
+    // Decode without verification (LinkedIn's signature is already verified during token exchange)
+    const decoded = jwt.decode(idToken);
+
+    if (!decoded) {
+      throw new Error('Failed to decode ID token');
+    }
+
+    console.log('✅ LinkedIn ID token decoded successfully');
+    console.log('User info from ID token:', {
+      sub: decoded.sub,
+      email: decoded.email,
+      name: decoded.name,
+      given_name: decoded.given_name,
+      family_name: decoded.family_name,
+      picture: decoded.picture,
+      email_verified: decoded.email_verified
+    });
+
+    return decoded;
+  } catch (error) {
+    console.error('❌ Failed to decode LinkedIn ID token:', error.message);
+    throw new Error('Failed to decode LinkedIn ID token');
+  }
+};
+
+/**
+ * Get LinkedIn user profile (fallback method using userinfo endpoint)
  */
 export const getLinkedInUserInfo = async (accessToken) => {
   try {
-    console.log('🔄 Fetching LinkedIn user info...');
+    console.log('🔄 Fetching LinkedIn user info via API...');
     console.log('Access token (first 20 chars):', accessToken?.substring(0, 20) + '...');
 
     const response = await axios.get(LINKEDIN_USERINFO_URL, {

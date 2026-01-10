@@ -7,6 +7,7 @@ import {
   getLinkedInAuthUrl,
   exchangeCodeForToken,
   getLinkedInUserInfo,
+  decodeLinkedInIdToken,
   createFirebaseUserFromLinkedIn,
 } from '../services/linkedinAuth.service.js';
 
@@ -934,8 +935,15 @@ export const linkedInCallback = async (req, res) => {
     const redirectUri = `${baseUrl}/api/auth/linkedin/callback`;
     const tokenData = await exchangeCodeForToken(code, redirectUri);
 
-    // Get user info from LinkedIn
-    const linkedInProfile = await getLinkedInUserInfo(tokenData.access_token);
+    // Get user info from LinkedIn ID token (more reliable than userinfo endpoint)
+    let linkedInProfile;
+    if (tokenData.id_token) {
+      console.log('✅ Using ID token to get user info');
+      linkedInProfile = decodeLinkedInIdToken(tokenData.id_token);
+    } else {
+      console.log('⚠️ No ID token found, falling back to userinfo endpoint');
+      linkedInProfile = await getLinkedInUserInfo(tokenData.access_token);
+    }
 
     // Create or get Firebase user
     const firebaseUser = await createFirebaseUserFromLinkedIn(linkedInProfile);
