@@ -56,6 +56,9 @@ export interface UserProfile {
 
 export interface UserStats {
   connectionsCount: number;
+  postsCount: number;
+  savedPostsCount: number;
+  eventsCount: number;
 }
 
 export interface Connection {

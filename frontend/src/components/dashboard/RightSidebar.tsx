@@ -78,36 +78,38 @@ const RightSidebar: React.FC = () => {
         </div>
       </Card>
 
-      {/* Featured Alumni */}
-      <Card variant="elevated" className="p-4">
-        <Badge variant="warning" size="sm" className="mb-3">
-          Alumni of the Month
-        </Badge>
-        <div className="text-center">
-          <Avatar
-            src={featuredAlumni.avatar}
-            alt={featuredAlumni.name}
-            size="xl"
-            fallback={featuredAlumni.name}
-            className="mx-auto mb-3"
-          />
-          <h4 className="font-semibold text-gray-900 mb-1">{featuredAlumni.name}</h4>
-          <p className="text-sm text-gray-600 mb-1">{featuredAlumni.role}</p>
-          <p className="text-sm text-gray-500 mb-2">{featuredAlumni.company}</p>
-          <Badge variant="primary" size="sm" className="mb-3">
-            Batch of {featuredAlumni.batch}
+      {/* Featured Alumni - TODO: Implement featured alumni API */}
+      {featuredAlumni && (
+        <Card variant="elevated" className="p-4">
+          <Badge variant="warning" size="sm" className="mb-3">
+            Alumni of the Month
           </Badge>
-          <p className="text-xs text-gray-600 mb-4">{featuredAlumni.description}</p>
-          <Button
-            variant="outline"
-            size="sm"
-            className="w-full"
-            onClick={() => navigate(`/profile/${featuredAlumni.id}`)}
-          >
-            View Profile
-          </Button>
-        </div>
-      </Card>
+          <div className="text-center">
+            <Avatar
+              src={featuredAlumni.avatar}
+              alt={featuredAlumni.name}
+              size="xl"
+              fallback={featuredAlumni.name}
+              className="mx-auto mb-3"
+            />
+            <h4 className="font-semibold text-gray-900 mb-1">{featuredAlumni.name}</h4>
+            <p className="text-sm text-gray-600 mb-1">{featuredAlumni.role}</p>
+            <p className="text-sm text-gray-500 mb-2">{featuredAlumni.company}</p>
+            <Badge variant="primary" size="sm" className="mb-3">
+              Batch of {featuredAlumni.batch}
+            </Badge>
+            <p className="text-xs text-gray-600 mb-4">{featuredAlumni.description}</p>
+            <Button
+              variant="outline"
+              size="sm"
+              className="w-full"
+              onClick={() => navigate(`/profile/${featuredAlumni.id}`)}
+            >
+              View Profile
+            </Button>
+          </div>
+        </Card>
+      )}
 
       {/* Suggested Connections */}
       <Card variant="elevated" className="p-4 border border-neutral-100">

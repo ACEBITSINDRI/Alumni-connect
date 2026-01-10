@@ -26,6 +26,7 @@ export interface Post {
   };
   likes: string[];
   comments: any[];
+  savedBy?: string[];
   createdAt: string;
   updatedAt: string;
 }
