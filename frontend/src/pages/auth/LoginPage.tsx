@@ -7,7 +7,7 @@ import Card from '../../components/common/Card';
 import Badge from '../../components/common/Badge';
 import { DEPARTMENT_INFO } from '../../utils/civilEngConstants';
 import { login as loginApi } from '../../services/auth.service';
-import { loginWithGoogle, loginWithLinkedIn } from '../../services/firebase/auth.service';
+import { loginWithGoogle } from '../../services/firebase/auth.service';
 import { useAuth } from '../../context/AuthContext';
 import toast from 'react-hot-toast';
 import SEOHead from '../../components/common/SEOHead';
