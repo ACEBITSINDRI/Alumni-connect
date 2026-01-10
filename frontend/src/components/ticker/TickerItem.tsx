@@ -46,7 +46,7 @@ const TickerItem: React.FC<TickerItemProps> = ({ item, onClick }) => {
   return (
     <div
       className={cn(
-        'flex items-center gap-3 px-4 py-2.5 rounded-lg border backdrop-blur-sm',
+        'flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-lg border backdrop-blur-sm',
         'cursor-pointer transition-all duration-200',
         'hover:scale-[1.02] hover:shadow-md',
         'min-w-max', // Prevent shrinking
@@ -65,21 +65,27 @@ const TickerItem: React.FC<TickerItemProps> = ({ item, onClick }) => {
       aria-label={`${item.title}. ${item.message}. ${item.actionLabel || 'Click for more info'}`}
     >
       {/* Icon */}
-      <TickerItemIcon type={item.type} variant={item.variant} size={20} />
+      <TickerItemIcon type={item.type} variant={item.variant} size={16} className="flex-shrink-0" />
 
-      {/* Content */}
+      {/* Content - Single line on mobile, two lines on desktop */}
       <div className="flex-1 min-w-0">
-        <p className="font-semibold text-sm truncate">{item.title}</p>
-        <p className="text-xs opacity-80 truncate">{item.message}</p>
+        {/* Mobile: Title only (single line) */}
+        <p className="md:hidden font-semibold text-xs truncate">{item.title}</p>
+
+        {/* Desktop: Title + Message */}
+        <div className="hidden md:block">
+          <p className="font-semibold text-sm truncate">{item.title}</p>
+          <p className="text-xs opacity-80 truncate">{item.message}</p>
+        </div>
       </div>
 
       {/* Action Indicator */}
       {item.actionLabel && (
         <div className="flex items-center gap-1 flex-shrink-0">
-          <span className={cn('text-xs font-medium', iconColors[item.variant])}>
+          <span className={cn('text-xs font-medium hidden md:inline', iconColors[item.variant])}>
             {item.actionLabel}
           </span>
-          <ChevronRight size={16} className={iconColors[item.variant]} />
+          <ChevronRight size={14} className={iconColors[item.variant]} />
         </div>
       )}
     </div>

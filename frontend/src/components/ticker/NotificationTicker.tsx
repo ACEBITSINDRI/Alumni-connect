@@ -54,12 +54,12 @@ const NotificationTicker: React.FC<NotificationTickerProps> = ({
         'sticky top-16 z-40',
         'bg-gradient-to-r from-blue-500 via-sky-500 to-indigo-500',
         'shadow-md',
-        'h-12 md:h-11 lg:h-10',
+        'h-10 md:h-10 lg:h-9',
         className
       )}>
         <div className="flex items-center justify-center h-full text-white">
-          <Loader2 className="w-5 h-5 animate-spin mr-2" />
-          <span className="text-sm">Loading notifications...</span>
+          <Loader2 className="w-4 h-4 animate-spin mr-2" />
+          <span className="text-xs md:text-sm">Loading...</span>
         </div>
       </div>
     );
@@ -82,7 +82,7 @@ const NotificationTicker: React.FC<NotificationTickerProps> = ({
         'sticky top-16 z-40',
         'bg-gradient-to-r from-blue-600 via-sky-500 to-indigo-600',
         'shadow-md overflow-hidden',
-        'h-14 md:h-12 lg:h-11',
+        'h-10 md:h-10 lg:h-9',
         className
       )}
       role="marquee"
@@ -114,10 +114,10 @@ const NotificationTicker: React.FC<NotificationTickerProps> = ({
       {/* Close Button (optional) */}
       <button
         onClick={() => setIsVisible(false)}
-        className="absolute top-1 right-1 text-white/80 hover:text-white hover:bg-white/20 p-1 rounded transition-colors"
+        className="absolute top-0.5 right-0.5 text-white/80 hover:text-white hover:bg-white/20 p-0.5 rounded transition-colors"
         aria-label="Close ticker"
       >
-        <X className="w-4 h-4" />
+        <X className="w-3 h-3 md:w-4 md:h-4" />
       </button>
     </div>
   );
@@ -146,22 +146,22 @@ const MobileTickerCarousel: React.FC<MobileTickerCarouselProps> = ({ items }) =>
   const currentItem = items[currentIndex];
 
   return (
-    <div className="relative h-full flex items-center px-3">
+    <div className="relative h-full flex items-center px-2">
       {/* Current Item */}
       <div className="w-full animate-ticker-fade-in">
         <TickerItem item={currentItem} />
       </div>
 
-      {/* Dots Indicator */}
+      {/* Dots Indicator - Hidden on very small screens */}
       {items.length > 1 && (
-        <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 flex gap-1">
+        <div className="hidden xs:flex absolute bottom-0.5 left-1/2 transform -translate-x-1/2 gap-1">
           {items.slice(0, 5).map((_, index) => ( // Show max 5 dots
             <div
               key={index}
               className={cn(
-                'w-1.5 h-1.5 rounded-full transition-all',
+                'w-1 h-1 rounded-full transition-all',
                 index === currentIndex % 5
-                  ? 'bg-white w-3'
+                  ? 'bg-white w-2'
                   : 'bg-white/40'
               )}
             />
