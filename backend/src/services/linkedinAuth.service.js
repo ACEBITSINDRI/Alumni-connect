@@ -69,6 +69,12 @@ export const exchangeCodeForToken = async (code, redirectUri) => {
     });
 
     console.log('✅ LinkedIn token exchange successful');
+    console.log('Token response keys:', Object.keys(response.data));
+    console.log('Has access_token:', !!response.data.access_token);
+    console.log('Has id_token:', !!response.data.id_token);
+    console.log('Token type:', response.data.token_type);
+    console.log('Scope:', response.data.scope);
+
     return response.data;
   } catch (error) {
     console.error('❌ LinkedIn token exchange error:', error.response?.data || error.message);
@@ -81,15 +87,31 @@ export const exchangeCodeForToken = async (code, redirectUri) => {
  */
 export const getLinkedInUserInfo = async (accessToken) => {
   try {
+    console.log('🔄 Fetching LinkedIn user info...');
+    console.log('Access token (first 20 chars):', accessToken?.substring(0, 20) + '...');
+
     const response = await axios.get(LINKEDIN_USERINFO_URL, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     });
 
+    console.log('✅ LinkedIn user info fetched successfully');
+    console.log('User data:', {
+      email: response.data.email,
+      name: response.data.name,
+      sub: response.data.sub
+    });
+
     return response.data;
   } catch (error) {
-    console.error('LinkedIn user info error:', error.response?.data || error.message);
+    console.error('❌ LinkedIn user info error details:');
+    console.error('Status:', error.response?.status);
+    console.error('Status Text:', error.response?.statusText);
+    console.error('Response data:', JSON.stringify(error.response?.data, null, 2));
+    console.error('Error message:', error.message);
+    console.error('Request URL:', LINKEDIN_USERINFO_URL);
+    console.error('Access token exists:', !!accessToken);
     throw new Error('Failed to fetch LinkedIn user info');
   }
 };
