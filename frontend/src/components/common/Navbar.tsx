@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Menu, X, Search, Bell, MessageCircle, User, Home, Users, Briefcase, Calendar, LogOut, Settings as SettingsIcon, HelpCircle, Mail } from 'lucide-react';
+import { Menu, Search, Bell, MessageCircle, User, Home, Users, Briefcase, Calendar, LogOut, Settings as SettingsIcon, HelpCircle, Mail } from 'lucide-react';
 import { cn } from '../../utils/cn';
 import { useAuth } from '../../context/AuthContext';
 import alumniConnectLogo from '../../assets/logos/alumni_connect_logo-removebg-preview.png';
