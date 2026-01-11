@@ -51,13 +51,137 @@ const Navbar: React.FC<NavbarProps> = ({
           {/* Left Section: Logo & Nav Links */}
           <div className="flex items-center space-x-8">
             {/* Mobile Menu Button */}
-            <button
-              className="lg:hidden p-2 text-white hover:bg-white/20 rounded-lg focus:outline-none transition-all duration-300 transform hover:scale-105"
-              onClick={toggleMobileMenu}
-              aria-label="Toggle menu"
-            >
-              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+            <div className="lg:hidden relative">
+              <button
+                className="p-2 text-white hover:bg-white/20 rounded-lg focus:outline-none transition-all duration-300 transform hover:scale-105"
+                onClick={toggleMobileMenu}
+                aria-label="Toggle menu"
+              >
+                <Menu size={24} />
+              </button>
+
+              {/* Mobile Menu Dropdown */}
+              {isMobileMenuOpen && (
+                <>
+                  <div
+                    className="fixed inset-0 z-[9998]"
+                    onClick={toggleMobileMenu}
+                  ></div>
+                  <div className="absolute left-0 top-full mt-2 w-72 bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-100 z-[9999] overflow-hidden animate-fadeIn max-h-[80vh] overflow-y-auto">
+                    <div className="py-2">
+                      {isAuthenticated ? (
+                        <>
+                          <MobileNavLink to="/dashboard" icon={<Home size={20} />} onClick={toggleMobileMenu}>
+                            Home
+                          </MobileNavLink>
+                          <MobileNavLink to="/alumni" icon={<Users size={20} />} onClick={toggleMobileMenu}>
+                            Alumni Directory
+                          </MobileNavLink>
+                          <MobileNavLink to="/opportunities" icon={<Briefcase size={20} />} onClick={toggleMobileMenu}>
+                            Opportunities
+                          </MobileNavLink>
+                          <MobileNavLink to="/events" icon={<Calendar size={20} />} onClick={toggleMobileMenu}>
+                            Events
+                          </MobileNavLink>
+                          <MobileNavLink to="/messages" icon={<MessageCircle size={20} />} onClick={toggleMobileMenu}>
+                            Messages
+                            {unreadMessages > 0 && (
+                              <span className="ml-auto w-6 h-6 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
+                                {unreadMessages > 9 ? '9+' : unreadMessages}
+                              </span>
+                            )}
+                          </MobileNavLink>
+                          <MobileNavLink to="/notifications" icon={<Bell size={20} />} onClick={toggleMobileMenu}>
+                            Notifications
+                            {unreadNotifications > 0 && (
+                              <span className="ml-auto w-6 h-6 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
+                                {unreadNotifications > 9 ? '9+' : unreadNotifications}
+                              </span>
+                            )}
+                          </MobileNavLink>
+
+                          {isAdmin && (
+                            <MobileNavLink to="/admin/email-campaigns" icon={<Mail size={20} />} onClick={toggleMobileMenu}>
+                              Email Campaigns
+                            </MobileNavLink>
+                          )}
+
+                          <div className="border-t border-gray-200 dark:border-gray-700 my-2 pt-2">
+                            <MobileNavLink to="/profile" icon={<User size={20} />} onClick={toggleMobileMenu}>
+                              My Profile
+                            </MobileNavLink>
+                            <MobileNavLink to="/settings" icon={<SettingsIcon size={20} />} onClick={toggleMobileMenu}>
+                              Settings
+                            </MobileNavLink>
+                            <MobileNavLink to="/help" icon={<HelpCircle size={20} />} onClick={toggleMobileMenu}>
+                              Help & Support
+                            </MobileNavLink>
+                            <button
+                              onClick={() => {
+                                toggleMobileMenu();
+                                handleLogout();
+                              }}
+                              className="w-full flex items-center space-x-3 px-4 py-3 text-red-600 dark:text-red-400 font-medium hover:bg-red-50 dark:hover:bg-red-900/30 transition-all duration-300"
+                            >
+                              <LogOut size={20} />
+                              <span>Logout</span>
+                            </button>
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <a
+                            href="#features"
+                            onClick={toggleMobileMenu}
+                            className="flex items-center space-x-3 px-4 py-3 text-gray-700 dark:text-gray-200 font-medium hover:bg-gradient-to-r hover:from-sky-50 hover:to-blue-50 dark:hover:from-sky-900 dark:hover:to-blue-900 hover:text-sky-700 dark:hover:text-sky-300 transition-all duration-300"
+                          >
+                            <Briefcase size={20} />
+                            <span>Features</span>
+                          </a>
+                          <a
+                            href="#about"
+                            onClick={toggleMobileMenu}
+                            className="flex items-center space-x-3 px-4 py-3 text-gray-700 dark:text-gray-200 font-medium hover:bg-gradient-to-r hover:from-sky-50 hover:to-blue-50 dark:hover:from-sky-900 dark:hover:to-blue-900 hover:text-sky-700 dark:hover:text-sky-300 transition-all duration-300"
+                          >
+                            <Users size={20} />
+                            <span>About</span>
+                          </a>
+                          <a
+                            href="#testimonials"
+                            onClick={toggleMobileMenu}
+                            className="flex items-center space-x-3 px-4 py-3 text-gray-700 dark:text-gray-200 font-medium hover:bg-gradient-to-r hover:from-sky-50 hover:to-blue-50 dark:hover:from-sky-900 dark:hover:to-blue-900 hover:text-sky-700 dark:hover:text-sky-300 transition-all duration-300"
+                          >
+                            <MessageCircle size={20} />
+                            <span>Success Stories</span>
+                          </a>
+                          <div className="border-t border-gray-200 dark:border-gray-700 my-2 pt-2">
+                            <button
+                              onClick={() => {
+                                toggleMobileMenu();
+                                navigate('/login');
+                              }}
+                              className="w-full flex items-center justify-center space-x-2 px-4 py-3 text-sky-600 dark:text-sky-400 font-semibold hover:bg-sky-50 dark:hover:bg-sky-900/30 transition-all duration-300"
+                            >
+                              <User size={20} />
+                              <span>Login</span>
+                            </button>
+                            <button
+                              onClick={() => {
+                                toggleMobileMenu();
+                                navigate('/signup');
+                              }}
+                              className="w-full flex items-center justify-center space-x-2 px-4 py-3 mt-2 bg-gradient-to-r from-orange-600 to-orange-700 text-white font-semibold hover:from-orange-700 hover:to-orange-800 transition-all duration-300 shadow-md mx-4"
+                            >
+                              <span>Get Started</span>
+                            </button>
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
 
             {/* Logo */}
             <Link
@@ -252,137 +376,6 @@ const Navbar: React.FC<NavbarProps> = ({
           </div>
         )}
       </div>
-
-      {/* Mobile Menu (Slide-in Sidebar) */}
-      {isMobileMenuOpen && (
-        <>
-          <div
-            className="fixed inset-0 bg-black/70 backdrop-blur-md z-[9998] lg:hidden animate-fadeIn"
-            onClick={toggleMobileMenu}
-          ></div>
-          <div className="fixed top-0 left-0 bottom-0 w-80 sm:w-96 bg-white dark:bg-gray-900 shadow-2xl z-[9999] lg:hidden overflow-y-auto animate-slideInLeft">
-            <div className="p-5 bg-gradient-to-r from-sky-400 to-blue-600 dark:from-sky-600 dark:to-blue-700 border-b border-white/20">
-              <div className="flex items-center justify-between">
-                <h2 className="text-xl font-bold text-white drop-shadow-md">Menu</h2>
-                <button onClick={toggleMobileMenu} className="p-2 text-white hover:bg-white/20 rounded-lg transition-all duration-300">
-                  <X size={24} />
-                </button>
-              </div>
-            </div>
-            <div className="p-4 space-y-2 bg-white dark:bg-gray-900">
-              {isAuthenticated ? (
-                <>
-                  <MobileNavLink to="/dashboard" icon={<Home size={20} />} onClick={toggleMobileMenu}>
-                    Home
-                  </MobileNavLink>
-                  <MobileNavLink to="/alumni" icon={<Users size={20} />} onClick={toggleMobileMenu}>
-                    Alumni Directory
-                  </MobileNavLink>
-                  <MobileNavLink to="/opportunities" icon={<Briefcase size={20} />} onClick={toggleMobileMenu}>
-                    Opportunities
-                  </MobileNavLink>
-                  <MobileNavLink to="/events" icon={<Calendar size={20} />} onClick={toggleMobileMenu}>
-                    Events
-                  </MobileNavLink>
-                  <MobileNavLink to="/messages" icon={<MessageCircle size={20} />} onClick={toggleMobileMenu}>
-                    Messages
-                    {unreadMessages > 0 && (
-                      <span className="ml-auto w-6 h-6 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
-                        {unreadMessages > 9 ? '9+' : unreadMessages}
-                      </span>
-                    )}
-                  </MobileNavLink>
-                  <MobileNavLink to="/notifications" icon={<Bell size={20} />} onClick={toggleMobileMenu}>
-                    Notifications
-                    {unreadNotifications > 0 && (
-                      <span className="ml-auto w-6 h-6 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
-                        {unreadNotifications > 9 ? '9+' : unreadNotifications}
-                      </span>
-                    )}
-                  </MobileNavLink>
-
-                  {/* Email Campaigns (Admin Only) */}
-                  {isAdmin && (
-                    <MobileNavLink to="/admin/email-campaigns" icon={<Mail size={20} />} onClick={toggleMobileMenu}>
-                      Email Campaigns
-                    </MobileNavLink>
-                  )}
-
-                  <div className="border-t border-gray-200 dark:border-gray-700 my-3 pt-3">
-                    <MobileNavLink to="/profile" icon={<User size={20} />} onClick={toggleMobileMenu}>
-                      My Profile
-                    </MobileNavLink>
-                    <MobileNavLink to="/settings" icon={<SettingsIcon size={20} />} onClick={toggleMobileMenu}>
-                      Settings
-                    </MobileNavLink>
-                    <MobileNavLink to="/help" icon={<HelpCircle size={20} />} onClick={toggleMobileMenu}>
-                      Help & Support
-                    </MobileNavLink>
-                    <button
-                      onClick={() => {
-                        toggleMobileMenu();
-                        handleLogout();
-                      }}
-                      className="w-full flex items-center space-x-3 px-4 py-3.5 text-red-600 dark:text-red-400 font-medium hover:bg-red-50 dark:hover:bg-red-900/30 rounded-xl transition-all duration-300 transform hover:scale-105"
-                    >
-                      <LogOut size={20} />
-                      <span>Logout</span>
-                    </button>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <a
-                    href="#features"
-                    onClick={toggleMobileMenu}
-                    className="flex items-center space-x-3 px-4 py-3.5 text-gray-700 dark:text-gray-200 font-medium hover:bg-gradient-to-r hover:from-sky-50 hover:to-blue-50 dark:hover:from-sky-900 dark:hover:to-blue-900 hover:text-sky-700 dark:hover:text-sky-300 rounded-xl transition-all duration-300 transform hover:scale-105"
-                  >
-                    <Briefcase size={20} />
-                    <span>Features</span>
-                  </a>
-                  <a
-                    href="#about"
-                    onClick={toggleMobileMenu}
-                    className="flex items-center space-x-3 px-4 py-3.5 text-gray-700 dark:text-gray-200 font-medium hover:bg-gradient-to-r hover:from-sky-50 hover:to-blue-50 dark:hover:from-sky-900 dark:hover:to-blue-900 hover:text-sky-700 dark:hover:text-sky-300 rounded-xl transition-all duration-300 transform hover:scale-105"
-                  >
-                    <Users size={20} />
-                    <span>About</span>
-                  </a>
-                  <a
-                    href="#testimonials"
-                    onClick={toggleMobileMenu}
-                    className="flex items-center space-x-3 px-4 py-3.5 text-gray-700 dark:text-gray-200 font-medium hover:bg-gradient-to-r hover:from-sky-50 hover:to-blue-50 dark:hover:from-sky-900 dark:hover:to-blue-900 hover:text-sky-700 dark:hover:text-sky-300 rounded-xl transition-all duration-300 transform hover:scale-105"
-                  >
-                    <MessageCircle size={20} />
-                    <span>Success Stories</span>
-                  </a>
-                  <div className="border-t border-gray-200 dark:border-gray-700 my-2 pt-2">
-                    <button
-                      onClick={() => {
-                        toggleMobileMenu();
-                        navigate('/login');
-                      }}
-                      className="w-full flex items-center justify-center space-x-2 px-4 py-3 text-sky-600 dark:text-sky-400 font-semibold hover:bg-sky-50 dark:hover:bg-sky-900/30 rounded-xl transition-all duration-300"
-                    >
-                      <User size={20} />
-                      <span>Login</span>
-                    </button>
-                    <button
-                      onClick={() => {
-                        toggleMobileMenu();
-                        navigate('/signup');
-                      }}
-                      className="w-full flex items-center justify-center space-x-2 px-4 py-3 mt-2 bg-gradient-to-r from-orange-600 to-orange-700 text-white font-semibold rounded-xl hover:from-orange-700 hover:to-orange-800 transition-all duration-300 shadow-md"
-                    >
-                      <span>Get Started</span>
-                    </button>
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
-        </>
-      )}
     </nav>
 
     {/* Notification Ticker - Below Navbar */}
