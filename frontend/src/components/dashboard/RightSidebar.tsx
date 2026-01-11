@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { TrendingUp, UserPlus, ExternalLink, Heart, Loader2 } from 'lucide-react';
 import Card from '../common/Card';
 import Avatar from '../common/Avatar';
-import Badge from '../common/Badge';
 import Button from '../common/Button';
 import { getSuggestedConnections, type SuggestedConnection } from '../../services/user.service';
 import { sendConnectionRequest } from '../../services/connection.service';
