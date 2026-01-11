@@ -36,7 +36,15 @@ const RightSidebar: React.FC = () => {
   const trendingTopics: { tag: string; posts: number }[] = [];
 
   // Featured alumni - TODO: Implement featured alumni API
-  const featuredAlumni = null;
+  const featuredAlumni: {
+    id: string;
+    name: string;
+    role: string;
+    company: string;
+    batch: string;
+    avatar?: string;
+    description: string;
+  } | null = null;
 
   const handleConnect = async (userId: string) => {
     try {
