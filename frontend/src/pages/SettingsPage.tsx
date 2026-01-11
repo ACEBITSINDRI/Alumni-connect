@@ -20,9 +20,11 @@ import Input from '../components/common/Input';
 import Button from '../components/common/Button';
 import Badge from '../components/common/Badge';
 import { useAuth } from '../context/AuthContext';
+import { updateProfile, uploadProfilePicture } from '../services/user.service';
+import toast from 'react-hot-toast';
 
 const SettingsPage: React.FC = () => {
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
   const [activeTab, setActiveTab] = useState('profile');
   const [isSaving, setIsSaving] = useState(false);
 
@@ -86,10 +88,31 @@ const SettingsPage: React.FC = () => {
 
   const handleSaveProfile = async () => {
     setIsSaving(true);
-    // TODO: API call to update profile
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    setIsSaving(false);
-    alert('Profile updated successfully!');
+    try {
+      // Call API to update profile
+      const response = await updateProfile({
+        firstName: profileData.firstName,
+        lastName: profileData.lastName,
+        phone: profileData.phone,
+        bio: profileData.bio,
+        linkedinUrl: profileData.linkedinUrl,
+        currentRole: profileData.currentRole,
+        company: profileData.company,
+      });
+
+      if (response.success && response.data) {
+        // Update AuthContext with new user data (real-time update)
+        updateUser(response.data);
+        toast.success('Profile updated successfully!');
+      } else {
+        toast.error(response.message || 'Failed to update profile');
+      }
+    } catch (error: any) {
+      console.error('Profile update error:', error);
+      toast.error(error.response?.data?.message || 'Failed to update profile. Please try again.');
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const handleSavePrivacy = async () => {
