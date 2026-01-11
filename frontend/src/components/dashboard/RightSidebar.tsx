@@ -35,16 +35,8 @@ const RightSidebar: React.FC = () => {
   // Trending topics - TODO: Implement trending topics API
   const trendingTopics: { tag: string; posts: number }[] = [];
 
-  // Featured alumni - TODO: Implement featured alumni API
-  const featuredAlumni: {
-    id: string;
-    name: string;
-    role: string;
-    company: string;
-    batch: string;
-    avatar?: string;
-    description: string;
-  } | null = null;
+  // Featured alumni - TODO: Implement featured alumni API (currently commented out in JSX)
+  // const featuredAlumni: {...} | null = null;
 
   const handleConnect = async (userId: string) => {
     try {
@@ -87,6 +79,7 @@ const RightSidebar: React.FC = () => {
       </Card>
 
       {/* Featured Alumni - TODO: Implement featured alumni API */}
+      {/* Commented out until API is ready - prevents TypeScript errors with null value
       {featuredAlumni && (
         <Card variant="elevated" className="p-4">
           <Badge variant="warning" size="sm" className="mb-3">
@@ -118,6 +111,7 @@ const RightSidebar: React.FC = () => {
           </div>
         </Card>
       )}
+      */}
 
       {/* Suggested Connections */}
       <Card variant="elevated" className="p-4 border border-neutral-100">
