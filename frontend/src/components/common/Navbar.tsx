@@ -257,11 +257,11 @@ const Navbar: React.FC<NavbarProps> = ({
       {isMobileMenuOpen && (
         <>
           <div
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9998] lg:hidden animate-fadeIn"
+            className="fixed inset-0 bg-black/70 backdrop-blur-md z-[9998] lg:hidden animate-fadeIn"
             onClick={toggleMobileMenu}
           ></div>
-          <div className="fixed top-0 left-0 bottom-0 w-72 bg-white dark:bg-gray-900 shadow-2xl z-[9999] lg:hidden overflow-y-auto animate-slideInLeft">
-            <div className="p-5 bg-gradient-to-r from-sky-400 to-blue-600 dark:from-sky-600 dark:to-blue-700 border-b border-white/20">
+          <div className="fixed top-0 left-0 bottom-0 w-80 sm:w-96 bg-white dark:bg-gray-900 shadow-2xl z-[9999] lg:hidden overflow-y-auto animate-slideInLeft">
+            <div className="p-5 bg-gradient-to-r from-sky-400 to-blue-600 dark:from-sky-600 dark:to-blue-700 border-b border-white/20 sticky top-0 z-10">
               <div className="flex items-center justify-between">
                 <h2 className="text-xl font-bold text-white drop-shadow-md">Menu</h2>
                 <button onClick={toggleMobileMenu} className="p-2 text-white hover:bg-white/20 rounded-lg transition-all duration-300">
@@ -269,7 +269,7 @@ const Navbar: React.FC<NavbarProps> = ({
                 </button>
               </div>
             </div>
-            <div className="p-4 space-y-2 bg-white dark:bg-gray-900">
+            <div className="p-4 space-y-2 bg-white dark:bg-gray-900 relative z-0">
               {isAuthenticated ? (
                 <>
                   <MobileNavLink to="/dashboard" icon={<Home size={20} />} onClick={toggleMobileMenu}>
