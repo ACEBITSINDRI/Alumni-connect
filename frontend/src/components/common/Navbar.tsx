@@ -257,10 +257,10 @@ const Navbar: React.FC<NavbarProps> = ({
       {isMobileMenuOpen && (
         <>
           <div
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] lg:hidden animate-fadeIn"
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9998] lg:hidden animate-fadeIn"
             onClick={toggleMobileMenu}
           ></div>
-          <div className="fixed top-0 left-0 bottom-0 w-72 bg-white dark:bg-gray-900 shadow-2xl z-[110] lg:hidden overflow-y-auto animate-slideInLeft">
+          <div className="fixed top-0 left-0 bottom-0 w-72 bg-white dark:bg-gray-900 shadow-2xl z-[9999] lg:hidden overflow-y-auto animate-slideInLeft">
             <div className="p-5 bg-gradient-to-r from-sky-400 to-blue-600 dark:from-sky-600 dark:to-blue-700 border-b border-white/20">
               <div className="flex items-center justify-between">
                 <h2 className="text-xl font-bold text-white drop-shadow-md">Menu</h2>
