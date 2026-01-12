@@ -62,7 +62,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   return (
     <div className={cn('w-full', className)} ref={dropdownRef}>
       {label && (
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
           {label}
           {required && <span className="text-red-500 ml-1">*</span>}
         </label>
@@ -73,22 +73,22 @@ const Dropdown: React.FC<DropdownProps> = ({
           onClick={() => !disabled && setIsOpen(!isOpen)}
           disabled={disabled}
           className={cn(
-            'w-full flex items-center justify-between px-4 py-2.5 text-left bg-white border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500/20 transition-all duration-200',
-            error ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:border-primary-500',
-            disabled ? 'bg-gray-50 text-gray-500 cursor-not-allowed' : 'hover:border-gray-400',
-            isOpen && 'border-primary-500 ring-2 ring-primary-500/20'
+            'w-full flex items-center justify-between px-4 py-2.5 text-left bg-white dark:bg-gray-700 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500/20 dark:focus:ring-primary-400/20 transition-all duration-200',
+            error ? 'border-red-500 dark:border-red-400 focus:border-red-500 dark:focus:border-red-400' : 'border-gray-300 dark:border-gray-600 focus:border-primary-500 dark:focus:border-primary-400',
+            disabled ? 'bg-gray-50 dark:bg-gray-800 text-gray-500 dark:text-gray-400 cursor-not-allowed' : 'hover:border-gray-400 dark:hover:border-gray-500',
+            isOpen && 'border-primary-500 dark:border-primary-400 ring-2 ring-primary-500/20 dark:ring-primary-400/20'
           )}
         >
           <span className="flex items-center space-x-2">
             {selectedOption?.icon && <span>{selectedOption.icon}</span>}
-            <span className={selectedOption ? 'text-gray-900' : 'text-gray-400'}>
+            <span className={selectedOption ? 'text-gray-900 dark:text-white' : 'text-gray-400 dark:text-gray-500'}>
               {selectedOption ? selectedOption.label : placeholder}
             </span>
           </span>
           <ChevronDown
             size={20}
             className={cn(
-              'text-gray-400 transition-transform duration-200',
+              'text-gray-400 dark:text-gray-500 transition-transform duration-200',
               isOpen && 'transform rotate-180'
             )}
           />
@@ -96,9 +96,9 @@ const Dropdown: React.FC<DropdownProps> = ({
 
         {/* Dropdown Menu */}
         {isOpen && (
-          <div className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-auto">
+          <div className="absolute z-10 w-full mt-1 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg shadow-lg max-h-60 overflow-auto">
             {options.length === 0 ? (
-              <div className="px-4 py-3 text-sm text-gray-500">No options available</div>
+              <div className="px-4 py-3 text-sm text-gray-500 dark:text-gray-400">No options available</div>
             ) : (
               options.map((option) => (
                 <button
@@ -109,9 +109,9 @@ const Dropdown: React.FC<DropdownProps> = ({
                   className={cn(
                     'w-full flex items-center space-x-2 px-4 py-2.5 text-left text-sm transition-colors',
                     option.disabled
-                      ? 'text-gray-400 cursor-not-allowed'
-                      : 'text-gray-700 hover:bg-gray-50',
-                    option.value === value && 'bg-primary-50 text-primary-700 font-medium'
+                      ? 'text-gray-400 dark:text-gray-500 cursor-not-allowed'
+                      : 'text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600',
+                    option.value === value && 'bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-400 font-medium'
                   )}
                 >
                   {option.icon && <span>{option.icon}</span>}
@@ -122,7 +122,7 @@ const Dropdown: React.FC<DropdownProps> = ({
           </div>
         )}
       </div>
-      {error && <p className="mt-1 text-sm text-red-600">{error}</p>}
+      {error && <p className="mt-1 text-sm text-red-600 dark:text-red-400">{error}</p>}
     </div>
   );
 };

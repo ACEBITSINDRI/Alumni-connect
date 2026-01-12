@@ -66,14 +66,14 @@ const Modal: React.FC<ModalProps> = ({
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-black bg-opacity-50 transition-opacity"
+        className="fixed inset-0 bg-black/60 dark:bg-black/80 backdrop-blur-sm transition-opacity"
         onClick={handleOutsideClick}
       ></div>
 
       {/* Modal Content */}
       <div
         className={cn(
-          'relative bg-white rounded-lg shadow-xl w-full transform transition-all',
+          'relative bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full transform transition-all',
           sizes[size],
           'max-h-[90vh] overflow-hidden flex flex-col',
           className
@@ -81,12 +81,12 @@ const Modal: React.FC<ModalProps> = ({
       >
         {/* Header */}
         {(title || showCloseButton) && (
-          <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
-            {title && <h2 className="text-xl font-semibold text-gray-900">{title}</h2>}
+          <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+            {title && <h2 className="text-xl font-semibold text-gray-900 dark:text-white">{title}</h2>}
             {showCloseButton && (
               <button
                 onClick={onClose}
-                className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors"
+                className="p-2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
                 aria-label="Close modal"
               >
                 <X size={20} />
