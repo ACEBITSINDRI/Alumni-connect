@@ -20,7 +20,7 @@ import Input from '../components/common/Input';
 import Button from '../components/common/Button';
 import Badge from '../components/common/Badge';
 import { useAuth } from '../context/AuthContext';
-import { updateProfile, uploadProfilePicture } from '../services/user.service';
+import { updateProfile } from '../services/user.service';
 import toast from 'react-hot-toast';
 
 const SettingsPage: React.FC = () => {

@@ -30,9 +30,10 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({ user }) => {
   });
   const [isLoadingStats, setIsLoadingStats] = useState(true);
 
-  // Fetch user stats
+  // Fetch user stats (real-time update when user changes)
   useEffect(() => {
     const fetchStats = async () => {
+      setIsLoadingStats(true);
       try {
         const response = await getUserStats();
         if (response.success && response.data) {
@@ -53,7 +54,7 @@ const LeftSidebar: React.FC<LeftSidebarProps> = ({ user }) => {
     if (user) {
       fetchStats();
     }
-  }, [user]);
+  }, [user, user?.firstName, user?.lastName, user?.company, user?.currentRole]);
 
   // Upcoming events - TODO: Implement events API
   const upcomingEvents: any[] = [];
