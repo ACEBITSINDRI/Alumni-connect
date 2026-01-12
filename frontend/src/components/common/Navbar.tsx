@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Menu, Search, Bell, MessageCircle, User, Home, Users, Briefcase, Calendar, LogOut, Settings as SettingsIcon, HelpCircle, Mail } from 'lucide-react';
+import { Menu, Search, Bell, MessageCircle, User, Home, Users, Briefcase, Calendar, LogOut, Settings as SettingsIcon, HelpCircle, Mail, Moon, Sun } from 'lucide-react';
 import { cn } from '../../utils/cn';
 import { useAuth } from '../../context/AuthContext';
+import { useDarkMode } from '../../context/DarkModeContext';
 import alumniConnectLogo from '../../assets/logos/alumni_connect_logo-removebg-preview.png';
 import NotificationTicker from '../ticker/NotificationTicker';
 
@@ -28,6 +29,7 @@ const Navbar: React.FC<NavbarProps> = ({
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const navigate = useNavigate();
   const { logout, user } = useAuth();
+  const { isDarkMode, toggleDarkMode } = useDarkMode();
   const isAdmin = user?.role === 'admin';
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -245,6 +247,16 @@ const Navbar: React.FC<NavbarProps> = ({
                   aria-label="Search"
                 >
                   <Search size={20} />
+                </button>
+
+                {/* Dark Mode Toggle */}
+                <button
+                  className="p-2 text-white hover:bg-white/20 rounded-lg focus:outline-none transition-all duration-300 transform hover:scale-110"
+                  onClick={toggleDarkMode}
+                  aria-label="Toggle dark mode"
+                  title={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+                >
+                  {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
                 </button>
 
                 {/* Notifications */}

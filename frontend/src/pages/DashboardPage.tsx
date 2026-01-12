@@ -94,7 +94,7 @@ const DashboardPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-sky-50 via-blue-50 to-indigo-50 animate-fadeIn animate-gradient">
+    <div className="min-h-screen bg-gradient-to-br from-sky-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900 animate-fadeIn animate-gradient transition-colors duration-300">
       <Navbar
         isAuthenticated={true}
         userRole={user?.role}
@@ -114,19 +114,19 @@ const DashboardPage: React.FC = () => {
           {/* Main Feed */}
           <main className="lg:col-span-6 animate-stagger-2">
             {/* Posts Container with Professional Background */}
-            <div className="bg-gradient-to-b from-white/50 via-sky-50/40 to-blue-50/50 backdrop-blur-sm rounded-2xl sm:rounded-3xl p-3 sm:p-6 shadow-lg border border-white/70 bg-dot-pattern relative overflow-hidden">
+            <div className="bg-gradient-to-b from-white/50 via-sky-50/40 to-blue-50/50 dark:from-gray-800/70 dark:via-gray-700/40 dark:to-slate-800/50 backdrop-blur-sm rounded-2xl sm:rounded-3xl p-3 sm:p-6 shadow-lg border border-white/70 dark:border-gray-700/50 bg-dot-pattern relative overflow-hidden transition-colors duration-300">
               {/* Subtle shine effect */}
-              <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-transparent pointer-events-none"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-white/20 dark:from-white/5 via-transparent to-transparent pointer-events-none"></div>
               <div className="relative z-10">
             {/* Create Post Section (Alumni Only) */}
             {user?.role === 'alumni' && (
-              <div className="bg-gradient-to-br from-white via-white to-orange-50/30 rounded-xl sm:rounded-2xl shadow-xl p-4 sm:p-6 mb-4 sm:mb-6 border border-orange-100 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+              <div className="bg-gradient-to-br from-white via-white to-orange-50/30 dark:from-gray-800 dark:via-gray-700 dark:to-orange-900/20 rounded-xl sm:rounded-2xl shadow-xl p-4 sm:p-6 mb-4 sm:mb-6 border border-orange-100 dark:border-orange-800/30 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
                 <div className="mb-3 sm:mb-4">
-                  <h2 className="text-base sm:text-lg font-bold text-gray-900 flex items-center">
-                    <Plus size={20} className="mr-2 text-orange-600" />
+                  <h2 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white flex items-center">
+                    <Plus size={20} className="mr-2 text-orange-600 dark:text-orange-400" />
                     Share with the Community
                   </h2>
-                  <p className="text-xs sm:text-sm text-gray-600 mt-1">Post updates, job opportunities, or advice to help students and fellow alumni</p>
+                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 mt-1">Post updates, job opportunities, or advice to help students and fellow alumni</p>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3">
@@ -185,7 +185,7 @@ const DashboardPage: React.FC = () => {
             )}
 
             {/* Filter Tabs */}
-            <div className="bg-white/90 backdrop-blur-md rounded-xl sm:rounded-2xl shadow-lg sm:shadow-xl mb-4 sm:mb-6 overflow-x-auto border-2 border-sky-100/80 hover:shadow-2xl transition-all duration-300 hover:border-sky-200 scrollbar-hide">
+            <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-md rounded-xl sm:rounded-2xl shadow-lg sm:shadow-xl mb-4 sm:mb-6 overflow-x-auto border-2 border-sky-100/80 dark:border-gray-700/80 hover:shadow-2xl transition-all duration-300 hover:border-sky-200 dark:hover:border-gray-600 scrollbar-hide">
               <div className="flex space-x-1 sm:space-x-1 p-2 sm:p-3 min-w-max sm:min-w-0">
                 {filters.map((filter) => (
                   <button
@@ -193,8 +193,8 @@ const DashboardPage: React.FC = () => {
                     onClick={() => setActiveFilter(filter.value)}
                     className={`px-3 sm:px-5 py-2 sm:py-2.5 rounded-lg sm:rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all duration-300 transform hover:scale-105 ${
                       activeFilter === filter.value
-                        ? 'bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-500 text-white shadow-lg shadow-blue-200/50'
-                        : 'text-gray-600 hover:bg-sky-50 hover:text-sky-700'
+                        ? 'bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-500 text-white shadow-lg shadow-blue-200/50 dark:shadow-blue-900/50'
+                        : 'text-gray-600 dark:text-gray-300 hover:bg-sky-50 dark:hover:bg-gray-700 hover:text-sky-700 dark:hover:text-sky-400'
                     }`}
                   >
                     {filter.label}
@@ -212,15 +212,15 @@ const DashboardPage: React.FC = () => {
                   <SkeletonPost />
                 </>
               ) : error ? (
-                <div className="bg-white rounded-xl shadow-sm p-6 sm:p-8 text-center">
-                  <p className="text-red-600 mb-4 text-sm sm:text-base">{error}</p>
+                <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 sm:p-8 text-center transition-colors duration-300">
+                  <p className="text-red-600 dark:text-red-400 mb-4 text-sm sm:text-base">{error}</p>
                   <Button variant="primary" size="sm" onClick={fetchPosts}>
                     Try Again
                   </Button>
                 </div>
               ) : posts.length === 0 ? (
-                <div className="bg-white rounded-xl shadow-sm p-6 sm:p-8 text-center">
-                  <p className="text-gray-600 mb-4 text-sm sm:text-base">No posts found</p>
+                <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 sm:p-8 text-center transition-colors duration-300">
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 text-sm sm:text-base">No posts found</p>
                   {user?.role === 'alumni' && (
                     <Button variant="primary" size="sm" onClick={() => setIsCreatePostOpen(true)}>
                       Create First Post

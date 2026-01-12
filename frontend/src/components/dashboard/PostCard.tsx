@@ -208,7 +208,7 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
     <>
       <Card
         variant="elevated"
-        className="overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 bg-white border border-sky-100 rounded-xl sm:rounded-2xl animate-fadeIn"
+        className="overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 bg-white dark:bg-gray-800 border border-sky-100 dark:border-gray-700 rounded-xl sm:rounded-2xl animate-fadeIn"
       >
         {/* Post Header */}
         <div className="p-3 sm:p-5 md:p-6">
@@ -219,20 +219,20 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
                 alt={post.author.name}
                 size="sm"
                 fallback={post.author.name}
-                className="cursor-pointer ring-2 ring-sky-100 hover:ring-sky-300 transition-all duration-300 flex-shrink-0"
+                className="cursor-pointer ring-2 ring-sky-100 dark:ring-gray-600 hover:ring-sky-300 dark:hover:ring-sky-500 transition-all duration-300 flex-shrink-0"
                 onClick={() => navigate(`/profile/${post.author.id}`)}
               />
               <div className="flex-1 min-w-0">
                 <h3
-                  className="font-bold text-sm sm:text-base text-gray-900 hover:text-sky-600 cursor-pointer truncate transition-colors duration-300"
+                  className="font-bold text-sm sm:text-base text-gray-900 dark:text-white hover:text-sky-600 dark:hover:text-sky-400 cursor-pointer truncate transition-colors duration-300"
                   onClick={() => navigate(`/profile/${post.author.id}`)}
                 >
                   {post.author.name}
                 </h3>
-                <p className="text-xs sm:text-sm text-gray-600 truncate font-medium">
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 truncate font-medium">
                   {post.author.role} {post.author.company && `@ ${post.author.company}`}
                 </p>
-                <div className="flex items-center space-x-1 sm:space-x-2 text-xs text-gray-500 mt-0.5 sm:mt-1">
+                <div className="flex items-center space-x-1 sm:space-x-2 text-xs text-gray-500 dark:text-gray-400 mt-0.5 sm:mt-1">
                   <span className="font-medium hidden sm:inline">Batch of {post.author.batch}</span>
                   <span className="font-medium sm:hidden">{post.author.batch}</span>
                   <span>•</span>
@@ -240,7 +240,7 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
                 </div>
               </div>
             </div>
-            <button className="p-1.5 sm:p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-all duration-300 transform hover:scale-110 flex-shrink-0">
+            <button className="p-1.5 sm:p-2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-all duration-300 transform hover:scale-110 flex-shrink-0">
               <MoreVertical size={18} className="sm:w-5 sm:h-5" />
             </button>
           </div>
@@ -251,7 +251,7 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
           {/* Post Title */}
           {post.title && (
             <h2
-              className="text-base sm:text-lg md:text-xl font-bold text-gray-900 mb-2 sm:mb-3 cursor-pointer hover:text-sky-600 transition-colors duration-300 leading-tight"
+              className="text-base sm:text-lg md:text-xl font-bold text-gray-900 dark:text-white mb-2 sm:mb-3 cursor-pointer hover:text-sky-600 dark:hover:text-sky-400 transition-colors duration-300 leading-tight"
               onClick={() => navigate(`/post/${post.id}`)}
             >
               {post.title}
@@ -259,12 +259,12 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
           )}
 
           {/* Post Content */}
-          <p className="text-sm sm:text-base text-gray-700 mb-3 sm:mb-4 whitespace-pre-wrap leading-relaxed">
+          <p className="text-sm sm:text-base text-gray-700 dark:text-gray-200 mb-3 sm:mb-4 whitespace-pre-wrap leading-relaxed">
             {truncateContent(post.content)}
             {post.content.length > 300 && !showFullContent && (
               <button
                 onClick={() => setShowFullContent(true)}
-                className="text-sky-600 hover:text-sky-700 font-semibold ml-1 transition-colors duration-300 text-sm"
+                className="text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 font-semibold ml-1 transition-colors duration-300 text-sm"
               >
                 Read more
               </button>
@@ -273,30 +273,30 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
 
           {/* Job Details (if applicable) */}
           {(post.type === 'job' || post.type === 'internship') && post.jobDetails && (
-            <div className="bg-gradient-to-br from-blue-50 via-sky-50 to-blue-100 border-2 border-blue-200 rounded-xl sm:rounded-2xl p-3 sm:p-5 mb-3 sm:mb-4 hover:shadow-lg transition-all duration-300">
+            <div className="bg-gradient-to-br from-blue-50 via-sky-50 to-blue-100 dark:from-blue-900/20 dark:via-sky-900/20 dark:to-blue-800/20 border-2 border-blue-200 dark:border-blue-700/50 rounded-xl sm:rounded-2xl p-3 sm:p-5 mb-3 sm:mb-4 hover:shadow-lg transition-all duration-300">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 text-sm mb-3 sm:mb-4">
-                <div className="flex items-center space-x-2 sm:space-x-3 bg-white/60 backdrop-blur-sm rounded-lg sm:rounded-xl p-2 sm:p-3">
-                  <Briefcase size={16} className="text-blue-600 flex-shrink-0 sm:w-[18px] sm:h-[18px]" />
+                <div className="flex items-center space-x-2 sm:space-x-3 bg-white/60 dark:bg-gray-700/60 backdrop-blur-sm rounded-lg sm:rounded-xl p-2 sm:p-3">
+                  <Briefcase size={16} className="text-blue-600 dark:text-blue-400 flex-shrink-0 sm:w-[18px] sm:h-[18px]" />
                   <div className="min-w-0">
-                    <p className="text-xs text-gray-500 font-medium">Company</p>
-                    <p className="text-sm sm:text-base text-gray-900 font-bold truncate">{post.jobDetails.company}</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">Company</p>
+                    <p className="text-sm sm:text-base text-gray-900 dark:text-white font-bold truncate">{post.jobDetails.company}</p>
                   </div>
                 </div>
-                <div className="flex items-center space-x-2 sm:space-x-3 bg-white/60 backdrop-blur-sm rounded-lg sm:rounded-xl p-2 sm:p-3">
-                  <MapPin size={16} className="text-blue-600 flex-shrink-0 sm:w-[18px] sm:h-[18px]" />
+                <div className="flex items-center space-x-2 sm:space-x-3 bg-white/60 dark:bg-gray-700/60 backdrop-blur-sm rounded-lg sm:rounded-xl p-2 sm:p-3">
+                  <MapPin size={16} className="text-blue-600 dark:text-blue-400 flex-shrink-0 sm:w-[18px] sm:h-[18px]" />
                   <div className="min-w-0">
-                    <p className="text-xs text-gray-500 font-medium">Location</p>
-                    <p className="text-sm sm:text-base text-gray-900 font-bold truncate">{post.jobDetails.location}</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">Location</p>
+                    <p className="text-sm sm:text-base text-gray-900 dark:text-white font-bold truncate">{post.jobDetails.location}</p>
                   </div>
                 </div>
-                <div className="flex items-center space-x-2 sm:space-x-3 bg-white/60 backdrop-blur-sm rounded-lg sm:rounded-xl p-2 sm:p-3">
+                <div className="flex items-center space-x-2 sm:space-x-3 bg-white/60 dark:bg-gray-700/60 backdrop-blur-sm rounded-lg sm:rounded-xl p-2 sm:p-3">
                   <Badge variant="info" size="sm" className="font-bold text-xs">{post.jobDetails.type}</Badge>
                 </div>
                 {post.jobDetails.salary && (
-                  <div className="flex items-center space-x-2 sm:space-x-3 bg-white/60 backdrop-blur-sm rounded-lg sm:rounded-xl p-2 sm:p-3">
-                    <DollarSign size={16} className="text-blue-600 flex-shrink-0 sm:w-[18px] sm:h-[18px]" />
+                  <div className="flex items-center space-x-2 sm:space-x-3 bg-white/60 dark:bg-gray-700/60 backdrop-blur-sm rounded-lg sm:rounded-xl p-2 sm:p-3">
+                    <DollarSign size={16} className="text-blue-600 dark:text-blue-400 flex-shrink-0 sm:w-[18px] sm:h-[18px]" />
                     <div className="min-w-0">
-                      <p className="text-xs text-gray-500 font-medium">Salary</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">Salary</p>
                       <p className="text-sm sm:text-base text-gray-900 font-bold truncate">{post.jobDetails.salary}</p>
                     </div>
                   </div>
@@ -349,24 +349,24 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
           )}
 
           {/* Engagement Stats */}
-          <div className="flex items-center justify-between text-xs sm:text-sm text-gray-600 py-2 sm:py-3 border-t border-gray-100">
-            <span className="font-semibold hover:text-sky-600 cursor-pointer transition-colors">
+          <div className="flex items-center justify-between text-xs sm:text-sm text-gray-600 dark:text-gray-300 py-2 sm:py-3 border-t border-gray-100 dark:border-gray-700">
+            <span className="font-semibold hover:text-sky-600 dark:hover:text-sky-400 cursor-pointer transition-colors">
               {likes} {likes === 1 ? 'like' : 'likes'}
             </span>
-            <span className="font-semibold hover:text-sky-600 cursor-pointer transition-colors">
+            <span className="font-semibold hover:text-sky-600 dark:hover:text-sky-400 cursor-pointer transition-colors">
               {comments} {comments === 1 ? 'comment' : 'comments'}
             </span>
           </div>
 
           {/* Action Buttons */}
-          <div className="flex items-center justify-between pt-2 sm:pt-3 border-t border-gray-100 gap-1">
+          <div className="flex items-center justify-between pt-2 sm:pt-3 border-t border-gray-100 dark:border-gray-700 gap-1">
             <button
               onClick={handleLike}
               disabled={isLikingPost}
               className={`flex items-center space-x-1 sm:space-x-2 px-2 sm:px-4 py-2 sm:py-2.5 rounded-lg sm:rounded-xl font-semibold text-xs sm:text-sm transition-all duration-300 transform hover:scale-105 ${
                 isLiked
-                  ? 'text-red-600 bg-red-50 shadow-md'
-                  : 'text-gray-600 hover:bg-gray-100'
+                  ? 'text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/30 shadow-md'
+                  : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
               } ${isLikingPost ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
               <Heart size={16} fill={isLiked ? 'currentColor' : 'none'} className={`sm:w-5 sm:h-5 ${isLiked ? 'animate-pulse' : ''}`} />
@@ -375,7 +375,7 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
 
             <button
               onClick={() => setShowCommentBox(!showCommentBox)}
-              className="flex items-center space-x-1 sm:space-x-2 px-2 sm:px-4 py-2 sm:py-2.5 rounded-lg sm:rounded-xl text-gray-600 font-semibold text-xs sm:text-sm hover:bg-gray-100 transition-all duration-300 transform hover:scale-105"
+              className="flex items-center space-x-1 sm:space-x-2 px-2 sm:px-4 py-2 sm:py-2.5 rounded-lg sm:rounded-xl text-gray-600 dark:text-gray-300 font-semibold text-xs sm:text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-300 transform hover:scale-105"
             >
               <MessageCircle size={16} className="sm:w-5 sm:h-5" />
               <span className="hidden xs:inline">Comment</span>
@@ -383,7 +383,7 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
 
             <button
               onClick={() => setShowShareModal(true)}
-              className="flex items-center space-x-1 sm:space-x-2 px-2 sm:px-4 py-2 sm:py-2.5 rounded-lg sm:rounded-xl text-gray-600 font-semibold text-xs sm:text-sm hover:bg-gray-100 transition-all duration-300 transform hover:scale-105"
+              className="flex items-center space-x-1 sm:space-x-2 px-2 sm:px-4 py-2 sm:py-2.5 rounded-lg sm:rounded-xl text-gray-600 dark:text-gray-300 font-semibold text-xs sm:text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-300 transform hover:scale-105"
             >
               <Share2 size={16} className="sm:w-5 sm:h-5" />
               <span className="hidden xs:inline">Share</span>
@@ -394,8 +394,8 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
               disabled={isSavingPost}
               className={`flex items-center space-x-1 sm:space-x-2 px-2 sm:px-4 py-2 sm:py-2.5 rounded-lg sm:rounded-xl font-semibold text-xs sm:text-sm transition-all duration-300 transform hover:scale-105 ${
                 isSaved
-                  ? 'text-sky-600 bg-sky-50 shadow-md'
-                  : 'text-gray-600 hover:bg-gray-100'
+                  ? 'text-sky-600 dark:text-sky-400 bg-sky-50 dark:bg-sky-900/30 shadow-md'
+                  : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
               } ${isSavingPost ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
               <Bookmark size={16} fill={isSaved ? 'currentColor' : 'none'} className="sm:w-5 sm:h-5" />
@@ -405,17 +405,17 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
 
           {/* Comment Box */}
           {showCommentBox && (
-            <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-gray-100 animate-slideDown">
+            <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-gray-100 dark:border-gray-700 animate-slideDown">
               <div className="flex space-x-2 sm:space-x-3">
                 {user?.profilePicture ? (
                   <img
                     src={user.profilePicture}
                     alt={user.firstName}
-                    className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover ring-2 ring-sky-100 flex-shrink-0"
+                    className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover ring-2 ring-sky-100 dark:ring-gray-600 flex-shrink-0"
                   />
                 ) : (
-                  <div className="w-8 h-8 sm:w-10 sm:h-10 bg-sky-100 rounded-full flex items-center justify-center flex-shrink-0">
-                    <span className="text-sky-600 font-bold text-xs sm:text-sm">
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 bg-sky-100 dark:bg-gray-700 rounded-full flex items-center justify-center flex-shrink-0">
+                    <span className="text-sky-600 dark:text-sky-400 font-bold text-xs sm:text-sm">
                       {user?.firstName?.charAt(0)}
                     </span>
                   </div>
@@ -425,7 +425,7 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
                     value={commentText}
                     onChange={(e) => setCommentText(e.target.value)}
                     placeholder="Write a comment..."
-                    className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg sm:rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent resize-none transition-all duration-300 text-sm sm:text-base"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 dark:border-gray-600 rounded-lg sm:rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500 dark:focus:ring-sky-400 focus:border-transparent resize-none transition-all duration-300 text-sm sm:text-base bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
                     rows={3}
                   />
                   <div className="flex justify-end mt-2 space-x-2">

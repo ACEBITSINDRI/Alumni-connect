@@ -3,6 +3,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
+import { DarkModeProvider } from './context/DarkModeContext';
 import { NotificationProvider } from './context/NotificationContext';
 import AppRoutes from './routes/AppRoutes';
 import InstallPrompt from './components/pwa/InstallPrompt';
@@ -23,15 +24,17 @@ const App: React.FC = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <Router>
-        <ThemeProvider>
-          <AuthProvider>
-            <NotificationProvider>
-              <AppRoutes />
-              <InstallPrompt />
-              <CookieConsent />
-            </NotificationProvider>
-          </AuthProvider>
-        </ThemeProvider>
+        <DarkModeProvider>
+          <ThemeProvider>
+            <AuthProvider>
+              <NotificationProvider>
+                <AppRoutes />
+                <InstallPrompt />
+                <CookieConsent />
+              </NotificationProvider>
+            </AuthProvider>
+          </ThemeProvider>
+        </DarkModeProvider>
       </Router>
     </QueryClientProvider>
   );
