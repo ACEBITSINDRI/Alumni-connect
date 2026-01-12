@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Heart, MessageCircle, Share2, Bookmark, MoreVertical, Briefcase, MapPin, DollarSign, Send, X, Copy, Check } from 'lucide-react';
+import { Heart, MessageCircle, Share2, Bookmark, MoreVertical, Briefcase, MapPin, IndianRupee, Send, X, Copy, Check } from 'lucide-react';
 import Card from '../common/Card';
 import Avatar from '../common/Avatar';
 import Badge from '../common/Badge';
@@ -27,6 +27,19 @@ interface JobDetails {
   deadline?: string;
 }
 
+interface CommentData {
+  _id: string;
+  user: {
+    _id: string;
+    firstName: string;
+    lastName: string;
+    profilePicture?: string;
+    role: string;
+  };
+  content: string;
+  createdAt: string;
+}
+
 interface Post {
   id: string;
   author: PostAuthor;
@@ -37,6 +50,7 @@ interface Post {
   images?: string[];
   likes: number;
   comments: number;
+  commentsData?: CommentData[];
   isLiked: boolean;
   isSaved: boolean;
   jobDetails?: JobDetails;
@@ -61,6 +75,7 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
   const [isSavingPost, setIsSavingPost] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [showAllComments, setShowAllComments] = useState(false);
 
   const handleLike = async () => {
     if (!user || isLikingPost) return;
@@ -204,6 +219,25 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
     return 'Just now';
   };
 
+  // Parse formatted content (markdown-style)
+  const parseFormattedContent = (content: string) => {
+    if (!content) return '';
+
+    // Replace **text** with <strong>text</strong> (bold)
+    let formatted = content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+    // Replace *text* with <em>text</em> (italic)
+    formatted = formatted.replace(/(?<!\*)\*(?!\*)([^*]+?)\*(?!\*)/g, '<em>$1</em>');
+
+    // Replace __text__ with <u>text</u> (underline)
+    formatted = formatted.replace(/__(.*?)__/g, '<u>$1</u>');
+
+    // Replace [text](url) with <a href="url">text</a> (links)
+    formatted = formatted.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 underline font-medium">$1</a>');
+
+    return formatted;
+  };
+
   return (
     <>
       <Card
@@ -259,17 +293,18 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
           )}
 
           {/* Post Content */}
-          <p className="text-sm sm:text-base text-gray-700 dark:text-gray-200 mb-3 sm:mb-4 whitespace-pre-wrap leading-relaxed">
-            {truncateContent(post.content)}
-            {post.content.length > 300 && !showFullContent && (
-              <button
-                onClick={() => setShowFullContent(true)}
-                className="text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 font-semibold ml-1 transition-colors duration-300 text-sm"
-              >
-                Read more
-              </button>
-            )}
-          </p>
+          <div
+            className="text-sm sm:text-base text-gray-700 dark:text-gray-200 mb-3 sm:mb-4 whitespace-pre-wrap leading-relaxed"
+            dangerouslySetInnerHTML={{ __html: parseFormattedContent(truncateContent(post.content)) }}
+          />
+          {post.content.length > 300 && !showFullContent && (
+            <button
+              onClick={() => setShowFullContent(true)}
+              className="text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 font-semibold transition-colors duration-300 text-sm -mt-2 mb-3"
+            >
+              Read more
+            </button>
+          )}
 
           {/* Job Details (if applicable) */}
           {(post.type === 'job' || post.type === 'internship') && post.jobDetails && (
@@ -294,10 +329,10 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
                 </div>
                 {post.jobDetails.salary && (
                   <div className="flex items-center space-x-2 sm:space-x-3 bg-white/60 dark:bg-gray-700/60 backdrop-blur-sm rounded-lg sm:rounded-xl p-2 sm:p-3">
-                    <DollarSign size={16} className="text-blue-600 dark:text-blue-400 flex-shrink-0 sm:w-[18px] sm:h-[18px]" />
+                    <IndianRupee size={16} className="text-blue-600 dark:text-blue-400 flex-shrink-0 sm:w-[18px] sm:h-[18px]" />
                     <div className="min-w-0">
                       <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">Salary</p>
-                      <p className="text-sm sm:text-base text-gray-900 font-bold truncate">{post.jobDetails.salary}</p>
+                      <p className="text-sm sm:text-base text-gray-900 dark:text-white font-bold truncate">{post.jobDetails.salary}</p>
                     </div>
                   </div>
                 )}
@@ -454,6 +489,53 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
                   </div>
                 </div>
               </div>
+            </div>
+          )}
+
+          {/* Display Comments */}
+          {post.commentsData && post.commentsData.length > 0 && (
+            <div className="mt-4 pt-4 border-t border-gray-100 dark:border-gray-700">
+              <div className="space-y-3">
+                {(showAllComments ? post.commentsData : post.commentsData.slice(0, 2)).map((comment) => (
+                  <div key={comment._id} className="flex space-x-3">
+                    {comment.user?.profilePicture ? (
+                      <img
+                        src={comment.user.profilePicture}
+                        alt={`${comment.user.firstName} ${comment.user.lastName}`}
+                        className="w-8 h-8 rounded-full object-cover ring-2 ring-sky-100 dark:ring-gray-600 flex-shrink-0"
+                      />
+                    ) : (
+                      <div className="w-8 h-8 bg-sky-100 dark:bg-gray-700 rounded-full flex items-center justify-center flex-shrink-0">
+                        <span className="text-sky-600 dark:text-sky-400 font-bold text-xs">
+                          {comment.user?.firstName?.charAt(0)}{comment.user?.lastName?.charAt(0)}
+                        </span>
+                      </div>
+                    )}
+                    <div className="flex-1 bg-gray-50 dark:bg-gray-700/50 rounded-lg p-3">
+                      <div className="flex items-center justify-between mb-1">
+                        <h4 className="font-semibold text-sm text-gray-900 dark:text-white">
+                          {comment.user?.firstName} {comment.user?.lastName}
+                        </h4>
+                        <span className="text-xs text-gray-500 dark:text-gray-400">
+                          {getRelativeTime(new Date(comment.createdAt))}
+                        </span>
+                      </div>
+                      <p className="text-sm text-gray-700 dark:text-gray-200 whitespace-pre-wrap">
+                        {comment.content}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {post.commentsData.length > 2 && (
+                <button
+                  onClick={() => setShowAllComments(!showAllComments)}
+                  className="mt-3 text-sm font-semibold text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 transition-colors"
+                >
+                  {showAllComments ? 'Show less' : `View all ${post.commentsData.length} comments`}
+                </button>
+              )}
             </div>
           )}
         </div>

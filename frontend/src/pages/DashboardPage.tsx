@@ -87,6 +87,7 @@ const DashboardPage: React.FC = () => {
       images: post.images?.map((img: any) => typeof img === 'string' ? img : img.url) || [],
       likes: post.likes.length,
       comments: post.comments.length,
+      commentsData: post.comments || [], // Pass actual comments data
       isLiked: user ? post.likes.includes(user._id) : false,
       isSaved: Boolean(user && post.savedBy?.includes(user._id)),
       jobDetails: post.jobDetails,

@@ -14,6 +14,7 @@ interface User {
   profilePicture?: string;
   batch?: string;
   company?: string;
+  currentRole?: string;
 }
 
 interface LeftSidebarProps {

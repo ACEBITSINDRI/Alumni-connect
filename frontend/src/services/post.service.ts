@@ -1,5 +1,19 @@
 import api, { apiFormData } from './api';
 
+export interface Comment {
+  _id: string;
+  user: {
+    _id: string;
+    firstName: string;
+    lastName: string;
+    profilePicture?: string;
+    role: 'student' | 'alumni' | 'admin';
+  };
+  content: string;
+  createdAt: string;
+  likes?: string[];
+}
+
 export interface Post {
   _id: string;
   author: {
@@ -25,7 +39,7 @@ export interface Post {
     deadline?: string;
   };
   likes: string[];
-  comments: any[];
+  comments: Comment[];
   savedBy?: string[];
   createdAt: string;
   updatedAt: string;
