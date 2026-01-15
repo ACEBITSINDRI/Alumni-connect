@@ -14,15 +14,11 @@ import { useTheme } from '../context/ThemeContext';
 
 // Import images
 import alumniConnectLogo from '../assets/logos/alumni_connect_logo-removebg-preview.png';
-import archimarvels from '../assets/civil eng element/archimarvels.jpg';
 import awardis from '../assets/civil eng element/awardis.jpg';
 import dept from '../assets/civil eng element/dept.png';
 import interct from '../assets/civil eng element/interct.jpg';
-import infrastr from '../assets/civil eng element/infrastr.avif';
 import lis from '../assets/civil eng element/lis.jpg';
-import listens from '../assets/civil eng element/listens.jpg'
-import chaurahaConstr from '../assets/civil eng element/chauraha constrt.jpeg';
-import bigBuildingGreenish from '../assets/civil eng element/big building greenish.png';
+import listens from '../assets/civil eng element/listens.jpg';
 import studentDiscuss from '../assets/civil eng element/student discuss.png';
 import alumniTalk from '../assets/civil eng element/studnet alumni talk.png';
 import aestheticBuilding from '../assets/civil eng element/aesthetic building.jpeg';
