@@ -14,6 +14,13 @@ import { useTheme } from '../context/ThemeContext';
 
 // Import images
 import alumniConnectLogo from '../assets/logos/alumni_connect_logo-removebg-preview.png';
+import archimarvels from '../assets/civil eng element/archimarvels.jpg';
+import awardis from '../assets/civil eng element/awardis.jpg';
+import dept from '../assets/civil eng element/dept.png';
+import interct from '../assets/civil eng element/interct.jpg';
+import infrastr from '../assets/civil eng element/infrastr.avif';
+import lis from '../assets/civil eng element/lis.jpg';
+import listens from '../assets/civil eng element/listens.jpg'
 import chaurahaConstr from '../assets/civil eng element/chauraha constrt.jpeg';
 import bigBuildingGreenish from '../assets/civil eng element/big building greenish.png';
 import studentDiscuss from '../assets/civil eng element/student discuss.png';
@@ -38,11 +45,11 @@ const LandingPage: React.FC = () => {
 
   // Hero section images for carousel
   const heroImages = [
-    { src: chaurahaConstr, title: 'Infrastructure Construction' },
-    { src: bigBuildingGreenish, title: 'Green Infrastructure' },
-    { src: aestheticBuilding, title: 'Aesthetic Design' },
-    { src: beautifulBuilding, title: 'Beautiful Structures' },
-    { src: nightView, title: 'Night Views' },
+    { src: dept, title: 'Infrastructure Construction' },
+    { src: awardis, title: 'Green Infrastructure' },
+    { src: listens, title: 'Aesthetic Design' },
+    { src: interct, title: 'Beautiful Structures' },
+    { src: lis, title: 'Night Views' },
   ];
 
   const stats = {

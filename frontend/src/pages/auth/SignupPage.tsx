@@ -399,7 +399,7 @@ const SignupPage: React.FC<SignupPageProps> = ({ userType = 'student' }) => {
         {/* Logo and Institution */}
         <div className="relative z-10">
           <div className="flex items-center space-x-4 mb-6">
-            <div className="w-24 h-24 bg-white/95 backdrop-blur-md rounded-2xl flex items-center justify-center p-3 border-2 border-white/60 shadow-xl">
+            <div className="w-24 h-24 rounded-2xl flex items-center justify-center ">
               <img
                 src={alumniConnectLogo}
                 alt="Alumni Connect Logo"
@@ -421,7 +421,7 @@ const SignupPage: React.FC<SignupPageProps> = ({ userType = 'student' }) => {
               Join Our Network
             </h2>
             <p className="text-orange-50 leading-relaxed text-sm">
-              Connect with 1,250+ civil engineering alumni from BIT Sindri. Build meaningful connections and grow your career.
+              Connect with  civil engineering alumni from BIT Sindri. Build meaningful connections and grow your career.
             </p>
           </div>
         </div>
@@ -429,7 +429,7 @@ const SignupPage: React.FC<SignupPageProps> = ({ userType = 'student' }) => {
         {/* Features */}
         <div className="relative z-10 grid grid-cols-2 gap-4">
           {[
-            { icon: <GraduationCap />, text: '1,250+ Alumni Network' },
+            { icon: <GraduationCap />, text: ' Alumni Network' },
             { icon: <Building />, text: 'Top Companies' },
             { icon: <User />, text: 'Expert Mentorship' },
             { icon: <Briefcase />, text: 'Job Opportunities' },
