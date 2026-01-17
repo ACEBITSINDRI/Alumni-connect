@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search, Grid, List, SlidersHorizontal } from 'lucide-react';
 import Navbar from '../components/common/Navbar';
 import Footer from '../components/common/Footer';
@@ -9,6 +9,8 @@ import Button from '../components/common/Button';
 import Dropdown from '../components/common/Dropdown';
 import { SkeletonAlumniCard } from '../components/common/Skeleton';
 import { useAuth } from '../context/AuthContext';
+import { getAllAlumni } from '../services/alumni.service';
+import type { Alumni, AlumniFilters as AlumniFilterType } from '../services/alumni.service';
 
 const AlumniDirectoryPage: React.FC = () => {
   const { user } = useAuth();
@@ -16,7 +18,11 @@ const AlumniDirectoryPage: React.FC = () => {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [showFilters, setShowFilters] = useState(false);
   const [sortBy, setSortBy] = useState('recent');
-  const [isLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [alumni, setAlumni] = useState<Alumni[]>([]);
+  const [totalCount, setTotalCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const [filters, setFilters] = useState({
     batches: [] as string[],
     companies: [] as string[],
@@ -25,94 +31,41 @@ const AlumniDirectoryPage: React.FC = () => {
     mentorshipAvailable: false,
     experience: '',
   });
+  const itemsPerPage = 12;
 
-  // Mock alumni data - replace with actual API call
-  const mockAlumni = [
-    {
-      id: '1',
-      name: 'Rahul Sharma',
-      role: 'Senior Engineer',
-      company: 'Larsen & Toubro',
-      location: 'Mumbai, Maharashtra',
-      batch: '2015',
-      avatar: undefined,
-      coverPhoto: undefined,
-      skills: ['Structural Design', 'Project Management', 'AutoCAD'],
-      mentorshipAvailable: true,
-      experience: 9,
-      domain: 'Construction',
-    },
-    {
-      id: '2',
-      name: 'Priya Singh',
-      role: 'Project Manager',
-      company: 'Tata Projects',
-      location: 'Bangalore, Karnataka',
-      batch: '2012',
-      avatar: undefined,
-      coverPhoto: undefined,
-      skills: ['Infrastructure', 'Cost Estimation', 'Site Management'],
-      mentorshipAvailable: true,
-      experience: 12,
-      domain: 'Consulting',
-    },
-    {
-      id: '3',
-      name: 'Amit Kumar',
-      role: 'Assistant Engineer',
-      company: 'National Highways Authority',
-      location: 'Delhi, India',
-      batch: '2018',
-      avatar: undefined,
-      coverPhoto: undefined,
-      skills: ['Highway Design', 'Quality Control', 'Contract Management'],
-      mentorshipAvailable: false,
-      experience: 6,
-      domain: 'Government',
-    },
-    {
-      id: '4',
-      name: 'Sneha Patel',
-      role: 'Structural Engineer',
-      company: 'AECOM',
-      location: 'Pune, Maharashtra',
-      batch: '2016',
-      avatar: undefined,
-      coverPhoto: undefined,
-      skills: ['Steel Design', 'STAAD Pro', 'Seismic Analysis'],
-      mentorshipAvailable: true,
-      experience: 8,
-      domain: 'Consulting',
-    },
-    {
-      id: '5',
-      name: 'Vikram Reddy',
-      role: 'Site Engineer',
-      company: 'Shapoorji Pallonji',
-      location: 'Hyderabad, Telangana',
-      batch: '2019',
-      avatar: undefined,
-      coverPhoto: undefined,
-      skills: ['Construction Management', 'Safety', 'Supervision'],
-      mentorshipAvailable: false,
-      experience: 5,
-      domain: 'Construction',
-    },
-    {
-      id: '6',
-      name: 'Anjali Mehta',
-      role: 'Design Engineer',
-      company: 'IIT Bombay (Research)',
-      location: 'Mumbai, Maharashtra',
-      batch: '2013',
-      avatar: undefined,
-      coverPhoto: undefined,
-      skills: ['Research', 'Concrete Technology', 'FEM Analysis'],
-      mentorshipAvailable: true,
-      experience: 11,
-      domain: 'Academia',
-    },
-  ];
+  // Fetch alumni data from API
+  useEffect(() => {
+    const fetchAlumni = async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
+
+        const filterParams: AlumniFilterType = {
+          batches: filters.batches.length > 0 ? filters.batches : undefined,
+          companies: filters.companies.length > 0 ? filters.companies : undefined,
+          locations: filters.locations.length > 0 ? filters.locations : undefined,
+          mentorshipAvailable: filters.mentorshipAvailable || undefined,
+          search: searchQuery || undefined,
+          sortBy: (sortBy as 'recent' | 'name-asc' | 'name-desc' | 'batch-desc' | 'batch-asc' | 'experience-desc') || 'recent',
+          page: currentPage,
+          limit: itemsPerPage,
+        };
+
+        const response = await getAllAlumni(filterParams);
+        const alumniData = Array.isArray(response.data) ? response.data : [];
+        setAlumni(alumniData);
+        setTotalCount(response.total || 0);
+      } catch (err: any) {
+        console.error('Error fetching alumni:', err);
+        setError(err.message || 'Failed to load alumni. Please try again.');
+        setAlumni([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchAlumni();
+  }, [searchQuery, filters, sortBy, currentPage]);
 
   const sortOptions = [
     { label: 'Most Recent', value: 'recent' },
@@ -125,13 +78,12 @@ const AlumniDirectoryPage: React.FC = () => {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Implement search logic
-    console.log('Search:', searchQuery);
+    setCurrentPage(1);
   };
 
   const handleFilterChange = (newFilters: typeof filters) => {
     setFilters(newFilters);
-    // TODO: Apply filters
+    setCurrentPage(1);
   };
 
   const clearFilters = () => {
@@ -168,7 +120,7 @@ const AlumniDirectoryPage: React.FC = () => {
         <div className="container mx-auto px-4">
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 md:mb-4">Alumni Directory</h1>
           <p className="text-base sm:text-lg md:text-xl text-gray-100 mb-6 md:mb-8">
-            Connect with {mockAlumni.length}+ BIT Sindri Civil Engineering Alumni
+            Connect with {totalCount}+ BIT Sindri Civil Engineering Alumni
           </p>
 
           {/* Search Bar */}
@@ -275,7 +227,11 @@ const AlumniDirectoryPage: React.FC = () => {
           <main className="flex-1">
             <div className="mb-4">
               <p className="text-gray-600">
-                Showing <span className="font-semibold">{mockAlumni.length}</span> alumni
+                {error ? (
+                  <span className="text-red-600">Error: {error}</span>
+                ) : (
+                  <>Showing <span className="font-semibold">{(Array.isArray(alumni) ? alumni : []).length}</span> of {totalCount} alumni</>
+                )}
               </p>
             </div>
 
@@ -292,6 +248,10 @@ const AlumniDirectoryPage: React.FC = () => {
                 <SkeletonAlumniCard />
                 <SkeletonAlumniCard />
               </div>
+            ) : !Array.isArray(alumni) || alumni.length === 0 ? (
+              <div className="text-center py-12">
+                <p className="text-gray-500 text-lg">No alumni found matching your criteria.</p>
+              </div>
             ) : (
               <>
                 <div className={`grid gap-6 ${
@@ -299,42 +259,75 @@ const AlumniDirectoryPage: React.FC = () => {
                     ? 'grid-cols-1 md:grid-cols-2 xl:grid-cols-3'
                     : 'grid-cols-1'
                 }`}>
-                  {mockAlumni.map((alumni) => (
+                  {(Array.isArray(alumni) ? alumni : []).map((alum) => (
                     <AlumniCard
-                      key={alumni.id}
-                      alumni={alumni}
+                      key={alum._id}
+                      alumni={{
+                        id: alum._id,
+                        name: `${alum.firstName} ${alum.lastName}`,
+                        role: alum.currentRole || '-',
+                        company: alum.company || '-',
+                        location: (alum.location?.city || alum.location?.state) 
+                          ? `${alum.location?.city || ''}, ${alum.location?.state || ''}`.trim().replace(/^,|,$/g, '')
+                          : '-',
+                        batch: alum.batch || '-',
+                        avatar: alum.profilePicture,
+                        coverPhoto: alum.coverPhoto,
+                        skills: alum.skills && alum.skills.length > 0 ? alum.skills : [],
+                        mentorshipAvailable: alum.mentorshipAvailable || false,
+                        experience: alum.experience || 0,
+                        domain: alum.department || 'Civil Engineering',
+                      }}
                       viewMode={viewMode}
                     />
                   ))}
                 </div>
 
                 {/* Pagination */}
-                <div className="mt-8 flex justify-center overflow-x-auto pb-2">
-                  <nav className="flex items-center space-x-1 sm:space-x-2">
-                    <button className="px-2 sm:px-4 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 whitespace-nowrap">
-                      Previous
-                    </button>
-                    <button className="px-3 sm:px-4 py-2 text-sm bg-primary-600 text-white rounded-lg">
-                      1
-                    </button>
-                    <button className="px-3 sm:px-4 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-50">
-                      2
-                    </button>
-                    <button className="px-3 sm:px-4 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-50">
-                      3
-                    </button>
-                    <span className="px-1 sm:px-2 text-sm">...</span>
-                    <button className="px-3 sm:px-4 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-50">
-                      10
-                    </button>
-                    <button className="px-2 sm:px-4 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-50 whitespace-nowrap">
-                      Next
-                    </button>
-                  </nav>
-                </div>
+                {totalCount > itemsPerPage && (
+                  <div className="mt-8 flex justify-center overflow-x-auto pb-2">
+                    <nav className="flex items-center space-x-1 sm:space-x-2">
+                      <button
+                        onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                        disabled={currentPage === 1}
+                        className="px-2 sm:px-4 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+                      >
+                        Previous
+                      </button>
+                      {Array.from({ length: Math.ceil(totalCount / itemsPerPage) }).map((_, i) => {
+                        const page = i + 1;
+                        const totalPages = Math.ceil(totalCount / itemsPerPage);
+                        const showPage = page === 1 || page === totalPages || (page >= currentPage - 1 && page <= currentPage + 1);
+                        if (!showPage && i > 0 && totalPages > 5 && page < currentPage - 1) {
+                          return <span key={`dots-${i}`} className="px-1 sm:px-2 text-sm">...</span>;
+                        }
+                        return showPage ? (
+                          <button
+                            key={page}
+                            onClick={() => setCurrentPage(page)}
+                            className={`px-3 sm:px-4 py-2 text-sm rounded-lg ${
+                              currentPage === page
+                                ? 'bg-primary-600 text-white'
+                                : 'border border-gray-300 hover:bg-gray-50'
+                            }`}
+                          >
+                            {page}
+                          </button>
+                        ) : null;
+                      })}
+                      <button
+                        onClick={() => setCurrentPage(prev => Math.min(Math.ceil(totalCount / itemsPerPage), prev + 1))}
+                        disabled={currentPage === Math.ceil(totalCount / itemsPerPage)}
+                        className="px-2 sm:px-4 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+                      >
+                        Next
+                      </button>
+                    </nav>
+                  </div>
+                )}
 
                 <p className="text-center text-xs sm:text-sm text-gray-500 mt-4">
-                  Showing 1-6 of {mockAlumni.length} alumni
+                  Showing {(currentPage - 1) * itemsPerPage + 1}-{Math.min(currentPage * itemsPerPage, totalCount)} of {totalCount} alumni
                 </p>
               </>
             )}

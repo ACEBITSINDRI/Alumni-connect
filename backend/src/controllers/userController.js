@@ -188,16 +188,12 @@ export const getUserById = async (req, res) => {
 
     // Try to find in alumni collection first
     let user = await AlumniModel.findById(id)
-      .select('-password -emailVerificationToken -passwordResetToken')
-      .populate('connections', 'firstName lastName profilePicture currentRole company role')
-      .lean();
+      .select('-password -emailVerificationToken -passwordResetToken -connectionRequests');
 
     // If not found, try student collection
     if (!user) {
       user = await StudentModel.findById(id)
-        .select('-password -emailVerificationToken -passwordResetToken')
-        .populate('connections', 'firstName lastName profilePicture batch department role')
-        .lean();
+        .select('-password -emailVerificationToken -passwordResetToken -connectionRequests');
     }
 
     if (!user) {
@@ -207,25 +203,13 @@ export const getUserById = async (req, res) => {
       });
     }
 
-    // Check if current user is connected
-    const isConnected = user.connections.some(
-      conn => conn._id.toString() === req.user._id.toString()
-    );
-
-    // Check if there's a pending connection request
-    const UserModel = getUserModel(user.role);
-    const fullUser = await UserModel.findById(id).select('connectionRequests');
-
-    const hasPendingRequest = fullUser.connectionRequests.some(
-      reqItem => reqItem.from.toString() === req.user._id.toString() && reqItem.status === 'pending'
-    );
-
+    // Return user data with default values for connection status
     res.status(200).json({
       success: true,
       data: {
-        ...user,
-        isConnected,
-        hasPendingRequest,
+        ...user.toObject(),
+        isConnected: false,
+        hasPendingRequest: false,
       },
     });
   } catch (error) {

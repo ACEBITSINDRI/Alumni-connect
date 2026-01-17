@@ -14,16 +14,17 @@ import upload from '../middleware/upload.js';
 
 const router = express.Router();
 
-// All routes are protected
-router.use(protect);
-
-// User routes
+// Public routes (no authentication required)
 router.get('/', getAllUsers);
 router.get('/search', searchUsers);
+router.get('/:id', getUserById);
+
+// Protected routes (authentication required)
+router.use(protect);
+
 router.get('/connections', getConnections);
 router.get('/suggestions', getSuggestedConnections);
 router.get('/stats', getUserStats);
-router.get('/:id', getUserById);
 
 // Profile update routes
 router.put('/profile', updateProfile);

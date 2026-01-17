@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search, Filter, Bookmark } from 'lucide-react';
 import Navbar from '../components/common/Navbar';
 import Footer from '../components/common/Footer';
@@ -9,6 +9,8 @@ import Button from '../components/common/Button';
 import Dropdown from '../components/common/Dropdown';
 import Badge from '../components/common/Badge';
 import { useAuth } from '../context/AuthContext';
+import { getAllOpportunities } from '../services/opportunity.service';
+import type { Opportunity, OpportunityFilters as OpportunityFilterType } from '../services/opportunity.service';
 
 const OpportunitiesPage: React.FC = () => {
   const { user } = useAuth();
@@ -16,6 +18,11 @@ const OpportunitiesPage: React.FC = () => {
   const [showFilters, setShowFilters] = useState(false);
   const [activeTab, setActiveTab] = useState<'all' | 'saved'>('all');
   const [sortBy, setSortBy] = useState('recent');
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
+  const [totalCount, setTotalCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const [filters, setFilters] = useState({
     jobTypes: [] as string[],
     companies: [] as string[],
@@ -25,98 +32,39 @@ const OpportunitiesPage: React.FC = () => {
     salaryRange: { min: '', max: '' },
     postedDate: '',
   });
+  const itemsPerPage = 10;
 
-  // Mock opportunities data
-  const mockOpportunities = [
-    {
-      id: '1',
-      title: 'Senior Civil Engineer',
-      company: 'Larsen & Toubro',
-      companyLogo: undefined,
-      location: 'Mumbai, Maharashtra',
-      jobType: 'Full-time',
-      experienceRequired: '5-8 years',
-      salary: '₹12-18 LPA',
-      description: 'We are looking for experienced civil engineers for our metro rail project in Mumbai. The role involves structural design, quality control, and site supervision.',
-      requirements: ['B.Tech in Civil Engineering', '5+ years experience', 'Knowledge of STAAD Pro', 'Metro/Bridge projects experience'],
-      skills: ['Structural Design', 'STAAD Pro', 'Project Management', 'Quality Control'],
-      postedBy: {
-        id: 'user1',
-        name: 'Rahul Sharma',
-        avatar: undefined,
-      },
-      postedDate: new Date(Date.now() - 1000 * 60 * 60 * 24 * 2),
-      deadline: '2024-11-30',
-      applicants: 24,
-      isSaved: false,
-    },
-    {
-      id: '2',
-      title: 'Structural Design Intern',
-      company: 'AECOM',
-      companyLogo: undefined,
-      location: 'Bangalore, Karnataka',
-      jobType: 'Internship',
-      experienceRequired: 'Fresher',
-      salary: '₹15,000-25,000/month',
-      description: 'Summer internship opportunity for civil engineering students. Work on real-world structural design projects.',
-      requirements: ['Currently pursuing B.Tech in Civil Engineering', 'Knowledge of AutoCAD', 'Good academic record'],
-      skills: ['AutoCAD', 'Structural Analysis', 'Communication'],
-      postedBy: {
-        id: 'user2',
-        name: 'Priya Singh',
-        avatar: undefined,
-      },
-      postedDate: new Date(Date.now() - 1000 * 60 * 60 * 24 * 5),
-      deadline: '2024-11-15',
-      applicants: 89,
-      isSaved: true,
-    },
-    {
-      id: '3',
-      title: 'Project Engineer - Highways',
-      company: 'National Highways Authority of India',
-      companyLogo: undefined,
-      location: 'Delhi, India',
-      jobType: 'Full-time',
-      experienceRequired: '2-4 years',
-      salary: '₹8-12 LPA',
-      description: 'Opportunity to work on national highway development projects. Role involves project planning, execution, and quality monitoring.',
-      requirements: ['B.Tech in Civil Engineering', 'Experience in highway projects', 'Knowledge of IRC codes'],
-      skills: ['Highway Design', 'Project Planning', 'Quality Control'],
-      postedBy: {
-        id: 'user3',
-        name: 'Amit Kumar',
-        avatar: undefined,
-      },
-      postedDate: new Date(Date.now() - 1000 * 60 * 60 * 24 * 7),
-      deadline: '2024-11-20',
-      applicants: 156,
-      isSaved: false,
-    },
-    {
-      id: '4',
-      title: 'Site Engineer',
-      company: 'Shapoorji Pallonji',
-      companyLogo: undefined,
-      location: 'Pune, Maharashtra',
-      jobType: 'Full-time',
-      experienceRequired: '1-3 years',
-      salary: '₹5-8 LPA',
-      description: 'Looking for site engineers for residential and commercial construction projects in Pune.',
-      requirements: ['B.Tech in Civil Engineering', 'Site supervision experience', 'Knowledge of construction methods'],
-      skills: ['Site Management', 'Construction', 'Safety Management'],
-      postedBy: {
-        id: 'user4',
-        name: 'Vikram Reddy',
-        avatar: undefined,
-      },
-      postedDate: new Date(Date.now() - 1000 * 60 * 60 * 24 * 10),
-      deadline: '2024-11-25',
-      applicants: 67,
-      isSaved: false,
-    },
-  ];
+  // Fetch opportunities from API
+  useEffect(() => {
+    const fetchOpportunities = async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
+
+        const filterParams: OpportunityFilterType = {
+          jobTypes: filters.jobTypes.length > 0 ? filters.jobTypes : undefined,
+          companies: filters.companies.length > 0 ? filters.companies : undefined,
+          locations: filters.locations.length > 0 ? filters.locations : undefined,
+          search: searchQuery || undefined,
+          sortBy: (sortBy === 'recent' ? 'recent' : sortBy === 'salary-desc' ? 'salary-high' : 'salary-low') as 'recent' | 'salary-high' | 'salary-low',
+          page: currentPage,
+          limit: itemsPerPage,
+        };
+
+        const response = await getAllOpportunities(filterParams);
+        setOpportunities(response.data || []);
+        setTotalCount(response.total || 0);
+      } catch (err: any) {
+        console.error('Error fetching opportunities:', err);
+        setError(err.message || 'Failed to load opportunities. Please try again.');
+        setOpportunities([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchOpportunities();
+  }, [searchQuery, filters, sortBy, currentPage]);
 
   const sortOptions = [
     { label: 'Most Recent', value: 'recent' },
@@ -127,11 +75,12 @@ const OpportunitiesPage: React.FC = () => {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Search:', searchQuery);
+    setCurrentPage(1);
   };
 
   const handleFilterChange = (newFilters: typeof filters) => {
     setFilters(newFilters);
+    setCurrentPage(1);
   };
 
   const clearFilters = () => {
@@ -274,26 +223,79 @@ const OpportunitiesPage: React.FC = () => {
           <main className="flex-1">
             <div className="mb-4 flex items-center justify-between">
               <p className="text-gray-600">
-                Showing <span className="font-semibold">{mockOpportunities.length}</span> opportunities
+                {error ? (
+                  <span className="text-red-600">Error: {error}</span>
+                ) : (
+                  <>Showing <span className="font-semibold">{opportunities.length}</span> of {totalCount} opportunities</>
+                )}
               </p>
               <div className="flex gap-2">
-                <Badge variant="success">{mockOpportunities.filter(o => o.jobType === 'Full-time').length} Jobs</Badge>
-                <Badge variant="info">{mockOpportunities.filter(o => o.jobType === 'Internship').length} Internships</Badge>
+                <Badge variant="success">{opportunities.filter(o => o.type === 'Full-time').length} Jobs</Badge>
+                <Badge variant="info">{opportunities.filter(o => o.type === 'Internship').length} Internships</Badge>
               </div>
             </div>
 
             <div className="space-y-6">
-              {mockOpportunities.map((opportunity) => (
-                <OpportunityCard key={opportunity.id} opportunity={opportunity} />
-              ))}
+              {isLoading ? (
+                <div className="space-y-4">
+                  {[...Array(3)].map((_, i) => (
+                    <div key={i} className="animate-pulse h-32 bg-gray-200 rounded-lg"></div>
+                  ))}
+                </div>
+              ) : opportunities.length === 0 ? (
+                <div className="text-center py-12">
+                  <p className="text-gray-500 text-lg">No opportunities found matching your criteria.</p>
+                </div>
+              ) : (
+                opportunities.map((opportunity) => (
+                  <OpportunityCard key={opportunity._id} opportunity={{
+                    id: opportunity._id,
+                    title: opportunity.title,
+                    company: opportunity.company || '-',
+                    companyLogo: undefined,
+                    location: opportunity.location || '-',
+                    jobType: opportunity.type || '-',
+                    experienceRequired: opportunity.experience ? `${opportunity.experience.min || 0}-${opportunity.experience.max || opportunity.experience.min || 0} years` : '-',
+                    salary: opportunity.salary ? (typeof opportunity.salary === 'string' ? opportunity.salary : (opportunity.salary.min ? `₹${opportunity.salary.min}-${opportunity.salary.max} ${opportunity.salary.period}` : 'Competitive')) : 'Competitive',
+                    description: opportunity.description || '',
+                    requirements: opportunity.qualifications && opportunity.qualifications.length > 0 ? opportunity.qualifications : [],
+                    skills: opportunity.skills && opportunity.skills.length > 0 ? opportunity.skills : [],
+                    postedBy: {
+                      id: opportunity.postedBy || 'unknown',
+                      name: 'Alumni',
+                      avatar: undefined,
+                    },
+                    postedDate: new Date(opportunity.postedDate || new Date()),
+                    deadline: opportunity.deadline || new Date().toISOString(),
+                    applicants: opportunity.applicants || 0,
+                    isSaved: false,
+                  }} />
+                ))
+              )}
             </div>
 
-            {/* Load More */}
-            <div className="mt-8 text-center">
-              <Button variant="outline" size="lg">
-                Load More Opportunities
-              </Button>
-            </div>
+            {/* Load More / Pagination */}
+            {totalCount > itemsPerPage && (
+              <div className="mt-8 flex justify-center gap-4">
+                <Button
+                  variant="outline"
+                  onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                  disabled={currentPage === 1}
+                >
+                  Previous
+                </Button>
+                <span className="flex items-center text-gray-600">
+                  Page {currentPage} of {Math.ceil(totalCount / itemsPerPage)}
+                </span>
+                <Button
+                  variant="outline"
+                  onClick={() => setCurrentPage(prev => Math.min(Math.ceil(totalCount / itemsPerPage), prev + 1))}
+                  disabled={currentPage === Math.ceil(totalCount / itemsPerPage)}
+                >
+                  Next
+                </Button>
+              </div>
+            )}
           </main>
         </div>
       </div>

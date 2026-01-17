@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search } from 'lucide-react';
 import Navbar from '../components/common/Navbar';
 import Footer from '../components/common/Footer';
@@ -7,126 +7,59 @@ import Input from '../components/common/Input';
 import Button from '../components/common/Button';
 import Dropdown from '../components/common/Dropdown';
 import { useAuth } from '../context/AuthContext';
+import { getAllEvents } from '../services/event.service';
+import type { Event, EventFilters as EventFilterType } from '../services/event.service';
 
 const EventsPage: React.FC = () => {
   const { user } = useAuth();
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState<'upcoming' | 'past' | 'registered'>('upcoming');
   const [sortBy, setSortBy] = useState('date-asc');
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [events, setEvents] = useState<Event[]>([]);
+  const [totalCount, setTotalCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const [filters, setFilters] = useState({
     eventTypes: [] as string[],
     mode: [] as string[],
     dateRange: '',
   });
+  const itemsPerPage = 9;
 
-  // Mock events data
-  const mockEvents = [
-    {
-      id: '1',
-      title: 'Civil Engineering Workshop 2024',
-      description: 'Hands-on workshop on modern construction techniques and project management. Learn from industry experts.',
-      date: '2024-11-25',
-      startTime: '10:00 AM',
-      endTime: '5:00 PM',
-      duration: '7 hours',
-      mode: 'Offline' as const,
-      venue: 'BIT Sindri Campus, Auditorium Hall',
-      location: 'Dhanbad, Jharkhand',
-      image: undefined,
-      type: 'Workshop',
-      organizer: {
-        id: 'ace1',
-        name: 'ACE BIT Sindri',
-        avatar: undefined,
-      },
-      registrationFee: 'Free',
-      maxParticipants: 100,
-      registeredCount: 67,
-      registrationDeadline: '2024-11-20',
-      isRegistered: false,
-      speakers: [
-        { name: 'Dr. Rajesh Gupta', designation: 'Chief Engineer, NHAI' },
-        { name: 'Priya Singh', designation: 'Project Manager, L&T' },
-      ],
-    },
-    {
-      id: '2',
-      title: 'Alumni Meetup 2024',
-      description: 'Annual gathering of BIT Sindri Civil Engineering alumni. Network, share experiences, and reconnect with batchmates.',
-      date: '2024-11-30',
-      startTime: '6:00 PM',
-      endTime: '9:00 PM',
-      duration: '3 hours',
-      mode: 'Hybrid' as const,
-      venue: 'Hotel Ashok, Dhanbad',
-      location: 'Dhanbad, Jharkhand',
-      image: undefined,
-      type: 'Meetup',
-      organizer: {
-        id: 'ace1',
-        name: 'ACE BIT Sindri',
-        avatar: undefined,
-      },
-      registrationFee: '₹500',
-      maxParticipants: 200,
-      registeredCount: 156,
-      registrationDeadline: '2024-11-25',
-      isRegistered: true,
-      speakers: [],
-    },
-    {
-      id: '3',
-      title: 'Webinar: Future of Infrastructure Development',
-      description: 'Online webinar discussing the future trends in infrastructure development, smart cities, and sustainable construction.',
-      date: '2024-12-05',
-      startTime: '7:00 PM',
-      endTime: '8:30 PM',
-      duration: '1.5 hours',
-      mode: 'Online' as const,
-      venue: 'Zoom Meeting',
-      location: 'Online',
-      image: undefined,
-      type: 'Webinar',
-      organizer: {
-        id: 'user1',
-        name: 'Rahul Sharma',
-        avatar: undefined,
-      },
-      registrationFee: 'Free',
-      maxParticipants: 500,
-      registeredCount: 234,
-      registrationDeadline: '2024-12-04',
-      isRegistered: false,
-      speakers: [
-        { name: 'Amit Kumar', designation: 'Urban Planner' },
-      ],
-    },
-    {
-      id: '4',
-      title: 'Career Guidance Seminar',
-      description: 'Guidance session for final year students on career opportunities, higher studies, and interview preparation.',
-      date: '2024-12-10',
-      startTime: '3:00 PM',
-      endTime: '6:00 PM',
-      duration: '3 hours',
-      mode: 'Offline' as const,
-      venue: 'BIT Sindri, Civil Department',
-      location: 'Dhanbad, Jharkhand',
-      image: undefined,
-      type: 'Seminar',
-      organizer: {
-        id: 'ace1',
-        name: 'ACE BIT Sindri',
-        avatar: undefined,
-      },
-      registrationFee: 'Free',
-      maxParticipants: 80,
-      registeredCount: 45,
-      registrationDeadline: '2024-12-08',
-      isRegistered: false,
-      speakers: [],
-    },
-  ];
+  // Fetch events from API
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
+
+        const dateRange = activeTab === 'upcoming' ? 'upcoming' : activeTab === 'past' ? 'past' : 'all';
+
+        const filterParams: EventFilterType = {
+          eventTypes: filters.eventTypes.length > 0 ? filters.eventTypes : undefined,
+          mode: filters.mode.length > 0 ? filters.mode : undefined,
+          dateRange: (dateRange as 'upcoming' | 'past' | 'all') || 'upcoming',
+          search: searchQuery || undefined,
+          sortBy: (sortBy.startsWith('date-') ? sortBy : 'date-asc') as 'date-asc' | 'date-desc' | 'recent',
+          page: currentPage,
+          limit: itemsPerPage,
+        };
+
+        const response = await getAllEvents(filterParams);
+        setEvents(response.data || []);
+        setTotalCount(response.total || 0);
+      } catch (err: any) {
+        console.error('Error fetching events:', err);
+        setError(err.message || 'Failed to load events. Please try again.');
+        setEvents([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchEvents();
+  }, [searchQuery, filters, sortBy, currentPage, activeTab]);
 
   const sortOptions = [
     { label: 'Date (Upcoming First)', value: 'date-asc' },
@@ -140,7 +73,7 @@ const EventsPage: React.FC = () => {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Search:', searchQuery);
+    setCurrentPage(1);
   };
 
   const handleEventTypeToggle = (type: string) => {
@@ -148,6 +81,7 @@ const EventsPage: React.FC = () => {
       ? filters.eventTypes.filter((t) => t !== type)
       : [...filters.eventTypes, type];
     setFilters({ ...filters, eventTypes: newTypes });
+    setCurrentPage(1);
   };
 
   const handleModeToggle = (mode: string) => {
@@ -155,6 +89,7 @@ const EventsPage: React.FC = () => {
       ? filters.mode.filter((m) => m !== mode)
       : [...filters.mode, mode];
     setFilters({ ...filters, mode: newModes });
+    setCurrentPage(1);
   };
 
   const clearFilters = () => {
@@ -163,6 +98,7 @@ const EventsPage: React.FC = () => {
       mode: [],
       dateRange: '',
     });
+    setCurrentPage(1);
   };
 
   const activeFilterCount = filters.eventTypes.length + filters.mode.length + (filters.dateRange ? 1 : 0);
@@ -315,22 +251,86 @@ const EventsPage: React.FC = () => {
         {/* Events Grid */}
         <div className="mb-4">
           <p className="text-gray-600">
-            Showing <span className="font-semibold">{mockEvents.length}</span> events
+            {error ? (
+              <span className="text-red-600">Error: {error}</span>
+            ) : (
+              <>Showing <span className="font-semibold">{events.length}</span> of {totalCount} events</>
+            )}
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {mockEvents.map((event) => (
-            <EventCard key={event.id} event={event} />
-          ))}
-        </div>
+        {isLoading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[...Array(6)].map((_, i) => (
+              <div key={i} className="animate-pulse h-80 bg-gray-200 rounded-lg"></div>
+            ))}
+          </div>
+        ) : events.length === 0 ? (
+          <div className="text-center py-12">
+            <p className="text-gray-500 text-lg">No events found matching your criteria.</p>
+          </div>
+        ) : (
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {events.map((event) => (
+                  <EventCard
+                    key={event._id}
+                    event={{
+                      id: event._id,
+                      title: event.title || '-',
+                      description: event.description || '',
+                      date: event.date || new Date().toISOString(),
+                      startTime: event.startTime || '-',
+                      endTime: event.endTime || '-',
+                      duration: event.duration || '-',
+                      mode: (event.mode as 'Online' | 'Offline' | 'Hybrid') || 'Online',
+                      venue: event.venue || '-',
+                      location: event.location || '-',
+                      image: event.image?.url,
+                      type: event.type || '-',
+                      organizer: {
+                        id: event.organizer,
+                        name: event.organizerName || 'Organizer',
+                        avatar: undefined,
+                      },
+                      registrationFee: event.registrationFee || 'Free',
+                      maxParticipants: event.maxParticipants || 0,
+                      registeredCount: event.registeredCount || 0,
+                      registrationDeadline: event.registrationDeadline || new Date().toISOString(),
+                      isRegistered: event.isRegistered || false,
+                      speakers: (event.speakers || []).map(s => ({
+                        name: s.name,
+                        designation: s.designation || 'Speaker',
+                      })),
+                    }}
+                  />
+              ))}
+            </div>
 
-        {/* Load More */}
-        <div className="mt-8 text-center">
-          <Button variant="outline" size="lg">
-            Load More Events
-          </Button>
-        </div>
+            {/* Pagination */}
+            {totalCount > itemsPerPage && (
+              <div className="mt-8 flex justify-center gap-4">
+                <Button
+                  variant="outline"
+                  onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                  disabled={currentPage === 1}
+                >
+                  Previous
+                </Button>
+                <span className="flex items-center text-gray-600">
+                  Page {currentPage} of {Math.ceil(totalCount / itemsPerPage)}
+                </span>
+                <Button
+                  variant="outline"
+                  onClick={() => setCurrentPage(prev => Math.min(Math.ceil(totalCount / itemsPerPage), prev + 1))}
+                  disabled={currentPage === Math.ceil(totalCount / itemsPerPage)}
+                >
+                  Next
+                </Button>
+              </div>
+            )}
+          </>
+        )}
       </div>
 
       <Footer />
