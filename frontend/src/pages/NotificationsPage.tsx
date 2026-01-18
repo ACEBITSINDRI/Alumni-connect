@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Bell,
@@ -11,6 +11,8 @@ import {
   Settings,
   Check,
   Trash2,
+  Loader,
+  AlertCircle,
 } from 'lucide-react';
 import Navbar from '../components/common/Navbar';
 import Footer from '../components/common/Footer';
@@ -18,112 +20,49 @@ import Card from '../components/common/Card';
 import Avatar from '../components/common/Avatar';
 import Button from '../components/common/Button';
 import { useAuth } from '../context/AuthContext';
+import * as notificationService from '../services/notification.service';
 
 interface Notification {
-  id: string;
+  _id: string;
   type: 'connection' | 'message' | 'like' | 'comment' | 'event' | 'opportunity' | 'mention' | 'achievement';
   title: string;
   message: string;
-  timestamp: Date;
-  isRead: boolean;
-  actionUrl?: string;
   actor?: {
-    id: string;
+    _id: string;
     name: string;
-    avatar?: string;
+    profilePicture?: string;
   };
+  actionUrl?: string;
+  isRead: boolean;
+  createdAt: string;
 }
 
 const NotificationsPage: React.FC = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [activeFilter, setActiveFilter] = useState<'all' | 'unread'>('all');
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  // Mock notifications data
-  const [notifications, setNotifications] = useState<Notification[]>([
-    {
-      id: '1',
-      type: 'connection',
-      title: 'New Connection Request',
-      message: 'Priya Sharma wants to connect with you',
-      timestamp: new Date(Date.now() - 1000 * 60 * 30),
-      isRead: false,
-      actionUrl: '/profile/user123',
-      actor: {
-        id: 'user123',
-        name: 'Priya Sharma',
-        avatar: undefined,
-      },
-    },
-    {
-      id: '2',
-      type: 'like',
-      title: 'Post Liked',
-      message: 'Rahul Sharma and 12 others liked your post',
-      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2),
-      isRead: false,
-      actionUrl: '/post/post123',
-      actor: {
-        id: 'user456',
-        name: 'Rahul Sharma',
-        avatar: undefined,
-      },
-    },
-    {
-      id: '3',
-      type: 'comment',
-      title: 'New Comment',
-      message: 'Amit Kumar commented on your post: "Great insights! Thanks for sharing."',
-      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 5),
-      isRead: false,
-      actionUrl: '/post/post123',
-      actor: {
-        id: 'user789',
-        name: 'Amit Kumar',
-        avatar: undefined,
-      },
-    },
-    {
-      id: '4',
-      type: 'event',
-      title: 'Event Reminder',
-      message: 'Civil Engineering Workshop 2024 starts tomorrow at 10:00 AM',
-      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 8),
-      isRead: true,
-      actionUrl: '/events/1',
-    },
-    {
-      id: '5',
-      type: 'opportunity',
-      title: 'New Job Opportunity',
-      message: 'A new job posting matches your profile: Senior Civil Engineer at L&T',
-      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 12),
-      isRead: true,
-      actionUrl: '/opportunities/1',
-    },
-    {
-      id: '6',
-      type: 'message',
-      title: 'New Message',
-      message: 'You have a new message from Neha Singh',
-      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24),
-      isRead: true,
-      actionUrl: '/messages',
-      actor: {
-        id: 'user101',
-        name: 'Neha Singh',
-        avatar: undefined,
-      },
-    },
-    {
-      id: '7',
-      type: 'achievement',
-      title: 'Achievement Unlocked',
-      message: 'You have reached 100 connections! Keep networking.',
-      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24 * 2),
-      isRead: true,
-    },
-  ]);
+  // Load notifications on mount
+  useEffect(() => {
+    const loadNotifications = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const data = await notificationService.getNotifications();
+        setNotifications(data as any);
+      } catch (err) {
+        setError('Failed to load notifications');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadNotifications();
+  }, []);
 
   const getNotificationIcon = (type: Notification['type']) => {
     const iconClass = 'text-white';
@@ -168,49 +107,68 @@ const NotificationsPage: React.FC = () => {
     }
   };
 
-  const formatTimestamp = (timestamp: Date) => {
-    const now = new Date();
-    const diffInSeconds = Math.floor((now.getTime() - timestamp.getTime()) / 1000);
-
-    if (diffInSeconds < 60) return 'Just now';
-    if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m ago`;
-    if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h ago`;
-    if (diffInSeconds < 604800) return `${Math.floor(diffInSeconds / 86400)}d ago`;
-    return timestamp.toLocaleDateString();
-  };
-
-  const handleNotificationClick = (notification: Notification) => {
+  const handleNotificationClick = async (notification: Notification) => {
     // Mark as read
-    setNotifications(
-      notifications.map((n) =>
-        n.id === notification.id ? { ...n, isRead: true } : n
-      )
-    );
+    if (!notification.isRead) {
+      try {
+        await notificationService.markAsRead(notification._id);
+        setNotifications(
+          notifications.map((n) =>
+            n._id === notification._id ? { ...n, isRead: true } : n
+          )
+        );
+      } catch (err) {
+        console.error('Failed to mark as read:', err);
+      }
+    }
 
     // Navigate to action URL if available
     if (notification.actionUrl) {
       navigate(notification.actionUrl);
+    } else if (notification.actor) {
+      // Default navigation to actor's profile for notifications with an actor
+      navigate(`/profile/${notification.actor._id}`);
     }
   };
 
-  const handleMarkAsRead = (id: string, e: React.MouseEvent) => {
+  const handleMarkAsRead = async (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
-    setNotifications(
-      notifications.map((n) => (n.id === id ? { ...n, isRead: true } : n))
-    );
+    try {
+      await notificationService.markAsRead(id);
+      setNotifications(
+        notifications.map((n) => (n._id === id ? { ...n, isRead: true } : n))
+      );
+    } catch (err) {
+      console.error('Failed to mark as read:', err);
+    }
   };
 
-  const handleDelete = (id: string, e: React.MouseEvent) => {
+  const handleDelete = async (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
-    setNotifications(notifications.filter((n) => n.id !== id));
+    try {
+      await notificationService.deleteNotification(id);
+      setNotifications(notifications.filter((n) => n._id !== id));
+    } catch (err) {
+      console.error('Failed to delete notification:', err);
+    }
   };
 
-  const handleMarkAllAsRead = () => {
-    setNotifications(notifications.map((n) => ({ ...n, isRead: true })));
+  const handleMarkAllAsRead = async () => {
+    try {
+      await notificationService.markAllAsRead();
+      setNotifications(notifications.map((n) => ({ ...n, isRead: true })));
+    } catch (err) {
+      console.error('Failed to mark all as read:', err);
+    }
   };
 
-  const handleClearAll = () => {
-    setNotifications([]);
+  const handleClearAll = async () => {
+    try {
+      await notificationService.deleteAllNotifications();
+      setNotifications([]);
+    } catch (err) {
+      console.error('Failed to clear all notifications:', err);
+    }
   };
 
   const filteredNotifications =
@@ -228,10 +186,17 @@ const NotificationsPage: React.FC = () => {
         userName={`${user?.firstName} ${user?.lastName}`}
         userAvatar={user?.profilePicture}
         unreadNotifications={unreadCount}
-        unreadMessages={2}
+        unreadMessages={0}
       />
 
       <div className="container mx-auto px-4 py-6 max-w-4xl">
+        {error && (
+          <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center space-x-3">
+            <AlertCircle size={20} className="text-red-600" />
+            <p className="text-red-700">{error}</p>
+          </div>
+        )}
+
         {/* Header */}
         <div className="mb-6">
           <div className="flex items-center justify-between mb-4">
@@ -283,7 +248,7 @@ const NotificationsPage: React.FC = () => {
             </div>
 
             {/* Actions */}
-            {notifications.length > 0 && (
+            {notifications.length > 0 && !loading && (
               <div className="flex items-center space-x-2">
                 {unreadCount > 0 && (
                   <Button variant="ghost" size="sm" onClick={handleMarkAllAsRead}>
@@ -302,7 +267,12 @@ const NotificationsPage: React.FC = () => {
 
         {/* Notifications List */}
         <div className="space-y-2">
-          {filteredNotifications.length === 0 ? (
+          {loading ? (
+            <Card variant="elevated" className="p-12 text-center">
+              <Loader size={32} className="animate-spin text-primary-600 mx-auto" />
+              <p className="text-gray-500 mt-4">Loading notifications...</p>
+            </Card>
+          ) : filteredNotifications.length === 0 ? (
             <Card variant="elevated" className="p-12 text-center">
               <div className="flex flex-col items-center">
                 <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
@@ -321,7 +291,7 @@ const NotificationsPage: React.FC = () => {
           ) : (
             filteredNotifications.map((notification) => (
               <Card
-                key={notification.id}
+                key={notification._id}
                 variant="elevated"
                 className={`p-4 cursor-pointer transition-all hover:shadow-md ${
                   !notification.isRead ? 'bg-blue-50 border-l-4 border-primary-500' : ''
@@ -345,7 +315,7 @@ const NotificationsPage: React.FC = () => {
                         {notification.actor && (
                           <div className="flex items-center space-x-2 mb-1">
                             <Avatar
-                              src={notification.actor.avatar}
+                              src={notification.actor.profilePicture}
                               alt={notification.actor.name}
                               size="xs"
                               fallback={notification.actor.name[0]}
@@ -360,7 +330,9 @@ const NotificationsPage: React.FC = () => {
                         </h4>
                         <p className="text-sm text-gray-600">{notification.message}</p>
                         <p className="text-xs text-gray-500 mt-2">
-                          {formatTimestamp(notification.timestamp)}
+                          {notificationService.formatNotificationTime(
+                            notification.createdAt
+                          )}
                         </p>
                       </div>
 
@@ -368,7 +340,7 @@ const NotificationsPage: React.FC = () => {
                       <div className="flex items-center space-x-2 ml-4">
                         {!notification.isRead && (
                           <button
-                            onClick={(e) => handleMarkAsRead(notification.id, e)}
+                            onClick={(e) => handleMarkAsRead(notification._id, e)}
                             className="p-1 text-gray-400 hover:text-primary-600 transition-colors"
                             title="Mark as read"
                           >
@@ -376,7 +348,7 @@ const NotificationsPage: React.FC = () => {
                           </button>
                         )}
                         <button
-                          onClick={(e) => handleDelete(notification.id, e)}
+                          onClick={(e) => handleDelete(notification._id, e)}
                           className="p-1 text-gray-400 hover:text-red-600 transition-colors"
                           title="Delete"
                         >
