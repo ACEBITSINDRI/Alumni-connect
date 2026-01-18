@@ -201,7 +201,7 @@ const ProfileEditPage: React.FC = () => {
       setSuccess('');
 
       // Convert location object to string for backend
-      const submitData: Partial<UserProfile> = {
+      const submitData = {
         firstName: formData.firstName,
         lastName: formData.lastName,
         phone: formData.phone,
@@ -220,7 +220,7 @@ const ProfileEditPage: React.FC = () => {
         location: formData.location.city 
           ? `${formData.location.city}${formData.location.state ? ', ' + formData.location.state : ''}${formData.location.country ? ', ' + formData.location.country : ''}`
           : '',
-      };
+      } as Partial<UserProfile>;
 
       const response = await updateProfile(submitData);
 
