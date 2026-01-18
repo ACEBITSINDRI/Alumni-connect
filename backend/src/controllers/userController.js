@@ -268,6 +268,18 @@ export const updateProfile = async (req, res) => {
       updates.education = req.body.education;
     }
 
+    // Validate yearsOfExperience if provided
+    if (updates.yearsOfExperience !== undefined) {
+      const yearsNum = Number(updates.yearsOfExperience);
+      if (isNaN(yearsNum) || yearsNum < 0) {
+        return res.status(400).json({
+          success: false,
+          message: 'Years of experience must be a valid non-negative number',
+        });
+      }
+      updates.yearsOfExperience = yearsNum;
+    }
+
     const user = await UserModel.findByIdAndUpdate(
       req.user._id,
       { $set: updates },
@@ -288,7 +300,18 @@ export const updateProfile = async (req, res) => {
     });
   } catch (error) {
     console.error('Update profile error:', error.message);
-    console.error('Error details:', error);
+    console.error('Full error:', error);
+    
+    // Handle validation errors
+    if (error.name === 'ValidationError') {
+      const messages = Object.values(error.errors).map(err => err.message);
+      return res.status(400).json({
+        success: false,
+        message: 'Validation error: ' + messages.join(', '),
+        errors: messages,
+      });
+    }
+
     res.status(500).json({
       success: false,
       message: error.message || 'Error updating profile',

@@ -482,12 +482,9 @@ const SignupPage: React.FC<SignupPageProps> = ({ userType = 'student' }) => {
             <h1 className="text-3xl font-bold text-gray-900 mb-2">
               Join the Alumni Network
             </h1>
-            <p className="text-gray-600">
-              Connect with {userType === 'student' ? 'fellow students and' : ''} 1,250+ civil engineering alumni
-            </p>
           </div>
 
-        <Card variant="elevated" className="p-6 sm:p-8 shadow-xl border-t-4 border-t-orange-600">
+        <Card variant="elevated" className="p-6 sm:p-8 shadow-xl border-t-4 border-t-orange-600 bg-white text-gray-900">
           {/* Tab Selection */}
           <div className="flex bg-gray-100 rounded-lg p-1 mb-6">
             <button

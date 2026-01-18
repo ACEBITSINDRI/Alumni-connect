@@ -200,7 +200,15 @@ const ProfileEditPage: React.FC = () => {
       setError('');
       setSuccess('');
 
-      const response = await updateProfile(formData);
+      // Convert location object to string for backend
+      const submitData = {
+        ...formData,
+        location: formData.location.city 
+          ? `${formData.location.city}${formData.location.state ? ', ' + formData.location.state : ''}${formData.location.country ? ', ' + formData.location.country : ''}`
+          : '',
+      };
+
+      const response = await updateProfile(submitData);
 
       if (response.success && response.data) {
         // Update user context
