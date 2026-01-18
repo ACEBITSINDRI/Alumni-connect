@@ -180,7 +180,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ userType = 'student' }) => {
     <>
       <SEOHead
         title="Login - BIT Sindri Civil Engineering Alumni Network | ACE BIT Sindri"
-        description="Login to Alumni Connect - Official portal for BIT Sindri Civil Engineering alumni and students. Access mentorship programs, job opportunities, events, and connect with 1,250+ Civil Engineering professionals."
+        description="Login to Alumni Connect - Official portal for BIT Sindri Civil Engineering alumni and students. Access mentorship programs, job opportunities, events, and connect with  Civil Engineering professionals."
         keywords="BIT Sindri login, Civil Engineering alumni login, BIT Dhanbad login, ACE BIT Sindri portal, Alumni network login, Student portal BIT Sindri"
         url="https://alumni-connect.bitsindri.ac.in/login"
       />
