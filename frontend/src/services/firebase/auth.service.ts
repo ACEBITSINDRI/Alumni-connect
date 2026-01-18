@@ -7,7 +7,6 @@ import {
   EmailAuthProvider,
   reauthenticateWithCredential,
   GoogleAuthProvider,
-  OAuthProvider,
   signInWithPopup,
   updateProfile,
   sendEmailVerification,
@@ -194,38 +193,58 @@ export const loginWithGoogle = async (role: 'student' | 'alumni') => {
  */
 export const loginWithLinkedIn = async (role: 'student' | 'alumni') => {
   try {
-    const provider = new OAuthProvider('oidc.linkedin');
-
-    // Request additional LinkedIn scopes
-    provider.addScope('openid');
-    provider.addScope('profile');
-    provider.addScope('email');
-
-    const userCredential = await signInWithPopup(auth, provider);
-    const user = userCredential.user;
-
-    // Get Firebase ID token
-    const idToken = await user.getIdToken();
-
-    // Check if user exists in MongoDB, if not create profile
-    const response = await axios.post(`${API_URL}/api/auth/linkedin-login`,
-      { role },
-      {
-        headers: {
-          Authorization: `Bearer ${idToken}`,
-        },
-      }
+    // Use backend LinkedIn OAuth endpoint
+    const linkedinAuthUrl = `${API_URL}/api/auth/linkedin?role=${role}`;
+    
+    // Open LinkedIn OAuth in a new window
+    const width = 500;
+    const height = 600;
+    const left = window.innerWidth / 2 - width / 2;
+    const top = window.innerHeight / 2 - height / 2;
+    
+    const linkedinWindow = window.open(
+      linkedinAuthUrl,
+      'LinkedIn',
+      `width=${width},height=${height},left=${left},top=${top}`
     );
 
-    return {
-      user: response.data.data.user,
-      accessToken: response.data.data.accessToken,
-      refreshToken: response.data.data.refreshToken,
-      firebaseUser: user,
-      idToken,
-      isNewUser: response.data.data.isNewUser,
-      needsProfileCompletion: response.data.data.needsProfileCompletion,
-    };
+    if (!linkedinWindow) {
+      throw new Error('Failed to open LinkedIn login window. Please allow popups for this site.');
+    }
+
+    // Wait for the window to close and check if authentication was successful
+    return new Promise((resolve, reject) => {
+      const checkWindow = setInterval(() => {
+        if (linkedinWindow.closed) {
+          clearInterval(checkWindow);
+          
+          // Check if user was authenticated by checking localStorage
+          const accessToken = localStorage.getItem('accessToken');
+          const user = localStorage.getItem('user');
+          
+          if (accessToken && user) {
+            resolve({
+              user: JSON.parse(user),
+              accessToken,
+              refreshToken: localStorage.getItem('refreshToken'),
+              isNewUser: localStorage.getItem('isNewUser') === 'true',
+              needsProfileCompletion: localStorage.getItem('needsProfileCompletion') === 'true',
+            });
+          } else {
+            reject(new Error('LinkedIn authentication failed or was cancelled.'));
+          }
+        }
+      }, 1000);
+
+      // Timeout after 5 minutes
+      setTimeout(() => {
+        clearInterval(checkWindow);
+        if (!linkedinWindow.closed) {
+          linkedinWindow.close();
+        }
+        reject(new Error('LinkedIn authentication timed out.'));
+      }, 5 * 60 * 1000);
+    });
   } catch (error: any) {
     throw error;
   }

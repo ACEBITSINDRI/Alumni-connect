@@ -50,11 +50,25 @@ const LinkedInCallback: React.FC = () => {
         localStorage.setItem('accessToken', accessToken);
         localStorage.setItem('refreshToken', refreshToken);
         localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('isNewUser', isNewUser.toString());
+        localStorage.setItem('needsProfileCompletion', needsProfileCompletion.toString());
 
         console.log('[LinkedIn Callback] Tokens saved:', {
           hasAccessToken: !!localStorage.getItem('accessToken'),
           hasUser: !!localStorage.getItem('user'),
         });
+
+        // Notify parent window if this was opened as a popup
+        if (window.opener) {
+          window.opener.postMessage({
+            type: 'linkedin-auth-success',
+            accessToken,
+            refreshToken,
+            user,
+            isNewUser,
+            needsProfileCompletion,
+          }, window.location.origin);
+        }
 
         // Sign in to Firebase with custom token
         await signInWithCustomToken(auth, firebaseToken);

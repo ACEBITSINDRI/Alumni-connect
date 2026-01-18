@@ -286,7 +286,7 @@ const SignupPage: React.FC<SignupPageProps> = ({ userType = 'student' }) => {
 
     try {
       // Social Sign-In with Firebase (Google or LinkedIn)
-      const result = provider === 'google'
+      const result: any = provider === 'google'
         ? await loginWithGoogle(userType)
         : await loginWithLinkedIn(userType);
 
