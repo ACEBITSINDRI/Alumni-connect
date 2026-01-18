@@ -26,13 +26,11 @@ const DashboardPage: React.FC = () => {
   // Profile Completion Modal State
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [profileStatus, setProfileStatus] = useState<profileCompletionService.ProfileStatus | null>(null);
-  const [loadingProfileStatus, setLoadingProfileStatus] = useState(true);
 
   // Fetch profile completion status on mount
   useEffect(() => {
     const checkProfileCompletion = async () => {
       try {
-        setLoadingProfileStatus(true);
         const status = await profileCompletionService.getProfileStatus();
         setProfileStatus(status);
 
@@ -49,8 +47,6 @@ const DashboardPage: React.FC = () => {
         }
       } catch (err) {
         console.error('Failed to check profile status:', err);
-      } finally {
-        setLoadingProfileStatus(false);
       }
     };
 
