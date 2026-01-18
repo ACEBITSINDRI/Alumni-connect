@@ -83,9 +83,7 @@ export default api;
 export const apiFormData: AxiosInstance = axios.create({
   baseURL: API_BASE_URL,
   timeout: 60000,
-  headers: {
-    'Content-Type': 'multipart/form-data',
-  },
+  // Don't set Content-Type header - axios will set it automatically with FormData
 });
 
 apiFormData.interceptors.request.use(
