@@ -215,7 +215,7 @@ const LandingPage: React.FC = () => {
               </h1>
 
               <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-white leading-relaxed max-w-3xl mx-auto font-bold drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)] [text-shadow:_2px_2px_4px_rgb(0_0_0_/_80%)]">
-                Join <span className="font-bold text-orange-400 text-lg sm:text-xl md:text-2xl lg:text-3xl">00+</span> civil engineering professionals from BIT Sindri
+                Join <span className="font-bold text-orange-400 text-lg sm:text-xl md:text-2xl lg:text-3xl"></span> Civil engineering professionals from BIT Sindri
               </p>
             </div>
 
