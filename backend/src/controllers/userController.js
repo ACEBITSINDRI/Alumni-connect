@@ -237,7 +237,7 @@ export const updateProfile = async (req, res) => {
       'currentRole',
       'company',
       'location',
-      'experience',
+      'yearsOfExperience',
       'skills',
       'linkedinUrl',
       'githubUrl',
@@ -287,10 +287,12 @@ export const updateProfile = async (req, res) => {
       data: user,
     });
   } catch (error) {
-    console.error('Update profile error:', error);
+    console.error('Update profile error:', error.message);
+    console.error('Error details:', error);
     res.status(500).json({
       success: false,
       message: error.message || 'Error updating profile',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined,
     });
   }
 };

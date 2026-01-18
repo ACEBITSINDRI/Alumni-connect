@@ -86,7 +86,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
-    experience: {
+    yearsOfExperience: {
       type: Number, // in years
       min: 0,
     },
