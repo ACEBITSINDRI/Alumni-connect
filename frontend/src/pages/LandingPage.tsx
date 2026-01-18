@@ -51,24 +51,24 @@ const LandingPage: React.FC = () => {
   const testimonials = [
     {
       id: 1,
-      name: "Er. Rahul Sharma",
-      batch: "2015",
+      name: "Prince Michael",
+      batch: "2021",
       role: "Senior Structural Engineer at L&T Construction",
       company: "Larsen & Toubro",
       quote: "Alumni Connect bridges the gap between experience and ambition. I've mentored 5 civil engineering students and helped 3 of them secure positions in top infrastructure companies. The platform's focus on our domain makes networking more meaningful."
     },
     {
       id: 2,
-      name: "Priya Singh",
-      batch: "2020",
+      name: "Sanya Deo",
+      batch: "2021",
       role: "Project Engineer at Tata Projects",
       company: "Tata Projects",
       quote: "Thanks to Alumni Connect, I found my first job in highway construction! Senior alumni shared their interview experiences and technical knowledge that was crucial for my selection. The civil engineering-specific resources are invaluable."
     },
     {
       id: 3,
-      name: "Er. Amit Kumar",
-      batch: "2013",
+      name: "Adarsh sah",
+      batch: "2020",
       role: "Project Manager at AECOM",
       company: "AECOM",
       quote: "This platform reconnected me with my BIT Sindri civil engineering batchmates. We now collaborate on projects and share industry insights. It's amazing to see our ACE community making an impact on India's infrastructure!"
