@@ -62,7 +62,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   return (
     <div className={cn('w-full', className)} ref={dropdownRef}>
       {label && (
-        <label className="block text-base font-bold text-black dark:text-white mb-3">
+        <label className="block text-base font-bold text-black dark:text-blue-300 mb-3">
           {label}
           {required && <span className="text-red-500 ml-1">*</span>}
         </label>
