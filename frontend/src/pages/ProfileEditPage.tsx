@@ -220,7 +220,7 @@ const ProfileEditPage: React.FC = () => {
         location: formData.location.city 
           ? `${formData.location.city}${formData.location.state ? ', ' + formData.location.state : ''}${formData.location.country ? ', ' + formData.location.country : ''}`
           : '',
-      } as Partial<UserProfile>;
+      } as unknown as Partial<UserProfile>;
 
       const response = await updateProfile(submitData);
 
