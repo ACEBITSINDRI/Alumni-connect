@@ -10,7 +10,7 @@ import Footer from '../components/common/Footer';
 import Card from '../components/common/Card';
 import Button from '../components/common/Button';
 import { useAuth } from '../context/AuthContext';
-import { updateProfile, uploadProfilePicture, type Experience, type Education } from '../services/user.service';
+import { updateProfile, uploadProfilePicture, type Experience, type Education, type UserProfile } from '../services/user.service';
 
 const ProfileEditPage: React.FC = () => {
   const navigate = useNavigate();
