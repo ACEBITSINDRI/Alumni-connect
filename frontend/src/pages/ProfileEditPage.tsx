@@ -201,8 +201,22 @@ const ProfileEditPage: React.FC = () => {
       setSuccess('');
 
       // Convert location object to string for backend
-      const submitData = {
-        ...formData,
+      const submitData: Partial<UserProfile> = {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        phone: formData.phone,
+        bio: formData.bio,
+        currentRole: formData.currentRole,
+        company: formData.company,
+        batch: formData.batch,
+        department: formData.department,
+        linkedinUrl: formData.linkedinUrl,
+        githubUrl: formData.githubUrl,
+        portfolioUrl: formData.portfolioUrl,
+        skills: formData.skills,
+        experience: formData.experience,
+        education: formData.education,
+        mentorshipAvailable: formData.mentorshipAvailable,
         location: formData.location.city 
           ? `${formData.location.city}${formData.location.state ? ', ' + formData.location.state : ''}${formData.location.country ? ', ' + formData.location.country : ''}`
           : '',
