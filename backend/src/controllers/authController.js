@@ -1008,3 +1008,92 @@ export const linkedInCallback = async (req, res) => {
     res.redirect(`${process.env.FRONTEND_URL.split(',')[0]}/login?error=${encodeURIComponent('LinkedIn authentication failed')}`);
   }
 };
+
+// @desc    Get profile completion status
+// @route   GET /api/auth/profile-status
+// @access  Private
+export const getProfileStatus = async (req, res) => {
+  try {
+    const user = await getUserModel(req.user.role).findById(req.user._id);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found',
+      });
+    }
+
+    // Calculate profile completion percentage
+    const requiredFields = ['firstName', 'lastName', 'batch', 'currentRole', 'company', 'bio'];
+    const completedFields = requiredFields.filter(field => {
+      if (field === 'firstName' || field === 'lastName') {
+        return user[field] && user[field].toString().trim().length > 0;
+      }
+      if (field === 'batch') {
+        return user[field] && user[field].toString().trim().length > 0;
+      }
+      if (field === 'currentRole') {
+        return user[field] && user[field].toString().trim().length > 0;
+      }
+      if (field === 'company') {
+        return user[field] && user[field].toString().trim().length > 0;
+      }
+      if (field === 'bio') {
+        return user[field] && user[field].toString().trim().length > 0;
+      }
+      return false;
+    });
+
+    const completionPercentage = Math.round((completedFields.length / requiredFields.length) * 100);
+
+    // Get missing fields
+    const missingFields = requiredFields.filter(field => !completedFields.includes(field));
+
+    // Update user's profile completion status
+    user.profileCompletionPercentage = completionPercentage;
+    user.completedFields = completedFields;
+    user.profileComplete = completionPercentage === 100;
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      data: {
+        profileComplete: user.profileComplete,
+        completionPercentage,
+        completedFields,
+        missingFields,
+        hasSeenModal: user.hasSeenProfileCompletionModal,
+      },
+    });
+  } catch (error) {
+    console.error('Error getting profile status:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to get profile status',
+    });
+  }
+};
+
+// @desc    Mark profile completion modal as seen
+// @route   PATCH /api/auth/mark-modal-seen
+// @access  Private
+export const markProfileModalAsSeen = async (req, res) => {
+  try {
+    const user = await getUserModel(req.user.role).findByIdAndUpdate(
+      req.user._id,
+      { hasSeenProfileCompletionModal: true },
+      { new: true }
+    );
+
+    res.status(200).json({
+      success: true,
+      data: user,
+    });
+  } catch (error) {
+    console.error('Error marking modal as seen:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to mark modal as seen',
+    });
+  }
+};

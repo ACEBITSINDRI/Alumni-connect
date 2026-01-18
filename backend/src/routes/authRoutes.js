@@ -14,6 +14,8 @@ import {
   resendVerificationEmail,
   forgotPassword,
   resetPassword,
+  getProfileStatus,
+  markProfileModalAsSeen,
 } from '../controllers/authController.js';
 import { protect, verifyFirebaseToken } from '../middleware/auth.js';
 import { validate } from '../middleware/validation.js';
@@ -66,6 +68,8 @@ router.get('/linkedin', linkedInAuth);
 router.get('/linkedin/callback', linkedInCallback);
 
 router.get('/me', protect, getMe);
+router.get('/profile-status', protect, getProfileStatus);
+router.patch('/mark-modal-seen', protect, markProfileModalAsSeen);
 router.post('/logout', protect, logout);
 router.post('/fcm-token', protect, fcmTokenValidation, validate, updateFCMToken);
 

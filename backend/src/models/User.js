@@ -211,6 +211,26 @@ const userSchema = new mongoose.Schema(
       },
     }],
 
+    // Profile Completion Status
+    profileComplete: {
+      type: Boolean,
+      default: false,
+    },
+    completedFields: [{
+      type: String,
+      enum: ['firstName', 'lastName', 'batch', 'currentRole', 'company', 'bio', 'profilePicture'],
+    }],
+    profileCompletionPercentage: {
+      type: Number,
+      default: 0,
+      min: 0,
+      max: 100,
+    },
+    hasSeenProfileCompletionModal: {
+      type: Boolean,
+      default: false,
+    },
+
     // Account Status
     isEmailVerified: {
       type: Boolean,

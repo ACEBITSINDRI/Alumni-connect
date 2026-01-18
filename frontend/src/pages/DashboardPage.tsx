@@ -6,10 +6,12 @@ import LeftSidebar from '../components/dashboard/LeftSidebar';
 import RightSidebar from '../components/dashboard/RightSidebar';
 import PostCard from '../components/dashboard/PostCard';
 import CreatePostModal from '../components/posts/CreatePostModal';
+import ProfileCompletionModal from '../components/ProfileCompletionModal';
 import Button from '../components/common/Button';
 import { SkeletonPost } from '../components/common/Skeleton';
 import { useAuth } from '../context/AuthContext';
 import { getPosts, type Post } from '../services/post.service';
+import * as profileCompletionService from '../services/profileCompletion.service';
 
 const DashboardPage: React.FC = () => {
   const { user } = useAuth();
@@ -20,6 +22,40 @@ const DashboardPage: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [error, setError] = useState<string>('');
+
+  // Profile Completion Modal State
+  const [showProfileModal, setShowProfileModal] = useState(false);
+  const [profileStatus, setProfileStatus] = useState<profileCompletionService.ProfileStatus | null>(null);
+  const [loadingProfileStatus, setLoadingProfileStatus] = useState(true);
+
+  // Fetch profile completion status on mount
+  useEffect(() => {
+    const checkProfileCompletion = async () => {
+      try {
+        setLoadingProfileStatus(true);
+        const status = await profileCompletionService.getProfileStatus();
+        setProfileStatus(status);
+
+        // Show modal only if:
+        // 1. Profile is incomplete (< 100%)
+        // 2. User hasn't seen modal before in this session
+        // 3. User hasn't permanently dismissed it
+        if (
+          status.completionPercentage < 100 &&
+          profileCompletionService.shouldShowProfileModal()
+        ) {
+          setShowProfileModal(true);
+          profileCompletionService.markModalShownInSession();
+        }
+      } catch (err) {
+        console.error('Failed to check profile status:', err);
+      } finally {
+        setLoadingProfileStatus(false);
+      }
+    };
+
+    checkProfileCompletion();
+  }, []);
 
   // Fetch posts on component mount and when filter changes
   useEffect(() => {
@@ -260,6 +296,25 @@ const DashboardPage: React.FC = () => {
           isOpen={isCreatePostOpen}
           onClose={() => setIsCreatePostOpen(false)}
           onPostCreated={handlePostCreated}
+        />
+      )}
+
+      {/* Profile Completion Modal */}
+      {profileStatus && (
+        <ProfileCompletionModal
+          isOpen={showProfileModal}
+          completionPercentage={profileStatus.completionPercentage}
+          missingFields={profileStatus.missingFields}
+          onComplete={async () => {
+            try {
+              await profileCompletionService.markModalAsSeen();
+            } catch (err) {
+              console.error('Error marking modal as seen:', err);
+            }
+          }}
+          onDismiss={() => {
+            setShowProfileModal(false);
+          }}
         />
       )}
 
