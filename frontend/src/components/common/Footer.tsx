@@ -90,13 +90,13 @@ const Footer: React.FC = () => {
               <li className="flex items-center space-x-3 text-sm">
                 <Mail size={18} className="text-primary-400 flex-shrink-0" />
                 <a href="mailto:contact@acebits.in" className="hover:text-primary-400 transition-colors">
-                  contact@acebits.in
+                  alumniconnect.acebitsindri@gmail.com
                 </a>
               </li>
               <li className="flex items-center space-x-3 text-sm">
                 <Phone size={18} className="text-primary-400 flex-shrink-0" />
-                <a href="tel:+911234567890" className="hover:text-primary-400 transition-colors">
-                  +91 123 456 7890
+                <a href="tel:+919798053452" className="hover:text-primary-400 transition-colors">
+                  +91 9798053452
                 </a>
               </li>
             </ul>
@@ -106,8 +106,8 @@ const Footer: React.FC = () => {
               <h5 className="text-white font-medium text-sm mb-3">Follow ACE</h5>
               <div className="flex space-x-3">
                 <SocialLink href="https://facebook.com/acebitsindri" icon={<Facebook size={20} />} label="Facebook" />
-                <SocialLink href="https://twitter.com/acebitsindri" icon={<Twitter size={20} />} label="Twitter" />
-                <SocialLink href="https://linkedin.com/company/acebitsindri" icon={<Linkedin size={20} />} label="LinkedIn" />
+                <SocialLink href="https://x.com/ace_alumniconct" icon={<Twitter size={20} />} label="Twitter" />
+                <SocialLink href="https://www.linkedin.com/company/alumniconnectacebitsindri/" icon={<Linkedin size={20} />} label="LinkedIn" />
                 <SocialLink href="https://instagram.com/acebitsindri" icon={<Instagram size={20} />} label="Instagram" />
               </div>
             </div>
