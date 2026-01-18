@@ -467,38 +467,6 @@ const LandingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Statistics Section */}
-      <section className="py-20 bg-gradient-to-br from-sky-500 via-blue-500 to-cyan-600 dark:from-gray-700 dark:via-gray-800 dark:to-gray-900 text-white transition-colors duration-300">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Our Impact in Numbers
-            </h2>
-            <p className="text-xl text-sky-100">
-              Building India's infrastructure, one connection at a time
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
-            {[
-              { label: 'Alumni Engineers', value: stats.alumni, icon: <HardHat /> },
-              { label: 'Current Students', value: stats.students, icon: <GraduationCap /> },
-              { label: 'Partner Companies', value: stats.companies, icon: <Building2 /> },
-              { label: 'Job Opportunities', value: stats.opportunities, icon: <Briefcase /> },
-              { label: 'Technical Events', value: stats.events, icon: <Calendar /> },
-              { label: 'Projects Shared', value: stats.projects, icon: <Hammer /> },
-            ].map((stat, index) => (
-              <div key={index} className="text-center">
-                <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-4">
-                  {React.cloneElement(stat.icon, { size: 28, className: 'text-yellow-300' })}
-                </div>
-                <p className="text-4xl font-bold mb-2">{stat.value.toLocaleString()}+</p>
-                <p className="text-sky-100">{stat.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* How It Works Section */}
       <section className="py-20 bg-gradient-to-br from-sky-50 via-blue-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 transition-colors duration-300 relative overflow-hidden">
