@@ -394,6 +394,15 @@ export const getConnections = async (req, res) => {
 // @access  Private
 export const getSuggestedConnections = async (req, res) => {
   try {
+    // Validate req.user exists
+    if (!req.user || !req.user._id || !req.user.role) {
+      console.error('Missing user data in getSuggestedConnections:', { user: req.user });
+      return res.status(401).json({
+        success: false,
+        message: 'Authentication failed. User data missing.',
+      });
+    }
+
     const { limit = 10 } = req.query;
     const limitNum = parseInt(limit);
 
@@ -472,8 +481,24 @@ export const getSuggestedConnections = async (req, res) => {
 // @access  Private
 export const getUserStats = async (req, res) => {
   try {
+    // Validate req.user exists
+    if (!req.user || !req.user._id || !req.user.role) {
+      console.error('Missing user data in getUserStats:', { user: req.user });
+      return res.status(401).json({
+        success: false,
+        message: 'Authentication failed. User data missing.',
+      });
+    }
+
     const UserModel = getUserModel(req.user.role);
     const user = await UserModel.findById(req.user._id).select('connections savedPosts');
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found',
+      });
+    }
 
     // Import Post model dynamically to avoid circular dependency
     const Post = (await import('../models/Post.js')).default;

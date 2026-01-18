@@ -33,6 +33,12 @@ const generateTokens = (userId, role) => {
 // @access  Public (supports both Firebase Auth and Email/Password)
 export const register = async (req, res) => {
   try {
+    // Log incoming request data
+    console.log('[Register] Request received with:', {
+      body: Object.keys(req.body),
+      files: req.files ? Object.keys(req.files) : 'none',
+    });
+
     const {
       firstName,
       lastName,
@@ -117,6 +123,7 @@ export const register = async (req, res) => {
 
     // Validate required fields
     if (!firstName || !lastName || !email || !role) {
+      console.error('[Register] Missing required fields:', { firstName, lastName, email, role });
       return res.status(400).json({
         success: false,
         message: 'Please provide all required fields: firstName, lastName, email, and role',
@@ -1014,6 +1021,15 @@ export const linkedInCallback = async (req, res) => {
 // @access  Private
 export const getProfileStatus = async (req, res) => {
   try {
+    // Validate req.user exists
+    if (!req.user || !req.user._id || !req.user.role) {
+      console.error('Missing user data in getProfileStatus:', { user: req.user });
+      return res.status(401).json({
+        success: false,
+        message: 'Authentication failed. User data missing.',
+      });
+    }
+
     const user = await getUserModel(req.user.role).findById(req.user._id);
 
     if (!user) {
