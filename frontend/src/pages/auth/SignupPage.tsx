@@ -352,7 +352,7 @@ const SignupPage: React.FC<SignupPageProps> = ({ userType = 'student' }) => {
     <>
       <SEOHead
         title={`${userType === 'student' ? 'Student' : 'Alumni'} Registration - BIT Sindri Civil Engineering | Join ACE Alumni Network`}
-        description={`Register as ${userType === 'student' ? 'a student of' : 'an alumnus from'} BIT Sindri Department of Civil Engineering. Join 1,250+ members in ACE BIT Sindri Alumni Network. Connect with alumni, find mentorship, jobs, and networking opportunities.`}
+        description={`Register as ${userType === 'student' ? 'a student of' : 'an alumnus from'} BIT Sindri Department of Civil Engineering.Connect with alumni, find mentorship, jobs, and networking opportunities.`}
         keywords={`BIT Sindri ${userType} registration, Civil Engineering ${userType} signup, BIT Dhanbad ${userType}, ACE BIT Sindri join, Alumni network registration, Engineering college ${userType}, BIT Sindri admission, Civil Engineering community`}
         url={`https://alumni-connect.bitsindri.ac.in/signup/${userType}`}
       />
