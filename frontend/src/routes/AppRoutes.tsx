@@ -11,6 +11,8 @@ import ForgotPasswordPage from '../pages/auth/ForgotPasswordPage';
 import ResetPasswordPage from '../pages/auth/ResetPasswordPage';
 import EmailVerificationPage from '../pages/auth/EmailVerificationPage';
 import LinkedInCallback from '../pages/auth/LinkedInCallback';
+import TermsPage from '../pages/TermsPage';
+import PrivacyPage from '../pages/PrivacyPage';
 
 // Protected Pages
 import DashboardPage from '../pages/DashboardPage';
@@ -91,6 +93,10 @@ const AppRoutes: React.FC = () => {
       <Route path="/reset-password" element={<ResetPasswordPage />} />
       <Route path="/verify-email" element={<EmailVerificationPage />} />
       <Route path="/auth/linkedin/success" element={<LinkedInCallback />} />
+
+      {/* Legal Pages - Public Routes */}
+      <Route path="/terms" element={<TermsPage />} />
+      <Route path="/privacy" element={<PrivacyPage />} />
 
       {/* Protected Routes - Require authentication */}
       <Route
