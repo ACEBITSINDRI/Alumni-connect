@@ -190,13 +190,11 @@ const Navbar: React.FC<NavbarProps> = ({
               to={isAuthenticated ? '/dashboard' : '/'}
               className="flex items-center space-x-3 group transition-transform duration-300 hover:scale-105"
             >
-              <div className="bg-white rounded-xl p-2 shadow-md group-hover:shadow-xl transition-all duration-300 transform group-hover:-rotate-3">
-                <img
-                  src={alumniConnectLogo}
-                  alt="Alumni Connect Logo"
-                  className="h-8 md:h-10 w-auto object-contain"
-                />
-              </div>
+              <img
+                src={alumniConnectLogo}
+                alt="Alumni Connect Logo"
+                className="h-8 md:h-10 w-auto object-contain"
+              />
               <div className="hidden sm:block">
                 <h1 className="text-xl font-bold text-white drop-shadow-md">Alumni Connect</h1>
                 <p className="text-xs text-sky-100 font-medium">by ACE BIT Sindri</p>

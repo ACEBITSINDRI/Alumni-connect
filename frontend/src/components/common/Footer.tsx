@@ -17,13 +17,11 @@ const Footer: React.FC = () => {
           {/* About Section */}
           <div className="col-span-2 md:col-span-1 space-y-4">
             <div className="flex items-center space-x-3">
-              <div className="w-16 h-16 bg-white rounded-xl flex items-center justify-center p-2 shadow-lg">
-                <img
-                  src={alumniConnectLogo}
-                  alt="Alumni Connect Logo"
-                  className="w-full h-full object-contain"
-                />
-              </div>
+              <img
+                src={alumniConnectLogo}
+                alt="Alumni Connect Logo"
+                className="w-16 h-16 object-contain"
+              />
               <div>
                 <h3 className="text-white font-bold text-xl">Alumni Connect</h3>
                 <p className="text-sm text-orange-400 font-semibold">ACE BIT Sindri</p>

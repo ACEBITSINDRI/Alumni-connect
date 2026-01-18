@@ -356,7 +356,7 @@ const SignupPage: React.FC<SignupPageProps> = ({ userType = 'student' }) => {
         keywords={`BIT Sindri ${userType} registration, Civil Engineering ${userType} signup, BIT Dhanbad ${userType}, ACE BIT Sindri join, Alumni network registration, Engineering college ${userType}, BIT Sindri admission, Civil Engineering community`}
         url={`https://alumni-connect.bitsindri.ac.in/signup/${userType}`}
       />
-      <div className="min-h-screen bg-gray-50 flex">
+      <div className="min-h-screen bg-gray-50 flex !dark:dark-none" style={{ colorScheme: 'light' }}>
         {/* Left Side - Hero Section with Civil Engineering Theme */}
       <div className="hidden lg:flex lg:w-2/5 bg-gradient-to-br from-orange-600 via-blue-700 to-orange-800 p-12 flex-col justify-between relative overflow-hidden">
         {/* Background Images */}
