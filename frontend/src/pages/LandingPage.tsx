@@ -30,13 +30,13 @@ import roadDesign from '../assets/civil eng element/Road Design_ Pavement Thickn
 // import nightView from '../assets/civil eng element/night view 🤍🪟.jpeg';
 // import trendyCivil from '../assets/civil eng element/trendy civil.jpeg';
 // import architecture3d from '../assets/civil eng element/3d architecture design.jpeg';
-import alumnis from '../assets/civil eng element/alumnis.jpg';
+// import alumnis from '../assets/civil eng element/alumnis.jpg';
 import infrastr from '../assets/civil eng element/infrastr.avif';
 import one from '../assets/civil eng element/one.jpg';
 import two from '../assets/civil eng element/two.jpg';
 import three from '../assets/civil eng element/three.jpg';
 import four from '../assets/civil eng element/four.jpg';
-import learn from '../assets/civil eng element/learn.jpg';
+// import learn from '../assets/civil eng element/learn.jpg';
 import archimarvels from '../assets/civil eng element/archimarvels.jpg';
 import moderndesign from '../assets/civil eng element/moderndesign.jpg';
 import bim10Dimensions from '../assets/civil eng element/BIM 10 Dimensions.jpeg';
@@ -57,14 +57,14 @@ const LandingPage: React.FC = () => {
     { src: lis, title: 'Night Views' },
   ];
 
-  const stats = {
-    alumni: 0,
-    students: 0,
-    companies: 0,
-    opportunities: 0,
-    events: 0,
-    projects: 0,
-  };
+  // const stats = {
+  //   alumni: 0,
+  //   students: 0,
+  //   companies: 0,
+  //   opportunities: 0,
+  //   events: 0,
+  //   projects: 0,
+  // };
 
   const testimonials = [
     {
@@ -486,10 +486,10 @@ const LandingPage: React.FC = () => {
           <div className="grid md:grid-cols-2 gap-8 mb-12 max-w-5xl mx-auto">
             <div className="relative overflow-hidden rounded-xl shadow-lg cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-2xl group">
               <img
-                src={alumnis}
+                src={interct}
                 alt="Students Discussing"
                 className="w-full h-80 object-cover transition-transform duration-300 group-hover:scale-110"
-                onClick={() => window.open(alumnis, '_blank')}
+                onClick={() => window.open(interct, '_blank')}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-orange-900/80 via-orange-900/40 to-transparent flex flex-col justify-end p-6">
                 <h3 className="text-white text-2xl font-bold mb-2">Connect with Alumni</h3>
@@ -498,10 +498,10 @@ const LandingPage: React.FC = () => {
             </div>
             <div className="relative overflow-hidden rounded-xl shadow-lg cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-2xl group">
               <img
-                src={learn}
+                src={awardis}
                 alt="Alumni Student Interaction"
                 className="w-full h-80 object-cover transition-transform duration-300 group-hover:scale-110"
-                onClick={() => window.open(learn, '_blank')}
+                onClick={() => window.open(awardis, '_blank')}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-blue-900/80 via-blue-900/40 to-transparent flex flex-col justify-end p-6">
                 <h3 className="text-white text-2xl font-bold mb-2">Learn & Grow</h3>
@@ -641,9 +641,9 @@ const LandingPage: React.FC = () => {
 
           {/* Additional Images Showcase */}
           <div className="grid md:grid-cols-4 gap-4 mt-12 max-w-6xl mx-auto">
-            <div className="relative overflow-hidden rounded-lg shadow-md group cursor-pointer" onClick={() => window.open(one, '_blank')}>
+            <div className="relative overflow-hidden rounded-lg shadow-md group cursor-pointer" onClick={() => window.open(three, '_blank')}>
               <img
-                src={one}
+                src={three}
                 alt="Aesthetic Building"
                 className="w-full h-40 object-cover transition-transform duration-500 group-hover:scale-110"
               />
@@ -651,9 +651,9 @@ const LandingPage: React.FC = () => {
                 <p className="text-white font-semibold">Aesthetic Design</p>
               </div>
             </div>
-            <div className="relative overflow-hidden rounded-lg shadow-md group cursor-pointer" onClick={() => window.open(two, '_blank')}>
+            <div className="relative overflow-hidden rounded-lg shadow-md group cursor-pointer" onClick={() => window.open(four, '_blank')}>
               <img
-                src={two}
+                src={four}
                 alt="Beautiful Building"
                 className="w-full h-40 object-cover transition-transform duration-500 group-hover:scale-110"
               />
@@ -661,9 +661,9 @@ const LandingPage: React.FC = () => {
                 <p className="text-white font-semibold">Modern Architecture</p>
               </div>
             </div>
-            <div className="relative overflow-hidden rounded-lg shadow-md group cursor-pointer" onClick={() => window.open(three, '_blank')}>
+            <div className="relative overflow-hidden rounded-lg shadow-md group cursor-pointer" onClick={() => window.open(one, '_blank')}>
               <img
-                src={three}
+                src={one}
                 alt="Night View Building"
                 className="w-full h-40 object-cover transition-transform duration-500 group-hover:scale-110"
               />
@@ -671,9 +671,9 @@ const LandingPage: React.FC = () => {
                 <p className="text-white font-semibold">Night Aesthetics</p>
               </div>
             </div>
-            <div className="relative overflow-hidden rounded-lg shadow-md group cursor-pointer" onClick={() => window.open(four, '_blank')}>
+            <div className="relative overflow-hidden rounded-lg shadow-md group cursor-pointer" onClick={() => window.open(three, '_blank')}>
               <img
-                src={four}
+                src={three}
                 alt="Trendy Civil Engineering"
                 className="w-full h-40 object-cover transition-transform duration-500 group-hover:scale-110"
               />
