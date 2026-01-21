@@ -641,9 +641,9 @@ const LandingPage: React.FC = () => {
 
           {/* Additional Images Showcase */}
           <div className="grid md:grid-cols-4 gap-4 mt-12 max-w-6xl mx-auto">
-            <div className="relative overflow-hidden rounded-lg shadow-md group cursor-pointer" onClick={() => window.open(three, '_blank')}>
+            <div className="relative overflow-hidden rounded-lg shadow-md group cursor-pointer" onClick={() => window.open(two, '_blank')}>
               <img
-                src={three}
+                src={two}
                 alt="Aesthetic Building"
                 className="w-full h-40 object-cover transition-transform duration-500 group-hover:scale-110"
               />
