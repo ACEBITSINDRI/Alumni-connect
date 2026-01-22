@@ -258,33 +258,31 @@ const LandingPage: React.FC = () => {
               </Button>
             </div>
 
-            {/* ===================== Quick Stats Section (Commented Out) ===================== */}
-{/*
-<div className="grid grid-cols-3 gap-3 sm:gap-4 md:gap-6 max-w-2xl mx-auto px-4">
-  {[
-    // { value: '00+', label: 'Alumni' },
-    // { value: '00+', label: 'Companies' },
-    // { value: '00+', label: 'Opportunities' },
-  ].map((stat, index) => (
-    <div
-      key={index}
-      className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm
-                 rounded-lg p-2 sm:p-3 md:p-4 shadow-lg
-                 border border-gray-200 dark:border-gray-700"
-    >
-      <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl
-                    font-bold text-orange-600 dark:text-orange-400 mb-1">
-        {stat.value}
-      </p>
-      <p className="text-xs sm:text-sm font-semibold
-                    text-gray-700 dark:text-gray-300">
-        {stat.label}
-      </p>
-    </div>
-  ))}
-</div>
-*/}
-{/* =================== End of Quick Stats Section =================== */}
+            {/* ===================== Quick Stats Section (Commented Out) =====================
+            <div className="grid grid-cols-3 gap-3 sm:gap-4 md:gap-6 max-w-2xl mx-auto px-4">
+              {[
+                // { value: '00+', label: 'Alumni' },
+                // { value: '00+', label: 'Companies' },
+                // { value: '00+', label: 'Opportunities' },
+              ].map((stat, index) => (
+                <div
+                  key={index}
+                  className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm
+                             rounded-lg p-2 sm:p-3 md:p-4 shadow-lg
+                             border border-gray-200 dark:border-gray-700"
+                >
+                  <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl
+                                font-bold text-orange-600 dark:text-orange-400 mb-1">
+                    {stat.value}
+                  </p>
+                  <p className="text-xs sm:text-sm font-semibold
+                                text-gray-700 dark:text-gray-300">
+                    {stat.label}
+                  </p>
+                </div>
+              ))}
+            </div>
+            =================== End of Quick Stats Section =================== */}
 
 
         {/* Wave Separator */}
