@@ -69,26 +69,26 @@ const LandingPage: React.FC = () => {
   const testimonials = [
     {
       id: 1,
-      name: "Er. Rahul Sharma",
-      batch: "2015",
+      name: "Prince Michael",
+      batch: "2021",
       role: "Senior Structural Engineer at L&T Construction",
       company: "Larsen & Toubro",
       quote: "Alumni Connect bridges the gap between experience and ambition. I've mentored 5 civil engineering students and helped 3 of them secure positions in top infrastructure companies. The platform's focus on our domain makes networking more meaningful."
     },
     {
       id: 2,
-      name: "Priya Singh",
-      batch: "2020",
+      name: "Shruti Roy",
+      batch: "2021",
       role: "Project Engineer at Tata Projects",
       company: "Tata Projects",
       quote: "Thanks to Alumni Connect, I found my first job in highway construction! Senior alumni shared their interview experiences and technical knowledge that was crucial for my selection. The civil engineering-specific resources are invaluable."
     },
     {
       id: 3,
-      name: "Er. Amit Kumar",
-      batch: "2013",
-      role: "Project Manager at AECOM",
-      company: "AECOM",
+      name: "Er. Ajay Mahato",
+      batch: "2021",
+      role: "Project Manager at ABG",
+      company: "ABG",
       quote: "This platform reconnected me with my BIT Sindri civil engineering batchmates. We now collaborate on projects and share industry insights. It's amazing to see our ACE community making an impact on India's infrastructure!"
     }
   ];
@@ -233,7 +233,7 @@ const LandingPage: React.FC = () => {
               </h1>
 
               <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-white leading-relaxed max-w-3xl mx-auto font-bold drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)] [text-shadow:_2px_2px_4px_rgb(0_0_0_/_80%)]">
-                Join <span className="font-bold text-orange-400 text-lg sm:text-xl md:text-2xl lg:text-3xl">00+</span> civil engineering professionals from BIT Sindri
+                Join <span className="font-bold text-orange-400 text-lg sm:text-xl md:text-2xl lg:text-3xl"></span> Civil engineering professionals from BIT Sindri
               </p>
             </div>
 
@@ -258,21 +258,32 @@ const LandingPage: React.FC = () => {
               </Button>
             </div>
 
-            {/* Quick Stats - More Visible */}
+            {/* ===================== Quick Stats Section (Commented Out) =====================
             <div className="grid grid-cols-3 gap-3 sm:gap-4 md:gap-6 max-w-2xl mx-auto px-4">
               {[
-                { value: '00+', label: 'Alumni' },
-                { value: '00+', label: 'Companies' },
-                { value: '00+', label: 'Opportunities' },
+                // { value: '00+', label: 'Alumni' },
+                // { value: '00+', label: 'Companies' },
+                // { value: '00+', label: 'Opportunities' },
               ].map((stat, index) => (
-                <div key={index} className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-lg p-2 sm:p-3 md:p-4 shadow-lg border border-gray-200 dark:border-gray-700">
-                  <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-orange-600 dark:text-orange-400 mb-1">{stat.value}</p>
-                  <p className="text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300">{stat.label}</p>
+                <div
+                  key={index}
+                  className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm
+                             rounded-lg p-2 sm:p-3 md:p-4 shadow-lg
+                             border border-gray-200 dark:border-gray-700"
+                >
+                  <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl
+                                font-bold text-orange-600 dark:text-orange-400 mb-1">
+                    {stat.value}
+                  </p>
+                  <p className="text-xs sm:text-sm font-semibold
+                                text-gray-700 dark:text-gray-300">
+                    {stat.label}
+                  </p>
                 </div>
               ))}
             </div>
-          </div>
-        </div>
+            =================== End of Quick Stats Section =================== */}
+
 
         {/* Wave Separator */}
         <div className="absolute bottom-0 left-0 right-0">
@@ -788,7 +799,7 @@ const LandingPage: React.FC = () => {
                 className="bg-white text-sky-700 hover:bg-gray-100 font-semibold shadow-xl"
               >
                 <GraduationCap size={20} className="mr-2" />
-                Join Now - It's Free
+                Join Now 
                 <ArrowRight size={20} className="ml-2" />
               </Button>
               <Button
@@ -804,7 +815,7 @@ const LandingPage: React.FC = () => {
             <div className="mt-12 flex items-center justify-center space-x-8 text-sm">
               <div className="flex items-center space-x-2">
                 <CheckCircle size={20} className="text-green-400" />
-                <span>Free Forever</span>
+                <span>Connect Forever</span>
               </div>
               <div className="flex items-center space-x-2">
                 <CheckCircle size={20} className="text-green-400" />
