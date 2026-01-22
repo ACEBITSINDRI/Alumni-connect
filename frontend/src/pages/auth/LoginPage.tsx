@@ -218,7 +218,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ userType = 'student' }) => {
         {/* Logo and Institution */}
         <div className="relative z-10">
           <div className="flex items-center space-x-4 mb-6">
-            <div className="w-24 h-24 bg-white/95 backdrop-blur-md rounded-2xl flex items-center justify-center p-3 border-2 border-white/60 shadow-xl">
+            <div className="w-24 h-24 rounded-2xl flex items-center justify-center">
               <img
                 src={alumniConnectLogo}
                 alt="Alumni Connect Logo"
