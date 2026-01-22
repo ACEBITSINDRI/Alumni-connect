@@ -283,7 +283,8 @@ const LandingPage: React.FC = () => {
               ))}
             </div>
             =================== End of Quick Stats Section =================== */}
-
+          </div>
+        </div>
 
         {/* Wave Separator */}
         <div className="absolute bottom-0 left-0 right-0">
