@@ -169,22 +169,13 @@ const ForgotPasswordPage: React.FC = () => {
 
         {/* Logo and Institution */}
         <div className="relative z-10">
-          <div className="flex items-center space-x-3 mb-6">
-            <div className="flex items-center space-x-2">
-              <div className="w-16 h-16 bg-white/90 backdrop-blur-md rounded-xl flex items-center justify-center border-2 border-white/50 shadow-lg">
-                <HardHat className="text-orange-600" size={32} />
-              </div>
-              <div className="w-16 h-16 bg-white/90 backdrop-blur-md rounded-xl flex items-center justify-center p-2 border-2 border-white/50 shadow-lg">
-                <img
-                  src={bitLogo}
-                  alt="BIT Sindri Logo"
-                  className="w-full h-full object-contain"
-                />
-              </div>
+          <div class="flex items-center space-x-4 mb-6">
+            <div class="w-24 h-24 rounded-2xl flex items-center justify-center ">
+              <img alt="Alumni Connect Logo" class="w-full h-full object-contain" src="/assets/alumni_connect_logo-removebg-preview-B3U9VPj1.png">
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-white">Alumni Connect</h1>
-              <p className="text-orange-100 text-sm font-medium">ACE • BIT Sindri</p>
+              <h1 class="text-3xl font-bold text-white drop-shadow-lg">Alumni Connect</h1>
+              <p class="text-orange-100 text-base font-semibold">ACE • BIT Sindri</p>
             </div>
           </div>
 
