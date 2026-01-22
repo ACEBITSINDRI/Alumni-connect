@@ -801,7 +801,7 @@ const LandingPage: React.FC = () => {
                 className="bg-white text-sky-700 hover:bg-gray-100 font-semibold shadow-xl"
               >
                 <GraduationCap size={20} className="mr-2" />
-                Join Now - It's Free
+                Join Now 
                 <ArrowRight size={20} className="ml-2" />
               </Button>
               <Button
@@ -817,7 +817,7 @@ const LandingPage: React.FC = () => {
             <div className="mt-12 flex items-center justify-center space-x-8 text-sm">
               <div className="flex items-center space-x-2">
                 <CheckCircle size={20} className="text-green-400" />
-                <span>Free Forever</span>
+                <span>Connect Forever</span>
               </div>
               <div className="flex items-center space-x-2">
                 <CheckCircle size={20} className="text-green-400" />
