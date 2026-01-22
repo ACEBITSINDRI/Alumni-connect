@@ -492,9 +492,9 @@ const LoginPage: React.FC<LoginPageProps> = ({ userType = 'student' }) => {
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-500">
               By signing in, you agree to our{' '}
-              <a href="#" className="text-orange-600 hover:underline">Terms of Service</a>
+              <a href="/terms-of-service" className="text-orange-600 hover:underline">Terms of Service</a>
               {' '}and{' '}
-              <a href="#" className="text-orange-600 hover:underline">Privacy Policy</a>
+              <a href="/privacy-policy" className="text-orange-600 hover:underline">Privacy Policy</a>
             </p>
           </div>
       </div>
