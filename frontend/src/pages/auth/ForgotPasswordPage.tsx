@@ -169,13 +169,13 @@ const ForgotPasswordPage: React.FC = () => {
 
         {/* Logo and Institution */}
         <div className="relative z-10">
-          <div class="flex items-center space-x-4 mb-6">
-            <div class="w-24 h-24 rounded-2xl flex items-center justify-center ">
-              <img alt="Alumni Connect Logo" class="w-full h-full object-contain" src="/assets/alumni_connect_logo-removebg-preview-B3U9VPj1.png"/>
+          <div className="flex items-center space-x-4 mb-6">
+            <div className="w-24 h-24 rounded-2xl flex items-center justify-center ">
+              <img alt="Alumni Connect Logo" className="w-full h-full object-contain" src="/assets/alumni_connect_logo-removebg-preview-B3U9VPj1.png"/>
             </div>
             <div>
-              <h1 class="text-3xl font-bold text-white drop-shadow-lg">Alumni Connect</h1>
-              <p class="text-orange-100 text-base font-semibold">ACE • BIT Sindri</p>
+              <h1 className="text-3xl font-bold text-white drop-shadow-lg">Alumni Connect</h1>
+              <p className="text-orange-100 text-base font-semibold">ACE • BIT Sindri</p>
             </div>
           </div>
 
