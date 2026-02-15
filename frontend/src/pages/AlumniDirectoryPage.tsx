@@ -187,22 +187,20 @@ const AlumniDirectoryPage: React.FC = () => {
             <div className="flex bg-white border border-gray-300 rounded-lg p-1">
               <button
                 onClick={() => setViewMode('grid')}
-                className={`p-2 rounded ${
-                  viewMode === 'grid'
+                className={`p-2 rounded ${viewMode === 'grid'
                     ? 'bg-primary-100 text-primary-600'
                     : 'text-gray-600 hover:bg-gray-100'
-                }`}
+                  }`}
                 aria-label="Grid view"
               >
                 <Grid size={20} />
               </button>
               <button
                 onClick={() => setViewMode('list')}
-                className={`p-2 rounded ${
-                  viewMode === 'list'
+                className={`p-2 rounded ${viewMode === 'list'
                     ? 'bg-primary-100 text-primary-600'
                     : 'text-gray-600 hover:bg-gray-100'
-                }`}
+                  }`}
                 aria-label="List view"
               >
                 <List size={20} />
@@ -236,11 +234,10 @@ const AlumniDirectoryPage: React.FC = () => {
             </div>
 
             {isLoading ? (
-              <div className={`grid gap-6 ${
-                viewMode === 'grid'
+              <div className={`grid gap-6 ${viewMode === 'grid'
                   ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
                   : 'grid-cols-1'
-              }`}>
+                }`}>
                 <SkeletonAlumniCard />
                 <SkeletonAlumniCard />
                 <SkeletonAlumniCard />
@@ -254,11 +251,10 @@ const AlumniDirectoryPage: React.FC = () => {
               </div>
             ) : (
               <>
-                <div className={`grid gap-6 ${
-                  viewMode === 'grid'
+                <div className={`grid gap-6 ${viewMode === 'grid'
                     ? 'grid-cols-1 md:grid-cols-2 xl:grid-cols-3'
                     : 'grid-cols-1'
-                }`}>
+                  }`}>
                   {(Array.isArray(alumni) ? alumni : []).map((alum) => (
                     <AlumniCard
                       key={alum._id}
@@ -267,9 +263,7 @@ const AlumniDirectoryPage: React.FC = () => {
                         name: `${alum.firstName} ${alum.lastName}`,
                         role: alum.currentRole || '-',
                         company: alum.company || '-',
-                        location: (alum.location?.city || alum.location?.state) 
-                          ? `${alum.location?.city || ''}, ${alum.location?.state || ''}`.trim().replace(/^,|,$/g, '')
-                          : '-',
+                        location: alum.location || '-',
                         batch: alum.batch || '-',
                         avatar: alum.profilePicture,
                         coverPhoto: alum.coverPhoto,
@@ -305,11 +299,10 @@ const AlumniDirectoryPage: React.FC = () => {
                           <button
                             key={page}
                             onClick={() => setCurrentPage(page)}
-                            className={`px-3 sm:px-4 py-2 text-sm rounded-lg ${
-                              currentPage === page
+                            className={`px-3 sm:px-4 py-2 text-sm rounded-lg ${currentPage === page
                                 ? 'bg-primary-600 text-white'
                                 : 'border border-gray-300 hover:bg-gray-50'
-                            }`}
+                              }`}
                           >
                             {page}
                           </button>

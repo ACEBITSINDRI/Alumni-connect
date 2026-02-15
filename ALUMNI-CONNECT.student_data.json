@@ -1,0 +1,4399 @@
+[{
+  "_id": {
+    "$oid": "6936f780ea62f4eaaa1e51b1"
+  },
+  "firstName": "HARSH",
+  "lastName": "KUMAR",
+  "email": "hksr161@gmail.com",
+  "password": "$2a$10$nYRnnXVxL2laRu5hbNderuuwnM2MTHLCdH33aDp0itS6Gdgyps7FS",
+  "role": "student",
+  "batch": "3",
+  "enrollmentNumber": "2305034",
+  "department": "Civil Engineering",
+  "profilePicture": "",
+  "coverPhoto": "",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "connections": [],
+  "isEmailVerified": true,
+  "isActive": true,
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2025-12-08T16:06:24.120Z"
+  },
+  "createdAt": {
+    "$date": "2025-12-08T16:06:24.125Z"
+  },
+  "updatedAt": {
+    "$date": "2025-12-08T16:06:27.678Z"
+  },
+  "__v": 0,
+  "emailVerificationExpires": {
+    "$date": "2025-12-09T16:06:27.677Z"
+  },
+  "emailVerificationToken": "c82d637dc9ac684d99b9c9287244c7c09a36bbd2e0639ff31db4334e4d0beeca"
+},
+{
+  "_id": {
+    "$oid": "6937f63490eb4094cae9d60b"
+  },
+  "firstName": "Manish",
+  "lastName": "Mahato",
+  "email": "m4.manishmahato@gmail.com",
+  "password": "$2a$10$jB18Oz0OnXl7Tg/J2fh0vegv0Np2dS.SrVozrtT3n2EwlhjYYSfQ.",
+  "phone": "9798053452",
+  "role": "student",
+  "batch": "4",
+  "enrollmentNumber": "2205061",
+  "department": "Civil Engineering",
+  "profilePicture": "https://res.cloudinary.com/dethhxmyj/image/upload/v1765275191/alumni-connect/profiles/profile_6937f63490eb4094cae9d60b_1765275188946.jpg",
+  "coverPhoto": "",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "connections": [],
+  "isEmailVerified": true,
+  "isActive": true,
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2025-12-09T10:13:08.160Z"
+  },
+  "createdAt": {
+    "$date": "2025-12-09T10:13:08.164Z"
+  },
+  "updatedAt": {
+    "$date": "2025-12-09T10:13:13.247Z"
+  },
+  "__v": 0,
+  "emailVerificationExpires": {
+    "$date": "2025-12-10T10:13:13.246Z"
+  },
+  "emailVerificationToken": "4ead55e2f84f20b9f40696c930d5d869fba556c344604af9f6586cd28d8bc087"
+},
+{
+  "_id": {
+    "$oid": "693d98cf8eb440e6f29c7acd"
+  },
+  "firstName": "Abhay Kumar",
+  "lastName": "Mahato",
+  "email": "vikrammahato098@gmail.com",
+  "password": "$2a$10$H9pGhTddGpDykJ/9YP0iYOHSlQJ9LDD3Odr/900Lok8ZJf0vXBx6a",
+  "phone": "9142087892",
+  "role": "student",
+  "batch": "4",
+  "enrollmentNumber": "2205035",
+  "department": "Civil Engineering",
+  "profilePicture": "https://res.cloudinary.com/dethhxmyj/image/upload/v1765644498/alumni-connect/profiles/profile_693d98cf8eb440e6f29c7acd_1765644496702.jpg",
+  "coverPhoto": "",
+  "bio": "Learning",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "connections": [],
+  "isEmailVerified": true,
+  "isActive": true,
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2025-12-13T16:48:15.939Z"
+  },
+  "createdAt": {
+    "$date": "2025-12-13T16:48:15.945Z"
+  },
+  "updatedAt": {
+    "$date": "2025-12-13T16:48:19.880Z"
+  },
+  "__v": 0,
+  "emailVerificationExpires": {
+    "$date": "2025-12-14T16:48:19.880Z"
+  },
+  "emailVerificationToken": "52578b96c5a23ee6413c98e29a02e2e43f5e15df0de575b693670065073df143"
+},
+{
+  "_id": {
+    "$oid": "6956885cdc4c7b736c5ae0fe"
+  },
+  "firstName": "saurabh",
+  "lastName": "diwedi",
+  "email": "acebitsindridhanbad@gmail.com",
+  "firebaseUid": "YevTPzIutKVqqqzxQTC35nPqwcX2",
+  "phone": "8809856682",
+  "role": "student",
+  "batch": "3",
+  "enrollmentNumber": "2305080",
+  "department": "Civil Engineering",
+  "profilePicture": "https://storage.googleapis.com/alumni-connect-84d49.firebasestorage.app/profile-pictures/YevTPzIutKVqqqzxQTC35nPqwcX2/1c99075e-0ed9-48cb-885d-0f7eb05288db.jpeg",
+  "coverPhoto": "",
+  "bio": "i am civil engineering student",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "connections": [],
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-18T16:51:13.148Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-01T14:44:44.517Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-18T16:51:13.149Z"
+  },
+  "__v": 2,
+  "emailVerificationExpires": {
+    "$date": "2026-01-02T14:44:44.604Z"
+  },
+  "emailVerificationToken": "f95b235bc182a8782f31c099a19aa1aab4cbd470ab0178b616d7d7052c81bfb5",
+  "savedPosts": [],
+  "completedFields": [],
+  "hasSeenProfileCompletionModal": false,
+  "profileComplete": false,
+  "profileCompletionPercentage": 0
+},
+{
+  "_id": {
+    "$oid": "6957c5e599f708db4f15e3b7"
+  },
+  "firstName": "kamlesh",
+  "lastName": "SHARMA",
+  "email": "jhariyawatch@gmail.com",
+  "firebaseUid": "5ayx7SKCxlhw3NrMYBHRa88RvBg1",
+  "phone": "8092348445",
+  "role": "student",
+  "batch": "3",
+  "enrollmentNumber": "2305088",
+  "department": "Civil Engineering",
+  "profilePicture": "https://storage.googleapis.com/alumni-connect-84d49.firebasestorage.app/profile-pictures/5ayx7SKCxlhw3NrMYBHRa88RvBg1/1d48439e-283c-470c-9e16-72a616fdab43.jpeg",
+  "coverPhoto": "",
+  "bio": "i am civil engineer student",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "connections": [],
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-02T13:19:33.077Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-02T13:19:33.081Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-02T13:22:47.943Z"
+  },
+  "__v": 0,
+  "emailVerificationExpires": {
+    "$date": "2026-01-03T13:22:47.942Z"
+  },
+  "emailVerificationToken": "a23773e4461401db32d564aa6f86e50bed1a6e1efede4adf228a127b4d507da2"
+},
+{
+  "_id": {
+    "$oid": "6959a83f225a79d7933bab18"
+  },
+  "firstName": "ACE",
+  "lastName": "SINDRI",
+  "email": "alumniconnect.acebitsindri@gmail.com",
+  "firebaseUid": "CktzTLE8FYawvQQZs9CWHULyHtv2",
+  "phone": "8809856682",
+  "role": "admin",
+  "batch": "3",
+  "enrollmentNumber": "2309080",
+  "department": "Civil Engineering",
+  "profilePicture": "https://storage.googleapis.com/alumni-connect-84d49.firebasestorage.app/profile-pictures/CktzTLE8FYawvQQZs9CWHULyHtv2/320eedd6-b07f-4feb-b809-3d4dc6c37f3c.webp",
+  "coverPhoto": "",
+  "bio": "higfhj",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "connections": [],
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-17T21:58:31.867Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-03T23:37:35.134Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-17T21:59:07.964Z"
+  },
+  "__v": 3,
+  "emailVerificationExpires": {
+    "$date": "2026-01-04T23:42:21.367Z"
+  },
+  "emailVerificationToken": "1bafd6127a472d6a2a0e8044b9610dbafb9d09638a7119d86dc51a5fd7a4acbc",
+  "savedPosts": [
+    {
+      "$oid": "696badbc051618502fb5e43c"
+    },
+    {
+      "$oid": "696baa50051618502fb5e2ad"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "6959ca371821c0ace5f24bbc"
+  },
+  "firstName": "Kamlesh",
+  "lastName": "Marwadi",
+  "email": "vimleshsamudih@gmail.com",
+  "firebaseUid": "ECP55whFTcfMmQOY3CU6bWbdE9P2",
+  "phone": "8969495366",
+  "role": "student",
+  "batch": "4",
+  "enrollmentNumber": "23050844",
+  "department": "Civil Engineering",
+  "profilePicture": "https://storage.googleapis.com/alumni-connect-84d49.firebasestorage.app/profile-pictures/ECP55whFTcfMmQOY3CU6bWbdE9P2/81e852aa-cc2e-4053-ba09-caf92ed14500.jpg",
+  "coverPhoto": "",
+  "bio": "I am civil engineer",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "connections": [],
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-04T02:02:31.859Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-04T02:02:31.860Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-04T02:04:39.902Z"
+  },
+  "__v": 0,
+  "emailVerificationExpires": {
+    "$date": "2026-01-05T02:02:31.942Z"
+  },
+  "emailVerificationToken": "8c6dafb7a07eb088cf9e89047e50120ed7a42cc6a57a951d8758c2fce27a8459"
+},
+{
+  "_id": {
+    "$oid": "695a4fe72d76c19d61f3b418"
+  },
+  "firstName": "nbkhaS",
+  "lastName": "n XJBL",
+  "email": "vikrammahato0987@gmail.com",
+  "firebaseUid": "5GdqYcf6MYW5g36celoTEna75Og1",
+  "phone": "9142087892",
+  "role": "student",
+  "batch": "4",
+  "enrollmentNumber": "2203016015",
+  "department": "Civil Engineering",
+  "profilePicture": "",
+  "coverPhoto": "",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "connections": [],
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-04T11:32:55.636Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-04T11:32:55.637Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-04T11:32:55.711Z"
+  },
+  "__v": 0,
+  "emailVerificationExpires": {
+    "$date": "2026-01-05T11:32:55.710Z"
+  },
+  "emailVerificationToken": "8221fac329831860c51cfdf24665409486e1fa8b3474102b631a7e59584fa413"
+},
+{
+  "_id": {
+    "$oid": "695abfd0c7f1c95c470d304d"
+  },
+  "firstName": "suraj",
+  "lastName": "kumar",
+  "email": "chintasamudih.1956@gmail.com",
+  "firebaseUid": "sBIt8VLYN2TLKtEtLgJ6unttZ1v2",
+  "phone": "8092348445",
+  "role": "student",
+  "batch": "3",
+  "enrollmentNumber": "2204034452",
+  "department": "Civil Engineering",
+  "profilePicture": "https://storage.googleapis.com/alumni-connect-84d49.firebasestorage.app/profile-pictures/sBIt8VLYN2TLKtEtLgJ6unttZ1v2/4ea85991-6398-4f5e-9641-6e6843df7329.png",
+  "coverPhoto": "",
+  "bio": "hi iam civil engineer third year student ",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "connections": [],
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-18T16:11:39.122Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-04T19:30:24.175Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-18T16:11:39.122Z"
+  },
+  "__v": 1,
+  "emailVerificationExpires": {
+    "$date": "2026-01-05T19:49:21.305Z"
+  },
+  "emailVerificationToken": "9c96ab830b5b37432e1e2062949f5b549bef5a200bb02eb744bf7d4ce16960fc",
+  "completedFields": [],
+  "hasSeenProfileCompletionModal": false,
+  "profileComplete": false,
+  "profileCompletionPercentage": 0,
+  "savedPosts": []
+},
+{
+  "_id": {
+    "$oid": "695af72243484118b4366240"
+  },
+  "firstName": "acebitsindri",
+  "lastName": "",
+  "email": "acebitsindri@gmail.com",
+  "firebaseUid": "QG52xb9mpUaxzi1DlgeAM43hvi13",
+  "role": "student",
+  "batch": "",
+  "department": "Civil Engineering",
+  "profilePicture": "https://lh3.googleusercontent.com/a/ACg8ocIgV-9j36QIJDk-Zwgj7e31g7jVpwgms-5a4b0-nfwTTpbPlG4=s96-c",
+  "coverPhoto": "",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "connections": [],
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-18T09:27:44.224Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-04T23:26:26.838Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-18T09:27:44.229Z"
+  },
+  "__v": 2,
+  "savedPosts": [],
+  "completedFields": [],
+  "hasSeenProfileCompletionModal": false,
+  "profileComplete": false,
+  "profileCompletionPercentage": 0
+},
+{
+  "_id": {
+    "$oid": "695e328da8cec1a358518124"
+  },
+  "firstName": "kundan",
+  "lastName": "kumar",
+  "email": "vimleshrajakarbo@gmail.com",
+  "firebaseUid": "zSSvrONvjUNa7ZNgYe6wAZvM6do2",
+  "phone": "8969446753",
+  "role": "student",
+  "batch": "3",
+  "enrollmentNumber": "240880908",
+  "department": "Civil Engineering",
+  "profilePicture": "https://storage.googleapis.com/alumni-connect-84d49.firebasestorage.app/profile-pictures/zSSvrONvjUNa7ZNgYe6wAZvM6do2/877d47b6-8640-41aa-a6a1-a843b488109e.jpg",
+  "coverPhoto": "",
+  "bio": " i am engineer",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "connections": [],
+  "isEmailVerified": false,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-12T16:22:35.217Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-07T10:16:45.387Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-12T16:22:35.218Z"
+  },
+  "__v": 1,
+  "savedPosts": []
+},
+{
+  "_id": {
+    "$oid": "695e35a7a8cec1a35851813e"
+  },
+  "firstName": "sohan",
+  "lastName": "kumar",
+  "email": "trikaldarshi2005@gmail.com",
+  "firebaseUid": "FJewdnzoFiNCSahOt1Rcrbnvc403",
+  "phone": "8809856682",
+  "role": "student",
+  "batch": "4",
+  "enrollmentNumber": "210324565",
+  "department": "Civil Engineering",
+  "profilePicture": "https://storage.googleapis.com/alumni-connect-84d49.firebasestorage.app/profile-pictures/FJewdnzoFiNCSahOt1Rcrbnvc403/e1a5e88c-a03c-4e21-9c5a-482d25628835.png",
+  "coverPhoto": "",
+  "bio": " i am mech engineer",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "connections": [],
+  "isEmailVerified": false,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-18T16:07:42.054Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-07T10:29:59.940Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-18T16:07:42.055Z"
+  },
+  "__v": 1,
+  "emailVerificationExpires": {
+    "$date": "2026-01-08T10:30:00.023Z"
+  },
+  "emailVerificationToken": "6afac06c4cbb9a22bb29bcb5c66f3b7bf40085ddd46a0e82b30a6d97e84e6839",
+  "completedFields": [],
+  "hasSeenProfileCompletionModal": false,
+  "profileComplete": false,
+  "profileCompletionPercentage": 0,
+  "savedPosts": []
+},
+{
+  "_id": {
+    "$oid": "695ea0775976cefae59a68c8"
+  },
+  "firstName": "Kamlesh",
+  "lastName": "Sharma",
+  "email": "kamleshsamudih@gmail.com",
+  "firebaseUid": "zJ11R83u8CUmM7I6ch9FouVjIV92",
+  "phone": "7209213003",
+  "role": "student",
+  "batch": "3",
+  "enrollmentNumber": "21060896",
+  "department": "Civil Engineering",
+  "profilePicture": "https://storage.googleapis.com/alumni-connect-84d49.firebasestorage.app/profile-pictures/zJ11R83u8CUmM7I6ch9FouVjIV92/749ef6ca-d778-41fb-9295-b123057a8dae.png",
+  "coverPhoto": "",
+  "bio": "i am innovator",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "connections": [],
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-18T02:30:10.114Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-07T18:05:43.860Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-18T02:30:10.119Z"
+  },
+  "__v": 1,
+  "emailVerificationExpires": {
+    "$date": "2026-01-08T18:05:43.947Z"
+  },
+  "emailVerificationToken": "88e6c054f72ca7a29fc57687676b9dba6a7d7126a7b6a8e405633fd25535fd2e",
+  "savedPosts": [],
+  "company": "ibm",
+  "currentRole": "senior data scientist",
+  "linkedinUrl": ""
+},
+{
+  "_id": {
+    "$oid": "696250198ef97ddbdcfcfc94"
+  },
+  "firstName": "Vimlesh",
+  "lastName": "Sharma",
+  "email": "vimleshsamudih5@gmail.com",
+  "firebaseUid": "linkedin_X0IcUnFbnM",
+  "role": "student",
+  "batch": "",
+  "department": "Civil Engineering",
+  "profilePicture": "https://media.licdn.com/dms/image/v2/D4E03AQFvzX8hk2PA1Q/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1720749066871?e=1769644800&v=beta&t=OaNOhADckj8OO5D7Mq4BzB-7ZbUSkfTSO1roIYOQmH4",
+  "coverPhoto": "",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "connections": [],
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-10T13:11:53.535Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-10T13:11:53.536Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-10T13:11:53.536Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "696c1fed4d474c37ebe09fe3"
+  },
+  "firstName": "kamleshoperation",
+  "lastName": "",
+  "email": "kamleshoperation@gmail.com",
+  "firebaseUid": "GJeHwTA3pWYNHRc24FKu2ND9UyC2",
+  "role": "student",
+  "batch": "",
+  "department": "Civil Engineering",
+  "profilePicture": "https://lh3.googleusercontent.com/a/ACg8ocJ-1P2ccJJhQTdm5lOk-7ILDfGhnwTovTCgTVB5xv7ZHVULyg=s96-c",
+  "coverPhoto": "",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "savedPosts": [
+    {
+      "$oid": "696baa50051618502fb5e2ad"
+    }
+  ],
+  "connections": [],
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-17T23:49:01.176Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-17T23:49:01.177Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-18T00:01:09.235Z"
+  },
+  "__v": 1
+},
+{
+  "_id": {
+    "$oid": "696c75df6af9f4130317962a"
+  },
+  "firstName": "sohan",
+  "lastName": "kumar",
+  "email": "kamleshsharma.freelancer@gmail.com",
+  "firebaseUid": "cxcOEYjDiIYpYuEoYY2F1vzwLD52",
+  "phone": "8969445367",
+  "role": "student",
+  "batch": "4",
+  "enrollmentNumber": "2005067",
+  "department": "Civil Engineering",
+  "profilePicture": "",
+  "coverPhoto": "",
+  "bio": " i am data analyst ",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "savedPosts": [],
+  "connections": [],
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-18T11:06:28.595Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-18T05:55:43.363Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-18T11:06:28.597Z"
+  },
+  "__v": 1,
+  "completedFields": [],
+  "hasSeenProfileCompletionModal": false,
+  "profileComplete": false,
+  "profileCompletionPercentage": 0
+},
+{
+  "_id": {
+    "$oid": "696caff98e23db30c6aaf35c"
+  },
+  "firstName": "Pritesh",
+  "lastName": "Singh",
+  "email": "yespriteshsingh@gmail.com",
+  "firebaseUid": "J2Kq39cR9NN7BSoS0VnKYiTggnv1",
+  "role": "student",
+  "batch": "2024",
+  "department": "Civil Engineering",
+  "profilePicture": "https://lh3.googleusercontent.com/a/ACg8ocIu2aAu1QDlu1_mnwK03np7OmNPusJYqpdT4UdmKtHDB9HXgQ=s96-c",
+  "coverPhoto": "",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "savedPosts": [],
+  "connections": [],
+  "profileComplete": false,
+  "completedFields": [],
+  "profileCompletionPercentage": 0,
+  "hasSeenProfileCompletionModal": false,
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-18T10:03:37.289Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-18T10:03:37.292Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-18T10:04:33.171Z"
+  },
+  "__v": 0,
+  "bio": "",
+  "company": "",
+  "currentRole": "",
+  "githubUrl": "",
+  "linkedinUrl": "",
+  "location": "jamshedpur, Jharkhand, India",
+  "phone": "+919608240257",
+  "portfolioUrl": ""
+},
+{
+  "_id": {
+    "$oid": "696cb0028e23db30c6aaf3bc"
+  },
+  "firstName": "Soumya",
+  "lastName": "Kumari",
+  "email": "soumyakumari86129@gmail.com",
+  "firebaseUid": "DOiy5RdLJEQ7WpIFDMU8LZ3f9ny1",
+  "role": "student",
+  "batch": "",
+  "department": "Civil Engineering",
+  "profilePicture": "https://lh3.googleusercontent.com/a/ACg8ocKZmT3zoX-8NEYa-VPJY4w0CdmPSBB7pJwFJr6qMcKEBrEBaQ=s96-c",
+  "coverPhoto": "",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "savedPosts": [],
+  "connections": [],
+  "profileComplete": false,
+  "completedFields": [],
+  "profileCompletionPercentage": 0,
+  "hasSeenProfileCompletionModal": false,
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-18T10:03:46.551Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-18T10:03:46.552Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-18T10:05:05.716Z"
+  },
+  "__v": 0,
+  "bio": "",
+  "company": "",
+  "currentRole": "",
+  "githubUrl": "",
+  "linkedinUrl": "",
+  "location": "Ranchi, Jharkhand , India",
+  "phone": "7979784886",
+  "portfolioUrl": ""
+},
+{
+  "_id": {
+    "$oid": "696cb0098e23db30c6aaf42f"
+  },
+  "firstName": "Rishav",
+  "lastName": "Raj",
+  "email": "7211rishavraj2004@gmail.com",
+  "firebaseUid": "linkedin_FbzGA9Jgme",
+  "role": "student",
+  "batch": "",
+  "department": "Civil Engineering",
+  "profilePicture": "https://media.licdn.com/dms/image/v2/D4D03AQG9XGrApwmAKg/profile-displayphoto-shrink_200_200/B4DZQTTGkbHwAY-/0/1735490563392?e=1770249600&v=beta&t=SBmxSR9FBwddGaXtEf7u33tK7YVK-5JkTmSbi0dmyps",
+  "coverPhoto": "",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "savedPosts": [],
+  "connections": [],
+  "profileComplete": false,
+  "completedFields": [],
+  "profileCompletionPercentage": 0,
+  "hasSeenProfileCompletionModal": false,
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-18T10:04:19.664Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-18T10:03:53.057Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-18T10:04:19.664Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "696cb0148e23db30c6aaf4b8"
+  },
+  "firstName": "Anish",
+  "lastName": "Kumar",
+  "email": "anishkumarmahadani@gmail.com",
+  "firebaseUid": "BFFac3Bbgkb6nUPz9A2Qq1weVEs1",
+  "role": "student",
+  "batch": "2023",
+  "department": "Civil Engineering",
+  "profilePicture": "https://lh3.googleusercontent.com/a/ACg8ocKOUbuF8HOvej4fdYBiy6sAfP45lfc94qUU_MAAdrYkRdiGjA=s96-c",
+  "coverPhoto": "",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "savedPosts": [],
+  "connections": [],
+  "profileComplete": false,
+  "completedFields": [],
+  "profileCompletionPercentage": 0,
+  "hasSeenProfileCompletionModal": false,
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-18T10:04:04.444Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-18T10:04:04.445Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-18T10:05:00.928Z"
+  },
+  "__v": 0,
+  "bio": "",
+  "company": "",
+  "currentRole": "",
+  "githubUrl": "",
+  "linkedinUrl": "",
+  "location": "",
+  "phone": "",
+  "portfolioUrl": ""
+},
+{
+  "_id": {
+    "$oid": "696cb03e8e23db30c6aaf6cc"
+  },
+  "firstName": "Rahul",
+  "lastName": "Shukla",
+  "email": "rs.rahulshukla335@gmail.com",
+  "firebaseUid": "linkedin_cmlh0v_cxM",
+  "role": "student",
+  "batch": "",
+  "department": "Civil Engineering",
+  "profilePicture": "https://media.licdn.com/dms/image/v2/C5603AQEHjOcS0XHcQQ/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1625919470010?e=1770249600&v=beta&t=uUKPt7nrMRclssa5DbzWw545nT7xjLaqVvMB7XWOG3M",
+  "coverPhoto": "",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "savedPosts": [],
+  "connections": [],
+  "profileComplete": false,
+  "completedFields": [],
+  "profileCompletionPercentage": 0,
+  "hasSeenProfileCompletionModal": false,
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-18T10:06:02.454Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-18T10:04:46.067Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-18T10:06:02.455Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "696cb04c8e23db30c6aaf762"
+  },
+  "firstName": "ankitkumar25112653",
+  "lastName": "",
+  "email": "ankitkumar25112653@gmail.com",
+  "firebaseUid": "bEYIS0okiiY75bOWwh8247dTfzG2",
+  "role": "student",
+  "batch": "",
+  "department": "Civil Engineering",
+  "profilePicture": "https://lh3.googleusercontent.com/a/ACg8ocKaoHEETdKsjTMtbL7y-YjrzmYgcF7InqJ-y2ScT9FOh1LdLQ=s96-c",
+  "coverPhoto": "",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "savedPosts": [],
+  "connections": [],
+  "profileComplete": false,
+  "completedFields": [],
+  "profileCompletionPercentage": 0,
+  "hasSeenProfileCompletionModal": false,
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-18T10:05:00.587Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-18T10:05:00.588Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-18T10:05:00.588Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "696cb05d8e23db30c6aaf854"
+  },
+  "firstName": "srishty",
+  "lastName": "Kumari",
+  "email": "srishtykumari17@gmail.com",
+  "firebaseUid": "O5Hwh72iokR9Ml2bwBC1vsXa4rx1",
+  "role": "student",
+  "batch": "",
+  "department": "Civil Engineering",
+  "profilePicture": "https://lh3.googleusercontent.com/a/ACg8ocJlBNMCXfcsdFoXXm_oQRqVvjpg35A5amZsv0wLl9_GRHQqULOJ=s96-c",
+  "coverPhoto": "",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "savedPosts": [],
+  "connections": [],
+  "profileComplete": false,
+  "completedFields": [],
+  "profileCompletionPercentage": 0,
+  "hasSeenProfileCompletionModal": false,
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-18T10:05:17.627Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-18T10:05:17.627Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-18T10:07:23.168Z"
+  },
+  "__v": 0,
+  "bio": "",
+  "company": "",
+  "currentRole": "",
+  "githubUrl": "",
+  "linkedinUrl": "",
+  "location": "Dhanbad , Jharkhand , India",
+  "phone": "7667438875",
+  "portfolioUrl": ""
+},
+{
+  "_id": {
+    "$oid": "696cb0788e23db30c6aafaa3"
+  },
+  "firstName": "ashutoshkmr1815",
+  "lastName": "Kumar",
+  "email": "ashutoshkmr1815@gmail.com",
+  "firebaseUid": "fyaeBLY2NNTSXsEok205fdDVlJk1",
+  "role": "student",
+  "batch": "",
+  "department": "Civil Engineering",
+  "profilePicture": "https://res.cloudinary.com/dethhxmyj/image/upload/v1768730801/alumni-connect/profiles/profile_696cb0788e23db30c6aafaa3_1768730799208.jpg",
+  "coverPhoto": "",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "savedPosts": [],
+  "connections": [],
+  "profileComplete": false,
+  "completedFields": [],
+  "profileCompletionPercentage": 0,
+  "hasSeenProfileCompletionModal": false,
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-18T10:05:44.696Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-18T10:05:44.696Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-18T10:06:45.818Z"
+  },
+  "__v": 0,
+  "bio": "",
+  "company": "",
+  "currentRole": "",
+  "githubUrl": "",
+  "linkedinUrl": "",
+  "location": "Dhanbad, Jharkhand, India",
+  "phone": "9905533858",
+  "portfolioUrl": ""
+},
+{
+  "_id": {
+    "$oid": "696cb0808e23db30c6aafb01"
+  },
+  "firstName": "Ankit",
+  "lastName": "Kumar",
+  "email": "ankitkum0005@gmail.com",
+  "firebaseUid": "s9YOf5lzetUz9UxO48qpcCWHz732",
+  "role": "student",
+  "batch": "2k24",
+  "department": "Civil Engineering",
+  "profilePicture": "https://lh3.googleusercontent.com/a/ACg8ocKtdfpTtU_SUq2n9hEEXD4zYOxBcx2t_5JOcDxmZoVhXzpUyu0q=s96-c",
+  "coverPhoto": "",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "savedPosts": [],
+  "connections": [],
+  "profileComplete": false,
+  "completedFields": [],
+  "profileCompletionPercentage": 0,
+  "hasSeenProfileCompletionModal": false,
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-18T10:05:52.145Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-18T10:05:52.146Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-18T10:07:32.864Z"
+  },
+  "__v": 0,
+  "bio": "",
+  "company": "",
+  "currentRole": "",
+  "githubUrl": "",
+  "linkedinUrl": "",
+  "location": "",
+  "phone": "9122202803",
+  "portfolioUrl": ""
+},
+{
+  "_id": {
+    "$oid": "696cb43e8e23db30c6aafbf0"
+  },
+  "firstName": "jagritik.singh062003",
+  "lastName": "",
+  "email": "jagritik.singh062003@gmail.com",
+  "firebaseUid": "u9r3IwVkqoWOkEpPNvP96EUhT0K2",
+  "role": "student",
+  "batch": "",
+  "department": "Civil Engineering",
+  "profilePicture": "https://lh3.googleusercontent.com/a/ACg8ocIY59aOUETPV5V7RpxSwEbKFh622nMuo2grXIoQl-KBXCITNPJl=s96-c",
+  "coverPhoto": "",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "savedPosts": [],
+  "connections": [],
+  "profileComplete": false,
+  "completedFields": [],
+  "profileCompletionPercentage": 0,
+  "hasSeenProfileCompletionModal": false,
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-18T10:21:50.548Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-18T10:21:50.549Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-18T10:21:50.549Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "696cb52d8e23db30c6aafde5"
+  },
+  "firstName": "Aman Kumar",
+  "lastName": "Ishwar",
+  "email": "amanishwar7050@gmail.com",
+  "firebaseUid": "PYIhbwybkgRExWtlfS4XKPevk7G2",
+  "phone": "6201913985",
+  "role": "student",
+  "batch": "3",
+  "enrollmentNumber": "2305011",
+  "department": "Civil Engineering",
+  "profilePicture": "",
+  "coverPhoto": "",
+  "bio": "I am a civil engineering graduate currently in my 5th semester looking for various opportunities to upskill my civil engineering skills and apply it in real life applications.",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "savedPosts": [],
+  "connections": [],
+  "profileComplete": false,
+  "completedFields": [],
+  "profileCompletionPercentage": 0,
+  "hasSeenProfileCompletionModal": false,
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-18T10:25:49.106Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-18T10:25:49.107Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-18T10:25:49.170Z"
+  },
+  "__v": 0,
+  "emailVerificationExpires": {
+    "$date": "2026-01-19T10:25:49.169Z"
+  },
+  "emailVerificationToken": "96746368f6098913e95560843d36d9251e3e1f98d73b735ffea41f912f7ece09"
+},
+{
+  "_id": {
+    "$oid": "696cb5478e23db30c6aafe49"
+  },
+  "firstName": "Aryan",
+  "lastName": "Singh",
+  "email": "singhrajputaryan2308@gmail.com",
+  "firebaseUid": "1IkZQdjt9WZMoRW0gIfK8drZWG82",
+  "role": "student",
+  "batch": "",
+  "department": "Civil Engineering",
+  "profilePicture": "https://lh3.googleusercontent.com/a/ACg8ocKYaAgekVy3PSbFEEiWtK6DmBguDoBTotG3mo1sWRiouPDC-6BC=s96-c",
+  "coverPhoto": "",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "savedPosts": [],
+  "connections": [],
+  "profileComplete": false,
+  "completedFields": [],
+  "profileCompletionPercentage": 0,
+  "hasSeenProfileCompletionModal": false,
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-18T10:26:15.876Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-18T10:26:15.877Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-18T10:27:24.622Z"
+  },
+  "__v": 0,
+  "bio": "",
+  "company": "",
+  "currentRole": "",
+  "githubUrl": "",
+  "linkedinUrl": "",
+  "location": "Dhanbad, Jharkhand, India",
+  "phone": "+91 9341480140",
+  "portfolioUrl": ""
+},
+{
+  "_id": {
+    "$oid": "696cb5ff8e23db30c6ab010a"
+  },
+  "firstName": "Madhu",
+  "lastName": "Mishra",
+  "email": "madhukumari22jsr@gmail.com",
+  "firebaseUid": "qeCidaIJhhZeLWV216kI4u7ThO83",
+  "role": "student",
+  "batch": "",
+  "department": "Civil Engineering",
+  "profilePicture": "https://lh3.googleusercontent.com/a/ACg8ocIiJ_s-3DutJqbJOQnqThR--v6AxK4iauCFtKW95MT8RrG9FB1K=s96-c",
+  "coverPhoto": "",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "savedPosts": [],
+  "connections": [],
+  "profileComplete": false,
+  "completedFields": [],
+  "profileCompletionPercentage": 0,
+  "hasSeenProfileCompletionModal": false,
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-18T10:29:19.848Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-18T10:29:19.849Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-18T10:30:01.001Z"
+  },
+  "__v": 0,
+  "bio": "",
+  "company": "",
+  "currentRole": "",
+  "githubUrl": "",
+  "linkedinUrl": "",
+  "location": "Jamshedpur, Jharkhand, India",
+  "phone": "8434365633",
+  "portfolioUrl": ""
+},
+{
+  "_id": {
+    "$oid": "696cb8ad8e23db30c6ab0208"
+  },
+  "firstName": "gautamchandy",
+  "lastName": "",
+  "email": "gautamchandy@gmail.com",
+  "firebaseUid": "DqZKMhYAFOg0BteItZhTPrFkWru1",
+  "role": "student",
+  "batch": "",
+  "department": "Civil Engineering",
+  "profilePicture": "https://lh3.googleusercontent.com/a/ACg8ocIyiXe549D3YCLt4N9yu2akt-mLcQkNBRqpQPmHBSi5t1dJxPh3=s96-c",
+  "coverPhoto": "",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "savedPosts": [],
+  "connections": [],
+  "profileComplete": false,
+  "completedFields": [],
+  "profileCompletionPercentage": 0,
+  "hasSeenProfileCompletionModal": false,
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-18T10:40:45.574Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-18T10:40:45.574Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-18T10:40:45.574Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "696cb97d8e23db30c6ab026e"
+  },
+  "firstName": "Suraj",
+  "lastName": "Kumar",
+  "email": "surajps108@gmail.com",
+  "firebaseUid": "3WE5hmX815OfNXq5QIK0eJC4jq53",
+  "role": "student",
+  "batch": "2023",
+  "department": "Civil Engineering",
+  "profilePicture": "https://lh3.googleusercontent.com/a/ACg8ocIymecEqzKMIz-8GJwgxARZ7mFMd-Ku8zm4osmg5KCB4wZo5021=s96-c",
+  "coverPhoto": "",
+  "skills": [
+    "AutoCAD",
+    "Revit",
+    "Video editing",
+    "Graphic design"
+  ],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "savedPosts": [],
+  "connections": [],
+  "profileComplete": false,
+  "completedFields": [],
+  "profileCompletionPercentage": 0,
+  "hasSeenProfileCompletionModal": false,
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-18T10:44:13.372Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-18T10:44:13.373Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-18T18:41:59.818Z"
+  },
+  "__v": 0,
+  "bio": "I am suraj Kumar from civil engineering branch of batch 2k23.",
+  "company": "",
+  "currentRole": "",
+  "githubUrl": "",
+  "linkedinUrl": "",
+  "location": "Ramgarh, Jharkhand, India",
+  "phone": "+917488482915",
+  "portfolioUrl": ""
+},
+{
+  "_id": {
+    "$oid": "696cbacc8e23db30c6ab040f"
+  },
+  "firstName": "amanraj54654",
+  "lastName": "",
+  "email": "amanraj54654@gmail.com",
+  "firebaseUid": "9hTB504mU5h5m1UPoHsuunXZYvp2",
+  "role": "student",
+  "batch": "",
+  "department": "Civil Engineering",
+  "profilePicture": "https://lh3.googleusercontent.com/a/ACg8ocIWsBUKiMA8eWm62PQdqn9NRdR8l6CSd_TNJmOVOpfR_XqWOch4=s96-c",
+  "coverPhoto": "",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "savedPosts": [],
+  "connections": [],
+  "profileComplete": false,
+  "completedFields": [],
+  "profileCompletionPercentage": 0,
+  "hasSeenProfileCompletionModal": false,
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-18T10:49:48.612Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-18T10:49:48.613Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-18T10:49:48.613Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "696cbbb18e23db30c6ab0483"
+  },
+  "firstName": "Aman",
+  "lastName": "Kumar Arya",
+  "email": "amanarya750.aa@gmail.com",
+  "firebaseUid": "VAYG8jpOOxUSZd2CQxJl7UHtwj43",
+  "phone": "7545953072",
+  "role": "student",
+  "batch": "3",
+  "enrollmentNumber": "2305010",
+  "department": "Civil Engineering",
+  "profilePicture": "https://res.cloudinary.com/dethhxmyj/image/upload/v1768733760/alumni-connect/profiles/profile_696cbbb18e23db30c6ab0483_1768733759514.jpg",
+  "coverPhoto": "",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "savedPosts": [],
+  "connections": [],
+  "profileComplete": false,
+  "completedFields": [],
+  "profileCompletionPercentage": 0,
+  "hasSeenProfileCompletionModal": false,
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-18T10:53:37.610Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-18T10:53:37.610Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-18T10:56:06.364Z"
+  },
+  "__v": 0,
+  "emailVerificationExpires": {
+    "$date": "2026-01-19T10:53:37.690Z"
+  },
+  "emailVerificationToken": "051a1fb38e10693fa54cea170d11eeff8118fd5ee6da20b5b2428ef14e7c2d6a",
+  "bio": "",
+  "company": "",
+  "currentRole": "",
+  "githubUrl": "",
+  "linkedinUrl": "",
+  "location": "",
+  "portfolioUrl": ""
+},
+{
+  "_id": {
+    "$oid": "696cc3888e23db30c6ab0693"
+  },
+  "firstName": "Manish Kumar",
+  "lastName": "Mahato",
+  "email": "mahatomanish.2003@gmail.com",
+  "firebaseUid": "CvTMT0UBZfWUYEekzINw5utE6uv2",
+  "role": "student",
+  "batch": "",
+  "department": "Civil Engineering",
+  "profilePicture": "https://res.cloudinary.com/dethhxmyj/image/upload/v1768735672/alumni-connect/profiles/profile_696cc3888e23db30c6ab0693_1768735670256.jpg",
+  "coverPhoto": "",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "savedPosts": [],
+  "connections": [],
+  "profileComplete": false,
+  "completedFields": [],
+  "profileCompletionPercentage": 0,
+  "hasSeenProfileCompletionModal": false,
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-18T11:27:04.216Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-18T11:27:04.216Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-18T11:28:29.185Z"
+  },
+  "__v": 0,
+  "bio": "",
+  "company": "",
+  "currentRole": "",
+  "githubUrl": "",
+  "linkedinUrl": "",
+  "location": "Dhanbad, Jharkhand, India",
+  "phone": "9798053452",
+  "portfolioUrl": ""
+},
+{
+  "_id": {
+    "$oid": "696cc4058e23db30c6ab0768"
+  },
+  "firstName": "Tanvi",
+  "lastName": "Oraon",
+  "email": "tanvioraon16@gmail.com",
+  "firebaseUid": "8JadXafXGDQtJgbEJr3RpImkJCW2",
+  "role": "student",
+  "batch": "",
+  "department": "Civil Engineering",
+  "profilePicture": "https://lh3.googleusercontent.com/a/ACg8ocIOrrmnmdJ7p5AFUmrHubCBFXKLsn4BLD3EF4JZ7Ks_l_UYgeY=s96-c",
+  "coverPhoto": "",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "savedPosts": [],
+  "connections": [],
+  "profileComplete": false,
+  "completedFields": [],
+  "profileCompletionPercentage": 0,
+  "hasSeenProfileCompletionModal": false,
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-18T11:29:09.312Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-18T11:29:09.313Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-18T11:29:43.228Z"
+  },
+  "__v": 0,
+  "bio": "",
+  "company": "",
+  "currentRole": "",
+  "githubUrl": "",
+  "linkedinUrl": "",
+  "location": "Ranchi, Jharkhand , India",
+  "phone": "7061819730",
+  "portfolioUrl": ""
+},
+{
+  "_id": {
+    "$oid": "696cc4728e23db30c6ab0804"
+  },
+  "firstName": "Kumari",
+  "lastName": "Muskan",
+  "email": "muskan.sm3790@gmail.com",
+  "firebaseUid": "cLJP4RqF6yQRSqbrGtLFz0T9m9S2",
+  "role": "student",
+  "batch": "",
+  "department": "Civil Engineering",
+  "profilePicture": "https://lh3.googleusercontent.com/a/ACg8ocLnLdsfsQVfRXCwvN50WPt-1ghUz2kGVJKWNRtEWw73n_gIIg=s96-c",
+  "coverPhoto": "",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "savedPosts": [],
+  "connections": [],
+  "profileComplete": false,
+  "completedFields": [],
+  "profileCompletionPercentage": 0,
+  "hasSeenProfileCompletionModal": false,
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-18T11:30:58.760Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-18T11:30:58.761Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-18T11:31:41.680Z"
+  },
+  "__v": 0,
+  "bio": "",
+  "company": "",
+  "currentRole": "",
+  "githubUrl": "",
+  "linkedinUrl": "",
+  "location": "",
+  "phone": "",
+  "portfolioUrl": ""
+},
+{
+  "_id": {
+    "$oid": "696cc7b98e23db30c6ab0b8d"
+  },
+  "firstName": "rihan2423564",
+  "lastName": "",
+  "email": "rihan2423564@gmail.com",
+  "firebaseUid": "VpI6OjLLVRUau5sTNkn3vab8tWT2",
+  "role": "student",
+  "batch": "",
+  "department": "Civil Engineering",
+  "profilePicture": "https://lh3.googleusercontent.com/a/ACg8ocJLGWj6jzk8YMUrx05jaBSG9xxpd1P_ulvAJNpkKcTVzJGrPQ=s96-c",
+  "coverPhoto": "",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "savedPosts": [],
+  "connections": [],
+  "profileComplete": false,
+  "completedFields": [],
+  "profileCompletionPercentage": 0,
+  "hasSeenProfileCompletionModal": false,
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-18T11:46:04.751Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-18T11:44:57.470Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-18T11:46:04.752Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "696cc8588e23db30c6ab0d96"
+  },
+  "firstName": "Pramod",
+  "lastName": "Marandi",
+  "email": "72pm61@gmail.com",
+  "firebaseUid": "0EHalnI1Z9ObTJnygIxWVFhsWku1",
+  "role": "student",
+  "batch": "",
+  "department": "Civil Engineering",
+  "profilePicture": "https://lh3.googleusercontent.com/a/ACg8ocIgj9E9HNhiyS1_F0SvL1pggTve_5iKCzquXy6QoqDGYh12PaQ=s96-c",
+  "coverPhoto": "",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "savedPosts": [],
+  "connections": [],
+  "profileComplete": false,
+  "completedFields": [],
+  "profileCompletionPercentage": 0,
+  "hasSeenProfileCompletionModal": false,
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-18T11:47:36.476Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-18T11:47:36.477Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-18T11:48:24.981Z"
+  },
+  "__v": 0,
+  "bio": "",
+  "company": "",
+  "currentRole": "",
+  "githubUrl": "",
+  "linkedinUrl": "",
+  "location": "Dhanbad, Jharkhand , India",
+  "phone": "8102958685",
+  "portfolioUrl": ""
+},
+{
+  "_id": {
+    "$oid": "696cc9248e23db30c6ab0fdd"
+  },
+  "firstName": "Tisha",
+  "lastName": "Khalkho",
+  "email": "tisha5304khalkho@gmail.com",
+  "firebaseUid": "r1EmdkY9mbf33KUnIwmnxwtPqan2",
+  "role": "student",
+  "batch": "2023-2027",
+  "department": "Civil Engineering",
+  "profilePicture": "https://lh3.googleusercontent.com/a/ACg8ocIKwx-fCwpvV3TuGstCKkUhizWPPeeRLmhE4cX-3mfQkHNw1g=s96-c",
+  "coverPhoto": "",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "savedPosts": [],
+  "connections": [],
+  "profileComplete": false,
+  "completedFields": [],
+  "profileCompletionPercentage": 0,
+  "hasSeenProfileCompletionModal": false,
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-18T11:58:18.625Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-18T11:51:00.754Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-18T11:58:18.626Z"
+  },
+  "__v": 0,
+  "bio": "I am a motivated and adaptable individual who enjoys learning new skills and taking on challenges. I believe in teamwork, continuous growth, and giving my best in every opportunity.",
+  "company": "",
+  "currentRole": "",
+  "githubUrl": "",
+  "linkedinUrl": "",
+  "location": "",
+  "phone": "9693267357",
+  "portfolioUrl": ""
+},
+{
+  "_id": {
+    "$oid": "696ccc488e23db30c6ab1268"
+  },
+  "firstName": "Abhinav",
+  "lastName": "Singh",
+  "email": "singh.abhinav2006dnr@gmail.com",
+  "firebaseUid": "UTwoobnpHwUPKUQRtsxS3zoRDGA3",
+  "role": "student",
+  "batch": "",
+  "department": "Civil Engineering",
+  "profilePicture": "https://lh3.googleusercontent.com/a/ACg8ocL94jDyJpXlVW7FNS-kbkCg9B4HmBtTMlYZ_hKW7JKMOqsFG64=s96-c",
+  "coverPhoto": "",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "savedPosts": [],
+  "connections": [],
+  "profileComplete": false,
+  "completedFields": [],
+  "profileCompletionPercentage": 0,
+  "hasSeenProfileCompletionModal": false,
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-18T12:04:24.741Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-18T12:04:24.742Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-18T12:04:54.649Z"
+  },
+  "__v": 0,
+  "bio": "",
+  "company": "",
+  "currentRole": "",
+  "githubUrl": "",
+  "linkedinUrl": "",
+  "location": "",
+  "phone": "7275373153",
+  "portfolioUrl": ""
+},
+{
+  "_id": {
+    "$oid": "696ccf008e23db30c6ab138c"
+  },
+  "firstName": "Hans",
+  "lastName": "Raj",
+  "email": "hansraj9633@gmail.com",
+  "firebaseUid": "QgvN1aM0mNPzPGfzILhTs7y83Hg1",
+  "phone": "9334825105",
+  "role": "student",
+  "batch": "2",
+  "enrollmentNumber": "24030430056",
+  "department": "Civil Engineering",
+  "profilePicture": "",
+  "coverPhoto": "",
+  "bio": "Civil Engineering Undergrad",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "savedPosts": [],
+  "connections": [],
+  "profileComplete": false,
+  "completedFields": [],
+  "profileCompletionPercentage": 0,
+  "hasSeenProfileCompletionModal": false,
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-18T12:16:00.551Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-18T12:16:00.551Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-18T12:16:00.686Z"
+  },
+  "__v": 0,
+  "emailVerificationExpires": {
+    "$date": "2026-01-19T12:16:00.686Z"
+  },
+  "emailVerificationToken": "2b0e62340d7eda921500f94a8ca2d46a44199aed0ffa4e1e95d5ddfad7185458"
+},
+{
+  "_id": {
+    "$oid": "696cd7fb5505e57a318ad35a"
+  },
+  "firstName": "Hritik",
+  "lastName": "Kochar",
+  "email": "hritikochar@gmail.com",
+  "firebaseUid": "oHALswrP19egvPJVYIbFgJOjN363",
+  "role": "student",
+  "batch": "2022",
+  "department": "Civil Engineering",
+  "profilePicture": "https://lh3.googleusercontent.com/a/ACg8ocKV4lDgr0wUmEORZXh-d4NeBztuQH5RkSBxnljEL4vfcZUDoHDs=s96-c",
+  "coverPhoto": "",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "savedPosts": [],
+  "connections": [],
+  "profileComplete": false,
+  "completedFields": [],
+  "profileCompletionPercentage": 0,
+  "hasSeenProfileCompletionModal": false,
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [
+    {
+      "degree": "B.Tech",
+      "institution": "BIT Sindri",
+      "_id": {
+        "$oid": "696d2240e304946df911f656"
+      }
+    }
+  ],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-18T18:08:55.590Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-18T12:54:19.726Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-18T18:11:45.447Z"
+  },
+  "__v": 0,
+  "bio": "",
+  "company": "",
+  "currentRole": "",
+  "githubUrl": "",
+  "linkedinUrl": "https://www.linkedin.com/in/hritik-kochar",
+  "location": "",
+  "phone": "9631053618",
+  "portfolioUrl": ""
+},
+{
+  "_id": {
+    "$oid": "696cd86d5505e57a318ad35f"
+  },
+  "firstName": "Aman",
+  "lastName": "Sagar",
+  "email": "sgr26114@gmail.com",
+  "firebaseUid": "XvOfeKILAQNnah9T6ruL5K1fQsx2",
+  "role": "student",
+  "batch": "3",
+  "enrollmentNumber": "2305109",
+  "department": "Civil Engineering",
+  "profilePicture": "",
+  "coverPhoto": "",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "savedPosts": [],
+  "connections": [],
+  "profileComplete": false,
+  "completedFields": [],
+  "profileCompletionPercentage": 0,
+  "hasSeenProfileCompletionModal": false,
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-18T12:56:13.650Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-18T12:56:13.651Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-18T12:56:13.718Z"
+  },
+  "__v": 0,
+  "emailVerificationExpires": {
+    "$date": "2026-01-19T12:56:13.718Z"
+  },
+  "emailVerificationToken": "9d401171512395cb11c56ed5e49a6cbe1e4d6bf20e1029e4ab06f9552399a8ad"
+},
+{
+  "_id": {
+    "$oid": "696cd9b75505e57a318ad56d"
+  },
+  "firstName": "Utkarsh",
+  "lastName": "Kumar",
+  "email": "utkarsh.jee77@gmail.com",
+  "firebaseUid": "5FSZ72hu3AdnhXsmvvjY9ms8LlT2",
+  "role": "student",
+  "batch": "",
+  "department": "Civil Engineering",
+  "profilePicture": "https://lh3.googleusercontent.com/a/ACg8ocL2doS7Z_8CqSMCl4TzYCNDXpwi_eXA6YEeXnloCmS6WSHtPuQf=s96-c",
+  "coverPhoto": "",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "savedPosts": [],
+  "connections": [],
+  "profileComplete": false,
+  "completedFields": [],
+  "profileCompletionPercentage": 0,
+  "hasSeenProfileCompletionModal": false,
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-18T13:01:43.879Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-18T13:01:43.879Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-18T13:04:22.095Z"
+  },
+  "__v": 0,
+  "bio": "Association of Civil Engineering (ACE) B.I.T. Sindri coordinator from batch 2k24",
+  "company": "",
+  "currentRole": "",
+  "githubUrl": "",
+  "linkedinUrl": "",
+  "location": "Sindri, Jharkhand , India",
+  "phone": "7260000177",
+  "portfolioUrl": ""
+},
+{
+  "_id": {
+    "$oid": "696cdb9b5505e57a318ad62d"
+  },
+  "firstName": "Surya",
+  "lastName": "Pratap",
+  "email": "suryapratapmodi401@gmail.com",
+  "firebaseUid": "linkedin_NdFWzXjPpk",
+  "role": "student",
+  "batch": "",
+  "department": "Civil Engineering",
+  "profilePicture": "https://media.licdn.com/dms/image/v2/D4D03AQG8KTUqflSq1g/profile-displayphoto-scale_200_200/B4DZhkNbOnH4AY-/0/1754027900112?e=1770249600&v=beta&t=tc3zEoVk0fKGi3S6kaYmck_ReLIn73NGBZmd35ZD62k",
+  "coverPhoto": "",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "savedPosts": [],
+  "connections": [],
+  "profileComplete": false,
+  "completedFields": [],
+  "profileCompletionPercentage": 0,
+  "hasSeenProfileCompletionModal": false,
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-18T13:10:50.466Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-18T13:09:47.864Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-18T13:10:50.467Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "696cdc585505e57a318ad718"
+  },
+  "firstName": "Divyanshu Kumar",
+  "lastName": "Singh",
+  "email": "divyanshukumarsingh90@gmail.com",
+  "firebaseUid": "UQNQBoKiMUhwxTYWLWSj85ApP8m2",
+  "role": "student",
+  "batch": "2022",
+  "department": "Civil Engineering",
+  "profilePicture": "https://lh3.googleusercontent.com/a/ACg8ocJ11mFaKwyYaVPxF9Y3iZCwYZou_nqbTXejhb2KKL2w8_xALeeA=s96-c",
+  "coverPhoto": "",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "savedPosts": [],
+  "connections": [],
+  "profileComplete": false,
+  "completedFields": [],
+  "profileCompletionPercentage": 0,
+  "hasSeenProfileCompletionModal": false,
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-18T13:12:56.228Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-18T13:12:56.229Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-18T13:14:53.883Z"
+  },
+  "__v": 0,
+  "bio": "Final year Civil Engineering student, Vice- President of ACE-2025-26",
+  "company": "",
+  "currentRole": "",
+  "githubUrl": "",
+  "linkedinUrl": "",
+  "location": "Ramgarh , Jharkhand , India",
+  "phone": "+918252538262",
+  "portfolioUrl": ""
+},
+{
+  "_id": {
+    "$oid": "696cdc665505e57a318ad77f"
+  },
+  "firstName": "Ayush",
+  "lastName": "Kumar",
+  "email": "kumarayush59268@gmail.com",
+  "firebaseUid": "L9QSLySgzPQ4MmVRKPVG7mf6Lhe2",
+  "role": "student",
+  "batch": "",
+  "department": "Civil Engineering",
+  "profilePicture": "https://lh3.googleusercontent.com/a/ACg8ocIax73LZ17-MLcSpDp57atKQy5GBvoR7D7ScN7YZNFbPiohATk0=s96-c",
+  "coverPhoto": "",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "savedPosts": [],
+  "connections": [],
+  "profileComplete": false,
+  "completedFields": [],
+  "profileCompletionPercentage": 0,
+  "hasSeenProfileCompletionModal": false,
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-18T13:13:10.855Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-18T13:13:10.856Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-18T13:13:25.230Z"
+  },
+  "__v": 0,
+  "bio": "",
+  "company": "",
+  "currentRole": "",
+  "githubUrl": "",
+  "linkedinUrl": "",
+  "location": "Dhanbad, Jharkhand, India",
+  "phone": "+918340149323",
+  "portfolioUrl": ""
+},
+{
+  "_id": {
+    "$oid": "696ce23369cacb230411ac18"
+  },
+  "firstName": "Krishna",
+  "lastName": "Pahan",
+  "email": "krishnapahan2020@gmail.com",
+  "firebaseUid": "linkedin_pGFT_D6eCI",
+  "role": "student",
+  "batch": "",
+  "department": "Civil Engineering",
+  "profilePicture": "https://media.licdn.com/dms/image/v2/D4E03AQFxnqAr9JJXHw/profile-displayphoto-scale_200_200/B4EZlXSmYfHEAY-/0/1758106120064?e=1770249600&v=beta&t=AbVaF8dG1wSa7dTGX7siMStjBVseKMu_t44E-6aRVME",
+  "coverPhoto": "",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "savedPosts": [],
+  "connections": [],
+  "profileComplete": false,
+  "completedFields": [],
+  "profileCompletionPercentage": 0,
+  "hasSeenProfileCompletionModal": false,
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-18T13:37:55.210Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-18T13:37:55.212Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-18T13:37:55.212Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "696cf658fa70dc0526e5dfd7"
+  },
+  "firstName": "Sumit",
+  "lastName": "Sen",
+  "email": "bablusen8709016230@gmail.com",
+  "firebaseUid": "pbYuaQs1vrT25mYHHisawX8ZnZk2",
+  "phone": "8709016230",
+  "role": "student",
+  "batch": "3",
+  "enrollmentNumber": "2305091",
+  "department": "Civil Engineering",
+  "profilePicture": "",
+  "coverPhoto": "",
+  "bio": "I'm Sumit Sen, student of Birsa institute of technology doing my bachelor's in technology in the field of civil engineering",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "savedPosts": [],
+  "connections": [],
+  "profileComplete": false,
+  "completedFields": [],
+  "profileCompletionPercentage": 0,
+  "hasSeenProfileCompletionModal": false,
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-18T15:03:52.439Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-18T15:03:52.444Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-18T15:03:52.598Z"
+  },
+  "__v": 0,
+  "emailVerificationExpires": {
+    "$date": "2026-01-19T15:03:52.597Z"
+  },
+  "emailVerificationToken": "5c56b9270888cd500743318220c7ed33fbb1f53644a0f96010cbb2679a6a0e2f"
+},
+{
+  "_id": {
+    "$oid": "696cf659fa70dc0526e5dfec"
+  },
+  "firstName": "Uday Bhanu",
+  "lastName": "Samanta",
+  "email": "udaybhanusamanta10001@gmail.com",
+  "firebaseUid": "bqjtiPyChCUcaJKb1Rumao0zzkD3",
+  "phone": "89693 76891",
+  "role": "student",
+  "batch": "2",
+  "enrollmentNumber": "2405126",
+  "department": "Civil Engineering",
+  "profilePicture": "",
+  "coverPhoto": "",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "savedPosts": [],
+  "connections": [],
+  "profileComplete": false,
+  "completedFields": [],
+  "profileCompletionPercentage": 0,
+  "hasSeenProfileCompletionModal": false,
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-18T15:03:53.697Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-18T15:03:53.698Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-18T15:03:53.759Z"
+  },
+  "__v": 0,
+  "emailVerificationExpires": {
+    "$date": "2026-01-19T15:03:53.759Z"
+  },
+  "emailVerificationToken": "62dc10df683a34b6c98d15b6d19988c08258e16a27a6f2e2ea98651125cf42d4"
+},
+{
+  "_id": {
+    "$oid": "696cf65afa70dc0526e5dff6"
+  },
+  "firstName": "Shashi",
+  "lastName": "Kumar",
+  "email": "shashisuprabhat@gmail.com",
+  "firebaseUid": "2L9ktUBrBYTi4HbLogpR3cFPDxt2",
+  "phone": "7858834637",
+  "role": "student",
+  "batch": "3",
+  "enrollmentNumber": "2305078",
+  "department": "Civil Engineering",
+  "profilePicture": "",
+  "coverPhoto": "",
+  "bio": "..",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "savedPosts": [],
+  "connections": [],
+  "profileComplete": false,
+  "completedFields": [],
+  "profileCompletionPercentage": 0,
+  "hasSeenProfileCompletionModal": false,
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-18T15:03:54.919Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-18T15:03:54.920Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-18T15:03:54.981Z"
+  },
+  "__v": 0,
+  "emailVerificationExpires": {
+    "$date": "2026-01-19T15:03:54.980Z"
+  },
+  "emailVerificationToken": "ebd2ce51291b274b7df1ac22e1c8e5e45f694472cde35ca1005fedd81739809b"
+},
+{
+  "_id": {
+    "$oid": "696cf988fa70dc0526e5e1eb"
+  },
+  "firstName": "Abhishek",
+  "lastName": "Rajwar",
+  "email": "abhiiiraj1508@gmail.com",
+  "firebaseUid": "VM644k9jrETZTkaSvkatS33tiQp1",
+  "phone": "7321040590",
+  "role": "student",
+  "batch": "2",
+  "enrollmentNumber": "24030430005",
+  "department": "Civil Engineering",
+  "profilePicture": "",
+  "coverPhoto": "",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "savedPosts": [],
+  "connections": [],
+  "profileComplete": false,
+  "completedFields": [],
+  "profileCompletionPercentage": 0,
+  "hasSeenProfileCompletionModal": false,
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-18T15:17:28.878Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-18T15:17:28.879Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-18T15:17:28.959Z"
+  },
+  "__v": 0,
+  "emailVerificationExpires": {
+    "$date": "2026-01-19T15:17:28.958Z"
+  },
+  "emailVerificationToken": "72ed231b75b4055176ef9eaf6e9b856826a348aaa80fbc1f781a400809184175"
+},
+{
+  "_id": {
+    "$oid": "696cf9bdfa70dc0526e5e255"
+  },
+  "firstName": "deepikakumaribaskey",
+  "lastName": "",
+  "email": "deepikakumaribaskey@gmail.com",
+  "firebaseUid": "KxoSIpExekNTgkd6TYvRd5KQW3V2",
+  "role": "student",
+  "batch": "",
+  "department": "Civil Engineering",
+  "profilePicture": "https://lh3.googleusercontent.com/a/ACg8ocJ80sm-TE8LQEubMZsCRR45SPltbe3yClsmlIkG5MY7qoBgtA=s96-c",
+  "coverPhoto": "",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "savedPosts": [],
+  "connections": [],
+  "profileComplete": false,
+  "completedFields": [],
+  "profileCompletionPercentage": 0,
+  "hasSeenProfileCompletionModal": false,
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-18T15:18:21.219Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-18T15:18:21.219Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-18T15:18:21.219Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "696d065b1ad321a3cb14a0dd"
+  },
+  "firstName": "Nihal",
+  "lastName": "Bhadani",
+  "email": "nihalbhadani0908@gmail.com",
+  "firebaseUid": "7dc4So8W4JQ8ZSjeME0L8JNqwHo1",
+  "role": "student",
+  "batch": "",
+  "department": "Civil Engineering",
+  "profilePicture": "https://lh3.googleusercontent.com/a/ACg8ocIqMdjCJ4TsTKEaCwtXKPVsrDc9RluMbE_m85v_fqur655WR4iS=s96-c",
+  "coverPhoto": "",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "savedPosts": [],
+  "connections": [],
+  "profileComplete": false,
+  "completedFields": [],
+  "profileCompletionPercentage": 0,
+  "hasSeenProfileCompletionModal": false,
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-18T16:12:11.158Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-18T16:12:11.158Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-18T16:13:28.875Z"
+  },
+  "__v": 0,
+  "bio": "",
+  "company": "",
+  "currentRole": "",
+  "githubUrl": "",
+  "linkedinUrl": "",
+  "location": "Dhanbad, Jharkhand, India",
+  "phone": "8987863004",
+  "portfolioUrl": ""
+},
+{
+  "_id": {
+    "$oid": "696d07a31ad321a3cb14a286"
+  },
+  "firstName": "Jeet",
+  "lastName": "Prakash",
+  "email": "jeetprakash1612@gmail.com",
+  "firebaseUid": "HPooBgG8kUdAFZqloHfvp4tpQPv2",
+  "phone": "9264914336",
+  "role": "student",
+  "batch": "2",
+  "enrollmentNumber": "2405060",
+  "department": "Civil Engineering",
+  "profilePicture": "",
+  "coverPhoto": "",
+  "bio": "BITian \r\nRoyal Civil\r\n",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "savedPosts": [],
+  "connections": [],
+  "profileComplete": false,
+  "completedFields": [],
+  "profileCompletionPercentage": 0,
+  "hasSeenProfileCompletionModal": false,
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-18T16:17:39.060Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-18T16:17:39.061Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-18T16:17:39.143Z"
+  },
+  "__v": 0,
+  "emailVerificationExpires": {
+    "$date": "2026-01-19T16:17:39.142Z"
+  },
+  "emailVerificationToken": "6e4e410d53b5074686fd228e8e86a4ea5a36d3c34743ece6775ab271a167e430"
+},
+{
+  "_id": {
+    "$oid": "696d0b4e1ad321a3cb14a398"
+  },
+  "firstName": "Kesar",
+  "lastName": "Kumari",
+  "email": "kesarkumari552@gmail.com",
+  "firebaseUid": "iu14aScYU5UFJtL05esP1y2gNo02",
+  "phone": "9572888941",
+  "role": "student",
+  "batch": "2",
+  "enrollmentNumber": "2405140",
+  "department": "Civil Engineering",
+  "profilePicture": "",
+  "coverPhoto": "",
+  "bio": "Civil engineering student of batch 2024-28 of bit sindri ",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "savedPosts": [],
+  "connections": [],
+  "profileComplete": false,
+  "completedFields": [],
+  "profileCompletionPercentage": 0,
+  "hasSeenProfileCompletionModal": false,
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-19T02:58:49.907Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-18T16:33:18.839Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-19T02:58:49.909Z"
+  },
+  "__v": 0,
+  "emailVerificationExpires": {
+    "$date": "2026-01-19T16:33:18.920Z"
+  },
+  "emailVerificationToken": "dec941555b15b867b8fbb3bdbd34d5ea7b9c6e66ada46016a1ac0615eadc73c1"
+},
+{
+  "_id": {
+    "$oid": "696d0dab1ad321a3cb14a475"
+  },
+  "firstName": "KHUSHI",
+  "lastName": "KUMARI",
+  "email": "shikhumodi2405@gmail.com",
+  "firebaseUid": "glyTxrJJX7cKd82aNlRU5YVbjA62",
+  "phone": "9905229707",
+  "role": "student",
+  "batch": "2024",
+  "enrollmentNumber": "2405063",
+  "department": "Civil Engineering",
+  "profilePicture": "https://res.cloudinary.com/dethhxmyj/image/upload/v1768756676/alumni-connect/profiles/profile_696d0dab1ad321a3cb14a475_1768756675060.png",
+  "coverPhoto": "",
+  "bio": "\"Engineering Student @BIT Sindri. Building things that work.\"",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "savedPosts": [],
+  "connections": [],
+  "profileComplete": false,
+  "completedFields": [],
+  "profileCompletionPercentage": 0,
+  "hasSeenProfileCompletionModal": false,
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-18T16:56:31.656Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-18T16:43:23.006Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-18T17:17:56.742Z"
+  },
+  "__v": 0,
+  "emailVerificationExpires": {
+    "$date": "2026-01-19T16:43:23.084Z"
+  },
+  "emailVerificationToken": "f255ca6ea0b5bc773e53713db5a064f0af28e65e1e0addcecb859b3e3da6d47f",
+  "company": "",
+  "currentRole": "",
+  "githubUrl": "",
+  "linkedinUrl": "",
+  "location": "Giridih , Jharkhand , India",
+  "portfolioUrl": ""
+},
+{
+  "_id": {
+    "$oid": "696d2e2cf48123bf05a1993b"
+  },
+  "firstName": "Aparna",
+  "lastName": "Kumari",
+  "email": "aparnakumari573@gmail.com",
+  "firebaseUid": "qyllWwSU8mgsf46R4z85SNxcEeM2",
+  "phone": "6299649247",
+  "role": "student",
+  "batch": "2",
+  "enrollmentNumber": "24030430031",
+  "department": "Civil Engineering",
+  "profilePicture": "https://storage.googleapis.com/alumni-connect-84d49.firebasestorage.app/profile-pictures/qyllWwSU8mgsf46R4z85SNxcEeM2/3c0aefca-9804-4144-81fe-26947e65654d.jpg",
+  "coverPhoto": "",
+  "bio": "I am Aparna Kumari from Royal Civil Engineering department of batch 2024.My hometown is sindri.I have done my matriculation and Intermediate from Lions Public School, sindri.       \r\n                  ",
+  "skills": [],
+  "mentorshipAvailable": false,
+  "mentorshipDomains": [],
+  "privacySettings": {
+    "profileVisibility": "public",
+    "showEmail": false,
+    "showPhone": false,
+    "allowMessages": "everyone"
+  },
+  "savedPosts": [],
+  "connections": [],
+  "profileComplete": false,
+  "completedFields": [],
+  "profileCompletionPercentage": 0,
+  "hasSeenProfileCompletionModal": false,
+  "isEmailVerified": true,
+  "isActive": true,
+  "notificationPreferences": {
+    "pushNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": true,
+      "comments": true,
+      "likes": true,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true
+    },
+    "emailNotifications": {
+      "enabled": true,
+      "connections": true,
+      "posts": false,
+      "comments": true,
+      "likes": false,
+      "messages": true,
+      "events": true,
+      "jobs": true,
+      "mentorship": true,
+      "weeklyDigest": true
+    },
+    "inAppNotifications": {
+      "enabled": true
+    }
+  },
+  "experience": [],
+  "education": [],
+  "connectionRequests": [],
+  "lastActive": {
+    "$date": "2026-01-18T19:02:04.286Z"
+  },
+  "createdAt": {
+    "$date": "2026-01-18T19:02:04.292Z"
+  },
+  "updatedAt": {
+    "$date": "2026-01-18T19:02:11.824Z"
+  },
+  "__v": 0,
+  "emailVerificationExpires": {
+    "$date": "2026-01-19T19:02:04.369Z"
+  },
+  "emailVerificationToken": "8022a2fd2f9c30908ea1064e9815268741f5f80b7a915a65b708bf4f7e4a0568"
+}]

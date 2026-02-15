@@ -9,6 +9,10 @@ export const getAllUsers = async (req, res) => {
     const {
       page = 1,
       limit = 20,
+      batches,
+      companies,
+      locations,
+      domains, // domains maps to department
       role,
       batch,
       company,
@@ -24,23 +28,64 @@ export const getAllUsers = async (req, res) => {
 
     // Build query
     let query = {};
+    const andConditions = [];
 
     // Search by name or email
     if (search) {
-      query.$or = [
-        { firstName: { $regex: search, $options: 'i' } },
-        { lastName: { $regex: search, $options: 'i' } },
-        { email: { $regex: search, $options: 'i' } },
-      ];
+      andConditions.push({
+        $or: [
+          { firstName: { $regex: search, $options: 'i' } },
+          { lastName: { $regex: search, $options: 'i' } },
+          { email: { $regex: search, $options: 'i' } },
+          { company: { $regex: search, $options: 'i' } },
+          { currentRole: { $regex: search, $options: 'i' } },
+        ]
+      });
     }
 
-    if (batch) query.batch = batch;
-    if (company) query.company = { $regex: company, $options: 'i' };
-    if (location) query.location = { $regex: location, $options: 'i' };
-    if (department) query.department = department;
+    // Handle Batches
+    if (batches) {
+      const batchList = batches.split(',').map(b => b.trim());
+      andConditions.push({ batch: { $in: batchList } });
+    } else if (batch) {
+      andConditions.push({ batch: batch });
+    }
+
+    // Handle Companies
+    if (companies) {
+      const companyList = companies.split(',').map(c => c.trim());
+      const companyQueries = companyList.map(c => ({ company: { $regex: c, $options: 'i' } }));
+      andConditions.push({ $or: companyQueries });
+    } else if (company) {
+      andConditions.push({ company: { $regex: company, $options: 'i' } });
+    }
+
+    // Handle Locations
+    if (locations) {
+      const locationList = locations.split(',').map(l => l.trim());
+      const locationQueries = locationList.map(l => ({ location: { $regex: l, $options: 'i' } }));
+      andConditions.push({ $or: locationQueries });
+    } else if (location) {
+      andConditions.push({ location: { $regex: location, $options: 'i' } });
+    }
+
+    // Handle Departments/Domains
+    if (domains) {
+      const domainList = domains.split(',').map(d => d.trim());
+      andConditions.push({ department: { $in: domainList } });
+    } else if (department) {
+      andConditions.push({ department: department });
+    }
+
+    // Handle Skills
     if (skills) {
       const skillsArray = skills.split(',').map(s => s.trim());
-      query.skills = { $in: skillsArray };
+      andConditions.push({ skills: { $in: skillsArray } });
+    }
+
+    // Combine all conditions
+    if (andConditions.length > 0) {
+      query.$and = andConditions;
     }
 
     let users = [];
@@ -301,7 +346,7 @@ export const updateProfile = async (req, res) => {
   } catch (error) {
     console.error('Update profile error:', error.message);
     console.error('Full error:', error);
-    
+
     // Handle validation errors
     if (error.name === 'ValidationError') {
       const messages = Object.values(error.errors).map(err => err.message);
