@@ -12,11 +12,7 @@ export interface Alumni {
   batch?: string;
   company?: string;
   currentRole?: string;
-  location?: {
-    city?: string;
-    state?: string;
-    country?: string;
-  };
+  location?: string;
   linkedinUrl?: string;
   githubUrl?: string;
   portfolioUrl?: string;
