@@ -3,20 +3,13 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-let isConnected = false;
-
 const connectDB = async () => {
-  if (isConnected) {
-    return;
-  }
   try {
     const conn = await mongoose.connect(process.env.MONGODB_URI, {
       dbName: process.env.DB_NAME || 'ALUMNI-CONNECT',
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-
-    isConnected = true;
 
     console.log(`MongoDB Connected: ${conn.connection.host}`);
     console.log(`Database: ${conn.connection.name}`);
@@ -28,7 +21,6 @@ const connectDB = async () => {
 
     mongoose.connection.on('disconnected', () => {
       console.log('MongoDB disconnected');
-      isConnected = false;
     });
 
     // Graceful shutdown

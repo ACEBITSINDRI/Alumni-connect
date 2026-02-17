@@ -1,7 +1,8 @@
 // API Configuration for Alumni Connect
-const API_BASE_URL = import.meta.env.PROD
-  ? '' // Production: Use relative path for Firebase rewrites
-  : (import.meta.env.VITE_API_URL ?? 'http://localhost:5000');
+const API_BASE_URL = import.meta.env.VITE_API_URL ||
+  (import.meta.env.DEV
+    ? 'http://localhost:5000'
+    : 'https://alumni-connect-backend.onrender.com');
 
 export default API_BASE_URL;
 

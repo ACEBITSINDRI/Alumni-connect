@@ -55,43 +55,18 @@ export interface User {
   createdAt: string;
 }
 
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../config/firebase';
-
 // Login
 export const login = async (email: string, password: string, role: 'student' | 'alumni'): Promise<AuthResponse> => {
-  try {
-    // 1. Login with Firebase
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    const user = userCredential.user;
-    const idToken = await user.getIdToken();
+  const response = await api.post<AuthResponse>('/api/auth/login', { email, password, role });
 
-    // 2. Call backend with token
-    const response = await api.post<AuthResponse>('/api/auth/login',
-      { role },
-      {
-        headers: {
-          Authorization: `Bearer ${idToken}`
-        }
-      }
-    );
-
-    // Store token and user data
-    if (response.data.success && response.data.data) {
-      localStorage.setItem('accessToken', response.data.data.accessToken);
-      localStorage.setItem('refreshToken', response.data.data.refreshToken);
-      localStorage.setItem('user', JSON.stringify(response.data.data.user));
-    }
-
-    return response.data;
-  } catch (error: any) {
-    console.error('Login error:', error);
-    // Propagate error with message
-    if (error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential') {
-      throw new Error('Invalid email or password');
-    }
-    throw error;
+  // Store token and user data
+  if (response.data.success && response.data.data) {
+    localStorage.setItem('accessToken', response.data.data.accessToken);
+    localStorage.setItem('refreshToken', response.data.data.refreshToken);
+    localStorage.setItem('user', JSON.stringify(response.data.data.user));
   }
+
+  return response.data;
 };
 
 // Student Registration

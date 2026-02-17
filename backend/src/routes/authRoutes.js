@@ -59,7 +59,7 @@ const resetPasswordValidation = [
 
 // Routes (Firebase-based)
 router.post('/register', uploadRegistrationFiles, handleUploadError, registerValidation, validate, register);
-router.post('/login', verifyFirebaseToken, loginValidation, validate, login);
+router.post('/login', protect, loginValidation, validate, login);
 router.post('/google-login', verifyFirebaseToken, googleLoginValidation, validate, googleLogin);
 router.post('/linkedin-login', verifyFirebaseToken, linkedInLoginValidation, validate, linkedInLogin);
 

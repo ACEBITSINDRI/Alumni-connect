@@ -108,7 +108,7 @@ export const getAllFirebaseUsers = async () => {
  */
 const sendEmail = async (to, subject, htmlContent) => {
   try {
-    const transporter = createTransporter();
+    const transporter = createTransport();
 
     const mailOptions = {
       from: {
@@ -131,7 +131,7 @@ const sendEmail = async (to, subject, htmlContent) => {
 /**
  * Send bulk emails with rate limiting
  */
-export const sendBulkEmails = async (recipients, subject, htmlTemplate, batchSize = 10, delayMs = 300) => {
+export const sendBulkEmails = async (recipients, subject, htmlTemplate, batchSize = 10, delayMs = 1000) => {
   const results = {
     total: recipients.length,
     sent: 0,
