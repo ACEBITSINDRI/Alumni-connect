@@ -94,9 +94,15 @@ export const protect = async (req, res, next) => {
         });
       }
 
+      // Grant admin access to specific email
+      if (user.email === 'alumniconnect.acebitsindri@gmail.com') {
+        user.role = 'admin';
+      }
+
       // Attach user info to request object
       req.user = user;
       req.user.role = user.role; // Use role from database (can be 'student', 'alumni', or 'admin')
+
 
       next();
     } catch (error) {
@@ -153,7 +159,7 @@ export const isAlumniOrStudent = (req, res, next) => {
 
 // Middleware to check if user is admin
 export const isAdmin = (req, res, next) => {
-  if (req.user && req.user.role === 'admin') {
+  if ((req.user && req.user.role === 'admin') || (req.user && req.user.email === 'alumniconnect.acebitsindri@gmail.com')) {
     next();
   } else {
     return res.status(403).json({
