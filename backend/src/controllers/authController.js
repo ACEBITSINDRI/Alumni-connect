@@ -74,6 +74,7 @@ export const register = async (req, res) => {
       try {
         firebaseUser = await auth.getUser(firebaseUid);
       } catch (error) {
+        console.error('[Register] Invalid Firebase UID:', firebaseUid, error);
         return res.status(400).json({
           success: false,
           message: 'Invalid Firebase UID',
@@ -107,6 +108,7 @@ export const register = async (req, res) => {
             });
           }
         } else {
+          console.error('[Register] Failed to create Firebase user:', email, firebaseError);
           return res.status(400).json({
             success: false,
             message: firebaseError.message || 'Failed to create Firebase user',
@@ -115,6 +117,7 @@ export const register = async (req, res) => {
         }
       }
     } else {
+      console.error('[Register] Missing firebaseUid or email/password');
       return res.status(400).json({
         success: false,
         message: 'Please provide either firebaseUid (for Google Sign-In) or email & password for registration',
@@ -123,7 +126,7 @@ export const register = async (req, res) => {
 
     // Validate required fields
     if (!firstName || !lastName || !email || !role) {
-      console.error('[Register] Missing required fields:', { firstName, lastName, email, role });
+      console.error('[Register] Missing required fields in body:', { firstName, lastName, email, role });
       return res.status(400).json({
         success: false,
         message: 'Please provide all required fields: firstName, lastName, email, and role',
@@ -150,6 +153,7 @@ export const register = async (req, res) => {
     });
 
     if (existingAlumni || existingStudent) {
+      console.error('[Register] User already exists in MongoDB:', { email, firebaseUid: firebaseUser.uid });
       return res.status(400).json({
         success: false,
         message: 'User with this email or Firebase account already exists',

@@ -32,10 +32,13 @@ const app = express();
 
 // Initialize Cron Jobs for automated tasks
 import { initializeCronJobs } from './services/cronService.js';
-if (process.env.NODE_ENV === 'production') {
-  // Only run cron jobs in production to avoid multiple instances in development
+if (process.env.NODE_ENV === 'production' && !process.env.K_SERVICE) {
+  // Only run cron jobs in production but NOT in serverless environments like Firebase Functions
+  // Scheduled tasks in serverless should use cloud scheduler/scheduled functions
   initializeCronJobs();
   console.log('📅 Cron jobs initialized (Production mode)');
+} else if (process.env.K_SERVICE) {
+  console.log('☁️ Running in Serverless mode - Cron jobs disabled (Use Cloud Scheduler instead)');
 } else {
   console.log('⏰ Cron jobs disabled (Development mode)');
   console.log('   Use POST /api/notifications/test/* endpoints to test manually');
@@ -48,7 +51,7 @@ app.set('trust proxy', 1);
 app.use(helmet());
 
 // CORS - Support multiple origins
-const allowedOrigins = (process.env.CORS_ORIGIN || process.env.FRONTEND_URL || 'http://localhost:5173')
+const allowedOrigins = (process.env.CORS_ORIGINS || process.env.FRONTEND_URL || 'http://localhost:5173')
   .split(',')
   .map(origin => origin.trim());
 
@@ -80,6 +83,9 @@ app.use(cors({
 }));
 
 // Body parser
+import { fixMultipartBody } from './middleware/fixMultipartBody.js';
+app.use(fixMultipartBody);
+
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
@@ -159,25 +165,29 @@ app.use(errorHandler);
 // Start server
 const PORT = process.env.PORT || 5000;
 
-const server = app.listen(PORT, () => {
-  console.log(`
-╔══════════════════════════════════════════════════════════╗
-║                                                          ║
-║        Alumni Connect API Server                        ║
-║                                                          ║
-║        Environment: ${process.env.NODE_ENV || 'development'}                         ║
-║        Port: ${PORT}                                          ║
-║        URL: http://localhost:${PORT}                         ║
-║                                                          ║
-╚══════════════════════════════════════════════════════════╝
-  `);
-});
+// Only start server if run directly
+import { fileURLToPath } from 'url';
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  const server = app.listen(PORT, () => {
+    console.log(`
+  ╔══════════════════════════════════════════════════════════╗
+  ║                                                          ║
+  ║        Alumni Connect API Server                        ║
+  ║                                                          ║
+  ║        Environment: ${process.env.NODE_ENV || 'development'}                         ║
+  ║        Port: ${PORT}                                          ║
+  ║        URL: http://localhost:${PORT}                         ║
+  ║                                                          ║
+  ╚══════════════════════════════════════════════════════════╝
+    `);
+  });
 
-// Handle unhandled promise rejections
-process.on('unhandledRejection', (err, promise) => {
-  console.log(`Error: ${err.message}`);
-  // Close server & exit process
-  server.close(() => process.exit(1));
-});
+  // Handle unhandled promise rejections
+  process.on('unhandledRejection', (err, promise) => {
+    console.log(`Error: ${err.message}`);
+    // Close server & exit process
+    server.close(() => process.exit(1));
+  });
+}
 
 export default app;

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'alumni-connect-v2';
+const CACHE_NAME = 'alumni-connect-v4';
 const urlsToCache = [
   '/',
   '/logo-192.png',
@@ -29,6 +29,11 @@ self.addEventListener('install', (event) => {
 
 // Fetch event - serve from cache when offline
 self.addEventListener('fetch', (event) => {
+  // Only cache GET requests
+  if (event.request.method !== 'GET') {
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request)
       .then((response) => {
