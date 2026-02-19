@@ -69,26 +69,6 @@ export default {
         'medium': '0 4px 20px -2px rgba(0, 0, 0, 0.08), 0 12px 24px -4px rgba(0, 0, 0, 0.06)',
         'strong': '0 10px 40px -3px rgba(0, 0, 0, 0.1), 0 20px 25px -5px rgba(0, 0, 0, 0.08)',
       },
-      theme: {
-  extend: {
-    animation: {
-      "slide-up": "slideUp 0.8s ease-out forwards",
-    },
-    keyframes: {
-      slideUp: {
-        "0%": {
-          opacity: "0",
-          transform: "translateY(30px)",
-        },
-        "100%": {
-          opacity: "1",
-          transform: "translateY(0)",
-        },
-      },
-    },
-  },
-},
-
     },
   },
   plugins: [],

@@ -238,11 +238,6 @@
   }
 }
 
-
-.animate-fadeInUp {
-  animation: fadeInUp 1s ease-out forwards;
-}
-
 .animate-ticker-pulse {
   animation: ticker-pulse 2s ease-in-out infinite;
 }
