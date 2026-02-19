@@ -1,0 +1,265 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply font-sans antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Floating Animation */
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  /* Fade In Animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fadeIn {
+    animation: fadeIn 0.6s ease-out;
+  }
+
+  /* Slide Down Animation */
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-slideDown {
+    animation: slideDown 0.3s ease-out;
+  }
+
+  /* Slide In Left Animation */
+  @keyframes slideInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-100%);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .animate-slideInLeft {
+    animation: slideInLeft 0.3s ease-out;
+  }
+
+  /* Smooth Dashboard Entry Animation */
+  @keyframes dashboardEntry {
+    from {
+      opacity: 0;
+      transform: translateY(30px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  .animate-dashboardEntry {
+    animation: dashboardEntry 0.5s ease-out;
+  }
+
+  /* Stagger Animation for Cards */
+  @keyframes staggerFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-stagger-1 {
+    animation: staggerFadeIn 0.5s ease-out 0.1s both;
+  }
+
+  .animate-stagger-2 {
+    animation: staggerFadeIn 0.5s ease-out 0.2s both;
+  }
+
+  .animate-stagger-3 {
+    animation: staggerFadeIn 0.5s ease-out 0.3s both;
+  }
+
+  /* Professional Background Pattern */
+  .bg-professional-pattern {
+    background-image:
+      radial-gradient(circle at 25px 25px, rgba(59, 130, 246, 0.03) 2%, transparent 0%),
+      radial-gradient(circle at 75px 75px, rgba(14, 165, 233, 0.03) 2%, transparent 0%);
+    background-size: 100px 100px;
+    background-position: 0 0, 50px 50px;
+  }
+
+  /* Subtle Dot Pattern */
+  .bg-dot-pattern {
+    background-image: radial-gradient(circle, rgba(56, 189, 248, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  /* Animated Gradient Background */
+  @keyframes gradientShift {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  .animate-gradient {
+    background-size: 200% 200%;
+    animation: gradientShift 15s ease infinite;
+  }
+
+  /* Hide Scrollbar */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ===== Notification Ticker Animations ===== */
+
+/* Marquee Animation - Horizontal infinite scroll */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Marquee Animation - Faster variant */
+@keyframes marquee-fast {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee-fast {
+  animation: marquee-fast 20s linear infinite;
+}
+
+.animate-marquee-fast:hover {
+  animation-play-state: paused;
+}
+
+/* Vertical Carousel Animation - For mobile */
+@keyframes slide-up {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-100%);
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 5s ease-in-out infinite;
+}
+
+/* Ticker Fade In Animation */
+@keyframes ticker-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-ticker-fade-in {
+  animation: ticker-fade-in 0.3s ease-out;
+}
+
+/* Pulse Animation for Urgent Items */
+@keyframes ticker-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+
+.animate-fadeInUp {
+  animation: fadeInUp 1s ease-out forwards;
+}
+
+.animate-ticker-pulse {
+  animation: ticker-pulse 2s ease-in-out infinite;
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee,
+  .animate-marquee-fast,
+  .animate-slide-up,
+  .animate-ticker-pulse {
+    animation: none;
+  }
+
+  .animate-ticker-fade-in {
+    animation: none;
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to Alumni Connect</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      background: #ffffff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 40px 30px;
+      text-align: center;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 32px;
+      font-weight: 700;
+    }
+    .header p {
+      margin: 10px 0 0;
+      font-size: 16px;
+      opacity: 0.9;
+    }
+    .content {
+      padding: 40px 30px;
+    }
+    .content h2 {
+      color: #667eea;
+      margin-top: 0;
+      font-size: 24px;
+    }
+    .content p {
+      margin: 15px 0;
+      font-size: 16px;
+      line-height: 1.8;
+    }
+    .features {
+      background: #f8f9fa;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 30px 0;
+    }
+    .feature {
+      margin: 15px 0;
+      display: flex;
+      align-items: start;
+    }
+    .feature-icon {
+      font-size: 24px;
+      margin-right: 15px;
+      min-width: 30px;
+    }
+    .feature-text {
+      flex: 1;
+    }
+    .feature-text h3 {
+      margin: 0 0 5px;
+      font-size: 18px;
+      color: #333;
+    }
+    .feature-text p {
+      margin: 0;
+      font-size: 14px;
+      color: #666;
+    }
+    .cta-button {
+      display: inline-block;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 15px 40px;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 16px;
+      margin: 20px 0;
+      text-align: center;
+    }
+    .footer {
+      background: #f8f9fa;
+      padding: 30px;
+      text-align: center;
+      color: #666;
+      font-size: 14px;
+      border-top: 1px solid #e0e0e0;
+    }
+    .footer a {
+      color: #667eea;
+      text-decoration: none;
+    }
+    .social-links {
+      margin: 20px 0;
+    }
+    .social-links a {
+      display: inline-block;
+      margin: 0 10px;
+      color: #667eea;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🎉 Welcome to Alumni Connect!</h1>
+      <p>Your Professional Alumni Network</p>
+    </div>
+
+    <div class="content">
+      <h2>Hello {{firstName}}! 👋</h2>
+
+      <p>We're thrilled to have you join <strong>Alumni Connect</strong> - the premier platform connecting students and alumni to build meaningful professional relationships.</p>
+
+      <p>Your journey to connect, grow, and succeed starts here!</p>
+
+      <div class="features">
+        <div class="feature">
+          <div class="feature-icon">💼</div>
+          <div class="feature-text">
+            <h3>Career Opportunities</h3>
+            <p>Access exclusive job postings from alumni and top companies</p>
+          </div>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">👥</div>
+          <div class="feature-text">
+            <h3>Alumni Directory</h3>
+            <p>Connect with alumni from your batch, department, and company</p>
+          </div>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">📅</div>
+          <div class="feature-text">
+            <h3>Events & Meetups</h3>
+            <p>Join networking events, workshops, and reunions</p>
+          </div>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">📢</div>
+          <div class="feature-text">
+            <h3>Share & Learn</h3>
+            <p>Post updates, share knowledge, and engage with the community</p>
+          </div>
+        </div>
+      </div>
+
+      <center>
+        <a href="{{platformUrl}}/dashboard" class="cta-button">Explore Dashboard</a>
+      </center>
+
+      <p style="margin-top: 30px;">Need help getting started? Check out our <a href="{{platformUrl}}/help" style="color: #667eea;">Help Center</a> or reply to this email.</p>
+
+      <p style="color: #666; font-size: 14px; margin-top: 30px;">
+        Best regards,<br>
+        <strong>The Alumni Connect Team</strong>
+      </p>
+    </div>
+
+    <div class="footer">
+      <p><strong>Alumni Connect</strong> - Building Bridges, Creating Opportunities</p>
+
+      <div class="social-links">
+        <a href="{{platformUrl}}">Website</a> •
+        <a href="{{platformUrl}}/events">Events</a> •
+        <a href="{{platformUrl}}/opportunities">Jobs</a>
+      </div>
+
+      <p style="margin-top: 20px; font-size: 12px; color: #999;">
+        You're receiving this email because you registered on Alumni Connect.<br>
+        <a href="{{unsubscribeUrl}}">Unsubscribe</a> from future emails.
+      </p>
+    </div>
+  </div>
+</body>
+</html>
