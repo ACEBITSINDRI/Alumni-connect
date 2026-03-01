@@ -227,20 +227,18 @@ const LandingPage: React.FC = () => {
                   <Moon className="w-5 h-5 text-white" />
                 )}
               </button>
-              <Button
-                variant="ghost"
+              <button
                 onClick={() => navigate('/login')}
-                className="hidden sm:inline-flex text-sm md:text-base text-white hover:bg-white/10"
+                className="hidden sm:inline-flex px-4 py-1.5 text-sm font-medium text-white border border-white/30 hover:border-white hover:bg-white/10 rounded-lg transition-all duration-300"
               >
                 Login
-              </Button>
-              <Button
-                variant="primary"
+              </button>
+              <button
                 onClick={() => navigate('/signup')}
-                className="bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-xs sm:text-sm md:text-base px-3 sm:px-4 md:px-6"
+                className="hidden sm:inline-flex bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white font-semibold text-sm px-5 py-1.5 rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
               >
                 Get Started
-              </Button>
+              </button>
             </div>
           </div>
         </div>
@@ -324,24 +322,20 @@ const LandingPage: React.FC = () => {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
-              <Button
-                size="lg"
-                variant="primary"
+              <button
                 onClick={() => navigate('/signup/student')}
-                className="bg-gradient-to-r from-orange-600 to-orange-700 text-white hover:from-orange-700 hover:to-orange-800 font-semibold shadow-xl"
+                className="inline-flex items-center justify-center bg-gradient-to-r from-orange-600 to-orange-700 text-white hover:from-orange-700 hover:to-orange-800 font-semibold shadow-md hover:shadow-lg rounded-lg px-6 py-2.5 transition-all duration-300 transform hover:-translate-y-0.5"
               >
-                <GraduationCap size={20} className="mr-2" />
+                <GraduationCap size={18} className="mr-2" />
                 Join as Student
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
+              </button>
+              <button
                 onClick={() => navigate('/signup/alumni')}
-                className="border-2 border-orange-600 dark:border-orange-400 text-orange-600 dark:text-orange-400 hover:bg-orange-600 dark:hover:bg-orange-500 hover:text-white font-semibold bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm"
+                className="inline-flex items-center justify-center border hover:border-orange-500 border-orange-600/50 dark:border-orange-400/50 text-orange-600 dark:text-orange-400 hover:bg-orange-600 dark:hover:bg-orange-500 hover:text-white font-semibold bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-lg px-6 py-2.5 transition-all duration-300 transform hover:-translate-y-0.5"
               >
-                <HardHat size={20} className="mr-2" />
+                <HardHat size={18} className="mr-2" />
                 Join as Alumni
-              </Button>
+              </button>
             </div>
 
             {/* ===================== Quick Stats Section (Commented Out) =====================

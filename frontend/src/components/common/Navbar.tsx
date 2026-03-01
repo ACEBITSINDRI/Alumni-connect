@@ -356,13 +356,13 @@ const Navbar: React.FC<NavbarProps> = ({
                 <div className="flex items-center space-x-3">
                   <button
                     onClick={() => navigate('/login')}
-                    className="px-4 py-2 text-sm font-semibold text-white hover:bg-white/20 rounded-lg transition-all duration-300 transform hover:scale-105"
+                    className="px-4 py-1.5 text-sm font-medium text-white border border-white/30 hover:border-white hover:bg-white/10 rounded-lg transition-all duration-300 transform hover:scale-105"
                   >
                     Login
                   </button>
                   <button
                     onClick={() => navigate('/signup')}
-                    className="px-5 py-2 text-sm font-semibold text-[#0B1A30] bg-white rounded-lg hover:bg-gray-50 shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105"
+                    className="px-5 py-1.5 text-sm font-semibold text-[#0B1A30] bg-white rounded-lg hover:bg-gray-50 shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105"
                   >
                     Sign Up
                   </button>
