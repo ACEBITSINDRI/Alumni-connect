@@ -1,6 +1,4 @@
-import axios from 'axios';
-
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001/api/auth';
+import api from './api';
 
 export interface ProfileStatus {
   profileComplete: boolean;
@@ -13,7 +11,7 @@ export interface ProfileStatus {
 // Get profile completion status
 export const getProfileStatus = async (): Promise<ProfileStatus> => {
   try {
-    const response = await axios.get(`${API_URL}/profile-status`);
+    const response = await api.get('/api/auth/profile-status');
     return response.data.data;
   } catch (error) {
     console.error('Error fetching profile status:', error);
@@ -24,7 +22,7 @@ export const getProfileStatus = async (): Promise<ProfileStatus> => {
 // Mark profile completion modal as seen
 export const markModalAsSeen = async (): Promise<void> => {
   try {
-    await axios.patch(`${API_URL}/mark-modal-seen`);
+    await api.patch('/api/auth/mark-modal-seen');
   } catch (error) {
     console.error('Error marking modal as seen:', error);
     throw error;
