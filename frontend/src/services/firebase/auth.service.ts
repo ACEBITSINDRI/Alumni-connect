@@ -146,6 +146,8 @@ export const loginUser = async (email: string, password: string, role: 'student'
       user: response.data.data.user,
       firebaseUser: user,
       idToken,
+      accessToken: response.data.data.accessToken,
+      refreshToken: response.data.data.refreshToken,
     };
   } catch (error: any) {
     throw error;

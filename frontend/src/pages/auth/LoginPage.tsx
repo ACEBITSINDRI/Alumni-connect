@@ -6,8 +6,7 @@ import Input from '../../components/common/Input';
 import Card from '../../components/common/Card';
 import Badge from '../../components/common/Badge';
 import { DEPARTMENT_INFO } from '../../utils/civilEngConstants';
-import { login as loginApi } from '../../services/auth.service';
-import { loginWithGoogle } from '../../services/firebase/auth.service';
+import { loginUser, loginWithGoogle } from '../../services/firebase/auth.service';
 import { useAuth } from '../../context/AuthContext';
 import toast from 'react-hot-toast';
 import SEOHead from '../../components/common/SEOHead';
@@ -76,20 +75,32 @@ const LoginPage: React.FC<LoginPageProps> = ({ userType = 'student' }) => {
     setErrors({});
 
     try {
-      const response = await loginApi(formData.email, formData.password, activeTab);
+      const result = await loginUser(formData.email, formData.password, activeTab);
 
-      if (response.success && response.data) {
+      if (result.user && result.accessToken) {
+        // Save tokens explicitly matching Google login logic
+        localStorage.setItem('accessToken', result.accessToken);
+        localStorage.setItem('refreshToken', result.refreshToken);
+        localStorage.setItem('user', JSON.stringify(result.user));
+
         // Set user in context
-        setUser(response.data.user);
+        setUser(result.user);
 
         // Navigate to dashboard
         navigate('/dashboard');
       } else {
-        setErrors({ submit: response.message || 'Login failed. Please try again.' });
+        setErrors({ submit: 'Login failed. Invalid response from server.' });
       }
     } catch (error: any) {
       console.error('Login error:', error);
-      const errorMessage = error.response?.data?.message || error.message || 'Login failed. Please check your credentials and try again.';
+      let errorMessage = 'Login failed. Please check your credentials and try again.';
+      if (error.code === 'auth/invalid-credential' || error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
+        errorMessage = 'Invalid email or password.';
+      } else if (error.response?.data?.message) {
+        errorMessage = error.response.data.message;
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
       setErrors({ submit: errorMessage });
     } finally {
       setIsLoading(false);
@@ -307,8 +318,8 @@ const LoginPage: React.FC<LoginPageProps> = ({ userType = 'student' }) => {
                 <button
                   onClick={() => setActiveTab('student')}
                   className={`flex-1 flex items-center justify-center space-x-2 px-4 py-2.5 rounded-md text-sm font-medium transition-all ${activeTab === 'student'
-                      ? 'bg-white text-orange-600 shadow-sm'
-                      : 'text-gray-600 hover:text-gray-900'
+                    ? 'bg-white text-orange-600 shadow-sm'
+                    : 'text-gray-600 hover:text-gray-900'
                     }`}
                 >
                   <GraduationCap size={18} />
@@ -317,8 +328,8 @@ const LoginPage: React.FC<LoginPageProps> = ({ userType = 'student' }) => {
                 <button
                   onClick={() => setActiveTab('alumni')}
                   className={`flex-1 flex items-center justify-center space-x-2 px-4 py-2.5 rounded-md text-sm font-medium transition-all ${activeTab === 'alumni'
-                      ? 'bg-white text-orange-600 shadow-sm'
-                      : 'text-gray-600 hover:text-gray-900'
+                    ? 'bg-white text-orange-600 shadow-sm'
+                    : 'text-gray-600 hover:text-gray-900'
                     }`}
                 >
                   <HardHat size={18} />
