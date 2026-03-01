@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/common/Navbar';
 import Footer from '../components/common/Footer';
 import LeftSidebar from '../components/dashboard/LeftSidebar';
@@ -15,6 +16,7 @@ import * as profileCompletionService from '../services/profileCompletion.service
 
 const DashboardPage: React.FC = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [isCreatePostOpen, setIsCreatePostOpen] = useState(false);
   const [activeFilter, setActiveFilter] = useState<string>('all');
   const [isLoading, setIsLoading] = useState(true);
@@ -34,16 +36,11 @@ const DashboardPage: React.FC = () => {
         const status = await profileCompletionService.getProfileStatus();
         setProfileStatus(status);
 
-        // Show modal only if:
         // 1. Profile is incomplete (< 100%)
-        // 2. User hasn't seen modal before in this session
-        // 3. User hasn't permanently dismissed it
-        if (
-          status.completionPercentage < 100 &&
-          profileCompletionService.shouldShowProfileModal()
-        ) {
-          setShowProfileModal(true);
-          profileCompletionService.markModalShownInSession();
+        // Redirect to profile edit page to force them to complete it
+        if (status.completionPercentage < 100) {
+          navigate('/profile/edit', { state: { message: 'Please complete your profile first.' } });
+          return; // Stop rendering dashboard
         }
       } catch (err) {
         console.error('Failed to check profile status:', err);

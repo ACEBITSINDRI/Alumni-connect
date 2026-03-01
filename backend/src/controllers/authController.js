@@ -1039,28 +1039,19 @@ export const getProfileStatus = async (req, res) => {
       });
     }
 
-    // Calculate profile completion percentage
+    // Calculate profile completion percentage securely
     const requiredFields = ['firstName', 'lastName', 'batch', 'currentRole', 'company', 'bio'];
     const completedFields = requiredFields.filter(field => {
-      if (field === 'firstName' || field === 'lastName') {
-        return user[field] && user[field].toString().trim().length > 0;
-      }
-      if (field === 'batch') {
-        return user[field] && user[field].toString().trim().length > 0;
-      }
-      if (field === 'currentRole') {
-        return user[field] && user[field].toString().trim().length > 0;
-      }
-      if (field === 'company') {
-        return user[field] && user[field].toString().trim().length > 0;
-      }
-      if (field === 'bio') {
-        return user[field] && user[field].toString().trim().length > 0;
-      }
-      return false;
+      // Safely access fields without breaking if user model lacks them
+      if (!user || user[field] === undefined || user[field] === null) return false;
+
+      const value = String(user[field]).trim();
+      return value.length > 0 && value !== 'undefined' && value !== 'null';
     });
 
-    const completionPercentage = Math.round((completedFields.length / requiredFields.length) * 100);
+    const completionPercentage = requiredFields.length > 0
+      ? Math.round((completedFields.length / requiredFields.length) * 100)
+      : 0;
 
     // Get missing fields
     const missingFields = requiredFields.filter(field => !completedFields.includes(field));
@@ -1082,10 +1073,21 @@ export const getProfileStatus = async (req, res) => {
       },
     });
   } catch (error) {
-    console.error('Error getting profile status:', error);
+    console.error('[Profile Status Error] Failed to get profile status:', {
+      error: error.message,
+      stack: error.stack,
+      userId: req.user?._id
+    });
     res.status(500).json({
       success: false,
-      message: 'Failed to get profile status',
+      message: 'Failed to calculate profile status due to internal format change.',
+      data: {
+        profileComplete: false,
+        completionPercentage: 0,
+        completedFields: [],
+        missingFields: ['firstName', 'lastName', 'batch', 'currentRole', 'company', 'bio'],
+        hasSeenModal: false
+      }
     });
   }
 };
