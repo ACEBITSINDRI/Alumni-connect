@@ -48,6 +48,81 @@ const LandingPage: React.FC = () => {
   const [currentHeroImage, setCurrentHeroImage] = useState(0);
   const [clickedCard, setClickedCard] = useState<number | null>(null);
 
+  // Sophisticated Typing Animation State
+  const [typeState, setTypeState] = useState({
+    text1: '', // Connect.
+    text2: '', // Construct.
+    text3: '', // Conquer.
+    phase: 0,  // 0:Type1, 1:Pause1, 2:Type2, 3:Pause2, 4:Type3, 5:LongPause, 6:Erase, 7:RestartPause
+    isTyping: true
+  });
+
+  useEffect(() => {
+    const word1 = "Connect.";
+    const word2 = "Construct.";
+    const word3 = "Conquer.";
+
+    let timeoutId: ReturnType<typeof setTimeout>;
+
+    const typeSpeed = () => 60 + Math.random() * 40; // 60-100ms
+    const eraseSpeed = () => 20 + Math.random() * 20; // 20-40ms (fast erase)
+
+    switch (typeState.phase) {
+      case 0: // Typing "Connect."
+        if (typeState.text1.length < word1.length) {
+          timeoutId = setTimeout(() => {
+            setTypeState(s => ({ ...s, text1: word1.slice(0, s.text1.length + 1) }));
+          }, typeSpeed());
+        } else {
+          setTypeState(s => ({ ...s, phase: 1, isTyping: false }));
+        }
+        break;
+      case 1: // Pause after "Connect."
+        timeoutId = setTimeout(() => setTypeState(s => ({ ...s, phase: 2, isTyping: true })), 600);
+        break;
+      case 2: // Typing "Construct."
+        if (typeState.text2.length < word2.length) {
+          timeoutId = setTimeout(() => {
+            setTypeState(s => ({ ...s, text2: word2.slice(0, s.text2.length + 1) }));
+          }, typeSpeed());
+        } else {
+          setTypeState(s => ({ ...s, phase: 3, isTyping: false }));
+        }
+        break;
+      case 3: // Pause after "Construct."
+        timeoutId = setTimeout(() => setTypeState(s => ({ ...s, phase: 4, isTyping: true })), 600);
+        break;
+      case 4: // Typing "Conquer."
+        if (typeState.text3.length < word3.length) {
+          timeoutId = setTimeout(() => {
+            setTypeState(s => ({ ...s, text3: word3.slice(0, s.text3.length + 1) }));
+          }, typeSpeed());
+        } else {
+          setTypeState(s => ({ ...s, phase: 5, isTyping: false }));
+        }
+        break;
+      case 5: // Long pause at the end
+        timeoutId = setTimeout(() => setTypeState(s => ({ ...s, phase: 6, isTyping: true })), 3000);
+        break;
+      case 6: // Erasing everything
+        if (typeState.text3.length > 0) {
+          timeoutId = setTimeout(() => setTypeState(s => ({ ...s, text3: s.text3.slice(0, -1) })), eraseSpeed());
+        } else if (typeState.text2.length > 0) {
+          timeoutId = setTimeout(() => setTypeState(s => ({ ...s, text2: s.text2.slice(0, -1) })), eraseSpeed());
+        } else if (typeState.text1.length > 0) {
+          timeoutId = setTimeout(() => setTypeState(s => ({ ...s, text1: s.text1.slice(0, -1) })), eraseSpeed());
+        } else {
+          setTypeState(s => ({ ...s, phase: 7, isTyping: false }));
+        }
+        break;
+      case 7: // Brief pause before restarting
+        timeoutId = setTimeout(() => setTypeState(s => ({ ...s, phase: 0, isTyping: true })), 800);
+        break;
+    }
+
+    return () => clearTimeout(timeoutId);
+  }, [typeState]);
+
   // Hero section images for carousel
   const heroImages = [
     { src: dept, title: 'Infrastructure Construction' },
@@ -120,7 +195,7 @@ const LandingPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
       {/* Navbar */}
-      <nav className="sticky top-0 z-50 bg-gradient-to-r from-sky-50 to-blue-50 dark:from-gray-800 dark:to-gray-900 border-b border-sky-200 dark:border-gray-700 shadow-sm backdrop-blur-md transition-colors duration-300">
+      <nav className="sticky top-0 z-50 bg-[#0B1A30] shadow-md border-b border-white/10 transition-all duration-300">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-3">
@@ -130,32 +205,32 @@ const LandingPage: React.FC = () => {
                 className="h-10 sm:h-12 md:h-12 lg:h-14 w-auto object-contain drop-shadow-md"
               />
               <div>
-                <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 dark:text-white transition-colors">Alumni Connect</h1>
-                <p className="text-xs sm:text-sm text-orange-600 dark:text-orange-400 font-semibold transition-colors">ACE BIT Sindri</p>
+                <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-white transition-colors drop-shadow-md">Alumni Connect</h1>
+                <p className="text-xs sm:text-sm text-blue-100 font-medium opacity-90 transition-colors">ACE BIT Sindri</p>
               </div>
             </div>
             <div className="hidden md:flex items-center space-x-6 text-sm font-medium">
-              <a href="#features" className="text-gray-600 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors">Features</a>
-              <a href="#about" className="text-gray-600 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors">About</a>
-              <a href="#testimonials" className="text-gray-600 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors">Success Stories</a>
+              <a href="#features" className="text-white/90 hover:text-white transition-colors">Features</a>
+              <a href="#about" className="text-white/90 hover:text-white transition-colors">About</a>
+              <a href="#testimonials" className="text-white/90 hover:text-white transition-colors">Success Stories</a>
             </div>
             <div className="flex items-center space-x-2 sm:space-x-3">
               {/* Dark Mode Toggle */}
               <button
                 onClick={toggleTheme}
-                className="p-2 rounded-lg bg-white/80 dark:bg-gray-700 hover:bg-white dark:hover:bg-gray-600 border border-sky-200 dark:border-gray-600 hover:border-orange-400 dark:hover:border-orange-500 transition-all duration-300 shadow-sm hover:shadow-md transform hover:scale-110"
+                className="p-2 text-white hover:bg-white/20 rounded-lg focus:outline-none transition-all duration-300 transform hover:scale-110"
                 aria-label="Toggle dark mode"
               >
                 {theme === 'dark' ? (
                   <Sun className="w-5 h-5 text-orange-400" />
                 ) : (
-                  <Moon className="w-5 h-5 text-gray-700" />
+                  <Moon className="w-5 h-5 text-white" />
                 )}
               </button>
               <Button
                 variant="ghost"
                 onClick={() => navigate('/login')}
-                className="hidden sm:inline-flex text-sm md:text-base"
+                className="hidden sm:inline-flex text-sm md:text-base text-white hover:bg-white/10"
               >
                 Login
               </Button>
@@ -181,13 +256,12 @@ const LandingPage: React.FC = () => {
           {heroImages.map((image, index) => (
             <div
               key={index}
-              className={`absolute inset-0 transition-all duration-1000 ease-in-out ${
-                index === currentHeroImage
-                  ? 'opacity-100 scale-100 blur-0'
-                  : index === (currentHeroImage - 1 + heroImages.length) % heroImages.length
+              className={`absolute inset-0 transition-all duration-1000 ease-in-out ${index === currentHeroImage
+                ? 'opacity-100 scale-100 blur-0'
+                : index === (currentHeroImage - 1 + heroImages.length) % heroImages.length
                   ? 'opacity-0 -translate-x-full scale-95 blur-sm'
                   : 'opacity-0 translate-x-full scale-95 blur-sm'
-              }`}
+                }`}
             >
               <img
                 src={image.src}
@@ -207,11 +281,10 @@ const LandingPage: React.FC = () => {
             <button
               key={index}
               onClick={() => setCurrentHeroImage(index)}
-              className={`h-2.5 rounded-full transition-all duration-300 shadow-lg ${
-                index === currentHeroImage
-                  ? 'bg-orange-600 w-10'
-                  : 'bg-white/60 w-2.5 hover:bg-orange-400'
-              }`}
+              className={`h-2.5 rounded-full transition-all duration-300 shadow-lg ${index === currentHeroImage
+                ? 'bg-orange-600 w-10'
+                : 'bg-white/60 w-2.5 hover:bg-orange-400'
+                }`}
               aria-label={`Go to slide ${index + 1}`}
             />
           ))}
@@ -226,10 +299,23 @@ const LandingPage: React.FC = () => {
             </Badge>
 
             <div className="mb-8 px-4">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 md:mb-6 leading-tight">
-                <span className="text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)] [text-shadow:_2px_2px_4px_rgb(0_0_0_/_80%)]">Connect.</span>{' '}
-                <span className="text-orange-500 drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)] [text-shadow:_2px_2px_4px_rgb(0_0_0_/_80%)]">Construct.</span>{' '}
-                <span className="text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)] [text-shadow:_2px_2px_4px_rgb(0_0_0_/_80%)]">Conquer.</span>
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 md:mb-6 leading-tight flex flex-wrap justify-center items-center min-h-[4rem] sm:min-h-[5rem] md:min-h-[6rem] lg:min-h-[7rem]">
+                {typeState.text1 && (
+                  <span className="text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)] [text-shadow:_2px_2px_4px_rgb(0_0_0_/_80%)]">
+                    {typeState.text1}
+                  </span>
+                )}
+                {typeState.text2 && (
+                  <span className="text-orange-500 drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)] [text-shadow:_2px_2px_4px_rgb(0_0_0_/_80%)] whitespace-pre">
+                    {' '}{typeState.text2}
+                  </span>
+                )}
+                {typeState.text3 && (
+                  <span className="text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)] [text-shadow:_2px_2px_4px_rgb(0_0_0_/_80%)] whitespace-pre">
+                    {' '}{typeState.text3}
+                  </span>
+                )}
+                <span className={`inline-block w-[3px] sm:w-[5px] h-[1em] bg-orange-500 ml-1 translate-y-[0.1em] transition-opacity duration-150 ${typeState.isTyping ? 'opacity-100' : 'animate-[pulse_1.2s_ease-in-out_infinite]'}`}></span>
               </h1>
 
               <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-white leading-relaxed max-w-3xl mx-auto font-bold drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)] [text-shadow:_2px_2px_4px_rgb(0_0_0_/_80%)]">
@@ -289,7 +375,7 @@ const LandingPage: React.FC = () => {
         {/* Wave Separator */}
         <div className="absolute bottom-0 left-0 right-0">
           <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0 120L60 110C120 100 240 80 360 70C480 60 600 60 720 65C840 70 960 80 1080 85C1200 90 1320 90 1380 90L1440 90V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0V120Z" fill="currentColor" className="text-white dark:text-gray-900"/>
+            <path d="M0 120L60 110C120 100 240 80 360 70C480 60 600 60 720 65C840 70 960 80 1080 85C1200 90 1320 90 1380 90L1440 90V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0V120Z" fill="currentColor" className="text-white dark:text-gray-900" />
           </svg>
         </div>
       </section>
@@ -458,14 +544,12 @@ const LandingPage: React.FC = () => {
                     className: clickedCard === index ? 'text-white' : ''
                   })}
                 </div>
-                <h3 className={`text-xl font-semibold mb-3 transition-colors duration-300 ${
-                  clickedCard === index ? 'text-white' : 'text-gray-900 dark:text-white'
-                }`}>
+                <h3 className={`text-xl font-semibold mb-3 transition-colors duration-300 ${clickedCard === index ? 'text-white' : 'text-gray-900 dark:text-white'
+                  }`}>
                   {feature.title}
                 </h3>
-                <p className={`leading-relaxed transition-colors duration-300 ${
-                  clickedCard === index ? 'text-white/90' : 'text-gray-600 dark:text-gray-400'
-                }`}>
+                <p className={`leading-relaxed transition-colors duration-300 ${clickedCard === index ? 'text-white/90' : 'text-gray-600 dark:text-gray-400'
+                  }`}>
                   {feature.description}
                 </p>
                 {clickedCard === index && (
@@ -764,9 +848,8 @@ const LandingPage: React.FC = () => {
                     <button
                       key={index}
                       onClick={() => setCurrentTestimonial(index)}
-                      className={`w-2 h-2 rounded-full transition-all ${
-                        index === currentTestimonial ? 'bg-orange-600 dark:bg-orange-500 w-8' : 'bg-gray-300 dark:bg-gray-600'
-                      }`}
+                      className={`w-2 h-2 rounded-full transition-all ${index === currentTestimonial ? 'bg-orange-600 dark:bg-orange-500 w-8' : 'bg-gray-300 dark:bg-gray-600'
+                        }`}
                     />
                   ))}
                 </div>
@@ -800,7 +883,7 @@ const LandingPage: React.FC = () => {
                 className="bg-white text-sky-700 hover:bg-gray-100 font-semibold shadow-xl"
               >
                 <GraduationCap size={20} className="mr-2" />
-                Join Now 
+                Join Now
                 <ArrowRight size={20} className="ml-2" />
               </Button>
               <Button
