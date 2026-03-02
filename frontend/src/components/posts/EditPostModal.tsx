@@ -99,8 +99,8 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onPostUp
     const linkText = selectedText || 'link';
 
     // Ensure URL has http/https
-    const formattedUrl = linkUrl.startsWith('http') ? linkUrl : \`https://\${linkUrl}\`;
-    const newContent = beforeText + \`[\${linkText}](\${formattedUrl})\` + afterText;
+    const formattedUrl = linkUrl.startsWith('http') ? linkUrl : `https://${linkUrl}`;
+    const newContent = beforeText + `[${linkText}](${formattedUrl})` + afterText;
 
     setFormData(prev => ({ ...prev, content: newContent }));
     setShowLinkInput(false);
@@ -123,7 +123,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onPostUp
     const files = Array.from(e.target.files || []);
 
     if (files.length + formData.images.length > FILE_LIMITS.MAX_IMAGES_PER_POST) {
-      setErrors(prev => ({ ...prev, images: \`Maximum \${FILE_LIMITS.MAX_IMAGES_PER_POST} images allowed\` }));
+      setErrors(prev => ({ ...prev, images: `Maximum ${FILE_LIMITS.MAX_IMAGES_PER_POST} images allowed` }));
       return;
     }
 
@@ -134,7 +134,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onPostUp
         continue;
       }
       if (file.size > FILE_LIMITS.IMAGE_MAX_SIZE) {
-        setErrors(prev => ({ ...prev, images: \`Image size must be less than \${FILE_LIMITS.IMAGE_MAX_SIZE / (1024 * 1024)}MB\` }));
+        setErrors(prev => ({ ...prev, images: `Image size must be less than ${FILE_LIMITS.IMAGE_MAX_SIZE / (1024 * 1024)}MB` }));
         continue;
       }
       validFiles.push(file);
@@ -193,7 +193,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onPostUp
 
       // FIX: PostCard uses 'id' instead of '_id' internally, backend needs '_id'.
       const postId = post?._id || post?.id;
-      
+
       if (!postId) {
         throw new Error('Post ID is missing');
       }
@@ -238,13 +238,13 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onPostUp
       showCloseButton
     >
       <div className="space-y-5">
-        
+
         {/* Author Header */}
         <div className="flex items-center space-x-3 mb-2">
-          <Avatar 
-            src={user?.profilePicture} 
-            alt={user?.firstName || 'User'} 
-            size="md" 
+          <Avatar
+            src={user?.profilePicture}
+            alt={user?.firstName || 'User'}
+            size="md"
             className="ring-2 ring-primary-100 dark:ring-primary-900/50"
           />
           <div>
@@ -264,10 +264,10 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onPostUp
               <button
                 key={type.value}
                 onClick={() => setPostType(type.value)}
-                className={\`px-4 py-1.5 text-sm font-medium rounded-full transition-all duration-200 \${postType === type.value
+                className={`px - 4 py - 1.5 text - sm font - medium rounded - full transition - all duration - 200 ${postType === type.value
                   ? 'bg-primary-600 text-white shadow-md shadow-primary-600/20 transform scale-105'
                   : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-                  }\`}
+                  } `}
               >
                 {type.label}
               </button>
@@ -298,7 +298,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onPostUp
             rows={6}
             className="w-full border-0 focus:ring-0 p-4 bg-transparent text-gray-900 dark:text-white resize-none"
           />
-          
+
           {/* Formatting Toolbar */}
           <div className="flex items-center space-x-2 px-3 py-2 bg-gray-50 dark:bg-gray-900/50 border-t border-gray-100 dark:border-gray-700">
             <button type="button" onClick={handleBold} className="p-1.5 text-gray-500 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-700 rounded transition-colors" title="Bold">
@@ -311,12 +311,12 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onPostUp
               <Underline size={18} />
             </button>
             <div className="w-px h-5 bg-gray-300 dark:bg-gray-600 mx-1"></div>
-            
+
             <div className="relative">
-              <button type="button" onClick={() => setShowLinkInput(!showLinkInput)} className={\`p-1.5 rounded transition-colors \${showLinkInput ? 'bg-primary-100 text-primary-700 dark:bg-primary-900/40 dark:text-primary-400' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-200 dark:hover:text-white dark:hover:bg-gray-700'}\`} title="Insert Link">
+              <button type="button" onClick={() => setShowLinkInput(!showLinkInput)} className={`p - 1.5 rounded transition - colors ${showLinkInput ? 'bg-primary-100 text-primary-700 dark:bg-primary-900/40 dark:text-primary-400' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-200 dark:hover:text-white dark:hover:bg-gray-700'} `} title="Insert Link">
                 <LinkIcon size={18} />
               </button>
-              
+
               {showLinkInput && (
                 <div className="absolute top-10 left-0 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-xl rounded-lg p-3 z-10 w-64 flex space-x-2">
                   <input
@@ -336,7 +336,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onPostUp
             </div>
 
             <div className="flex-1"></div>
-            
+
             <label className="flex items-center space-x-1.5 px-3 py-1.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md cursor-pointer transition-colors text-sm font-medium">
               <ImageIcon size={16} />
               <span>Media</span>
@@ -348,9 +348,9 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onPostUp
 
         {/* Existing Images preview */}
         {post?.images && post.images.length > 0 && formData.images.length === 0 && (
-           <div className="text-xs text-gray-500">
-             <span className="font-medium text-amber-600">Note:</span> Uploading new images will replace existing ones.
-           </div>
+          <div className="text-xs text-gray-500">
+            <span className="font-medium text-amber-600">Note:</span> Uploading new images will replace existing ones.
+          </div>
         )}
 
         {/* Local Image Previews */}
@@ -360,7 +360,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onPostUp
               <div key={index} className="relative group rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 shadow-sm">
                 <img
                   src={URL.createObjectURL(image)}
-                  alt={\`Upload \${index + 1}\`}
+                  alt={`Upload ${index + 1} `}
                   className="w-full h-24 object-cover"
                 />
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
@@ -471,7 +471,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onPostUp
             {isLoading ? 'Saving...' : 'Save Post'}
           </Button>
         </div>
-        
+
       </div>
     </Modal>
   );
