@@ -8,6 +8,7 @@ import Button from '../common/Button';
 import { likePost, unlikePost, addComment, savePost, unsavePost, replyToComment, likeComment } from '../../services/post.service';
 import { useAuth } from '../../context/AuthContext';
 import toast from 'react-hot-toast';
+import EditPostModal from '../posts/EditPostModal';
 
 interface PostAuthor {
   id: string;
@@ -94,6 +95,9 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
   const [replyingTo, setReplyingTo] = useState<string | null>(null);
   const [replyText, setReplyText] = useState('');
   const [isSubmittingReply, setIsSubmittingReply] = useState(false);
+  const [showOptions, setShowOptions] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [localPostData, setLocalPostData] = useState<Post>(post);
 
   // Use local state for comments data to update instantly without refetching parent
   const [localCommentsData, setLocalCommentsData] = useState<CommentData[]>(post.commentsData || []);
@@ -111,10 +115,10 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
 
     try {
       if (isLiked) {
-        await unlikePost(post.id);
+        await unlikePost(localPostData.id);
         toast.success('Post unliked');
       } else {
-        await likePost(post.id);
+        await likePost(localPostData.id);
         toast.success('Post liked! ❤️');
       }
     } catch (error) {
@@ -139,10 +143,10 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
 
     try {
       if (isSaved) {
-        await unsavePost(post.id);
+        await unsavePost(localPostData.id);
         toast.success('Post removed from saved');
       } else {
-        await savePost(post.id);
+        await savePost(localPostData.id);
         toast.success('Post saved! 📌');
       }
     } catch (error) {
@@ -161,7 +165,7 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
     setIsSubmittingComment(true);
 
     try {
-      const response = await addComment(post.id, commentText);
+      const response = await addComment(localPostData.id, commentText);
 
       if (response.success) {
         // Update comment count
@@ -188,7 +192,7 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
     setIsSubmittingReply(true);
 
     try {
-      const response = await replyToComment(post.id, commentId, replyText);
+      const response = await replyToComment(localPostData.id, commentId, replyText);
 
       if (response.success && response.data) {
         setReplyText('');
@@ -228,15 +232,15 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
         }
         return c;
       }));
-      await likeComment(post.id, commentId);
+      await likeComment(localPostData.id, commentId);
     } catch (error) {
       console.error('Like comment error:', error);
     }
   };
 
   const handleShare = (platform: 'whatsapp' | 'twitter' | 'linkedin' | 'copy') => {
-    const postUrl = `${window.location.origin}/post/${post.id}`;
-    const shareText = `${post.title} - ${post.content.substring(0, 100)}...`;
+    const postUrl = `${window.location.origin}/post/${localPostData.id}`;
+    const shareText = `${localPostData.title} - ${localPostData.content.substring(0, 100)}...`;
 
     switch (platform) {
       case 'whatsapp':
@@ -272,7 +276,7 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
       general: { variant: 'default', text: 'Post' },
     };
 
-    const badge = badges[post.type] || badges.general;
+    const badge = badges[localPostData.type] || badges.general;
     return <Badge variant={badge.variant}>{badge.text}</Badge>;
   };
 
@@ -325,55 +329,75 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
           <div className="flex items-start justify-between mb-3 sm:mb-4">
             <div className="flex items-start space-x-2 sm:space-x-3 flex-1 min-w-0">
               <Avatar
-                src={post.author.avatar}
-                alt={post.author.name}
+                src={localPostData.author.avatar}
+                alt={localPostData.author.name}
                 size="sm"
-                fallback={post.author.name}
+                fallback={localPostData.author.name}
                 className="cursor-pointer flex-shrink-0 mt-0.5"
-                onClick={() => navigate(`/profile/${post.author.id}`)}
+                onClick={() => navigate(`/profile/${localPostData.author.id}`)}
               />
               <div className="flex-1 min-w-0">
                 <h3
                   className="font-bold text-sm sm:text-base text-gray-900 dark:text-white hover:underline cursor-pointer truncate"
-                  onClick={() => navigate(`/profile/${post.author.id}`)}
+                  onClick={() => navigate(`/profile/${localPostData.author.id}`)}
                 >
-                  {post.author.name}
+                  {localPostData.author.name}
                 </h3>
                 <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 truncate font-medium">
-                  {post.author.role} {post.author.company && `@ ${post.author.company}`}
+                  {localPostData.author.role} {localPostData.author.company && `@ ${localPostData.author.company}`}
                 </p>
                 <div className="flex items-center space-x-1 sm:space-x-2 text-xs text-gray-500 dark:text-gray-400 mt-0.5 sm:mt-1">
-                  <span className="font-medium hidden sm:inline">Batch of {post.author.batch}</span>
-                  <span className="font-medium sm:hidden">{post.author.batch}</span>
+                  <span className="font-medium hidden sm:inline">Batch of {localPostData.author.batch}</span>
+                  <span className="font-medium sm:hidden">{localPostData.author.batch}</span>
                   <span>•</span>
-                  <span>{getRelativeTime(post.timestamp)}</span>
+                  <span>{getRelativeTime(localPostData.timestamp)}</span>
                 </div>
               </div>
             </div>
-            <button className="p-1 sm:p-2 text-neutral-400 dark:text-gray-500 hover:text-neutral-600 dark:hover:text-gray-300 rounded-full hover:bg-neutral-100 dark:hover:bg-gray-700 transition-colors flex-shrink-0">
-              <MoreVertical size={18} className="sm:w-5 sm:h-5" />
-            </button>
+            {user?._id === localPostData.author.id && (
+              <div className="relative">
+                <button
+                  onClick={() => setShowOptions(!showOptions)}
+                  className="p-1 sm:p-2 text-neutral-400 dark:text-gray-500 hover:text-neutral-600 dark:hover:text-gray-300 rounded-full hover:bg-neutral-100 dark:hover:bg-gray-700 transition-colors flex-shrink-0"
+                >
+                  <MoreVertical size={18} className="sm:w-5 sm:h-5" />
+                </button>
+                {showOptions && (
+                  <div className="absolute right-0 mt-2 w-36 bg-white dark:bg-gray-800 rounded-md shadow-lg border border-gray-200 dark:border-gray-700 z-10">
+                    <button
+                      onClick={() => {
+                        setShowOptions(false);
+                        setIsEditModalOpen(true);
+                      }}
+                      className="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md"
+                    >
+                      Edit Post
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Post Type Badge */}
           <div className="mb-2 sm:mb-3">{getPostTypeBadge()}</div>
 
           {/* Post Title */}
-          {post.title && (
+          {localPostData.title && (
             <h2
               className="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-2 sm:mb-3 hover:text-blue-600 dark:hover:text-blue-400 cursor-pointer transition-colors leading-tight"
-              onClick={() => navigate(`/post/${post.id}`)}
+              onClick={() => navigate(`/post/${localPostData.id}`)}
             >
-              {post.title}
+              {localPostData.title}
             </h2>
           )}
 
           {/* Post Content */}
           <div
             className="text-sm sm:text-base text-gray-700 dark:text-gray-200 mb-3 sm:mb-4 whitespace-pre-wrap leading-relaxed"
-            dangerouslySetInnerHTML={{ __html: parseFormattedContent(truncateContent(post.content)) }}
+            dangerouslySetInnerHTML={{ __html: parseFormattedContent(truncateContent(localPostData.content)) }}
           />
-          {post.content.length > 300 && !showFullContent && (
+          {localPostData.content.length > 300 && !showFullContent && (
             <button
               onClick={() => setShowFullContent(true)}
               className="text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-300 hover:underline font-medium transition-colors text-sm -mt-2 mb-3"
@@ -383,42 +407,42 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
           )}
 
           {/* Job Details (if applicable) */}
-          {(post.type === 'job' || post.type === 'internship') && post.jobDetails && (
+          {(localPostData.type === 'job' || localPostData.type === 'internship') && localPostData.jobDetails && (
             <div className="bg-neutral-50 dark:bg-gray-900/40 rounded-lg p-3 sm:p-4 mb-3 sm:mb-4 border border-neutral-100 dark:border-gray-700">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 text-sm mb-3 sm:mb-4">
                 <div className="flex items-center space-x-2 sm:space-x-3 bg-white dark:bg-gray-800 rounded-md p-2">
                   <Briefcase size={16} className="text-neutral-600 dark:text-neutral-400 flex-shrink-0" />
                   <div className="min-w-0">
                     <p className="text-xs text-neutral-500 dark:text-gray-400 font-medium">Company</p>
-                    <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">{post.jobDetails.company}</p>
+                    <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">{localPostData.jobDetails.company}</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-2 sm:space-x-3 bg-white dark:bg-gray-800 rounded-md p-2">
                   <MapPin size={16} className="text-neutral-600 dark:text-neutral-400 flex-shrink-0" />
                   <div className="min-w-0">
                     <p className="text-xs text-neutral-500 dark:text-gray-400 font-medium">Location</p>
-                    <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">{post.jobDetails.location}</p>
+                    <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">{localPostData.jobDetails.location}</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-2 sm:space-x-3 bg-white dark:bg-gray-800 rounded-md p-2">
-                  <Badge variant="info" size="sm" className="font-semibold text-xs">{post.jobDetails.type}</Badge>
+                  <Badge variant="info" size="sm" className="font-semibold text-xs">{localPostData.jobDetails.type}</Badge>
                 </div>
-                {post.jobDetails.salary && (
+                {localPostData.jobDetails.salary && (
                   <div className="flex items-center space-x-2 sm:space-x-3 bg-white dark:bg-gray-800 rounded-md p-2">
                     <IndianRupee size={16} className="text-neutral-600 dark:text-neutral-400 flex-shrink-0" />
                     <div className="min-w-0">
                       <p className="text-xs text-neutral-500 dark:text-gray-400 font-medium">Salary</p>
-                      <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">{post.jobDetails.salary}</p>
+                      <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">{localPostData.jobDetails.salary}</p>
                     </div>
                   </div>
                 )}
               </div>
-              {post.jobDetails.applyLink && (
+              {localPostData.jobDetails.applyLink && (
                 <Button
                   variant="primary"
                   size="sm"
                   className="w-full text-sm font-semibold rounded-full"
-                  onClick={() => window.open(post.jobDetails?.applyLink, '_blank')}
+                  onClick={() => window.open(localPostData.jobDetails?.applyLink, '_blank')}
                 >
                   Apply Now
                 </Button>
@@ -427,16 +451,16 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
           )}
 
           {/* Post Images */}
-          {post.images && post.images.length > 0 && (
+          {localPostData.images && localPostData.images.length > 0 && (
             <div
-              className={`grid gap-1.5 sm:gap-2 mb-3 sm:mb-4 ${post.images.length === 1
+              className={`grid gap-1.5 sm:gap-2 mb-3 sm:mb-4 ${localPostData.images.length === 1
                 ? 'grid-cols-1'
-                : post.images.length === 2
+                : localPostData.images.length === 2
                   ? 'grid-cols-2'
                   : 'grid-cols-2'
                 }`}
             >
-              {post.images.slice(0, 4).map((image, index) => (
+              {localPostData.images.slice(0, 4).map((image, index) => (
                 <div
                   key={index}
                   className="relative aspect-video bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg sm:rounded-xl overflow-hidden cursor-pointer group"
@@ -448,9 +472,9 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300" />
-                  {post.images!.length > 4 && index === 3 && (
+                  {localPostData.images!.length > 4 && index === 3 && (
                     <div className="absolute inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center">
-                      <span className="text-white text-xl sm:text-2xl font-bold">+{post.images!.length - 4}</span>
+                      <span className="text-white text-xl sm:text-2xl font-bold">+{localPostData.images!.length - 4}</span>
                     </div>
                   )}
                 </div>
@@ -807,6 +831,25 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
             </div>
           </div>
         </div>
+      )}
+      {/* Edit Post Modal */}
+      {isEditModalOpen && (
+        <EditPostModal
+          isOpen={isEditModalOpen}
+          onClose={() => setIsEditModalOpen(false)}
+          post={localPostData as any}
+          onPostUpdated={(updatedPost: any) => {
+            setLocalPostData({
+              ...localPostData,
+              title: updatedPost.title,
+              content: updatedPost.content,
+              type: updatedPost.type,
+              images: updatedPost.images?.map((img: any) => typeof img === 'string' ? img : img.url) || [],
+              jobDetails: updatedPost.jobDetails,
+              timestamp: new Date() as any, // Cast as any to bypass strict Date vs String mismatch when saving to local state
+            });
+          }}
+        />
       )}
     </>
   );

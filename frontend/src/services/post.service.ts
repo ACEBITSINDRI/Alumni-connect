@@ -115,6 +115,32 @@ export const createPost = async (postData: CreatePostData): Promise<PostResponse
   return response.data;
 };
 
+// Update an existing post
+export const updatePost = async (postId: string, postData: Partial<CreatePostData>): Promise<PostResponse> => {
+  const formData = new FormData();
+
+  if (postData.type) formData.append('type', postData.type);
+  if (postData.title !== undefined) formData.append('title', postData.title);
+  if (postData.content) formData.append('content', postData.content);
+
+  // Note: Appending new images during update might require backend support for merging/deleting old ones.
+  // For basic edits, we'll send the images if new ones are selected.
+  if (postData.images && postData.images.length > 0) {
+    postData.images.forEach((image) => {
+      formData.append('images', image);
+    });
+  }
+
+  // Append job details if present
+  if (postData.jobDetails) {
+    formData.append('jobDetails', JSON.stringify(postData.jobDetails));
+  }
+
+  // Put requires a standard API call since we are using multipart/form-data via apiFormData
+  const response = await apiFormData.put<PostResponse>(`/api/posts/${postId}`, formData);
+  return response.data;
+};
+
 // Get all posts
 export const getPosts = async (page: number = 1, limit: number = 10, filter?: string): Promise<PostsResponse> => {
   const params: any = { page, limit };

@@ -254,13 +254,26 @@ export const updatePost = async (req, res) => {
       });
     }
 
-    const { content, title, type, visibility } = req.body;
+    const { content, title, type, visibility, jobDetails } = req.body;
 
-    // Update fields
+    // Update basic fields
     if (content) post.content = content;
     if (title !== undefined) post.title = title;
     if (type) post.type = type;
     if (visibility) post.visibility = visibility;
+
+    // Update jobDetails if provided
+    if (jobDetails) {
+      try {
+        post.jobDetails = typeof jobDetails === 'string' ? JSON.parse(jobDetails) : jobDetails;
+      } catch (parseError) {
+        console.error('Error parsing jobDetails for update:', parseError);
+        return res.status(400).json({
+          success: false,
+          message: 'Invalid job details format',
+        });
+      }
+    }
 
     await post.save();
 
