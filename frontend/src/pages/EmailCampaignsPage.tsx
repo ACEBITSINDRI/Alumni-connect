@@ -119,8 +119,8 @@ const EmailCampaignsPage = () => {
 
         {/* Tabs */}
         <div className="mt-8 bg-white rounded-lg shadow">
-          <div className="border-b border-gray-200">
-            <nav className="flex -mb-px">
+          <div className="border-b border-gray-200 overflow-x-auto scrollbar-hide">
+            <nav className="flex -mb-px min-w-max pb-1 sm:pb-0">
               {tabs.map((tab) => {
                 const Icon = tab.icon;
                 return (
