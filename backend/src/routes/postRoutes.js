@@ -29,7 +29,7 @@ router.post('/', firebaseUpload, createPost);
 router
   .route('/:id')
   .get(getPostById)
-  .put(updatePost)
+  .put(firebaseUpload, updatePost)
   .delete(deletePost);
 
 // Post engagement routes

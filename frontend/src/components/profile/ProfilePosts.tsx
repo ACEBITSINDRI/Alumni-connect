@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getPosts, type Post } from '../../services/post.service';
+import { useAuth } from '../../context/AuthContext';
 import PostCard from '../dashboard/PostCard';
 import { Loader2 } from 'lucide-react';
 import Button from '../common/Button';
@@ -10,6 +11,7 @@ interface ProfilePostsProps {
 }
 
 const ProfilePosts: React.FC<ProfilePostsProps> = ({ userId }) => {
+    const { user } = useAuth();
     const [posts, setPosts] = useState<Post[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -87,12 +89,40 @@ const ProfilePosts: React.FC<ProfilePostsProps> = ({ userId }) => {
         );
     }
 
+    const transformPost = (post: any) => {
+        return {
+            id: post._id,
+            author: {
+                id: post.author._id,
+                name: `${post.author.firstName} ${post.author.lastName}`,
+                role: post.author.currentRole || (post.author.role === 'student' ? 'Student' : 'Alumni'),
+                company: post.author.company || 'BIT Sindri',
+                batch: post.author.batch || '',
+                avatar: post.author.profilePicture,
+            },
+            type: post.type,
+            title: post.title,
+            content: post.content,
+            timestamp: new Date(post.createdAt),
+            images: post.images?.map((img: any) => typeof img === 'string' ? img : img.url) || [],
+            likes: post.likes?.length || 0,
+            comments: post.comments?.length || 0,
+            commentsData: post.comments || [],
+            isLiked: user ? post.likes?.some((like: any) => {
+                const likeId = typeof like === 'string' ? like : (like.user?._id || like.user);
+                return likeId === user._id;
+            }) : false,
+            isSaved: Boolean(user && post.savedBy?.includes(user._id)),
+            jobDetails: post.jobDetails,
+        };
+    };
+
     return (
         <div className="space-y-6">
             {posts.map(post => (
                 <PostCard
                     key={post._id}
-                    post={post as any}
+                    post={transformPost(post) as any}
                 />
             ))}
 

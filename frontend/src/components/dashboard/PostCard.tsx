@@ -285,9 +285,12 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
     return content.substring(0, 300) + '...';
   };
 
-  const getRelativeTime = (date: Date) => {
+  const getRelativeTime = (date: Date | string) => {
+    const dateObj = new Date(date);
+    if (isNaN(dateObj.getTime())) return 'Recently';
+
     const now = new Date();
-    const diff = now.getTime() - date.getTime();
+    const diff = now.getTime() - dateObj.getTime();
     const seconds = Math.floor(diff / 1000);
     const minutes = Math.floor(seconds / 60);
     const hours = Math.floor(minutes / 60);
