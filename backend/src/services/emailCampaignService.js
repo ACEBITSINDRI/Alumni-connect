@@ -23,26 +23,16 @@ const resendClient = useResend ? new Resend(process.env.RESEND_API_KEY) : null;
 console.log(`📧 Email provider: ${useResend ? 'Resend (HTTP API)' : 'Nodemailer (SMTP)'}`);
 
 /**
- * Create Nodemailer transporter (fallback for local dev or alternative Render ports like 2525/587)
+ * Create Nodemailer transporter (reverting to exact stable setup from Feb 17)
  */
 const createTransporter = () => {
-  const port = parseInt(process.env.EMAIL_PORT) || 587;
-  const secure = port === 465; // true only for 465. 587 and 2525 use secure: false + STARTTLS
-
   return nodemailer.createTransport({
     host: process.env.EMAIL_HOST || 'smtp.gmail.com',
-    port,
-    secure,
-    pool: true,           // Use connection pooling for bulk sends
-    maxConnections: 5,    // Max simultaneous connections
-    maxMessages: 100,     // Max emails per connection
+    port: parseInt(process.env.EMAIL_PORT) || 587,
+    secure: false, // true for 465, false for 587 and others
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASSWORD?.trim(),
-    },
-    tls: {
-      rejectUnauthorized: false, // Helps with self-signed certs or strict cloud firewalls
-      ciphers: 'SSLv3'
     },
   });
 };
