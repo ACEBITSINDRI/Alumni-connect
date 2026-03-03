@@ -13,18 +13,39 @@ const TEMPLATES_DIR = path.join(__dirname, '../templates/emails');
 const PLATFORM_URL = process.env.FRONTEND_URL || 'https://alumniconnect.acebits.in';
 
 /**
- * Create email transporter
+ * Create email transporter - uses port 465 (SSL) which works reliably on Render
+ * Port 587 (STARTTLS) is often blocked by cloud providers
  */
 const createTransporter = () => {
+  const port = parseInt(process.env.EMAIL_PORT) || 465;
+  const secure = port === 465; // true for 465, false for 587
+
   return nodemailer.createTransport({
     host: process.env.EMAIL_HOST || 'smtp.gmail.com',
-    port: parseInt(process.env.EMAIL_PORT) || 587,
-    secure: false,
+    port,
+    secure,
+    pool: true,           // Use connection pooling for bulk sends
+    maxConnections: 5,    // Max simultaneous connections
+    maxMessages: 100,     // Max emails per connection
+    rateDelta: 1000,      // 1 second between rate limit checks
+    rateLimit: 5,         // Max 5 emails per rateDelta
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASSWORD?.trim(),
     },
+    tls: {
+      rejectUnauthorized: false, // Accept self-signed certs (helps on some SMTP hosts)
+    },
   });
+};
+
+// Module-level singleton — reuse the same pool for all bulk sends
+let _transporter = null;
+const getTransporter = () => {
+  if (!_transporter) {
+    _transporter = createTransporter();
+  }
+  return _transporter;
 };
 
 /**
@@ -108,7 +129,7 @@ export const getAllFirebaseUsers = async () => {
  */
 const sendEmail = async (to, subject, htmlContent, attachments = []) => {
   try {
-    const transporter = createTransporter();
+    const transporter = getTransporter();  // Reuse singleton pool
 
     const mailOptions = {
       from: {
