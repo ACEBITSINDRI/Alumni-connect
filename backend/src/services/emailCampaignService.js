@@ -132,9 +132,13 @@ const sendEmail = async (to, subject, htmlContent, attachments = []) => {
 
     if (useResend) {
       // ── Resend HTTP API (works on Render) ──────────────────────────────
-      const fromAddress = process.env.EMAIL_FROM_NAME
-        ? `${process.env.EMAIL_FROM_NAME} <${process.env.EMAIL_FROM || process.env.EMAIL_USER}>`
-        : `Alumni Connect <${process.env.EMAIL_FROM || process.env.EMAIL_USER}>`;
+      let fromAddress = 'Alumni Connect <onboarding@resend.dev>'; // Default fallback
+
+      if (process.env.EMAIL_FROM) {
+        const fromName = process.env.EMAIL_FROM_NAME ? process.env.EMAIL_FROM_NAME : 'Alumni Connect';
+        // Ensure format is exactly "Name <email@domain.com>"
+        fromAddress = `${fromName} <${process.env.EMAIL_FROM}>`;
+      }
 
       const payload = {
         from: fromAddress,
@@ -177,6 +181,7 @@ const sendEmail = async (to, subject, htmlContent, attachments = []) => {
 
 /**
  * Send bulk emails with rate limiting
+ * Modified to support Resend API limits (2 emails/second free tier)
  */
 export const sendBulkEmails = async (recipients, subject, htmlTemplate, attachments = [], batchSize = 10, delayMs = 1000) => {
   const results = {
@@ -186,7 +191,37 @@ export const sendBulkEmails = async (recipients, subject, htmlTemplate, attachme
     errors: [],
   };
 
-  // Process in batches to avoid rate limiting
+  // If using Resend, enforce a 600ms delay per email to stay under 2 emails/sec limit
+  // otherwise, default to the batch processing
+  const useResend = !!process.env.RESEND_API_KEY;
+
+  if (useResend) {
+    console.log(`Starting Resend sequential mailing for ${recipients.length} users to respect limits...`);
+    for (let i = 0; i < recipients.length; i++) {
+      const recipient = recipients[i];
+      const result = await sendEmail(recipient.email, subject, htmlTemplate(recipient), attachments);
+      if (result.success) {
+        results.sent++;
+      } else {
+        results.failed++;
+        results.errors.push(result);
+      }
+
+      // Log progress every 10 emails
+      if ((i + 1) % 10 === 0) {
+        console.log(`Progress: Sent ${results.sent}/${results.total}`);
+      }
+
+      // Wait 600ms between EVERY email to stay under the 2 per second limit
+      if (i < recipients.length - 1) {
+        await new Promise(resolve => setTimeout(resolve, 600));
+      }
+    }
+    console.log(`Finished Resend mailing. Sent ${results.sent}/${results.total}`);
+    return results;
+  }
+
+  // Fallback: SMTP Batch Processing for Nodemailer (Local dev)
   for (let i = 0; i < recipients.length; i += batchSize) {
     const batch = recipients.slice(i, i + batchSize);
 
