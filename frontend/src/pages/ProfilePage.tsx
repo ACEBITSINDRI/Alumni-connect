@@ -15,6 +15,7 @@ import { useAuth } from '../context/AuthContext';
 import { getUserById, type UserProfile } from '../services/user.service';
 import { sendConnectionRequest } from '../services/connection.service';
 import { calculateProfileCompletion, getProfileCompletionColor, getProfileCompletionBgColor, getProfileCompletionMessage } from '../utils/profileCompletion';
+import ProfilePosts from '../components/profile/ProfilePosts';
 
 const ProfilePage: React.FC = () => {
   const { userId } = useParams();
@@ -66,6 +67,12 @@ const ProfilePage: React.FC = () => {
     { id: 'about', label: 'About', icon: <FileText size={18} /> },
     { id: 'experience', label: 'Experience', icon: <Briefcase size={18} /> },
   ];
+
+  // Optionally show Posts tab for alumni, or for all users (everyone can post).
+  // Let's show it if it's the current user's profile, OR they are an alumni.
+  if (isOwnProfile || profileData?.role === 'alumni') {
+    tabs.push({ id: 'posts', label: 'Posts', icon: <MessageCircle size={18} /> });
+  }
 
   const profileCompletion = profileData ? calculateProfileCompletion(profileData) : null;
 
@@ -263,11 +270,10 @@ const ProfilePage: React.FC = () => {
                     <button
                       key={tab.id}
                       onClick={() => setActiveTab(tab.id)}
-                      className={`flex items-center space-x-2 px-6 py-3 border-b-2 font-semibold text-sm transition-colors whitespace-nowrap ${
-                        activeTab === tab.id
+                      className={`flex items-center space-x-2 px-6 py-3 border-b-2 font-semibold text-sm transition-colors whitespace-nowrap ${activeTab === tab.id
                           ? 'border-primary-600 text-primary-600'
                           : 'border-transparent text-neutral-600 hover:text-neutral-900 hover:border-neutral-300'
-                      }`}
+                        }`}
                     >
                       {tab.icon}
                       <span>{tab.label}</span>
@@ -400,6 +406,10 @@ const ProfilePage: React.FC = () => {
                   </Card>
                 )}
               </>
+            )}
+
+            {activeTab === 'posts' && profileData && (
+              <ProfilePosts userId={profileData._id} />
             )}
           </div>
 

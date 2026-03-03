@@ -142,10 +142,13 @@ export const updatePost = async (postId: string, postData: Partial<CreatePostDat
 };
 
 // Get all posts
-export const getPosts = async (page: number = 1, limit: number = 10, filter?: string): Promise<PostsResponse> => {
+export const getPosts = async (page: number = 1, limit: number = 10, filter?: string, authorId?: string): Promise<PostsResponse> => {
   const params: any = { page, limit };
   if (filter && filter !== 'all') {
     params.type = filter;
+  }
+  if (authorId) {
+    params.author = authorId;
   }
 
   const response = await api.get<PostsResponse>('/api/posts', { params });
