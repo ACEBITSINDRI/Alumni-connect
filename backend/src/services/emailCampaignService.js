@@ -132,13 +132,17 @@ const sendEmail = async (to, subject, htmlContent, attachments = []) => {
 
     if (useResend) {
       // ── Resend HTTP API (works on Render) ──────────────────────────────
-      let fromAddress = 'Alumni Connect <onboarding@resend.dev>'; // Default fallback
+      let rawEmail = process.env.EMAIL_FROM || 'onboarding@resend.dev';
 
-      if (process.env.EMAIL_FROM) {
-        const fromName = process.env.EMAIL_FROM_NAME ? process.env.EMAIL_FROM_NAME : 'Alumni Connect';
-        // Ensure format is exactly "Name <email@domain.com>"
-        fromAddress = `${fromName} <${process.env.EMAIL_FROM}>`;
+      // If the env variable already has brackets like "Name <email@domain.com>", extract just the email
+      const emailMatch = rawEmail.match(/<(.+)>/);
+      if (emailMatch && emailMatch[1]) {
+        rawEmail = emailMatch[1].trim();
       }
+
+      const fromName = process.env.EMAIL_FROM_NAME || 'Alumni Connect';
+      // Ensure perfect "Name <email>" format without nested brackets
+      const fromAddress = `${fromName} <${rawEmail}>`;
 
       const payload = {
         from: fromAddress,
