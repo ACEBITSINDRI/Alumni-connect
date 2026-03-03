@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333333;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f6;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        .header {
+            background-color: #1e3a8a; /* Deep Blue (Academic Theme) */
+            padding: 20px;
+            text-align: center;
+            border-bottom: 4px solid #3b82f6;
+        }
+        .header h1 {
+            color: #ffffff;
+            margin: 0;
+            font-size: 24px;
+            letter-spacing: 0.5px;
+        }
+        .content {
+            padding: 30px;
+        }
+        .content h2 {
+            color: #1e3a8a;
+            margin-top: 0;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 10px;
+        }
+        .newsletter-body {
+            font-size: 16px;
+            color: #4b5563;
+        }
+        /* Custom formatting inside React Quill */
+        .newsletter-body a {
+            color: #3b82f6 !important;
+            text-decoration: underline;
+        }
+        .newsletter-body img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 6px;
+            margin: 10px 0;
+        }
+        .newsletter-body strong {
+            color: #111827;
+        }
+        .footer {
+            background-color: #f9fafb;
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #6b7280;
+            border-top: 1px solid #e5e7eb;
+        }
+        .footer a {
+            color: #3b82f6;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Alumni Connect Newsletter</h1>
+        </div>
+        
+        <div class="content">
+            <h2>{{title}}</h2>
+            <p>Dear {{firstName}},</p>
+            
+            <div class="newsletter-body">
+                {{{content}}} <!-- Triple braces unescape HTML from React Quill -->
+            </div>
+            
+            <p style="margin-top: 30px;">
+                Warm Regards,<br>
+                <strong>The Alumni Connect Team</strong>
+            </p>
+        </div>
+        
+        <div class="footer">
+            <p>This email was sent to you because you are a registered member of Alumni Connect.</p>
+            <p>
+                <a href="{{platformUrl}}">Visit Platform</a> | 
+                <a href="{{unsubscribeUrl}}">Unsubscribe</a>
+            </p>
+            <p>&copy; 2026 BIT Sindri Alumni Association. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>

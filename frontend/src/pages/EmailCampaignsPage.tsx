@@ -4,9 +4,10 @@ import { getEmailStats, type EmailStats } from '../services/emailCampaign.servic
 import WelcomeEmailForm from '../components/email/WelcomeEmailForm';
 import EventEmailForm from '../components/email/EventEmailForm';
 import CustomEmailForm from '../components/email/CustomEmailForm';
+import NewsletterEmailForm from '../components/email/NewsletterEmailForm';
 import toast from 'react-hot-toast';
 
-type TabType = 'welcome' | 'event' | 'custom';
+type TabType = 'welcome' | 'event' | 'custom' | 'newsletter';
 
 const EmailCampaignsPage = () => {
   const [activeTab, setActiveTab] = useState<TabType>('welcome');
@@ -34,6 +35,7 @@ const EmailCampaignsPage = () => {
     { id: 'welcome' as TabType, label: 'Welcome Email', icon: Mail },
     { id: 'event' as TabType, label: 'Event Announcement', icon: Calendar },
     { id: 'custom' as TabType, label: 'Custom Message', icon: MessageSquare },
+    { id: 'newsletter' as TabType, label: 'Newsletter', icon: Mail },
   ];
 
   return (
@@ -128,10 +130,9 @@ const EmailCampaignsPage = () => {
                     className={`
                       flex items-center gap-2 py-4 px-6 border-b-2 font-medium text-sm
                       transition-colors
-                      ${
-                        activeTab === tab.id
-                          ? 'border-indigo-500 text-indigo-600'
-                          : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                      ${activeTab === tab.id
+                        ? 'border-indigo-500 text-indigo-600'
+                        : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                       }
                     `}
                   >
@@ -148,6 +149,7 @@ const EmailCampaignsPage = () => {
             {activeTab === 'welcome' && <WelcomeEmailForm stats={stats} />}
             {activeTab === 'event' && <EventEmailForm stats={stats} />}
             {activeTab === 'custom' && <CustomEmailForm stats={stats} />}
+            {activeTab === 'newsletter' && <NewsletterEmailForm stats={stats} />}
           </div>
         </div>
       </div>

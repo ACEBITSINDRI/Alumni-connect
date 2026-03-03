@@ -40,6 +40,14 @@ export interface CustomEmailData {
   ctaText?: string;
   ctaUrl?: string;
   additionalInfo?: string;
+  attachments?: File[];
+}
+
+export interface NewsletterEmailData {
+  subject: string;
+  title: string;
+  content: string; // HTML content from rich text editor
+  attachments?: File[];
 }
 
 export interface EmailCampaignResult {
@@ -92,9 +100,71 @@ export const sendCustomEmail = async (
   customData: CustomEmailData,
   filters?: EmailFilters
 ): Promise<EmailCampaignResult> => {
-  const response = await api.post('/api/email-campaigns/custom', {
-    ...customData,
-    ...filters,
+  const formData = new FormData();
+
+  // Append text data
+  Object.entries(customData).forEach(([key, value]) => {
+    if (value !== undefined && key !== 'attachments') {
+      formData.append(key, value as string);
+    }
+  });
+
+  // Append filters
+  if (filters) {
+    Object.entries(filters).forEach(([key, value]) => {
+      if (value !== undefined) {
+        formData.append(key, value as string);
+      }
+    });
+  }
+
+  // Append attachments
+  if (customData.attachments && customData.attachments.length > 0) {
+    customData.attachments.forEach((file) => {
+      formData.append('attachments', file);
+    });
+  }
+
+  const response = await api.post('/api/email-campaigns/custom', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+  return response.data;
+};
+
+/**
+ * Send newsletter announcement campaign
+ */
+export const sendNewsletterEmail = async (
+  newsletterData: NewsletterEmailData,
+  filters?: EmailFilters
+): Promise<EmailCampaignResult> => {
+  const formData = new FormData();
+
+  // Append text data
+  Object.entries(newsletterData).forEach(([key, value]) => {
+    if (value !== undefined && key !== 'attachments') {
+      formData.append(key, value as string);
+    }
+  });
+
+  // Append filters
+  if (filters) {
+    Object.entries(filters).forEach(([key, value]) => {
+      if (value !== undefined) {
+        formData.append(key, value as string);
+      }
+    });
+  }
+
+  // Append attachments
+  if (newsletterData.attachments && newsletterData.attachments.length > 0) {
+    newsletterData.attachments.forEach((file) => {
+      formData.append('attachments', file);
+    });
+  }
+
+  const response = await api.post('/api/email-campaigns/newsletter', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
   });
   return response.data;
 };
@@ -120,5 +190,6 @@ export default {
   sendWelcomeEmail,
   sendEventEmail,
   sendCustomEmail,
+  sendNewsletterEmail,
   sendTestEmail,
 };

@@ -8,6 +8,7 @@ import {
   sendTest,
 } from '../controllers/emailCampaignController.js';
 import { protect, isAdmin } from '../middleware/auth.js';
+import { firebaseUpload } from '../middleware/firebaseUpload.js';
 
 const router = express.Router();
 
@@ -21,7 +22,10 @@ router.get('/users', getUsersList);
 // POST routes
 router.post('/welcome', sendWelcome);
 router.post('/event', sendEvent);
-router.post('/custom', sendCustom);
+router.post('/custom', firebaseUpload, sendCustom);
 router.post('/test', sendTest);
+
+// Future implementation inside emailCampaignController
+// router.post('/newsletter', firebaseUpload, sendNewsletter);
 
 export default router;

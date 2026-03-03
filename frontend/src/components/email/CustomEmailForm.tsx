@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Send, Loader2, MessageSquare } from 'lucide-react';
+import { Send, Loader2, MessageSquare, Paperclip, X } from 'lucide-react';
 import {
   sendCustomEmail,
   type EmailStats,
@@ -27,7 +27,47 @@ const CustomEmailForm = ({ stats }: Props) => {
     ctaText: '',
     ctaUrl: '',
     additionalInfo: '',
+    attachments: [],
   });
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const newFiles = Array.from(e.target.files);
+      const allowedTypes = [
+        'application/pdf',
+        'image/jpeg',
+        'image/png',
+        'application/msword',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        'text/csv',
+        'video/mp4'
+      ];
+
+      const validFiles = newFiles.filter(file => {
+        if (!allowedTypes.includes(file.type)) {
+          toast.error(`${file.name} is not a supported file type`);
+          return false;
+        }
+        if (file.size > 10 * 1024 * 1024) { // 10MB limit
+          toast.error(`${file.name} exceeds the 10MB limit`);
+          return false;
+        }
+        return true;
+      });
+
+      setCustomData(prev => ({
+        ...prev,
+        attachments: [...(prev.attachments || []), ...validFiles]
+      }));
+    }
+  };
+
+  const removeAttachment = (indexToRemove: number) => {
+    setCustomData(prev => ({
+      ...prev,
+      attachments: (prev.attachments || []).filter((_, index) => index !== indexToRemove)
+    }));
+  };
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -74,6 +114,7 @@ const CustomEmailForm = ({ stats }: Props) => {
           ctaText: '',
           ctaUrl: '',
           additionalInfo: '',
+          attachments: [],
         });
       } else {
         toast.error(result.message);
@@ -253,6 +294,51 @@ const CustomEmailForm = ({ stats }: Props) => {
               placeholder="e.g., Have questions? Reply to this email!"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
             />
+          </div>
+
+          {/* Attachments */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Attachments (Optional)
+            </label>
+            <div className="flex items-center gap-4">
+              <label className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 cursor-pointer border border-gray-300 transition-colors">
+                <Paperclip size={18} />
+                <span>Attach Files</span>
+                <input
+                  type="file"
+                  multiple
+                  className="hidden"
+                  onChange={handleFileChange}
+                  accept=".pdf,image/*,.doc,.docx,.csv,video/mp4"
+                />
+              </label>
+              <span className="text-xs text-gray-500">Max 10MB per file</span>
+            </div>
+
+            {customData.attachments && customData.attachments.length > 0 && (
+              <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {customData.attachments.map((file, index) => (
+                  <div key={index} className="flex items-center justify-between p-3 bg-gray-50 border border-gray-200 rounded-lg">
+                    <div className="flex items-center gap-3 overflow-hidden">
+                      <div className="p-2 bg-indigo-100 text-indigo-600 rounded">
+                        <Paperclip size={16} />
+                      </div>
+                      <div className="truncate">
+                        <p className="text-sm font-medium text-gray-900 truncate">{file.name}</p>
+                        <p className="text-xs text-gray-500">{(file.size / 1024 / 1024).toFixed(2)} MB</p>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => removeAttachment(index)}
+                      className="p-1 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors"
+                    >
+                      <X size={18} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>

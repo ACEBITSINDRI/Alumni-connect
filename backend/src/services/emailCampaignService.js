@@ -106,9 +106,9 @@ export const getAllFirebaseUsers = async () => {
 /**
  * Send email to a single recipient
  */
-const sendEmail = async (to, subject, htmlContent) => {
+const sendEmail = async (to, subject, htmlContent, attachments = []) => {
   try {
-    const transporter = createTransport();
+    const transporter = createTransporter();
 
     const mailOptions = {
       from: {
@@ -118,6 +118,7 @@ const sendEmail = async (to, subject, htmlContent) => {
       to,
       subject,
       html: htmlContent,
+      attachments: attachments,
     };
 
     await transporter.sendMail(mailOptions);
@@ -131,7 +132,7 @@ const sendEmail = async (to, subject, htmlContent) => {
 /**
  * Send bulk emails with rate limiting
  */
-export const sendBulkEmails = async (recipients, subject, htmlTemplate, batchSize = 10, delayMs = 1000) => {
+export const sendBulkEmails = async (recipients, subject, htmlTemplate, attachments = [], batchSize = 10, delayMs = 1000) => {
   const results = {
     total: recipients.length,
     sent: 0,
@@ -144,7 +145,7 @@ export const sendBulkEmails = async (recipients, subject, htmlTemplate, batchSiz
     const batch = recipients.slice(i, i + batchSize);
 
     const batchPromises = batch.map(recipient =>
-      sendEmail(recipient.email, subject, htmlTemplate(recipient))
+      sendEmail(recipient.email, subject, htmlTemplate(recipient), attachments)
     );
 
     const batchResults = await Promise.all(batchPromises);
@@ -289,6 +290,41 @@ export const sendCustomAnnouncement = async (announcementData, filters = {}) => 
 };
 
 /**
+ * Send newsletter email campaign
+ */
+export const sendNewsletterCampaign = async (newsletterData, filters = {}) => {
+  try {
+    const template = await loadTemplate('newsletter-announcement');
+    const users = await getAllUsers(filters);
+
+    if (users.length === 0) {
+      return { success: false, message: 'No users found matching filters' };
+    }
+
+    const subject = newsletterData.subject || '📰 Newsletter from Alumni Connect';
+
+    const htmlTemplate = (user) => template({
+      firstName: user.firstName || 'User',
+      title: newsletterData.title,
+      content: newsletterData.content,
+      platformUrl: PLATFORM_URL,
+      unsubscribeUrl: `${PLATFORM_URL}/unsubscribe`,
+    });
+
+    const results = await sendBulkEmails(users, subject, htmlTemplate, newsletterData.attachments || []);
+
+    return {
+      success: true,
+      message: `Newsletter sent to ${results.sent} users`,
+      results,
+    };
+  } catch (error) {
+    console.error('Error sending newsletter:', error);
+    throw error;
+  }
+};
+
+/**
  * Send test email (single recipient)
  */
 export const sendTestEmail = async (recipientEmail, templateName, templateData) => {
@@ -349,6 +385,7 @@ export default {
   sendWelcomeEmail,
   sendEventAnnouncement,
   sendCustomAnnouncement,
+  sendNewsletterCampaign,
   sendTestEmail,
   getEmailStats,
 };

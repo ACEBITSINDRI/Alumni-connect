@@ -194,6 +194,16 @@ export const sendCustom = async (req, res) => {
       });
     }
 
+    // Extract attachments from firebaseUpload emulator
+    let attachments = [];
+    if (req.files && req.files.attachments) {
+      attachments = Array.isArray(req.files.attachments)
+        ? req.files.attachments
+        : [req.files.attachments];
+    } else if (req.files && Array.isArray(req.files)) {
+      attachments = req.files;
+    }
+
     const announcementData = {
       subject,
       title,
@@ -205,6 +215,11 @@ export const sendCustom = async (req, res) => {
       ctaText,
       ctaUrl,
       additionalInfo,
+      attachments: attachments.map(file => ({
+        filename: file.originalname,
+        content: file.buffer,
+        contentType: file.mimetype,
+      })),
     };
 
     const filters = {};
@@ -263,6 +278,74 @@ export const sendTest = async (req, res) => {
   }
 };
 
+/**
+ * @desc    Send newsletter email campaign
+ * @route   POST /api/email-campaigns/newsletter
+ * @access  Admin
+ */
+export const sendNewsletter = async (req, res) => {
+  try {
+    const {
+      subject,
+      title,
+      content, // This will be rich HTML from react-quill
+      // Filters
+      role,
+      batch,
+      department,
+    } = req.body;
+
+    if (!subject || !title || !content) {
+      return res.status(400).json({
+        success: false,
+        message: 'Subject, title, and content are required',
+      });
+    }
+
+    let attachments = [];
+    if (req.files && req.files.attachments) {
+      attachments = Array.isArray(req.files.attachments)
+        ? req.files.attachments
+        : [req.files.attachments];
+    } else if (req.files && Array.isArray(req.files)) {
+      attachments = req.files;
+    }
+
+    const newsletterData = {
+      subject,
+      title,
+      content,
+      attachments: attachments.map(file => ({
+        filename: file.originalname,
+        content: file.buffer,
+        contentType: file.mimetype,
+      })),
+    };
+
+    const filters = {};
+    if (role) filters.role = role;
+    if (batch) filters.batch = batch;
+    if (department) filters.department = department;
+
+    // We'll add this to the service next
+    const { sendNewsletterCampaign } = await import('../services/emailCampaignService.js');
+    const result = await sendNewsletterCampaign(newsletterData, filters);
+
+    res.json({
+      success: result.success,
+      message: result.message,
+      data: result.results,
+    });
+  } catch (error) {
+    console.error('Error sending newsletter:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to send newsletter',
+      error: error.message,
+    });
+  }
+};
+
 export default {
   getStats,
   getUsersList,
@@ -270,4 +353,5 @@ export default {
   sendEvent,
   sendCustom,
   sendTest,
+  sendNewsletter,
 };
