@@ -3,6 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import Handlebars from 'handlebars';
 import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
 import { AlumniModel, StudentModel } from '../models/User.js';
 import { auth as firebaseAuth } from '../config/firebase.js';
 
@@ -12,39 +13,33 @@ const __dirname = path.dirname(__filename);
 const TEMPLATES_DIR = path.join(__dirname, '../templates/emails');
 const PLATFORM_URL = process.env.FRONTEND_URL || 'https://alumniconnect.acebits.in';
 
+// ─── Email Provider Setup ───────────────────────────────────────────────────
+// Render.com blocks all outbound SMTP (ports 25, 465, 587)
+// When RESEND_API_KEY is set, we use Resend (HTTP API, works on Render)
+// Otherwise we fall back to Nodemailer (for local development)
+const useResend = !!process.env.RESEND_API_KEY;
+const resendClient = useResend ? new Resend(process.env.RESEND_API_KEY) : null;
+
+console.log(`📧 Email provider: ${useResend ? 'Resend (HTTP API)' : 'Nodemailer (SMTP)'}`);
+
 /**
- * Create email transporter - uses port 465 (SSL) which works reliably on Render
- * Port 587 (STARTTLS) is often blocked by cloud providers
+ * Create Nodemailer transporter (fallback for local dev)
  */
 const createTransporter = () => {
-  const port = parseInt(process.env.EMAIL_PORT) || 465;
-  const secure = port === 465; // true for 465, false for 587
-
   return nodemailer.createTransport({
     host: process.env.EMAIL_HOST || 'smtp.gmail.com',
-    port,
-    secure,
-    pool: true,           // Use connection pooling for bulk sends
-    maxConnections: 5,    // Max simultaneous connections
-    maxMessages: 100,     // Max emails per connection
-    rateDelta: 1000,      // 1 second between rate limit checks
-    rateLimit: 5,         // Max 5 emails per rateDelta
+    port: parseInt(process.env.EMAIL_PORT) || 587,
+    secure: false,
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASSWORD?.trim(),
     },
-    tls: {
-      rejectUnauthorized: false, // Accept self-signed certs (helps on some SMTP hosts)
-    },
   });
 };
 
-// Module-level singleton — reuse the same pool for all bulk sends
 let _transporter = null;
 const getTransporter = () => {
-  if (!_transporter) {
-    _transporter = createTransporter();
-  }
+  if (!_transporter) _transporter = createTransporter();
   return _transporter;
 };
 
@@ -126,24 +121,54 @@ export const getAllFirebaseUsers = async () => {
 
 /**
  * Send email to a single recipient
+ * Uses Resend (HTTP API) on production, Nodemailer (SMTP) on local dev
  */
 const sendEmail = async (to, subject, htmlContent, attachments = []) => {
   try {
-    const transporter = getTransporter();  // Reuse singleton pool
+    // Skip placeholder/fake emails immediately
+    if (to.includes('@example.com') || to.includes('@placeholder.com')) {
+      return { success: false, email: to, error: 'Skipped placeholder email' };
+    }
 
-    const mailOptions = {
-      from: {
-        name: 'Alumni Connect',
-        address: process.env.EMAIL_USER,
-      },
-      to,
-      subject,
-      html: htmlContent,
-      attachments: attachments,
-    };
+    if (useResend) {
+      // ── Resend HTTP API (works on Render) ──────────────────────────────
+      const fromAddress = process.env.EMAIL_FROM_NAME
+        ? `${process.env.EMAIL_FROM_NAME} <${process.env.EMAIL_FROM || process.env.EMAIL_USER}>`
+        : `Alumni Connect <${process.env.EMAIL_FROM || process.env.EMAIL_USER}>`;
 
-    await transporter.sendMail(mailOptions);
-    return { success: true, email: to };
+      const payload = {
+        from: fromAddress,
+        to: [to],
+        subject,
+        html: htmlContent,
+      };
+
+      // Attach files if any
+      if (attachments.length > 0) {
+        payload.attachments = attachments.map(att => ({
+          filename: att.filename,
+          content: att.content, // Buffer
+        }));
+      }
+
+      const { data, error } = await resendClient.emails.send(payload);
+      if (error) {
+        throw new Error(error.message || JSON.stringify(error));
+      }
+      return { success: true, email: to, id: data?.id };
+    } else {
+      // ── Nodemailer SMTP (local development) ──────────────────────────
+      const transporter = getTransporter();
+      const mailOptions = {
+        from: { name: 'Alumni Connect', address: process.env.EMAIL_USER },
+        to,
+        subject,
+        html: htmlContent,
+        attachments,
+      };
+      await transporter.sendMail(mailOptions);
+      return { success: true, email: to };
+    }
   } catch (error) {
     console.error(`Failed to send email to ${to}:`, error.message);
     return { success: false, email: to, error: error.message };
