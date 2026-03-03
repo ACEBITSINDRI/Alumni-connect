@@ -4,7 +4,7 @@ import { API_BASE_URL } from '../utils/constants';
 // Create axios instance
 const api: AxiosInstance = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 30000,
+  timeout: 120000,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -82,7 +82,7 @@ export default api;
 // Axios instance for file uploads with multipart/form-data
 export const apiFormData: AxiosInstance = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 60000,
+  timeout: 120000,
   // Don't set Content-Type header - axios will set it automatically with FormData
 });
 

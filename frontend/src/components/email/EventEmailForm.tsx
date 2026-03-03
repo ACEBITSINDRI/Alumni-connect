@@ -269,14 +269,14 @@ const EventEmailForm = ({ stats }: Props) => {
       <RecipientSelector stats={stats} filters={filters} onFiltersChange={setFilters} />
 
       {/* Send Button */}
-      <div className="flex items-center justify-between pt-4 border-t border-gray-200">
-        <p className="text-sm text-gray-600">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-gray-200">
+        <p className="text-sm text-gray-600 text-center sm:text-left">
           Review all details before sending the event announcement
         </p>
         <button
           onClick={handleSend}
           disabled={sending || !eventData.eventTitle || !eventData.eventDate}
-          className="flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+          className="w-full sm:w-auto flex justify-center items-center gap-2 px-6 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
         >
           {sending ? (
             <>

@@ -6,6 +6,7 @@ import {
   sendEvent,
   sendCustom,
   sendTest,
+  sendNewsletter,
 } from '../controllers/emailCampaignController.js';
 import { protect, isAdmin } from '../middleware/auth.js';
 import { firebaseUpload } from '../middleware/firebaseUpload.js';
@@ -24,8 +25,6 @@ router.post('/welcome', sendWelcome);
 router.post('/event', sendEvent);
 router.post('/custom', firebaseUpload, sendCustom);
 router.post('/test', sendTest);
-
-// Future implementation inside emailCampaignController
-// router.post('/newsletter', firebaseUpload, sendNewsletter);
+router.post('/newsletter', firebaseUpload, sendNewsletter);
 
 export default router;
